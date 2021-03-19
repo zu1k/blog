@@ -5,7 +5,6 @@ async function fetchAndApply(request) {
     url.protocol = 'https';
     url.host = cdn;
     url.port = '';
-    console.log(url.href);
 
     let method = request.method;
     let headers = new Headers(request.headers);
