@@ -1,6 +1,6 @@
 const cdn = 'blog.zuik.ren'
 
-async function fetchAndApply(request) {
+async function requestWillFetch(request) {
     let url = new URL(request.url);
     url.protocol = 'https';
     url.host = cdn;
@@ -30,19 +30,12 @@ if (workbox) {
     });
 
 
-    const urlHandler = new workbox.strategies.CacheOnly();
-
-    function hh({ url, event, params }) {
-        let ee = event;
-        return urlHandler.handle({event})
-            .then((response) => {
-                return response || ee.respondWith(fetchAndApply(ee.request));
-            })
-            .catch(() => {
-                return ee.respondWith(fetchAndApply(event.request));
-            });
-    }
-
+    const urlHandler = new workbox.strategies.CacheFirst({
+        cacheName: 'cache-01',
+        plugins: [
+            requestWillFetch
+        ]
+    });
 
     workbox.routing.registerRoute(/cdn\.jsdelivr\.net/, 
     workbox.strategies.cacheFirst({
@@ -57,6 +50,6 @@ if (workbox) {
         ]    
     })
     )
-    workbox.routing.registerRoute( /:\/\/lgf\.im\//, hh)
-    workbox.routing.registerRoute( /localhost.*/, hh)
+    workbox.routing.registerRoute( /:\/\/lgf\.im\//, urlHandler)
+    workbox.routing.registerRoute( /localhost.*/, urlHandler)
 }
