@@ -65,16 +65,15 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     iconColor = "#5bbad5"
     # Windows v8-10 磁贴颜色
     tileColor = "#da532c"
-  # 搜索配置
   [params.search]
     enable = true
-    type = "lunr"  # 搜索引擎的类型 ("lunr" （索引文件）, "algolia" （在线的索引服务）)
+    type = "algolia"  # 搜索引擎的类型 ("lunr" （索引文件）, "algolia" （在线的索引服务）)
     contentLength = 4000  # 文章内容最长索引长度
     placeholder = ""  # 搜索框的占位提示语
     maxResultLength = 10  # 最大结果数目
     snippetLength = 50  # 结果内容片段长度
     highlightTag = "em"  # 搜索结果中高亮部分的 HTML 标签
-    absoluteURL = true  # 是否在搜索索引中使用基于 baseURL 的绝对路径
+    absoluteURL = false  # 是否在搜索索引中使用基于 baseURL 的绝对路径
     [params.search.algolia]
       index = "lgf.im"
       appID = "YQWA6EI2VD"
