@@ -54,7 +54,7 @@ const myHandler = new CacheFirst({
     ]
 });
 
-routing.registerRoute( /.*lgf\.im/, myHandler)
+routing.registerRoute( /:\/\/lgf\.im\//, myHandler)
 routing.registerRoute( /localhost.*/, myHandler)
 
 routing.registerRoute(
