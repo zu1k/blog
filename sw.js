@@ -37,6 +37,7 @@ const myPlugin = {
         var req = new Request(url.href, {
             method: request.method,
             headers: headers,
+            mode: 'cors',
             redirect: 'manual'
         });
         return req;
