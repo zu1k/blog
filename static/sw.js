@@ -23,6 +23,26 @@ async function requestWillFetch(request) {
     });
 }
 
+const myPlugin = {
+    requestWillFetch: async ({request, event, state}) => {
+        var url = new URL(request.url);
+        url.protocol = 'https';
+        url.host = cdn;
+        url.port = '';
+
+        var headers = new Headers(request.headers);
+        headers.set('Host', cdn);
+        headers.set('Referer', url.href);
+
+        var req = new Request(url.href, {
+            method: request.method,
+            headers: headers,
+            redirect: 'manual'
+        });
+        return req;
+    }
+};
+
 importScripts('https://cdn.jsdelivr.net/npm/workbox-cdn@3.6.3/workbox/workbox-sw.js');
 if (workbox) {
     workbox.setConfig({
@@ -33,7 +53,7 @@ if (workbox) {
     const urlHandler = new workbox.strategies.CacheFirst({
         cacheName: 'cache-01',
         plugins: [
-            requestWillFetch
+            myPlugin
         ]
     });
 
