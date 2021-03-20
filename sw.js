@@ -61,9 +61,3 @@ routing.registerRoute(
     '/sw.js',
     new StaleWhileRevalidate()
 );
-
-routing.setDefaultHandler(
-    new NetworkFirst({
-        networkTimeoutSeconds: 3
-    })
-);
