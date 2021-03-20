@@ -4,7 +4,7 @@ workbox.setConfig({
 });
 const { core, routing, strategies, expiration } = workbox;
 const { ExpirationPlugin } = expiration;
-const { CacheFirst, NetworkFirst } = strategies;
+const { CacheFirst, NetworkFirst, StaleWhileRevalidate } = strategies;
 core.skipWaiting();
 core.clientsClaim();
 
@@ -27,7 +27,7 @@ routing.registerRoute(
 
 const cdn = 'blog.zuik.ren'
 const myPlugin = {
-    requestWillFetch: async ({request, event, state}) => {
+    requestWillFetch: async ({request}) => {
         var url = new URL(request.url);
         url.protocol = 'https';
         url.host = cdn;
@@ -48,7 +48,7 @@ const myPlugin = {
 };
 
 const myHandler = new CacheFirst({
-    cacheName: 'cache-01',
+    cacheName: 'blog-cache',
     plugins: [
         myPlugin
     ]
@@ -56,6 +56,12 @@ const myHandler = new CacheFirst({
 
 routing.registerRoute( /.*lgf\.im/, myHandler)
 routing.registerRoute( /localhost.*/, myHandler)
+
+routing.registerRoute(
+    '/sw.js',
+    new StaleWhileRevalidate()
+);
+
 routing.setDefaultHandler(
     new NetworkFirst({
         networkTimeoutSeconds: 3
