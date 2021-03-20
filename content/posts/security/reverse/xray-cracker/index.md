@@ -71,17 +71,6 @@ public key index: 16741321
 > 工具虽然是 windows 平台下运行，但是照样可以破解其他平台 xray  
 > 目前 xray 最新版是 1.0.0，现在全平台全版本通杀
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-5500766250095754"
-     data-ad-slot="3394834810"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 ## 破解效果
 
 使用修改版 xray 和永久证书后，效果如下
@@ -137,17 +126,6 @@ licensePlainJsonBytes := aesDecData[0x102:]
 sum := sha256.Sum256(licensePlainJsonBytes)
 err = rsa.VerifyPSS(pubKey, crypto.SHA256, sum[:], aesDecData[2:0x102], nil)
 ```
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-5500766250095754"
-     data-ad-slot="3394834810"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
 
 ## 2020年8月27日 补充
 
@@ -219,17 +197,6 @@ if err != nil {
 
 > 主要是无法确定应该修改哪一个地方，因为出现了不止一次，一个特征是调用 VerifyPSS 的那个 Call，可以尝试自己解析 pclntab 段，从中还原符号表找到这个验证函数的入口，然后找搜索关键 Call，再在这个 call 后面两三个汇编处找 setnz 或者 setz 进行修改
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-5500766250095754"
-     data-ad-slot="3394834810"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 ## 2020年10月4日 补充
 
 感谢 @Lz1y 大佬在 PR#3 中提供的思路，现在已能够自动patch非arm版本的xray二进制了
@@ -267,17 +234,6 @@ if err != nil {
 ![1.4.5](1.4.5.png)
 
 思路不变，不要再给我发邮件要破解版和代码了
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-5500766250095754"
-     data-ad-slot="3394834810"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
 
 ## 2020年11月24日 补充
 
