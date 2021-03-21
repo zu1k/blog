@@ -31,12 +31,12 @@ const myPlugin = {
     requestWillFetch: async ({request}) => {
         var url = new URL(request.url);
         url.protocol = 'https';
-        url.host = cdn;
+        url.host = cdnhost;
         url.port = '';
         url.pathname = cdnpath + cdn.pathname;
 
         var headers = new Headers(request.headers);
-        headers.set('Host', cdn);
+        headers.set('Host', cdnhost);
         headers.set('Referer', url.href);
 
         var req = new Request(url.href, {
