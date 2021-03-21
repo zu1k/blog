@@ -7,12 +7,11 @@ title = "zu1k"
 enableRobotsTXT = false
 enableGitInfo = true
 enableEmoji = true
-hasCJKLanguage = true  # 是否包括中日韩文字
-paginate = 14  # 默认每页列表显示的文章数目
+hasCJKLanguage = true
+paginate = 14
 googleAnalytics = "G-TC5F2FT2NP"
-copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."  # 版权描述，仅仅用于 SEO
+copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
 
-# 菜单配置
 [menu]
   [[menu.main]]
     identifier = "posts"
@@ -45,10 +44,10 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
 [params]
   version = "0.2.X"
   defaultTheme = "auto"  # 网站默认主题 ("light", "dark", "auto")
-  gitRepo = "https://github.com/zu1k/blog" # 公共 git 仓库路径，仅在 enableGitInfo 设为 true 时有效
+  gitRepo = "https://github.com/zu1k/blog"
   fingerprint = "sha256"  # 哪种哈希函数用来 SRI, 为空时表示不使用 SRI ("sha256", "sha384", "sha512", "md5")
-  dateFormat = "2006-01-02" # 日期格式
-  images = ["/logo.png"]  # 网站图片, 用于 Open Graph 和 Twitter Cards
+  dateFormat = "2006-01-02"
+  images = ["/logo.png"]
   description = "A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."
   keywords = ["zu1k", "zuik", "lgf", "lgf.im"]
   # 应用图标配置
@@ -346,45 +345,25 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     startLevel = 2
     endLevel = 6
 
-# 作者配置
 [author]
   name = "zu1k"
   email = "i@lgf.im"
   link = "https://lgf.im"
 
-# 网站地图配置
 [sitemap]
   changefreq = "weekly"
   filename = "sitemap.xml"
   priority = 0.5
 
-# Permalinks 配置 (https://gohugo.io/content-management/urls/#permalinks)
-# 注释后默认按照 content目录树组织link
-# [Permalinks]
-#   posts = ":year/:filename"
-
-# 隐私信息配置 (https://gohugo.io/about/hugo-and-gdpr/)
-[privacy]
-  # Google Analytics 相关隐私 (被 params.analytics.google 替代)
-  [privacy.googleAnalytics]
-    # ...
-  [privacy.twitter]
-    enableDNT = true
-  [privacy.youtube]
-    privacyEnhanced = true
-
-# 用于输出 Markdown 格式文档的设置
 [mediaTypes]
   [mediaTypes."text/plain"]
     suffixes = ["md"]
 
-# 用于输出 Markdown 格式文档的设置
 [outputFormats.MarkDown]
   mediaType = "text/plain"
   isPlainText = true
   isHTML = false
 
-# 用于 Hugo 输出文档的设置
 [outputs]
   home = ["HTML", "RSS", "JSON"]
   page = ["HTML", "MarkDown"]
