@@ -26,7 +26,7 @@ routing.registerRoute(
 );
 
 const cdnhost = 'cdn.jsdelivr.net'
-const cdnpath = '/gh/zu1k/blog@gh-pages'
+const cdnpath = '/gh/zu1k/blog'
 const myPlugin = {
     requestWillFetch: async ({request}) => {
         var url = new URL(request.url);
