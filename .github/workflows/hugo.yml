@@ -33,5 +33,5 @@ jobs:
         with:
           node-version: '14'
       - run: npm install hugo-algolia -g
-      - run: echo "---\nalgolia:\n  index:\ \"${{ secrets.ALGOLIA_INDEX }}\"\n  appID:\ \"${{ secrets.ALGOLIA_APPID }}\"\n  key:\ \"${{ secrets.ALGOLIA_KEY }}\"\n---" > config.yaml
+      - run: echo -e "---\nalgolia:\n  index:\ \"${{ secrets.ALGOLIA_INDEX }}\"\n  appID:\ \"${{ secrets.ALGOLIA_APPID }}\"\n  key:\ \"${{ secrets.ALGOLIA_KEY }}\"\n---" > config.yaml
       - run: hugo-algolia -s
