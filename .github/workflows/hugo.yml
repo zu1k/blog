@@ -32,7 +32,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - uses: bahmutov/npm-install@v1
-      - run: npm install hugo-algolia
+      - run: npm install hugo-algolia -g
       - run: echo "---\nalgolia:\n  index:\ \"${{ secrets.ALGOLIA_INDEX }}\"\n  appID:\ \"${{ secrets.ALGOLIA_APPID }}\"\n  key:\ \"${{ secrets.ALGOLIA_KEY }}\"\n---" > config.yaml
       - run: hugo-algolia -s
