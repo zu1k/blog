@@ -25,7 +25,8 @@ routing.registerRoute(
     })
 );
 
-const cdnhost = 'cdn.jsdelivr.net'
+
+const cdnhost = 'blog.zuik.ren'
 const cdnpath = '/gh/zu1k/blog'
 const myPlugin = {
     requestWillFetch: async ({request}) => {
@@ -33,7 +34,6 @@ const myPlugin = {
         url.protocol = 'https';
         url.host = cdnhost;
         url.port = '';
-        url.pathname = cdnpath + cdn.pathname;
 
         var headers = new Headers(request.headers);
         headers.set('Host', cdnhost);
