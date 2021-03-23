@@ -35,7 +35,7 @@ const myPlugin = {
         url.protocol = 'https';
         url.port = '';
 
-        if (/(\.html|\/)$/.test(url.pathname)) {
+        if (/(\/|\.html|\.md)$/.test(url.pathname)) {
             url.host = cdnhost;
         } else {
             url.host = jsdelivrhost;
