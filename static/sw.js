@@ -31,11 +31,14 @@ const jsdelivrhost = 'cdn.jsdelivr.net'
 const jsdelivrpath = '/gh/zu1k/blog@gh-pages'
 const myPlugin = {
     requestWillFetch: async ({request}) => {
-        var url = new URL(request.url);
+        let url = new URL(request.url);
         url.protocol = 'https';
         url.port = '';
 
-        if (/(\/|\.html|\.md)$/.test(url.pathname)) {
+        let pathparts = url.pathname.split('/')
+        let filename = pathparts[pathparts.length-1]
+
+        if (filename.length===0 || /(\.html|\.md)$/.test(filename) || !filename.includes('.')) {
             url.host = cdnhost;
         } else {
             url.host = jsdelivrhost;
@@ -65,7 +68,6 @@ const myHandler = new CacheFirst({
 });
 
 routing.registerRoute( /:\/\/lgf\.im\//, myHandler)
-routing.registerRoute( /localhost.*/, myHandler)
 
 routing.registerRoute(
     '/sw.js',
