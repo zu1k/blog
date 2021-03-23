@@ -27,13 +27,21 @@ routing.registerRoute(
 
 
 const cdnhost = 'blog.zuik.ren'
-const cdnpath = '/gh/zu1k/blog'
+const jsdelivrhost = 'cdn.jsdelivr.net'
+const jsdelivrpath = '/gh/zu1k/blog@gh-pages'
 const myPlugin = {
     requestWillFetch: async ({request}) => {
         var url = new URL(request.url);
         url.protocol = 'https';
-        url.host = cdnhost;
         url.port = '';
+
+        if (/(\.html|\/)$/.test(url.pathname)) {
+            url.host = cdnhost;
+        } else {
+            url.host = jsdelivrhost;
+            url.pathname = jsdelivrpath + url.pathname;
+        }
+
 
         var headers = new Headers(request.headers);
         headers.set('Host', cdnhost);
