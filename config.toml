@@ -72,7 +72,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     maxResultLength = 10  # 最大结果数目
     snippetLength = 50  # 结果内容片段长度
     highlightTag = "em"  # 搜索结果中高亮部分的 HTML 标签
-    absoluteURL = false  # 是否在搜索索引中使用基于 baseURL 的绝对路径
+    absoluteURL = true  # 是否在搜索索引中使用基于 baseURL 的绝对路径
     [params.search.algolia]
       index = "lgf.im"
       appID = "YQWA6EI2VD"
