@@ -63,7 +63,10 @@ const myPlugin = {
 const myHandler = new CacheFirst({
     cacheName: 'blog-cache',
     plugins: [
-        myPlugin
+        myPlugin,
+        new CacheableResponsePlugin({
+                statuses: [200],
+            })
     ]
 });
 
