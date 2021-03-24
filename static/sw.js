@@ -2,9 +2,10 @@ importScripts('https://cdn.jsdelivr.net/npm/workbox-cdn@5.1.3/workbox/workbox-sw
 workbox.setConfig({
     modulePathPrefix: 'https://cdn.jsdelivr.net/npm/workbox-cdn@5.1.3/workbox/'
 });
-const { core, routing, strategies, expiration } = workbox;
+const { core, routing, strategies, expiration, cacheableResponse } = workbox;
 const { ExpirationPlugin } = expiration;
-const { CacheFirst, NetworkFirst, StaleWhileRevalidate } = strategies;
+const { CacheFirst, StaleWhileRevalidate } = strategies;
+const { CacheableResponsePlugin } = cacheableResponse;
 core.skipWaiting();
 core.clientsClaim();
 
