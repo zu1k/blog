@@ -61,7 +61,7 @@ const myPlugin = {
 
 
         var headers = new Headers(request.headers);
-        headers.set('Host', cdnhost);
+        headers.set('Host', url.host);
         headers.set('Referer', url.href);
 
         var req = new Request(url.href, {
