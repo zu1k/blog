@@ -42,12 +42,12 @@ const myPlugin = {
         let rnd = Math.random();
         if (filename.length===0 || /(\.html|\.md)$/.test(filename) || !filename.includes('.')) {
             let idx = 0;
-            if (rnd>0.6) {
+            if (rnd>0.8) {
                 idx = 1
             }
             url.host = cdnhosts[idx];
         } else {
-            if (rnd>0.6) {
+            if (rnd>0.4) {
                 url.host = jsdelivrhost;
                 url.pathname = jsdelivrpath + url.pathname;
             } else {
