@@ -27,7 +27,7 @@ routing.registerRoute(
 );
 
 
-const cdnhost = 'blog.zuik.ren'
+const cdnhosts = ['doge.blog.zuik.ren', 'blog.zuik.ren']
 const jsdelivrhost = 'cdn.jsdelivr.net'
 const jsdelivrpath = '/gh/zu1k/blog@gh-pages'
 const myPlugin = {
@@ -39,11 +39,24 @@ const myPlugin = {
         let pathparts = url.pathname.split('/')
         let filename = pathparts[pathparts.length-1]
 
+        let rnd = Math.random();
         if (filename.length===0 || /(\.html|\.md)$/.test(filename) || !filename.includes('.')) {
-            url.host = cdnhost;
+            let idx = 0;
+            if (rnd>0.6) {
+                idx = 1
+            }
+            url.host = cdnhosts[idx];
         } else {
-            url.host = jsdelivrhost;
-            url.pathname = jsdelivrpath + url.pathname;
+            if (rnd>0.8) {
+                url.host = jsdelivrhost;
+                url.pathname = jsdelivrpath + url.pathname;
+            } else {
+                let idx = 0;
+                if (rnd>0.4) {
+                    idx = 1
+                }
+                url.host = cdnhosts[idx];
+            }            
         }
 
 
