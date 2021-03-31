@@ -45,10 +45,6 @@
                     <span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
                     <span class="icp">{{ . | safeHTML }}</span>
                 {{- end -}}
-
-                {{- /* CDN provider */ -}}
-                {{- $upyun := resources.Get "svg/upyun.svg" | minify -}}
-                <span>&nbsp;|&nbsp;<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img align="absmiddle" height="20px" src="{{ $upyun.RelPermalink }}" alt="又拍云"></a>&nbsp;提供CDN加速</span>
             </div>
         </div>
     </footer>
