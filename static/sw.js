@@ -47,12 +47,12 @@ const myPlugin = {
             }
             url.host = cdnhosts[idx];
         } else {
-            if (rnd>0.8) {
+            if (rnd>0.6) {
                 url.host = jsdelivrhost;
                 url.pathname = jsdelivrpath + url.pathname;
             } else {
                 let idx = 0;
-                if (rnd>0.4) {
+                if (rnd>0.3) {
                     idx = 1
                 }
                 url.host = cdnhosts[idx];
