@@ -29,6 +29,17 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
 
+      - name: Upload to DogeCloud
+        uses: zu1k/dogecloud-cos-action@v0.1
+        with:
+          access_key: ${{ secrets.ACCESS_KEY }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+          bucket: ${{ secrets.BUCKET }}
+          region: ${{ secrets.REGION }}
+          local_path: public
+          remote_path: /
+          clean: true
+
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
