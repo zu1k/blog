@@ -40,7 +40,7 @@ const myPlugin = {
         let filename = pathparts[pathparts.length-1]
 
         let rnd = Math.random();
-        if (filename.length===0 || /(\.html|\.md)$/.test(filename) || !filename.includes('.')) {
+        if (filename.length===0 || /(\.html|\.md|\.xml|\.json)$/.test(filename) || !filename.includes('.')) {
             url.host = cdnhost;
         } else {
             if (rnd>0.4) {
