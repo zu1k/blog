@@ -77,7 +77,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
       avatarURL = "/images/logo.jpg"
       title = "zu1k"   # 主页显示的网站标题 (支持 HTML 格式)
       subtitle = "A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."  # 主页显示的网站副标题
-      typeit = false  # 是否为副标题显示打字机动画
+      typeit = true  # 是否为副标题显示打字机动画
       social = true  # 是否显示社交账号
       disclaimer = ""  # 免责声明 (支持 HTML 格式)
     # 主页文章列表
