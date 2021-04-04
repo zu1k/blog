@@ -50,19 +50,12 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
   images = ["/logo.png"]
   description = "A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."
   keywords = ["zu1k", "zuik", "lgf", "lgf.im"]
-  # 应用图标配置
   [params.app]
-    # 当添加到 iOS 主屏幕或者 Android 启动器时的标题, 覆盖默认标题
     title = "zu1k"
-    # 是否隐藏网站图标资源链接
     noFavicon = false
-    # 更现代的 SVG 网站图标, 可替代旧的 .png 和 .ico 文件
     svgFavicon = ""
-    # Android 浏览器主题色
     themeColor = "#ffffff"
-    # Safari 图标颜色
     iconColor = "#5bbad5"
-    # Windows v8-10 磁贴颜色
     tileColor = "#da532c"
   [params.search]
     enable = true
@@ -77,17 +70,14 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
       index = "lgf.im"
       appID = "YQWA6EI2VD"
       searchKey = "3fb91006ba1d0ebed6e8e7a04bd25f40"
-  # 主页信息设置
   [params.home]
     rss = 20  # RSS 文章数目
-    # 主页个人信息
     [params.home.profile]
       enable = true
-      gravatarEmail = ""  # Gravatar 邮箱，用于优先在主页显示的头像
-      avatarURL = "/images/logo.jpg"  # 主页显示头像的 URL
+      avatarURL = "/images/logo.jpg"
       title = "zu1k"   # 主页显示的网站标题 (支持 HTML 格式)
       subtitle = "A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."  # 主页显示的网站副标题
-      typeit = true  # 是否为副标题显示打字机动画
+      typeit = false  # 是否为副标题显示打字机动画
       social = true  # 是否显示社交账号
       disclaimer = ""  # 免责声明 (支持 HTML 格式)
     # 主页文章列表
