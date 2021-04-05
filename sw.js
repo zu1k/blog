@@ -19,7 +19,7 @@ routing.registerRoute(
         },
         plugins: [
             new ExpirationPlugin({
-                maxAgeSeconds: 30 * 24 * 60 * 60,
+                maxAgeSeconds: 3 * 24 * 60 * 60,
                 purgeOnQuotaError: true
             })
         ]
@@ -43,7 +43,7 @@ const myPlugin = {
         if (filename.length===0 || /(\.html|\.md|\.xml|\.json)$/.test(filename) || !filename.includes('.')) {
             url.host = cdnhost;
         } else {
-            if (rnd>0.4) {
+            if (rnd>0.8) {
                 url.host = jsdelivrhost;
                 url.pathname = jsdelivrpath + url.pathname;
             } else {
@@ -66,7 +66,7 @@ const myPlugin = {
 };
 
 const myHandler = new CacheFirst({
-    cacheName: 'blog-cache',
+    cacheName: 'zu1k-cache-20210405',
     plugins: [
         myPlugin,
         new CacheableResponsePlugin({

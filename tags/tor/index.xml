@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>tor - 标签 - zu1k</title><link>https://lgf.im/tags/tor/</link><description>tor - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 25 May 2020 15:22:09 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/tor/" rel="self" type="application/rss+xml"/><item><title>一个来自保留IP地址的连接</title><link>https://lgf.im/posts/events/why-reveice-connection-from-class-e-ip/</link><pubDate>Mon, 25 May 2020 15:22:09 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/events/why-reveice-connection-from-class-e-ip/</guid><description><![CDATA[<p>昨天看了一篇文章，文章最后使用IP logger进行钓鱼，最后记录下来的IP地址让我大跌眼镜</p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>tor - 标签 - zu1k</title><link>https://lgf.im/tags/tor/</link><description>tor - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 25 May 2020 15:22:09 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/tor/" rel="self" type="application/rss+xml"/><item><title>一个来自保留IP地址的连接</title><link>https://lgf.im/post/events/why-reveice-connection-from-class-e-ip/</link><pubDate>Mon, 25 May 2020 15:22:09 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/events/why-reveice-connection-from-class-e-ip/</guid><description><![CDATA[<p>昨天看了一篇文章，文章最后使用IP logger进行钓鱼，最后记录下来的IP地址让我大跌眼镜</p>
 <p>万万没有想到，记录下来的IP地址竟然是是 244.242.105.51</p>
 <p></p>
 <p>这可是一个E类IP地址，是属于保留地址，是未来用来做ip研究用的，目前并没有开放使用啊</p>
@@ -31,7 +31,7 @@
 <p>才疏学浅，文中可能有错误，欢迎指正
 目前这个问题还在困扰我，如果有大佬知道答案，希望能够告诉我</p>
 </blockquote>
-]]></description></item><item><title>Tor洋葱服务如何工作</title><link>https://lgf.im/posts/learn/how-do-onion-service-work/</link><pubDate>Mon, 25 May 2020 14:13:37 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/learn/how-do-onion-service-work/</guid><description><![CDATA[<p>昨天遇到了点问题，为了研究清楚原理，把Tor客户端与服务端通信的具体流程学习了一下，这篇博文写来记录</p>
+]]></description></item><item><title>Tor洋葱服务如何工作</title><link>https://lgf.im/post/learn/how-do-onion-service-work/</link><pubDate>Mon, 25 May 2020 14:13:37 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/learn/how-do-onion-service-work/</guid><description><![CDATA[<p>昨天遇到了点问题，为了研究清楚原理，把Tor客户端与服务端通信的具体流程学习了一下，这篇博文写来记录</p>
 <h2 id="通信流程">通信流程</h2>
 <p>这里要描述的通讯是 用户通过 tor浏览器 连接 洋葱服务 的过程</p>
 <p>为了方便表达，这里用Alice表示客户端，Bob表示服务端</p>

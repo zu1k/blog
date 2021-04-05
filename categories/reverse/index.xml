@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>reverse - 分类 - zu1k</title><link>https://lgf.im/categories/reverse/</link><description>reverse - 分类 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 05 Oct 2020 20:11:24 +0800</lastBuildDate><atom:link href="https://lgf.im/categories/reverse/" rel="self" type="application/rss+xml"/><item><title>Golang逆向资料</title><link>https://lgf.im/posts/security/reverse/golang-reverse/</link><pubDate>Mon, 05 Oct 2020 20:11:24 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/security/reverse/golang-reverse/</guid><description><![CDATA[<p>前段时间从逆向xray开始入门Golang逆向，打算深入学习一下Golang逆向方法，这几天看了很多相关的文章，原本想要自己总结一文，但无奈大佬们的总结太全面了，我就直接扔链接吧</p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>reverse - 分类 - zu1k</title><link>https://lgf.im/categories/reverse/</link><description>reverse - 分类 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 05 Oct 2020 20:11:24 +0800</lastBuildDate><atom:link href="https://lgf.im/categories/reverse/" rel="self" type="application/rss+xml"/><item><title>Golang逆向资料</title><link>https://lgf.im/post/security/reverse/golang-reverse/</link><pubDate>Mon, 05 Oct 2020 20:11:24 +0800</pubDate><author>作者</author><guid>https://lgf.im/post/security/reverse/golang-reverse/</guid><description><![CDATA[<p>前段时间从逆向xray开始入门Golang逆向，打算深入学习一下Golang逆向方法，这几天看了很多相关的文章，原本想要自己总结一文，但无奈大佬们的总结太全面了，我就直接扔链接吧</p>
 <h2 id="go二进制文件逆向分析从基础到进阶">Go二进制文件逆向分析从基础到进阶</h2>
 <p>J!4Yu大佬的系列文章太全面了，他写的<a href="https://github.com/0xjiayu/go_parser" target="_blank" rel="noopener noreffer">go_parser</a>相当好用</p>
 <ul>
@@ -37,7 +37,7 @@
 <li><a href="https://gitlab.com/zaytsevgu/goutils" target="_blank" rel="noopener noreffer">https://gitlab.com/zaytsevgu/goutils</a></li>
 <li><a href="https://gitlab.com/zaytsevgu/GoUtils2.0" target="_blank" rel="noopener noreffer">https://gitlab.com/zaytsevgu/GoUtils2.0</a></li>
 </ul>
-]]></description></item><item><title>Golang逆向思考</title><link>https://lgf.im/posts/security/reverse/golang-reverse-thinking/</link><pubDate>Sat, 20 Jun 2020 17:48:53 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/reverse/golang-reverse-thinking/</guid><description><![CDATA[<p>在前段时间对xray进行逆向过程中，发现golang编译的程序会有巨多函数，不能说都是多余的，但是大部分函数的确不是用户编写的代码生成的，而是golang运行时和各种库所需要的东西</p>
+]]></description></item><item><title>Golang逆向思考</title><link>https://lgf.im/post/security/reverse/golang-reverse-thinking/</link><pubDate>Sat, 20 Jun 2020 17:48:53 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/reverse/golang-reverse-thinking/</guid><description><![CDATA[<p>在前段时间对xray进行逆向过程中，发现golang编译的程序会有巨多函数，不能说都是多余的，但是大部分函数的确不是用户编写的代码生成的，而是golang运行时和各种库所需要的东西</p>
 <p>同时，因为去除了符号表，这些大量的非实际业务代码会对我们逆向工作造成极大困难，如果能够利用一些自动化工具重建符号表或者重新命名，就可以极大的便利我们逆向</p>
 <h2 id="golang特殊段">golang特殊段</h2>
 <p>在本次逆向的过程中，我遇到了上述的问题，在网上搜索发现了一个ida插件， <a href="https://github.com/sibears/IDAGolangHelper.git" target="_blank" rel="noopener noreffer">IDAGolangHelper</a></p>
@@ -54,7 +54,7 @@
 <h3 id="特征匹配">特征匹配</h3>
 <p>在逆向的时候，我们就可以先分析程序的golang版本、编译平台、运行平台，然后使用相对应的特征库对去除了符号表的二进制函数进行特征匹配，通过这种方法可以对大部分基本的函数重建符号表，而剩余的小量函数便可以确定为用户编写的代码，需要我们深入分析</p>
 <p>这个工作应该已经有人开始做了</p>
-]]></description></item><item><title>xray社区高级版破解</title><link>https://lgf.im/posts/security/reverse/xray-cracker/</link><pubDate>Thu, 18 Jun 2020 09:06:25 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/reverse/xray-cracker/</guid><description><![CDATA[<blockquote>
+]]></description></item><item><title>xray社区高级版破解</title><link>https://lgf.im/post/security/reverse/xray-cracker/</link><pubDate>Thu, 18 Jun 2020 09:06:25 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/reverse/xray-cracker/</guid><description><![CDATA[<blockquote>
 <p>首先感谢 长亭科技 提供 xray 这款非常方便非常好用的安全工具<br>
 俗话说：没有人破解的工具不是好工具<br>
 根据没有任何数据支持的统计，大部分安全研究人员使用的安全工具都是盗版<br>
@@ -338,7 +338,7 @@ Not Valid After: 2099-09-09 08:00:00
 </div>
         </div>
     </div>
-]]></description></item><item><title>逆向破解学校在线考试客户端</title><link>https://lgf.im/posts/security/reverse/crack-sdu-online-exam-software/</link><pubDate>Fri, 01 May 2020 21:44:54 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/reverse/crack-sdu-online-exam-software/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>逆向破解学校在线考试客户端</title><link>https://lgf.im/post/security/reverse/crack-sdu-online-exam-software/</link><pubDate>Fri, 01 May 2020 21:44:54 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/reverse/crack-sdu-online-exam-software/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>近期，学校开始测试线上考试系统，据说十分流氓，开搞！</p>
 <p>从大一学弟那里拿到了相关程序和说明文档，经过学弟的使用体验，程序开始运行会自动杀死QQ、微信等程序，隐藏并屏蔽任务栏和开始菜单，强制全屏并屏蔽一些常用的快捷键包括窗口切换等。</p>
 <h2 id="开搞">开搞</h2>

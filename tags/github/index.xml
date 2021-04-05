@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>github - 标签 - zu1k</title><link>https://lgf.im/tags/github/</link><description>github - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 28 Nov 2020 15:07:17 +0800</lastBuildDate><atom:link href="https://lgf.im/tags/github/" rel="self" type="application/rss+xml"/><item><title>不讲武德！来骗Follow</title><link>https://lgf.im/posts/events/cheat-for-follow/</link><pubDate>Sat, 28 Nov 2020 15:07:17 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/events/cheat-for-follow/</guid><description><![CDATA[<p>下午，还是习惯性的打开GitHub，发现有个没有头像的人Follow我</p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>github - 标签 - zu1k</title><link>https://lgf.im/tags/github/</link><description>github - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 28 Nov 2020 15:07:17 +0800</lastBuildDate><atom:link href="https://lgf.im/tags/github/" rel="self" type="application/rss+xml"/><item><title>不讲武德！来骗Follow</title><link>https://lgf.im/post/events/cheat-for-follow/</link><pubDate>Sat, 28 Nov 2020 15:07:17 +0800</pubDate><author>作者</author><guid>https://lgf.im/post/events/cheat-for-follow/</guid><description><![CDATA[<p>下午，还是习惯性的打开GitHub，发现有个没有头像的人Follow我</p>
 <p></p>
 <p>通常出于礼貌，我会查看对方的个人页和他的仓库，如果感觉不错便会回Follow他</p>
 <p>当我打开他的Github个人profile页面，令我惊讶的是他总共follow了<strong>59.3k</strong>人，而他的followers人数又七百多人</p>
@@ -19,7 +19,7 @@
 <blockquote>
 <p>感兴趣的同学看这里：https://github.com/Lisprez</p>
 </blockquote>
-]]></description></item><item><title>给git设置代理</title><link>https://lgf.im/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
+]]></description></item><item><title>给git设置代理</title><link>https://lgf.im/post/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
 <p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议</p>
 <p>而我们平时使用github一般使用两种协议，一种是http协议，另一种是ssh协议，针对这两种协议有两种不同的代理设置办法</p>
 <h2 id="http协议">http协议</h2>
@@ -92,7 +92,7 @@ git clone git@github.com:moby/moby.git
 git clone git@zll.us:moby/moby.git
 </code></pre></td></tr></table>
 </div>
-</div>]]></description></item><item><title>Github等大面积https劫持</title><link>https://lgf.im/posts/events/mitm-https-hijack-github/</link><pubDate>Fri, 27 Mar 2020 08:47:11 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/events/mitm-https-hijack-github/</guid><description><![CDATA[<p>昨天下午两点多，突然在一个站长群里听到有人说 Github Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子</p>
+</div>]]></description></item><item><title>Github等大面积https劫持</title><link>https://lgf.im/post/events/mitm-https-hijack-github/</link><pubDate>Fri, 27 Mar 2020 08:47:11 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/events/mitm-https-hijack-github/</guid><description><![CDATA[<p>昨天下午两点多，突然在一个站长群里听到有人说 Github Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子</p>
 <p>当天晚上再次刷V2EX的时候发现部分cloudflare的IP和京东主站部分IP也出现相似的劫持事件</p>
 <p>今天早晨8点左右，在V2EX上发现有人讨论 Github 主站出现相同的https劫持，不经过代理访问发现证书的确异常</p>
 <p></p>
@@ -538,7 +538,7 @@ DONE
 <p>因为我自己访问国外网站一直是使用代理，所以本次事件对我的影响几乎等于零
 因为不受影响，所以也很难在第一时间发现这类事件，后续需要准备一个监控系统了</p>
 </blockquote>
-]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://lgf.im/post/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>很多同学和我一样也在用Hexo搭建自己的博客，通常最后发布的操作是 <code>hexo g</code> 生成静态网页，然后 <code>hexo d</code> 将public目录推送到github、coding、gitee等平台。</p>
 <p>但是很多时候我们都想偷个懒，只管写博客，写完后将git 一 push，后面的生成部署工作让程序自动完成，github actions为我们提供了这个便利。</p>
 <h2 id="操作">操作</h2>
@@ -724,7 +724,7 @@ DONE
 </div><blockquote>
 <p>在github actions将page专用分支更新后，zeit\netlify\github pages三个平台都会自动将最新的内容部署上，这样我就只需要关注博客内容，后续操作都不需要管了</p>
 </blockquote>
-]]></description></item><item><title>加快Github Pages国内访问速度</title><link>https://lgf.im/posts/coding/speedup-github-page/</link><pubDate>Thu, 19 Mar 2020 17:17:53 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/speedup-github-page/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>加快Github Pages国内访问速度</title><link>https://lgf.im/post/coding/speedup-github-page/</link><pubDate>Thu, 19 Mar 2020 17:17:53 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/speedup-github-page/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>相信不少小伙伴都在使用 Github Pages 提供的免费静态网站托管来搭建自己的博客，但是因为墙的存在和特殊国情，使用 Github Pages 搭建的网站速度普遍不快，因此很多小伙伴只能转战国内付费的服务器和 CDN。</p>
 <p>正巧我也在使用 Github Pages 搭建自己的静态博客，正好来说一下我的优化方法。</p>
 <h2 id="压缩">压缩</h2>

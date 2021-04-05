@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>iptables - 标签 - zu1k</title><link>https://lgf.im/tags/iptables/</link><description>iptables - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 18 Mar 2020 13:15:40 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/iptables/" rel="self" type="application/rss+xml"/><item><title>使用iptables将ubuntu配置为路由器</title><link>https://lgf.im/posts/linux/ubuntu-iptables-nat/</link><pubDate>Wed, 18 Mar 2020 13:15:40 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/ubuntu-iptables-nat/</guid><description><![CDATA[<h2 id="实验环境">实验环境</h2>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>iptables - 标签 - zu1k</title><link>https://lgf.im/tags/iptables/</link><description>iptables - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 18 Mar 2020 13:15:40 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/iptables/" rel="self" type="application/rss+xml"/><item><title>使用iptables将ubuntu配置为路由器</title><link>https://lgf.im/post/linux/ubuntu-iptables-nat/</link><pubDate>Wed, 18 Mar 2020 13:15:40 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/linux/ubuntu-iptables-nat/</guid><description><![CDATA[<h2 id="实验环境">实验环境</h2>
 <blockquote>
 <p>使用 vmware 分别创建win7和ubuntu两个虚拟机</p>
 </blockquote>
@@ -62,7 +62,7 @@ iptables -t nat -A POSTROUTING -s 10.1.2.0/24 -j MASQUERADE
 <p>修改网卡配置如图</p>
 <p></p>
 <p>win7即可通过ubuntu这个网关上网</p>
-]]></description></item><item><title>屏蔽一个国家所有IP</title><link>https://lgf.im/posts/linux/block-all-ips-in-a-country/</link><pubDate>Mon, 03 Dec 2018 17:55:28 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/block-all-ips-in-a-country/</guid><description><![CDATA[<p>搭建了一个MTProxy，分享出去，最后发现网速跑满，连接ip数高达600多，并且还在不断增加。
+]]></description></item><item><title>屏蔽一个国家所有IP</title><link>https://lgf.im/post/linux/block-all-ips-in-a-country/</link><pubDate>Mon, 03 Dec 2018 17:55:28 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/linux/block-all-ips-in-a-country/</guid><description><![CDATA[<p>搭建了一个MTProxy，分享出去，最后发现网速跑满，连接ip数高达600多，并且还在不断增加。
 查看ip来源后发现九成以上是伊朗人，后来知道原来tg在他们国家被封了，所以才导致如此。</p>
 <p>所以想办法屏蔽这些ip，准确的说是一整个国家的ip,或者说是一堆ip</p>
 <h2 id="使用iptables添加规则">使用iptables添加规则</h2>

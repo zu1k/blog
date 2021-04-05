@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>proxy - 标签 - zu1k</title><link>https://lgf.im/tags/proxy/</link><description>proxy - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 27 Mar 2020 15:45:02 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/proxy/" rel="self" type="application/rss+xml"/><item><title>给git设置代理</title><link>https://lgf.im/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>proxy - 标签 - zu1k</title><link>https://lgf.im/tags/proxy/</link><description>proxy - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 27 Mar 2020 15:45:02 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/proxy/" rel="self" type="application/rss+xml"/><item><title>给git设置代理</title><link>https://lgf.im/post/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
 <p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议</p>
 <p>而我们平时使用github一般使用两种协议，一种是http协议，另一种是ssh协议，针对这两种协议有两种不同的代理设置办法</p>
 <h2 id="http协议">http协议</h2>
@@ -71,7 +71,7 @@ git clone git@github.com:moby/moby.git
 git clone git@zll.us:moby/moby.git
 </code></pre></td></tr></table>
 </div>
-</div>]]></description></item><item><title>加速docker pull</title><link>https://lgf.im/posts/coding/speedup-docker-pull/</link><pubDate>Sun, 08 Mar 2020 21:16:07 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/speedup-docker-pull/</guid><description><![CDATA[<h2 id="为docker设置代理">为docker设置代理</h2>
+</div>]]></description></item><item><title>加速docker pull</title><link>https://lgf.im/post/coding/speedup-docker-pull/</link><pubDate>Sun, 08 Mar 2020 21:16:07 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/speedup-docker-pull/</guid><description><![CDATA[<h2 id="为docker设置代理">为docker设置代理</h2>
 <p>环境是在centos下，如果没有新建下面这个文件夹</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

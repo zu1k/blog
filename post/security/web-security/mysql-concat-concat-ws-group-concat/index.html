@@ -1,0 +1,168 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>MySQL中几个concat的用法与区别 - zu1k</title><meta name=Description content="A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."><meta property="og:title" content="MySQL中几个concat的用法与区别"><meta property="og:description" content="讲解与示例 CONCAT(str1, str2, &mldr;) 返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL 参数可以是字段名或具体值 注意： 如果所有参数均为非二进"><meta property="og:type" content="article"><meta property="og:url" content="https://lgf.im/post/security/web-security/mysql-concat-concat-ws-group-concat/"><meta property="og:image" content="https://lgf.im/logo.png"><meta property="article:published_time" content="2020-03-22T18:23:34+00:00"><meta property="article:modified_time" content="2021-04-05T18:36:49+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://lgf.im/logo.png"><meta name=twitter:title content="MySQL中几个concat的用法与区别"><meta name=twitter:description content="讲解与示例 CONCAT(str1, str2, &mldr;) 返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL 参数可以是字段名或具体值 注意： 如果所有参数均为非二进"><meta name=application-name content="zu1k"><meta name=apple-mobile-web-app-title content="zu1k"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=../../../../favicon.ico><link rel=icon type=image/png sizes=32x32 href=../../../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../../../favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=../../../../apple-touch-icon.png><link rel=mask-icon href=../../../../safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=../../../../site.webmanifest><link rel=canonical href=https://lgf.im/post/security/web-security/mysql-concat-concat-ws-group-concat/><link rel=prev href=https://lgf.im/post/security/web-security/hack-hackbar/><link rel=next href=https://lgf.im/post/learn/dns-srv-record/><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css><link rel=stylesheet href=../../../../css/style.min.1e2694bed152fa2922dbe909a441838ed693d88b1330f97485bfa8ed78da42df.css integrity="sha256-HiaUvtFS+iki2+kJpEGDjtaT2IsTMPl0hb+o7XjaQt8="><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css><script type=text/javascript src=../../../../reg.js></script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"MySQL中几个concat的用法与区别","inLanguage":"","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/lgf.im\/post\/security\/web-security\/mysql-concat-concat-ws-group-concat\/"},"image":["https:\/\/lgf.im\/images\/logo.jpg"],"genre":"post","keywords":"mysql, sql, coding","wordcount":929,"url":"https:\/\/lgf.im\/post\/security\/web-security\/mysql-concat-concat-ws-group-concat\/","datePublished":"2020-03-22T18:23:34+00:00","dateModified":"2021-04-05T18:36:49+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"zu1k","logo":"https:\/\/lgf.im\/images\/logo.jpg"},"author":{"@type":"Person","name":"zu1k"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':('auto'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'auto'==='dark'))&&document.body.setAttribute('theme','dark');</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../../../ title=zu1k>zu1k</a></div><div class=menu><div class=menu-inner><a class=menu-item href=../../../../post/>文章 </a><a class=menu-item href=../../../../categories/>分类 </a><a class=menu-item href=../../../../tags/>标签 </a><a class=menu-item href=../../../../about/>关于 </a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i></a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw"></i></a></div></div></div><script>(function(w,d,s,id){if(typeof(w.webpushr)!=='undefined')return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js,fjs=d.getElementsByTagName(s)[0];js=d.createElement(s);js.id=id;js.async=1;js.src="https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window,document,'script','webpushr-jssdk'));webpushr('setup',{'key':'BCIE9s5vikfzfIqnC164D6-Gwquv1Wl38cCZOj8TzG4ZvPns4u1NWzbEb8rRvF3mWZJ8sJzhhTvs0o--sLFmUyQ'});</script></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../../../ title=zu1k>zu1k</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=../../../../post/>文章</a><a class=menu-item href=../../../../categories/>分类</a><a class=menu-item href=../../../../tags/>标签</a><a class=menu-item href=../../../../about/>关于</a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div><script>(function(w,d,s,id){if(typeof(w.webpushr)!=='undefined')return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js,fjs=d.getElementsByTagName(s)[0];js=d.createElement(s);js.id=id;js.async=1;js.src="https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window,document,'script','webpushr-jssdk'));webpushr('setup',{'key':'BCIE9s5vikfzfIqnC164D6-Gwquv1Wl38cCZOj8TzG4ZvPns4u1NWzbEb8rRvF3mWZJ8sJzhhTvs0o--sLFmUyQ'});</script></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class="page single special"><h1 class="single-title animated pulse faster">MySQL中几个concat的用法与区别</h1><div class=content id=content><h2 id=讲解与示例>讲解与示例</h2><h3 id=concatstr1-str2->CONCAT(str1, str2, &mldr;)</h3><ol><li>返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL</li><li>参数可以是字段名或具体值</li></ol><p>注意：</p><ol><li>如果所有参数均为非二进制字符串，则结果为非二进制字符串</li><li>如果自变量中含有任一二进制字符串，则结果为一个二进制字符串</li><li>一个数字参数被转化为与之相等的二进制字符串格式</li><li>若要避免这种情况，可使用显式类型 cast, 例如： <code>SELECT CONCAT(CAST(int_col AS CHAR), char_col)</code></li></ol><h4 id=mysql的concat函数可以连接一个或者多个字符串>MySQL的concat函数可以连接一个或者多个字符串</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>mysql&gt; <span class=k>select</span> concat<span class=o>(</span><span class=s1>&#39;10&#39;</span><span class=o>)</span><span class=p>;</span>
++--------------+
+<span class=p>|</span> concat<span class=o>(</span><span class=s1>&#39;10&#39;</span><span class=o>)</span> <span class=p>|</span>
++--------------+
+<span class=p>|</span> <span class=m>10</span>   <span class=p>|</span>
++--------------+
+<span class=m>1</span> row in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+mysql&gt; <span class=k>select</span> concat<span class=o>(</span><span class=s1>&#39;11&#39;</span>,<span class=s1>&#39;22&#39;</span>,<span class=s1>&#39;33&#39;</span><span class=o>)</span><span class=p>;</span>
++------------------------+
+<span class=p>|</span> concat<span class=o>(</span><span class=s1>&#39;11&#39;</span>,<span class=s1>&#39;22&#39;</span>,<span class=s1>&#39;33&#39;</span><span class=o>)</span> <span class=p>|</span>
++------------------------+
+<span class=p>|</span> <span class=m>112233</span> <span class=p>|</span>
++------------------------+
+<span class=m>1</span> row in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+</code></pre></td></tr></table></div></div><h4 id=mysql的concat函数在连接字符串的时候只要其中一个是null那么将返回null>MySQL的concat函数在连接字符串的时候，只要其中一个是NULL,那么将返回NULL</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>mysql&gt; <span class=k>select</span> concat<span class=o>(</span><span class=s1>&#39;11&#39;</span>,<span class=s1>&#39;22&#39;</span>,null<span class=o>)</span><span class=p>;</span>
++------------------------+
+<span class=p>|</span> concat<span class=o>(</span><span class=s1>&#39;11&#39;</span>,<span class=s1>&#39;22&#39;</span>,null<span class=o>)</span> <span class=p>|</span>
++------------------------+
+<span class=p>|</span> NULL   <span class=p>|</span>
++------------------------+
+<span class=m>1</span> row in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+</code></pre></td></tr></table></div></div><h3 id=concat_wsseparatorstr1str2>CONCAT_WS(separator,str1,str2,…)</h3><p>CONCAT_WS() 代表 CONCAT With Separator ，是CONCAT()的特殊形式。第一个参数是其它参数的分隔符。分隔符的位置放在要连接的两个字符串之间。分隔符可以是一个字符串，也可以是其它参数。</p><p>注意：</p><ol><li>参数可以是字段名或具体值</li><li>如果分隔符为 NULL，则结果为 NULL。函数会忽略任何分隔符参数后的 NULL 值。（只保留非空值）</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>mysql&gt; <span class=k>select</span> concat_ws<span class=o>(</span><span class=s1>&#39;&#39;</span>,<span class=s1>&#39;&#39;</span>,<span class=s1>&#39;&#39;</span>,<span class=s1>&#39;33&#39;</span><span class=o>)</span><span class=p>;</span>
++--------------------------+
+<span class=p>|</span> concat_ws<span class=o>(</span><span class=s1>&#39;&#39;</span>,<span class=s1>&#39;&#39;</span>,<span class=s1>&#39;&#39;</span>,<span class=s1>&#39;33&#39;</span><span class=o>)</span> <span class=p>|</span>
++--------------------------+
+<span class=p>|</span> <span class=m>33</span>                       <span class=p>|</span>
++--------------------------+
+<span class=m>1</span> row in <span class=nb>set</span> <span class=o>(</span>0.04 sec<span class=o>)</span>
+</code></pre></td></tr></table></div></div><h4 id=如连接后以逗号分隔>如连接后以逗号分隔</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>mysql&gt; <span class=k>select</span> concat_ws<span class=o>(</span><span class=s1>&#39;,&#39;</span>,<span class=s1>&#39;11&#39;</span>,<span class=s1>&#39;22&#39;</span>,<span class=s1>&#39;33&#39;</span><span class=o>)</span><span class=p>;</span>
++-------------------------------+
+<span class=p>|</span> concat_ws<span class=o>(</span><span class=s1>&#39;,&#39;</span>,<span class=s1>&#39;11&#39;</span>,<span class=s1>&#39;22&#39;</span>,<span class=s1>&#39;33&#39;</span><span class=o>)</span> <span class=p>|</span>
++-------------------------------+
+<span class=p>|</span> 11,22,33 <span class=p>|</span>
++-------------------------------+
+<span class=m>1</span> row in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+</code></pre></td></tr></table></div></div><h4 id=和mysql中concat函数不同的是-concat_ws函数在执行的时候不会因为null值而返回null>和MySQL中concat函数不同的是, concat_ws函数在执行的时候,不会因为NULL值而返回NULL</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>mysql&gt; <span class=k>select</span> concat_ws<span class=o>(</span><span class=s1>&#39;,&#39;</span>,<span class=s1>&#39;11&#39;</span>,<span class=s1>&#39;22&#39;</span>,NULL<span class=o>)</span><span class=p>;</span>
++-------------------------------+
+<span class=p>|</span> concat_ws<span class=o>(</span><span class=s1>&#39;,&#39;</span>,<span class=s1>&#39;11&#39;</span>,<span class=s1>&#39;22&#39;</span>,NULL<span class=o>)</span> <span class=p>|</span>
++-------------------------------+
+<span class=p>|</span> 11,22 <span class=p>|</span>
++-------------------------------+
+<span class=m>1</span> row in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+</code></pre></td></tr></table></div></div><h3 id=group_concat-函数>GROUP_CONCAT() 函数</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-sql data-lang=sql><span class=n>group_concat</span><span class=p>([</span><span class=k>DISTINCT</span><span class=p>]</span> <span class=err>要连接的字段</span> <span class=p>[</span><span class=k>Order</span> <span class=k>BY</span> <span class=k>ASC</span><span class=o>/</span><span class=k>DESC</span> <span class=err>排序字段</span><span class=p>]</span> <span class=p>[</span><span class=n>Separator</span> <span class=err>‘分隔符’</span><span class=p>])</span>
+</code></pre></td></tr></table></div></div><h4 id=基本查询>基本查询</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>mysql&gt; <span class=k>select</span> * from aa<span class=p>;</span>
++------+------+
+<span class=p>|</span> id<span class=p>|</span> name <span class=p>|</span>
++------+------+
+<span class=p>|</span><span class=m>1</span> <span class=p>|</span> 10<span class=p>|</span>
+<span class=p>|</span><span class=m>1</span> <span class=p>|</span> 20<span class=p>|</span>
+<span class=p>|</span><span class=m>1</span> <span class=p>|</span> 20<span class=p>|</span>
+<span class=p>|</span><span class=m>2</span> <span class=p>|</span> 20<span class=p>|</span>
+<span class=p>|</span><span class=m>3</span> <span class=p>|</span> <span class=m>200</span>   <span class=p>|</span>
+<span class=p>|</span><span class=m>3</span> <span class=p>|</span> <span class=m>500</span>   <span class=p>|</span>
++------+------+
+<span class=m>6</span> rows in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+</code></pre></td></tr></table></div></div><h4 id=以id分组把name字段的值打印在一行逗号分隔默认>以id分组，把name字段的值打印在一行，逗号分隔(默认)</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>mysql&gt; <span class=k>select</span> id,group_concat<span class=o>(</span>name<span class=o>)</span> from aa group by id<span class=p>;</span>
++------+--------------------+
+<span class=p>|</span> id<span class=p>|</span> group_concat<span class=o>(</span>name<span class=o>)</span> <span class=p>|</span>
++------+--------------------+
+<span class=p>|</span><span class=m>1</span> <span class=p>|</span> 10,20,20<span class=p>|</span>
+<span class=p>|</span><span class=m>2</span> <span class=p>|</span> <span class=m>20</span> <span class=p>|</span>
+<span class=p>|</span><span class=m>3</span> <span class=p>|</span> 200,500<span class=p>|</span>
++------+--------------------+
+<span class=m>3</span> rows in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+</code></pre></td></tr></table></div></div><h4 id=以id分组把去冗余的name字段的值打印在一行逗号分隔>以id分组，把去冗余的name字段的值打印在一行，逗号分隔</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>mysql&gt; <span class=k>select</span> id,group_concat<span class=o>(</span>distinct name<span class=o>)</span> from aa group by id<span class=p>;</span>
++------+-----------------------------+
+<span class=p>|</span> id<span class=p>|</span> group_concat<span class=o>(</span>distinct name<span class=o>)</span> <span class=p>|</span>
++------+-----------------------------+
+<span class=p>|</span><span class=m>1</span> <span class=p>|</span> 10,20<span class=p>|</span>
+<span class=p>|</span><span class=m>2</span> <span class=p>|</span> <span class=m>20</span>   <span class=p>|</span>
+<span class=p>|</span><span class=m>3</span> <span class=p>|</span> 200,500 <span class=p>|</span>
++------+-----------------------------+
+<span class=m>3</span> rows in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+</code></pre></td></tr></table></div></div><h4 id=以id分组把name字段的值打印在一行逗号分隔以name排倒序>以id分组，把name字段的值打印在一行，逗号分隔，以name排倒序</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>mysql&gt; <span class=k>select</span> id,group_concat<span class=o>(</span>name order by name desc<span class=o>)</span> from aa group by id<span class=p>;</span>
++------+---------------------------------------+
+<span class=p>|</span> id<span class=p>|</span> group_concat<span class=o>(</span>name order by name desc<span class=o>)</span> <span class=p>|</span>
++------+---------------------------------------+
+<span class=p>|</span><span class=m>1</span> <span class=p>|</span> 20,20,10   <span class=p>|</span>
+<span class=p>|</span><span class=m>2</span> <span class=p>|</span> 20<span class=p>|</span>
+<span class=p>|</span><span class=m>3</span> <span class=p>|</span> 500,200<span class=p>|</span>
++------+---------------------------------------+
+<span class=m>3</span> rows in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+</code></pre></td></tr></table></div></div><h2 id=区别>区别</h2><p><a href=https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws>https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p><h3 id=concat_ws>concat_ws</h3><p><a href=http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php>http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php</a></p><p><img class=lazyload src=../../../../svg/loading.min.svg data-src=concat_ws.png data-srcset="../../../../post/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws.png, concat_ws.png 1.5x, ../../../../post/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws.png 2x" data-sizes=auto alt=/post/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws.png title=concat_ws></p><h3 id=group_concat>group_concat</h3><p><a href=http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php>http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p><p><img class=lazyload src=../../../../svg/loading.min.svg data-src=group_concat.gif data-srcset="../../../../post/security/web-security/mysql-concat-concat-ws-group-concat/group_concat.gif, group_concat.gif 1.5x, ../../../../post/security/web-security/mysql-concat-concat-ws-group-concat/group_concat.gif 2x" data-sizes=auto alt=/post/security/web-security/mysql-concat-concat-ws-group-concat/group_concat.gif title=group_concat></p></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></div></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2017 - 2021</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://lgf.im target=_blank>zu1k</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i></a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js></script><script type=text/javascript>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":20},"comment":{"utterances":{"darkTheme":"github-dark","issueTerm":"url","label":"blog","lightTheme":"github-light","repo":"zu1k/comment"}},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"YQWA6EI2VD","algoliaIndex":"lgf.im","algoliaSearchKey":"3fb91006ba1d0ebed6e8e7a04bd25f40","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type=text/javascript src=../../../../js/theme.min.f51938f3065a40ee841bcb558e4330e31fd26c0ea55343fff8770b88b0319a3c.js integrity="sha256-9Rk48wZaQO6EG8tVjkMw4x/SbA6lU0P/+HcLiLAxmjw="></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TC5F2FT2NP');</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-TC5F2FT2NP" async></script></body></html>
