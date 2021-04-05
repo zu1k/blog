@@ -1,4 +1,4 @@
-baseURL = "https://lgf.im"
+baseURL = "https://lgf.im/"
 relativeURLs = true
 defaultContentLanguage = "zh-cn"
 theme = "LoveIt"
@@ -137,7 +137,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     fontawesome = true  # 是否使用 fontawesome 扩展语法
     linkToMarkdown = true  # 是否显示原始 Markdown 文档内容的链接
     rssFullText = true  # 是否在 RSS 中显示全文内容
-    # 文章目录配置 
     [params.page.toc]
       enable = true  # 是否使用目录
       keepStatic = false  # 是否保持使用文章前面的静态目录
@@ -193,7 +192,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
         clientSecret = ""
       [params.page.comment.utterances]
         enable = true
-        # owner/repo
         repo = "zu1k/comment"
         issueTerm = "url"
         label = "blog"
@@ -218,7 +216,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
         logoUrl = "https://lgf.im/images/logo.jpg"
 
   [params.typeit]
-    speed = 30  # 每一步的打字速度 (单位是毫秒)
+    speed = 15  # 每一步的打字速度 (单位是毫秒)
     cursorSpeed = 1000  # 光标的闪烁速度 (单位是毫秒)
     cursorChar = "|"  # 光标的字符 (支持 HTML 格式)
     duration = -1  # 打字结束之后光标的持续时间 (单位是毫秒, "-1" 代表无限大)

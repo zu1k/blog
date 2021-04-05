@@ -8,7 +8,7 @@ resources:
   src: "ipfs-logo.png"
 tags:
 - IPFS
-- p2p
+- P2P
 categories:
 - tutorial
 ---
