@@ -7,14 +7,3 @@ if ('serviceWorker' in navigator) {
         });
     });
 }
-
-function returnMainDomain() {
-    let domain = window.location.hostname;
-    if (domain!='lgf.im') {
-        let u = new URL(window.location);
-        u.host = 'lgf.im';
-        window.location.replace(u.href);
-    }
-}
-
-setTimeout(returnMainDomain, 10000)

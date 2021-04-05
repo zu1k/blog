@@ -14,19 +14,19 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
 
 [menu]
   [[menu.main]]
-    identifier = "posts"
+    identifier = "post"
     name = "文章"
-    url = "/posts/"
+    url = "/post/"
     weight = 1
-  [[menu.main]]
-    identifier = "tags"
-    name = "标签"
-    url = "/tags/"
-    weight = 2
   [[menu.main]]
     identifier = "categories"
     name = "分类"
     url = "/categories/"
+    weight = 2
+  [[menu.main]]
+    identifier = "tags"
+    name = "标签"
+    url = "/tags/"
     weight = 3
   [[menu.main]]
     identifier = "about"
@@ -80,12 +80,10 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
       typeit = true  # 是否为副标题显示打字机动画
       social = true  # 是否显示社交账号
       disclaimer = ""  # 免责声明 (支持 HTML 格式)
-    # 主页文章列表
     [params.home.posts]
       enable = false
       # 主页每页显示文章数量
       paginate = 6
-  # 主页的社交信息设置
   [params.social]
     GitHub = "zu1k"
     Twitter = "zu1k_lv"
@@ -94,7 +92,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     Email = "i@lgf.im"
     RSS = true
 
-  # 页面头部导航栏配置
   [params.header]
     desktopMode = "fixed"   # 桌面端导航栏模式 ("fixed", "normal", "auto")
     mobileMode = "auto"  # 移动端导航栏模式 ("fixed", "normal", "auto")
@@ -130,7 +127,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     dateFormat = "01-02"  # 日期格式 (月和日)
     rss = 20  # RSS 文章数目
 
-  # 文章页面配置
   [params.page]
     hiddenFromHomePage = false    # 是否在主页隐藏
     hiddenFromSearch = false  # 是否在搜索结果中隐藏
@@ -146,7 +142,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
       enable = true  # 是否使用目录
       keepStatic = false  # 是否保持使用文章前面的静态目录
       auto = true  # 是否使侧边目录自动折叠展开
-    # 代码配置
     [params.page.code]
       copy = true  # 是否显示代码块的复制按钮
       maxShownLines = 20 # 默认展开显示的代码行数
@@ -182,51 +177,20 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
       # 是否添加 FullscreenControl (https://docs.mapbox.com/mapbox-gl-js/api/#fullscreencontrol)
       fullscreen = true
     # Social share links in post page
-    # 文章页面的分享信息设置
     [params.page.share]
       enable = true
       Twitter = true
       Whatsapp = false
       Tumblr = true
       Evernote = true
-    # 评论系统设置
     [params.page.comment]
       enable = true
-      # Disqus 评论系统设置 (https://disqus.com/)
-      [params.page.comment.disqus]
-        enable = false
-        # Disqus 的 shortname，用来在文章中启用 Disqus 评论系统
-        shortname = ""
-      # Gitalk 评论系统设置 (https://github.com/gitalk/gitalk)
       [params.page.comment.gitalk]
         enable = false
         owner = ""
         repo = ""
         clientId = ""
         clientSecret = ""
-      # Valine comment config (https://github.com/xCss/Valine)
-      # Valine 评论系统设置 (https://github.com/xCss/Valine)
-      [params.page.comment.valine]
-        enable = false
-        appId = "QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI"
-        appKey = "WBmoGyJtbqUswvfLh6L8iEBr"
-        placeholder = ""
-        avatar = "mp"
-        meta= ""
-        pageSize = 10
-        lang = ""
-        visitor = true
-        recordIP = true
-        highlight = true
-        enableQQ = false
-        serverURLs = "https://leancloud.hugoloveit.com"
-        # emoji 数据文件名称, 默认是 "google.yml"
-        # ("apple.yml", "google.yml", "facebook.yml", "twitter.yml")
-        # 位于 "themes/LoveIt/assets/data/emoji/" 目录
-        # 可以在你的项目下相同路径存放你自己的数据文件:
-        # "assets/data/emoji/"
-        emoji = ""
-      # Utterances comment 评论系统设置 (https://utteranc.es/)
       [params.page.comment.utterances]
         enable = true
         # owner/repo
@@ -235,7 +199,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
         label = "blog"
         lightTheme = "github-light"
         darkTheme = "github-dark"
-    # 第三方库配置
     [params.page.library]
       [params.page.library.css]
         # someCSS = "some.css"
@@ -247,66 +210,36 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
         # located in "assets/" 位于 "assets/"
         # Or 或者
         # someJavascript = "https://cdn.example.com/some.js"
-    # 页面 SEO 配置
     [params.page.seo]
-      # image URL
       images = ["https://lgf.im/images/logo.jpg"]
       # 出版者信息
       [params.page.seo.publisher]
         name = "zu1k"
         logoUrl = "https://lgf.im/images/logo.jpg"
 
-  # TypeIt 配置
   [params.typeit]
     speed = 30  # 每一步的打字速度 (单位是毫秒)
     cursorSpeed = 1000  # 光标的闪烁速度 (单位是毫秒)
     cursorChar = "|"  # 光标的字符 (支持 HTML 格式)
     duration = -1  # 打字结束之后光标的持续时间 (单位是毫秒, "-1" 代表无限大)
 
-  # 网站验证代码，用于 Google/Bing/Yandex/Pinterest/Baidu
-  [params.verification]
-    google = ""
-    bing = ""
-    yandex = ""
-    pinterest = ""
-    baidu = ""
-
-  # 网站 SEO 配置
   [params.seo]
     image = "/images/Apple-Devices-Preview.png"  # 图片 URL
     thumbnailUrl = "/images/screenshot.png"  # 缩略图 URL
 
-  # 网站分析配置
   [params.analytics]
     enable = true
     [params.analytics.google]
       id = "G-TC5F2FT2NP"
       anonymizeIP = false
 
-  # Cookie 许可配置，显示一个横幅来申请cookie权限
-  [params.cookieconsent]
-    enable = false
-    # 用于 Cookie 许可横幅的文本字符串
-    [params.cookieconsent.content]
-      message = ""
-      dismiss = ""
-      link = ""
-
-  # 第三方库文件的 CDN 设置
   [params.cdn]
     # CDN 数据文件名称, 默认不启用
-    # ("jsdelivr.yml")
     # 位于 "themes/LoveIt/assets/data/cdn/" 目录
     # 可以在你的项目下相同路径存放你自己的数据文件:
     # "assets/data/cdn/"
     data = "jsdelivr.yml"
 
-  # 兼容性设置
-  [params.compatibility]
-    polyfill = false # 是否使用 Polyfill.io 来兼容旧式浏览器
-    objectFit = false  # 是否使用 object-fit-images 来兼容旧式浏览器
-
-# Hugo 解析文档的配置
 [markup]
   # 语法高亮设置 (https://gohugo.io/content-management/syntax-highlighting)
   [markup.highlight]
@@ -316,7 +249,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     lineNumbersInTable = true
     # false 是必要的设置 (https://github.com/dillonzq/LoveIt/issues/158)
     noClasses = false
-  # Goldmark 是 Hugo 0.60 以来的默认 Markdown 解析库
   [markup.goldmark]
     [markup.goldmark.extensions]
       definitionList = true
@@ -329,8 +261,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     [markup.goldmark.renderer]
       # 是否在文档中直接使用 HTML 标签
       unsafe = true
-  # Table Of Contents settings
-  # 目录设置
   [markup.tableOfContents]
     startLevel = 2
     endLevel = 6

@@ -1,6 +1,6 @@
 ---
 title: "关于"
-comments: false
+comment: false
 ---
 
 嗨！我是**zu1k**
