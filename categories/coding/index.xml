@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>coding - 分类 - zu1k</title><link>https://lgf.im/categories/coding/</link><description>coding - 分类 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 25 Nov 2020 12:06:25 +0800</lastBuildDate><atom:link href="https://lgf.im/categories/coding/" rel="self" type="application/rss+xml"/><item><title>将博客部署到CF Workers Site</title><link>https://lgf.im/post/coding/deploy-blog-to-cf-workers-site/</link><pubDate>Wed, 25 Nov 2020 12:06:25 +0800</pubDate><author>作者</author><guid>https://lgf.im/post/coding/deploy-blog-to-cf-workers-site/</guid><description><![CDATA[<p>前几天Cloudflare将Workers KV增加了免费额度，还不得搞起来？</p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>coding - 分类 - zu1k</title><link>https://lgf.im/categories/coding/</link><description>coding - 分类 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 25 Nov 2020 12:06:25 +0800</lastBuildDate><atom:link href="https://lgf.im/categories/coding/" rel="self" type="application/rss+xml"/><item><title>将博客部署到CF Workers Site</title><link>https://lgf.im/posts/coding/deploy-blog-to-cf-workers-site/</link><pubDate>Wed, 25 Nov 2020 12:06:25 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/deploy-blog-to-cf-workers-site/</guid><description><![CDATA[<p>前几天Cloudflare将Workers KV增加了免费额度，还不得搞起来？</p>
 <p>利用Workers KV存储网页内容，通过Workers将内容返回给用户，就等于将自己的网站直接部署到CF成千上万的边缘节点当中，全球访问速度和TTFB都应该不错</p>
 <p><a href="https://blog.cloudflare.com/workers-sites/">https://blog.cloudflare.com/workers-sites/</a></p>
 <h2 id="安装wrangler">安装Wrangler</h2>
@@ -188,7 +188,7 @@ wrangler config
 </span><span class="w">          </span><span class="nt">apiToken</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.CF_API_TOKEN }}</span><span class="w">
 </span></code></pre></td></tr></table>
 </div>
-</div>]]></description></item><item><title>Nali IP地理信息和CDN服务商查询</title><link>https://lgf.im/post/coding/nali-golang/</link><pubDate>Fri, 17 Jul 2020 13:39:47 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/nali-golang/</guid><description><![CDATA[<p><a href="https://github.com/zu1k/nali" target="_blank" rel="noopener noreffer">Nali</a></p>
+</div>]]></description></item><item><title>Nali IP地理信息和CDN服务商查询</title><link>https://lgf.im/posts/coding/nali-golang/</link><pubDate>Fri, 17 Jul 2020 13:39:47 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/nali-golang/</guid><description><![CDATA[<p><a href="https://github.com/zu1k/nali" target="_blank" rel="noopener noreffer">Nali</a></p>
 <blockquote>
 <p>一个查询IP地理信息和CDN提供商的离线终端工具</p>
 </blockquote>
@@ -593,7 +593,7 @@ export NALI_DB_HOME=/home/nali
 </ul>
 <h2 id="开源证书">开源证书</h2>
 <p>MIT</p>
-]]></description></item><item><title>关于刷票</title><link>https://lgf.im/post/security/web-security/brush-votes/</link><pubDate>Mon, 13 Jul 2020 20:06:48 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/brush-votes/</guid><description><![CDATA[<p>相信大家都经历过朋友圈、群组里各种转发求投票的消息，有需求就会有刷票</p>
+]]></description></item><item><title>关于刷票</title><link>https://lgf.im/posts/security/web-security/brush-votes/</link><pubDate>Mon, 13 Jul 2020 20:06:48 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/brush-votes/</guid><description><![CDATA[<p>相信大家都经历过朋友圈、群组里各种转发求投票的消息，有需求就会有刷票</p>
 <p>关于刷票我自己也稍微研究过，这里说的刷票是指刷投票，不是黄牛那种抢票</p>
 <h2 id="初识刷票">初识刷票</h2>
 <p>人生中第一次刷票是在大一，舍友的姐姐结婚拍婚纱照，摄影店给了一个点赞链接，承诺点赞数量超过500票免费送豪华相册和相框</p>
@@ -624,7 +624,7 @@ export NALI_DB_HOME=/home/nali
 <p>并且，有很多刷票组织养着很多群，可以提供真人投票服务，这种刷票成本非常高，但是是无法检测的，刷票成功率100%</p>
 <p>针对刷票行为，无法完全避免，我们能做的就是通过各种方式对用户身份进行验证，检查用户IP，尽量避免身份伪造</p>
 <p>同时，可以对投票请求的频率等信息进行分析，因为脚本刷票投票会很集中、时间间隔会比较均匀</p>
-]]></description></item><item><title>屏蔽雨课堂在线考试异常上报</title><link>https://lgf.im/post/security/web-security/yuketang-exam-block-report/</link><pubDate>Fri, 12 Jun 2020 20:23:46 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/yuketang-exam-block-report/</guid><description><![CDATA[<p>学校又开始推雨课堂的在线考试功能了，在老师的配合下稍微分析了一下</p>
+]]></description></item><item><title>屏蔽雨课堂在线考试异常上报</title><link>https://lgf.im/posts/security/web-security/yuketang-exam-block-report/</link><pubDate>Fri, 12 Jun 2020 20:23:46 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/yuketang-exam-block-report/</guid><description><![CDATA[<p>学校又开始推雨课堂的在线考试功能了，在老师的配合下稍微分析了一下</p>
 <p>因为都是js代码，没有用wasm，分析还是比较简单的</p>
 <h2 id="切屏检测">切屏检测</h2>
 <p>考试过程中，如果切换浏览器标签，返回后会有一个切屏警告，并且老师那边也会有切屏记录</p>
@@ -847,7 +847,7 @@ export NALI_DB_HOME=/home/nali
 <li>upload-as0.qiniup.com</li>
 </ul>
 <p>插件我用的AdblockPLUS，手动添加几条规则就行，亲测好用</p>
-]]></description></item><item><title>利用360直播课评论区对用户浏览器dos攻击</title><link>https://lgf.im/post/security/web-security/dos-attack-on-360-university-user/</link><pubDate>Fri, 29 May 2020 14:01:45 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/dos-attack-on-360-university-user/</guid><description><![CDATA[<p>前段时间在360网络安全大学听免费的网络安全直播课，里面的老师有一些讲的不错</p>
+]]></description></item><item><title>利用360直播课评论区对用户浏览器dos攻击</title><link>https://lgf.im/posts/security/web-security/dos-attack-on-360-university-user/</link><pubDate>Fri, 29 May 2020 14:01:45 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/dos-attack-on-360-university-user/</guid><description><![CDATA[<p>前段时间在360网络安全大学听免费的网络安全直播课，里面的老师有一些讲的不错</p>
 <p>对评论区进行测试，发现对评论和送花速度没有进行限制，送花有总数50次限制，但是评论总数没有限制</p>
 <p>并且，后端性能非常好，能够即时处理所有评论并通过websocket发送给所有直播课的听众</p>
 <p>用户的浏览器效率比较低，无法及时处理后端返回的所有评论，从而导致浏览器卡死，如此只需要一个用户不断发送评论包，所有用户都会受到dos攻击</p>
@@ -1047,7 +1047,7 @@ export NALI_DB_HOME=/home/nali
 </code></pre></td></tr></table>
 </div>
 </div><p>可能是360也发现这个dos了，过了不到一个周便修复了，增加了评论速率的限制</p>
-]]></description></item><item><title>一个来自保留IP地址的连接</title><link>https://lgf.im/post/events/why-reveice-connection-from-class-e-ip/</link><pubDate>Mon, 25 May 2020 15:22:09 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/events/why-reveice-connection-from-class-e-ip/</guid><description><![CDATA[<p>昨天看了一篇文章，文章最后使用IP logger进行钓鱼，最后记录下来的IP地址让我大跌眼镜</p>
+]]></description></item><item><title>一个来自保留IP地址的连接</title><link>https://lgf.im/posts/events/why-reveice-connection-from-class-e-ip/</link><pubDate>Mon, 25 May 2020 15:22:09 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/events/why-reveice-connection-from-class-e-ip/</guid><description><![CDATA[<p>昨天看了一篇文章，文章最后使用IP logger进行钓鱼，最后记录下来的IP地址让我大跌眼镜</p>
 <p>万万没有想到，记录下来的IP地址竟然是是 244.242.105.51</p>
 <p></p>
 <p>这可是一个E类IP地址，是属于保留地址，是未来用来做ip研究用的，目前并没有开放使用啊</p>
@@ -1080,7 +1080,7 @@ export NALI_DB_HOME=/home/nali
 <p>才疏学浅，文中可能有错误，欢迎指正
 目前这个问题还在困扰我，如果有大佬知道答案，希望能够告诉我</p>
 </blockquote>
-]]></description></item><item><title>Tor洋葱服务如何工作</title><link>https://lgf.im/post/learn/how-do-onion-service-work/</link><pubDate>Mon, 25 May 2020 14:13:37 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/learn/how-do-onion-service-work/</guid><description><![CDATA[<p>昨天遇到了点问题，为了研究清楚原理，把Tor客户端与服务端通信的具体流程学习了一下，这篇博文写来记录</p>
+]]></description></item><item><title>Tor洋葱服务如何工作</title><link>https://lgf.im/posts/learn/how-do-onion-service-work/</link><pubDate>Mon, 25 May 2020 14:13:37 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/learn/how-do-onion-service-work/</guid><description><![CDATA[<p>昨天遇到了点问题，为了研究清楚原理，把Tor客户端与服务端通信的具体流程学习了一下，这篇博文写来记录</p>
 <h2 id="通信流程">通信流程</h2>
 <p>这里要描述的通讯是 用户通过 tor浏览器 连接 洋葱服务 的过程</p>
 <p>为了方便表达，这里用Alice表示客户端，Bob表示服务端</p>
@@ -1120,7 +1120,7 @@ export NALI_DB_HOME=/home/nali
 <p>如果tor客户端访问的服务不是洋葱服务，那通讯过程就不是上面那个流程了，也只有3次中转了</p>
 <h2 id="参考资料">参考资料</h2>
 <p><a href="https://community.torproject.org/onion-services/overview/">https://community.torproject.org/onion-services/overview/</a></p>
-]]></description></item><item><title>Linux添加swap</title><link>https://lgf.im/post/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/linux/linux-add-swap/</guid><description><![CDATA[<p>给 linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
+]]></description></item><item><title>Linux添加swap</title><link>https://lgf.im/posts/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/linux-add-swap/</guid><description><![CDATA[<p>给 linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
 <h2 id="查看当前swap">查看当前swap</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1251,7 +1251,7 @@ sudo dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="
 </code></pre></td></tr></table>
 </div>
 </div><p>最佳 swappiness 值取决于您系统的工作负载以及内存的使用方式，您应该以小增量的方式来调整此参数，以查到最佳值。</p>
-]]></description></item><item><title>使用GlobalSSH服务加速境外服务器ssh访问</title><link>https://lgf.im/post/coding/use-ucloud-globalssh-to-speedup-server-ssh/</link><pubDate>Sun, 12 Apr 2020 16:37:56 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/use-ucloud-globalssh-to-speedup-server-ssh/</guid><description><![CDATA[<blockquote>
+]]></description></item><item><title>使用GlobalSSH服务加速境外服务器ssh访问</title><link>https://lgf.im/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/</link><pubDate>Sun, 12 Apr 2020 16:37:56 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/</guid><description><![CDATA[<blockquote>
 <h3 id="ucloud已经对加速ip进行限制本文中的方法即时失效">UCloud已经对加速IP进行限制，本文中的方法即时失效</h3>
 <p>通知内容如下：<br>
 尊敬的UCloud用户，您好！<br>
@@ -1308,7 +1308,7 @@ git clone git@githubssh.xyz:moby/moby.git
 </div><p>为了能够自动更新ip，我写了一个程序，每天会检查github新的ip，创建新的globalssh，然后自动解析到域名githubssh.xyz上，由cloudflare进行DNS层面的负载均衡</p>
 <p>开源地址为： <a href="https://github.com/zu1k/globalssh4github">https://github.com/zu1k/globalssh4github</a></p>
 <p>同时为了方便，改了一个插件： <a href="https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo">https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo</a></p>
-]]></description></item><item><title>学习Linux中的SUID机制</title><link>https://lgf.im/post/linux/linux-suid/</link><pubDate>Mon, 30 Mar 2020 11:36:25 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/linux/linux-suid/</guid><description><![CDATA[<h2 id="什么是suid">什么是SUID</h2>
+]]></description></item><item><title>学习Linux中的SUID机制</title><link>https://lgf.im/posts/linux/linux-suid/</link><pubDate>Mon, 30 Mar 2020 11:36:25 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/linux-suid/</guid><description><![CDATA[<h2 id="什么是suid">什么是SUID</h2>
 <p>SUID简称位，英文全称是Set owner User ID up on execution，它是一种特殊的文件权限，能够让用户(如Bob)用其他用户(如root用户)的权限运行一个程序，而不需要用sudo进行临时提权</p>
 <p>同一类的还有SGID，就不详细说了，原理与SUID一样，就以SUID为例</p>
 <p>在一个程序执行的时候会有三个ID状态，在深入学习SUID之前必须能够区分下面三种ID：</p>
@@ -1413,7 +1413,7 @@ nmap --interactive
 <p>假如user1用 <code>chmod 4777 /home/user1/script.sh</code> 命令给<code>script.sh</code>脚本设置SUID位，登录user2后执行这个脚本提示没有权限</p>
 <p>这是因为SUID位只对编译过的可执行程序起作用，sh脚本的实际执行程序是sh或者bash之类，如果它们在执行的时候并不会检查脚本文件的SUID位，那就不会起作用了</p>
 <p>Perl执行器会检查perl脚本的suid位，所以可以给pl脚本设置suid位</p>
-]]></description></item><item><title>给git设置代理</title><link>https://lgf.im/post/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
+]]></description></item><item><title>给git设置代理</title><link>https://lgf.im/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
 <p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议</p>
 <p>而我们平时使用github一般使用两种协议，一种是http协议，另一种是ssh协议，针对这两种协议有两种不同的代理设置办法</p>
 <h2 id="http协议">http协议</h2>
@@ -1486,7 +1486,7 @@ git clone git@github.com:moby/moby.git
 git clone git@zll.us:moby/moby.git
 </code></pre></td></tr></table>
 </div>
-</div>]]></description></item><item><title>Linux Shell中的重定向</title><link>https://lgf.im/post/linux/redirect-in-shell/</link><pubDate>Tue, 24 Mar 2020 15:50:07 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/linux/redirect-in-shell/</guid><description><![CDATA[<p>经常会看到别人的shell脚本后面有一个 <code>2&gt;&amp;1</code> ，一直没去深究，今天这个话题就以这个为出发点进行展开，学习一下linux shell中重定向的话题。</p>
+</div>]]></description></item><item><title>Linux Shell中的重定向</title><link>https://lgf.im/posts/linux/redirect-in-shell/</link><pubDate>Tue, 24 Mar 2020 15:50:07 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/redirect-in-shell/</guid><description><![CDATA[<p>经常会看到别人的shell脚本后面有一个 <code>2&gt;&amp;1</code> ，一直没去深究，今天这个话题就以这个为出发点进行展开，学习一下linux shell中重定向的话题。</p>
 <h2 id="特殊的东西">特殊的东西</h2>
 <p>先来看一点linux中特殊的东西，为后面的内容打下基础</p>
 <h3 id="特殊的文件">特殊的文件</h3>
@@ -1879,7 +1879,7 @@ drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <s
 <p>如果你想了解功能，通过下面的命令查看官方文档吧</p>
 <p><code>man -Len -Pless\ +/^REDIRECTION bash</code></p>
 <p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer">stack overflow</a></p>
-]]></description></item><item><title>DNS中SRV记录</title><link>https://lgf.im/post/learn/dns-srv-record/</link><pubDate>Tue, 24 Mar 2020 13:54:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/learn/dns-srv-record/</guid><description><![CDATA[<p>SRV记录是服务器资源记录的缩写，是DNS服务器的数据库中支持的一种记录服务器提供的服务资源的记录，主要作用是说明一个服务器能够提供什么样的服务。</p>
+]]></description></item><item><title>DNS中SRV记录</title><link>https://lgf.im/posts/learn/dns-srv-record/</link><pubDate>Tue, 24 Mar 2020 13:54:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/learn/dns-srv-record/</guid><description><![CDATA[<p>SRV记录是服务器资源记录的缩写，是DNS服务器的数据库中支持的一种记录服务器提供的服务资源的记录，主要作用是说明一个服务器能够提供什么样的服务。</p>
 <p>简单来说，SRV记录了哪台计算机提供了哪个服务这么一个简单的信息。</p>
 <p>SRV记录是DNS记录中的新鲜面孔，在RFC2052中才对SRV记录进行了定义，因此很多老版本的DNS服务器并不支持SRV记录。</p>
 <h3 id="rfc2782">RFC2782</h3>
@@ -1949,7 +1949,7 @@ drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <s
 <p>SRV记录在微软的Active Directory中有着重要地位，大家知道在NT4时代域和DNS并没有太多关系。但从Win2000开始，域就离不开DNS的帮助了，为什么呢？因为域内的计算机要依赖DNS的SRV记录来定位域控制器！微软的即时通讯服务器Live Communications Server也可以依靠SRV记录定位即时通讯服务器。</p>
 <p>SRV 记录一般是为Microsoft的活动目录设置时的应用。DNS可以独立于活动目录，但是活动目录必须有DNS的帮助才能工作。为了活动目录能够正常的工作，DNS服务器必须支持服务定位（SRV）资源记录，资源记录把服务名字映射为提供服务的服务器名字。活动目录客户和域控制器使用SRV资源记录决定域控制器的IP地址。</p>
 <p>鉴于SRV记录可以定位特定服务器的位置，我们可以预计，在微软将来的服务器产品中SRV记录将发挥越来越多的作用。</p>
-]]></description></item><item><title>MySQL中几个concat的用法与区别</title><link>https://lgf.im/post/security/web-security/mysql-concat-concat-ws-group-concat/</link><pubDate>Sun, 22 Mar 2020 18:23:34 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/mysql-concat-concat-ws-group-concat/</guid><description><![CDATA[<h2 id="讲解与示例">讲解与示例</h2>
+]]></description></item><item><title>MySQL中几个concat的用法与区别</title><link>https://lgf.im/posts/security/web-security/mysql-concat-concat-ws-group-concat/</link><pubDate>Sun, 22 Mar 2020 18:23:34 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/mysql-concat-concat-ws-group-concat/</guid><description><![CDATA[<h2 id="讲解与示例">讲解与示例</h2>
 <h3 id="concatstr1-str2-">CONCAT(str1, str2, &hellip;)</h3>
 <ol>
 <li>返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL</li>
@@ -2210,7 +2210,7 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 <h3 id="group_concat">group_concat</h3>
 <p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
 <p></p>
-]]></description></item><item><title>HackBar破解</title><link>https://lgf.im/post/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>HackBar破解</title><link>https://lgf.im/posts/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>相信很多研究安全或者打CTF的朋友都在使用HackBar，在浏览器中使用HackBar构造并发送请求非常方便，特别是测试sql注入和xss等常见漏洞。</p>
 <p>但是HackBar是收费软件，在其 <a href="https://hackbar.site/" target="_blank" rel="noopener noreffer">官网</a> 上，价格由3刀到89刀不等。很多安全研究人员会选择购买89刀的10年证书，但是对于学生来说，短期的一个月1刀的短期价格对于这样一个浏览器插件来说还是比较贵的。</p>
 <p></p>
@@ -2385,7 +2385,7 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 <p></p>
 <h2 id="总结">总结</h2>
 <p>本文以HackBar的chrome插件的分析破解为例，想大家展示了浏览器插件的简单破解，Firefox的插件破解也是大同小异，希望大家可以活学活用</p>
-]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://lgf.im/post/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>很多同学和我一样也在用Hexo搭建自己的博客，通常最后发布的操作是 <code>hexo g</code> 生成静态网页，然后 <code>hexo d</code> 将public目录推送到github、coding、gitee等平台。</p>
 <p>但是很多时候我们都想偷个懒，只管写博客，写完后将git 一 push，后面的生成部署工作让程序自动完成，github actions为我们提供了这个便利。</p>
 <h2 id="操作">操作</h2>
@@ -2571,7 +2571,7 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 </div><blockquote>
 <p>在github actions将page专用分支更新后，zeit\netlify\github pages三个平台都会自动将最新的内容部署上，这样我就只需要关注博客内容，后续操作都不需要管了</p>
 </blockquote>
-]]></description></item><item><title>加快Github Pages国内访问速度</title><link>https://lgf.im/post/coding/speedup-github-page/</link><pubDate>Thu, 19 Mar 2020 17:17:53 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/speedup-github-page/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>加快Github Pages国内访问速度</title><link>https://lgf.im/posts/coding/speedup-github-page/</link><pubDate>Thu, 19 Mar 2020 17:17:53 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/speedup-github-page/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>相信不少小伙伴都在使用 Github Pages 提供的免费静态网站托管来搭建自己的博客，但是因为墙的存在和特殊国情，使用 Github Pages 搭建的网站速度普遍不快，因此很多小伙伴只能转战国内付费的服务器和 CDN。</p>
 <p>正巧我也在使用 Github Pages 搭建自己的静态博客，正好来说一下我的优化方法。</p>
 <h2 id="压缩">压缩</h2>
@@ -3065,7 +3065,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </blockquote>
 <h2 id="辅助优化">辅助优化</h2>
 <p>使用谷歌提供的 <a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="noopener noreffer">Pagespeed Insights</a> 工具分析网页加载并根据建议进行优化</p>
-]]></description></item><item><title>使用iptables将ubuntu配置为路由器</title><link>https://lgf.im/post/linux/ubuntu-iptables-nat/</link><pubDate>Wed, 18 Mar 2020 13:15:40 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/linux/ubuntu-iptables-nat/</guid><description><![CDATA[<h2 id="实验环境">实验环境</h2>
+]]></description></item><item><title>使用iptables将ubuntu配置为路由器</title><link>https://lgf.im/posts/linux/ubuntu-iptables-nat/</link><pubDate>Wed, 18 Mar 2020 13:15:40 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/ubuntu-iptables-nat/</guid><description><![CDATA[<h2 id="实验环境">实验环境</h2>
 <blockquote>
 <p>使用 vmware 分别创建win7和ubuntu两个虚拟机</p>
 </blockquote>
@@ -3129,7 +3129,7 @@ iptables -t nat -A POSTROUTING -s 10.1.2.0/24 -j MASQUERADE
 <p>修改网卡配置如图</p>
 <p></p>
 <p>win7即可通过ubuntu这个网关上网</p>
-]]></description></item><item><title>静态链接OpenSSL进行RSA\MD5\Base64</title><link>https://lgf.im/post/coding/openssl-first-try-rsa-md5-base64/</link><pubDate>Wed, 18 Mar 2020 12:50:10 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/coding/openssl-first-try-rsa-md5-base64/</guid><description><![CDATA[<h2 id="简介">简介</h2>
+]]></description></item><item><title>静态链接OpenSSL进行RSA\MD5\Base64</title><link>https://lgf.im/posts/coding/openssl-first-try-rsa-md5-base64/</link><pubDate>Wed, 18 Mar 2020 12:50:10 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/openssl-first-try-rsa-md5-base64/</guid><description><![CDATA[<h2 id="简介">简介</h2>
 <p>目标平台： Windows 10 amd64</p>
 <p>使用静态链接方式，原因：动态链接库太大了，包含很多本次实验不需要的函数</p>
 <h2 id="准备工作">准备工作</h2>
@@ -3373,7 +3373,7 @@ nmake install
 <p></p>
 <h3 id="生成的公钥文件">生成的公钥文件</h3>
 <p></p>
-]]></description></item><item><title>编译gcc</title><link>https://lgf.im/post/linux/gcc-compile/</link><pubDate>Sat, 28 Dec 2019 21:02:59 +0000</pubDate><author>作者</author><guid>https://lgf.im/post/linux/gcc-compile/</guid><description><![CDATA[<blockquote>
+]]></description></item><item><title>编译gcc</title><link>https://lgf.im/posts/linux/gcc-compile/</link><pubDate>Sat, 28 Dec 2019 21:02:59 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/gcc-compile/</guid><description><![CDATA[<blockquote>
 <p>一直用gcc编译各种东西，第一次研究如何编译gcc
 这就是一个鸡生蛋与蛋生鸡的问题</p>
 </blockquote>
