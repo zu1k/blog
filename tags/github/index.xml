@@ -538,7 +538,7 @@ DONE
 <p>因为我自己访问国外网站一直是使用代理，所以本次事件对我的影响几乎等于零
 因为不受影响，所以也很难在第一时间发现这类事件，后续需要准备一个监控系统了</p>
 </blockquote>
-]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>很多同学和我一样也在用Hexo搭建自己的博客，通常最后发布的操作是 <code>hexo g</code> 生成静态网页，然后 <code>hexo d</code> 将public目录推送到github、coding、gitee等平台。</p>
 <p>但是很多时候我们都想偷个懒，只管写博客，写完后将git 一 push，后面的生成部署工作让程序自动完成，github actions为我们提供了这个便利。</p>
 <h2 id="操作">操作</h2>

@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>linux - 标签 - zu1k</title><link>https://lgf.im/tags/linux/</link><description>linux - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 12 Apr 2020 20:38:26 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/linux/" rel="self" type="application/rss+xml"/><item><title>Linux添加swap</title><link>https://lgf.im/posts/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/linux-add-swap/</guid><description><![CDATA[<p>给 linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Linux - 标签 - zu1k</title><link>https://lgf.im/tags/linux/</link><description>Linux - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 12 Apr 2020 20:38:26 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/linux/" rel="self" type="application/rss+xml"/><item><title>Linux添加swap</title><link>https://lgf.im/posts/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/linux-add-swap/</guid><description><![CDATA[<p>给 linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
 <h2 id="查看当前swap">查看当前swap</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -788,4 +788,223 @@ iptables-save
 </div>
 </div><h2 id="参考文章">参考文章：</h2>
 <p><a href="https://www.jb51.net/LINUXjishu/339309.html" target="_blank" rel="noopener noreffer">在Linux下实现批量屏蔽IP地址的方法</a></p>
-]]></description></item></channel></rss>
+]]></description></item><item><title>通过Sendmail服务发送邮件</title><link>https://lgf.im/posts/coding/send-mail-via-endmail-service/</link><pubDate>Mon, 03 Dec 2018 17:59:48 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/send-mail-via-endmail-service/</guid><description><![CDATA[<p>通过Sendmail服务发送邮件</p>
+<p>系统centos7</p>
+<p>需要开启25端口</p>
+<h3 id="安装sendmail">安装sendmail</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">yum  -y  install sendmail  sendmail-cf
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="安装mta功能测试用软件">安装MTA功能测试用软件</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">yum -y install  mailx   php
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="切换系统的邮件发送接口">切换系统的邮件发送接口</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">alternatives --config mta
+</code></pre></td></tr></table>
+</div>
+</div><p>画面显示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">There are <span class="m">2</span> programs which provide <span class="s1">&#39;mta&#39;</span>.
+
+Selection    Command
+-----------------------------------------------
++ <span class="m">1</span>           /usr/sbin/sendmail.postfix
+*  <span class="m">2</span>           /usr/sbin/sendmail.sendmail
+
+Enter to keep the current selection<span class="o">[</span>+<span class="o">]</span>, or <span class="nb">type</span> selection number: <span class="m">2</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>输入2后回车即把MTA功能切换到sendmail上，+号会显示在sendmail的行头。</p>
+<h3 id="配置sendmail">配置sendmail</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">vi /etc/mail/sendmail.mc
+
+DAEMON_OPTIONS<span class="o">(</span><span class="se">\`</span><span class="nv">Port</span><span class="o">=</span>smtp,Addr<span class="o">=</span>127.0.0.1, <span class="nv">Name</span><span class="o">=</span>MTA<span class="se">\&#39;</span><span class="o">)</span>dnl
+
+把Addr的值从127.0.0.1修改为0.0.0.0，不限制使用MTA的IP。
+
+m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf
+生成正式的配置文件。
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="重启并测试功能">重启并测试功能</h3>
+<p><code>reboot -f</code></p>
+<p>重启完成后确认MTA程序已经切换到sendmail</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ps aux <span class="p">|</span> grep sendmail
+
+      root       <span class="m">1003</span>  0.0  0.2  <span class="m">88688</span>  <span class="m">2280</span> ?        Ss   10:40   0:00 sendmail: accepting connections
+      smmsp      <span class="m">1018</span>  0.0  0.1  <span class="m">84120</span>  <span class="m">1912</span> ?        Ss   10:40   0:00 sendmail: Queue runner@01:00:00 <span class="k">for</span> /var/spool/clientmqueue
+      root       <span class="m">1141</span>  0.0  0.0 <span class="m">112660</span>   <span class="m">968</span> pts/1    R+   10:51   0:00 grep --color<span class="o">=</span>auto sendmail
+
+      sendmail的相关进程已经启动
+
+ps aux <span class="p">|</span> grep postfix
+
+      root       <span class="m">1161</span>  0.0  0.0 <span class="m">112660</span>   <span class="m">968</span> pts/1    R+   11:04   0:00 grep --color<span class="o">=</span>auto postfix
+
+      postfix的相关进程都没有开启
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="用php函数发送邮件">用PHP函数发送邮件</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-php" data-lang="php"><span class="nx">php</span> <span class="o">-</span><span class="nx">a</span>
+
+<span class="nx">在PHP的交互界面下输入以下函数</span>
+
+<span class="nx">mail</span><span class="p">(</span><span class="s1">&#39;test@sohu.com&#39;</span><span class="p">,</span> <span class="s2">&#34;Test email content&#34;</span><span class="p">,</span> <span class="s2">&#34;sendmail title&#34;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s2">&#34;-f testname@sendmail.com&#34;</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>使用PHP接口做测试的好处是可以随意指定发送方的邮件地址，即mail函数的最后一个参数。</li>
+</ul>
+<p>即使系统的hostname未设置也可以正常发送出邮件。</p>
+<h3 id="使用linux的mail命令发送邮件">使用linux的mail命令发送邮件</h3>
+<p>mail命令就没有使用自定义的邮件发送地址，而是使用HOSTNAME。</p>
+<p>安装系统时由于没有对hostname做特别设置，HOSTNAME的值是默认的 localhost.localdomain</p>
+<p>这样的邮件域名会被大多数邮箱如163，QQ拒收。</p>
+<p>查看邮件发送log会发现以下错误</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">cat /var/log/maillog
+
+      <span class="nv">dsn</span><span class="o">=</span>4.1.8, <span class="nv">stat</span><span class="o">=</span>Deferred: <span class="m">450</span> 4.1.8 &lt;root@localhost.localdomain&gt;: Sender address rejected: Domain not found
+</code></pre></td></tr></table>
+</div>
+</div><p>修改HOSTNAME</p>
+<p><code>vi  /etc/hosts</code></p>
+<p>在最后加上一行</p>
+<p><code>192.168.2.108  intest.com</code></p>
+<p>这里的IP地址是我跑sendmail虚拟机的IP，需根据实际情况设置</p>
+<ul>
+<li>其实这个文件hosts只是用来设置本地路由表，但填上本机IP时，系统在启动初始化中查到本机IP在hosts中，就会用hosts文件中对应的域名来设置HOSTNAME。</li>
+</ul>
+<p>重新启动</p>
+<p><code>reboot -f</code></p>
+<p>重启后发现本地的DNS配置文件etc/resolv.conf 已经被自动更新。</p>
+<p>内容变成  <code>nameserver 192.168.2.1</code></p>
+<p>执行mail命令发送邮件</p>
+<p><code>echo &quot;test mail content&quot;|mail -s &quot;Mail title&quot; test@sohu.com</code></p>
+<hr>
+<h2 id="补充">补充</h2>
+<h3 id="切换系统的邮件发送接口-1">切换系统的邮件发送接口</h3>
+<p><code>alternatives --config mta</code></p>
+<ul>
+<li>Postfix是Centos7系统默认自带。 也可以用命令 yum list installed | grep postfix 确认</li>
+</ul>
+<p>选择postfix所在行的编号后回车</p>
+<h3 id="重启并测试功能-1">重启并测试功能</h3>
+<p><code>reboot -f</code></p>
+<p>重启后查看进程看到postfix相关的进程已经启动</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ps aux <span class="p">|</span> grep postfix
+
+      root       <span class="m">1093</span>  0.0  0.2  <span class="m">89544</span>  <span class="m">2172</span> ?        Ss   08:55   0:00 /usr/libexec/postfix/master -w
+      postfix    <span class="m">1094</span>  0.0  0.4  <span class="m">89648</span>  <span class="m">4016</span> ?        S    08:55   0:00 pickup -l -t unix -u
+      postfix    <span class="m">1095</span>  0.0  0.4  <span class="m">89716</span>  <span class="m">4044</span> ?        S    08:55   0:00 qmgr -l -t unix -u
+      postfix    <span class="m">1237</span>  0.0  0.4  <span class="m">89796</span>  <span class="m">4072</span> ?        S    09:08   0:00 cleanup -z -t unix -u
+      postfix    <span class="m">1238</span>  0.0  0.4  <span class="m">89652</span>  <span class="m">4024</span> ?        S    09:08   0:00 trivial-rewrite -n rewrite -t unix -u
+      postfix    <span class="m">1239</span>  0.0  0.4  <span class="m">89856</span>  <span class="m">4272</span> ?        S    09:08   0:00 smtp -t unix -u
+      root       <span class="m">1274</span>  0.0  0.0 <span class="m">112660</span>   <span class="m">972</span> pts/1    R+   09:09   0:00 grep --color<span class="o">=</span>auto postfix
+</code></pre></td></tr></table>
+</div>
+</div><p>系统的hostname已经在sendmail配置的第六步中完成了配置，这里就直接使用PHP与mail命令</p>
+<p>两种方法做测试。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">php -a
+
+mail<span class="o">(</span><span class="s1">&#39;test@sohu.com&#39;</span>, <span class="s2">&#34;Test email No1&#34;</span>, <span class="s2">&#34;postfix mail&#34;</span>, null, <span class="s2">&#34;-f test@ccfst.com&#34;</span><span class="o">)</span><span class="p">;</span>
+* php的mail函数可以随意指定发送地址
+
+<span class="nb">echo</span> <span class="s2">&#34;test mail&#34;</span><span class="p">|</span>mail -s <span class="s2">&#34;postfix mail title&#34;</span> test@sohu.com
+</code></pre></td></tr></table>
+</div>
+</div>]]></description></item></channel></rss>

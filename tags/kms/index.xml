@@ -1,9 +1,0 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>kms - 标签 - zu1k</title><link>https://lgf.im/tags/kms/</link><description>kms - 标签 - zu1k</description><generator>Hugo -- gohugo.io</generator><managingEditor>i@lgf.im (zu1k)</managingEditor><webMaster>i@lgf.im (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 08 Apr 2020 09:09:02 +0000</lastBuildDate><atom:link href="https://lgf.im/tags/kms/" rel="self" type="application/rss+xml"/><item><title>kms激活</title><link>https://lgf.im/posts/share/kms/</link><pubDate>Wed, 08 Apr 2020 09:09:02 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/share/kms/</guid><description><![CDATA[<p>这是一个无聊的，老生常谈的话题</p>
-<p>我个人笔记本是自带的正版windows，但是在虚拟机里面的win却没有正版，我一般会用kms进行激活</p>
-<p>github搜索kms会找到很多版本的kms激活服务端，比较出名的是这一个，可以一键运行起来：https://github.com/Wind4/vlmcsd</p>
-<p>相关的脚本啊，命令啊，在百度一搜一大堆，就不重复写了</p>
-<p>分享一点我想说的，我的做法把用自己的域名cname解析网上搜到的kms服务器地址，然后用自己的域名进行激活。</p>
-<p>因为你永远不知道他们提供的服务什么时候会中止或者域名什么时候会到期，像我这样有多个不同的虚拟机，如果这种事情发生我就需要打开每一个虚拟机分别重新运行激活脚本进行重新激活，这就很麻烦。</p>
-<p>而用自己的域名的话，我只需要找一个好用的kms服务器然后修改dns的解析就行了，省了很多事</p>
-<p>我自己用的激活脚本： <a href="https://gist.github.com/zu1k/612dd4b0a0193620d43c08a698e05d85">https://gist.github.com/zu1k/612dd4b0a0193620d43c08a698e05d85</a></p>
-]]></description></item></channel></rss>

