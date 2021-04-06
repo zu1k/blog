@@ -1,12 +1,10 @@
 ---
 title: 加快Github Pages国内访问速度
 tags:
-  - github
-  - jsdelivr
-  - gulp
-  - coding
+- GitHub
+- jsDelivr
 categories:
-  - coding
+- coding
 date: 2020-03-19 17:17:53
 ---
 

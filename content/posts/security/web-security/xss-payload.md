@@ -2,11 +2,11 @@
 title: xss payload
 date: 2018-10-14 18:11:03
 tags:
-  - xss
-  - web
-  - ctf
+- XSS
+- Payload
+- Web安全
 categories:
-  - ctf
+- Web安全
 ---
 
 总结了常用的xss payload

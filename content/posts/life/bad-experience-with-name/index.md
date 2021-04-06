@@ -2,11 +2,9 @@
 title: 使用Name的一次糟糕的体验
 date: 2019-11-27 21:32:13
 tags:
-    - name
-    - domain
-    - bad
+- Domain
 categories:
-    - life
+- 生活
 ---
 
 这个事情发生在一个周以内，体验极其糟糕，特此记录一下。

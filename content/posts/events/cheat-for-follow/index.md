@@ -2,7 +2,7 @@
 title: "不讲武德！来骗Follow"
 date: 2020-11-28T15:07:17+08:00
 categories:
-- events
+- 事件
 tags:
 - GitHub
 toc: false

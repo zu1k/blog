@@ -1,12 +1,10 @@
 ---
 title: 逆向破解学校在线考试客户端
 tags:
-  - reverse
-  - sdu
-  - coding
-  - crack
+- 逆向
+- Crack
 categories:
-  - reverse
+- 逆向
 date: 2020-05-01 21:44:54
 ---
 

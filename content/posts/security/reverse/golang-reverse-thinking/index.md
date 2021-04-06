@@ -1,12 +1,11 @@
 ---
 title: Golang逆向思考
 tags:
-  - coding
-  - reverse
-  - golang
+- 逆向
+- Golang
 categories:
-  - reverse
-date: 2020-06-20 17:48:53
+- 逆向
+date: 2020-06-20 17:48:53+0800
 ---
 
 在前段时间对xray进行逆向过程中，发现golang编译的程序会有巨多函数，不能说都是多余的，但是大部分函数的确不是用户编写的代码生成的，而是golang运行时和各种库所需要的东西

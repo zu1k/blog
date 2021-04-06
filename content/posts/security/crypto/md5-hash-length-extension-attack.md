@@ -2,11 +2,10 @@
 title: MD5的Hash长度扩展攻击
 date: 2018-10-14 17:53:03
 tags:
-    - md5
-    - hash
-    - attack
+- MD5
+- 哈希算法
 categories:
-    - ctf
+- 密码学
 ---
 
 ## 一、遇到的问题

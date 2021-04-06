@@ -2,11 +2,10 @@
 title: c/c++字符串处理大集合
 date: 2018-12-03 13:09:49
 tags:
-    - c
-    - c++
-    - coding
+- c
+- c++
 categories:
-    - coding
+- coding
 ---
 
 ```cpp

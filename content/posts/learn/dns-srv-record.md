@@ -1,10 +1,9 @@
 ---
 title: DNS中SRV记录
 tags:
-  - DNS
-  - SRV
+- DNS
 categories:
-  - coding
+- 学习
 date: 2020-03-24 13:54:03
 ---
 

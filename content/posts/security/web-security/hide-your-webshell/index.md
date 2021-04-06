@@ -1,12 +1,10 @@
 ---
 title: 如何优雅的隐藏你的Webshell
 tags:
-  - ctf
-  - coding
-  - webshell
+- WebShell
 categories:
-  - ctf
-date: 2020-08-08 09:21:59
+- Web安全
+date: 2020-08-08 09:21:59+0800
 ---
 
 > 转自：酒仙桥六号部队 https://mp.weixin.qq.com/s/lExi2_y4NkTak735kpz4ug

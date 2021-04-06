@@ -12,3 +12,4 @@ $RECYCLE.BIN/
 .DS_Store
 
 config.yaml
+/resources/_gen

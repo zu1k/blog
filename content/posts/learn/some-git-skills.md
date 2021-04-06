@@ -1,10 +1,10 @@
 ---
 title: 一些我刚学到的GIT技巧
-date: 2019-12-01 20:32:44
+date: 2019-12-01 20:32:44+0800
 tags:
-  - git
+- Git
 categories:
-  - coding
+- coding
 ---
 
 ### git reflog

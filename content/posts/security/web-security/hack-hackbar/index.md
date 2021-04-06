@@ -1,11 +1,9 @@
 ---
 title: HackBar破解
 tags:
-  - HackBar
-  - CTF
-  - coding
+- HackBar
 categories:
-  - coding
+- Web安全
 date: 2020-03-22 10:11:42
 ---
 

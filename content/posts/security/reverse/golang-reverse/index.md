@@ -2,10 +2,10 @@
 title: "Golang逆向资料"
 date: 2020-10-05T20:11:24+08:00
 tags:
-  - reverse
-  - golang
+- 逆向
+- Golang
 categories:
-  - reverse
+- 逆向
 ---
 
 前段时间从逆向xray开始入门Golang逆向，打算深入学习一下Golang逆向方法，这几天看了很多相关的文章，原本想要自己总结一文，但无奈大佬们的总结太全面了，我就直接扔链接吧

@@ -1,13 +1,12 @@
 ---
 title: 使用Github Actions对Hexo博客自动部署
 tags:
-  - Github
-  - CICD
-  - coding
-  - hexo
+- GitHub
+- CI/CD
+- Hexo
 categories:
-  - coding
-date: 2020-03-21 09:24:56
+- coding
+date: 2020-03-21 09:24:56+0800
 ---
 
 ## 前言

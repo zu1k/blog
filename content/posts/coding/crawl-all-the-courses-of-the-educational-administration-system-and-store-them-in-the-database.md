@@ -2,9 +2,9 @@
 title: 爬取教务系统所有课程并存入数据库
 date: 2018-12-03 17:57:48
 tags:
-    - python
+- Python
 categories:
-    - coding
+- coding
 ---
 
 环境python3.6

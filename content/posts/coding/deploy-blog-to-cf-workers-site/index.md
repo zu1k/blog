@@ -2,8 +2,7 @@
 title: "将博客部署到CF Workers Site"
 date: 2020-11-25T12:06:25+08:00
 tags:
-- coding
-- blog
+- Blog
 - Cloudflare
 categories:
 - coding

@@ -1,11 +1,12 @@
 ---
 title: 通过Sendmail服务发送邮件
-date: 2018-12-03 17:59:48
+date: 2018-12-03 17:59:48+0800
 tags:
-    - mail
-    - php
+- EMail
+- PHP
+- Linux
 categories:
-    - coding
+- coding
 ---
 
 通过Sendmail服务发送邮件

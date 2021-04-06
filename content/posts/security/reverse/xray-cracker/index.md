@@ -2,19 +2,17 @@
 title: xray社区高级版破解
 description: "xray社区高级版逆向破解，破解工具、关键算法细节"
 tags:
-  - coding
-  - cracker
-  - keygen
-  - xray
+- Crack
+- 逆向
 categories:
-  - reverse
+- 逆向
 keywords:
-  - cracker
-  - keygen
-  - xray
-  - 破解
-  - 高级版
-date: 2020-06-18 09:06:25
+- cracker
+- keygen
+- xray
+- 破解
+- 高级版
+date: 2020-06-18 09:06:25+0800
 ---
 
 > 首先感谢 长亭科技 提供 xray 这款非常方便非常好用的安全工具  
