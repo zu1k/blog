@@ -131,10 +131,10 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     hiddenFromHomePage = false    # 是否在主页隐藏
     hiddenFromSearch = false  # 是否在搜索结果中隐藏
     twemoji = false  # 是否使用 twemoji
-    lightgallery = true  # 是否使用 lightgallery
-    ruby = true  # 是否使用 ruby 扩展语法
-    fraction = true  # 是否使用 fraction 扩展语法
-    fontawesome = true  # 是否使用 fontawesome 扩展语法
+    lightgallery = false  # 是否使用 lightgallery
+    ruby = false  # 是否使用 ruby 扩展语法
+    fraction = false  # 是否使用 fraction 扩展语法
+    fontawesome = false  # 是否使用 fontawesome 扩展语法
     linkToMarkdown = true  # 是否显示原始 Markdown 文档内容的链接
     rssFullText = true  # 是否在 RSS 中显示全文内容
     [params.page.toc]
