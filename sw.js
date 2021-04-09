@@ -43,7 +43,7 @@ const myPlugin = {
         if (filename.length===0 || /(\.html|\.md|\.xml|\.json)$/.test(filename) || !filename.includes('.')) {
             url.host = cdnhost;
         } else {
-            if (rnd>0.2) {
+            if (rnd>0.8) {
                 url.host = jsdelivrhost;
                 url.pathname = jsdelivrpath + url.pathname;
             } else {
