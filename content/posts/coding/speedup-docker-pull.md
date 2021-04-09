@@ -1,11 +1,10 @@
 ---
 title: 加速docker pull
 tags:
-  - docker
-  - proxy
+- Docker
 categories:
-  - docker
-date: 2020-03-08 21:16:07
+- Docker
+date: 2020-03-08 21:16:07+0800
 ---
 
 ## 为docker设置代理

@@ -19,13 +19,12 @@ routing.registerRoute(
         },
         plugins: [
             new ExpirationPlugin({
-                maxAgeSeconds: 3 * 24 * 60 * 60,
+                maxAgeSeconds: 30 * 24 * 60 * 60,
                 purgeOnQuotaError: true
             })
         ]
     })
 );
-
 
 const cdnhost = 'doge.blog.zuik.ren'
 const jsdelivrhost = 'cdn.jsdelivr.net'
@@ -70,8 +69,12 @@ const myHandler = new CacheFirst({
     plugins: [
         myPlugin,
         new CacheableResponsePlugin({
-                statuses: [200],
-            })
+            statuses: [200],
+        }),
+        new ExpirationPlugin({
+            maxAgeSeconds: 1 * 24 * 60 * 60,
+            purgeOnQuotaError: true
+        })
     ]
 });
 

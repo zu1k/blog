@@ -1,11 +1,11 @@
 ---
 title: 给docker里的每一个容器一个独立的ipv6地址
 tags:
-  - docker
-  - ipv6
+- Docker
+- IPv6
 categories:
-  - docker
-date: 2019-08-31 14:39:03
+- Docker
+date: 2019-08-31 14:39:03+0800
 ---
 
 ipv6不断普及，ipv6地址多的数不胜数，机房给单台机器分配的ipv6段达到了可怕的64位长度的子网主机号。

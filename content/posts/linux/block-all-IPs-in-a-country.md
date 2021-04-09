@@ -2,12 +2,10 @@
 title: 屏蔽一个国家所有IP
 date: 2018-12-03 17:55:28
 tags:
-    - ipset
-    - iptables
-    - linux
-    - shell
+- ipset
+- iptables
 categories:
-    - coding
+- coding
 ---
 
 搭建了一个MTProxy，分享出去，最后发现网速跑满，连接ip数高达600多，并且还在不断增加。
