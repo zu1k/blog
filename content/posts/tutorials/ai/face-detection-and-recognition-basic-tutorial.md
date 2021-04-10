@@ -2,10 +2,10 @@
 title: 人脸检测与识别基础教程
 date: 2018-10-14 15:58:56
 tags:
-    - python
-    - AI
+- python
+- AI
 categories:
-    - coding
+- coding
 ---
 
 这里我们将要介绍如何使用python进行简单的人脸检测与人脸识别，并且通过gpu来加速。
