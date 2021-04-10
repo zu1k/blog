@@ -20,7 +20,7 @@
 <h3 id="分析问题的能力">分析问题的能力</h3>
 <p>面对一个新问题，要有去分析的能力，知道该从哪里入手分析，知道分析的方法，能够评估自己的方法。</p>
 <p>能够提出自己的想法，即使最终无法完美的解决问题，但这个过程是非常重要的。</p>
-]]></description></item><item><title>IPFS新手指北</title><link>https://lgf.im/posts/p2p/ipfs/</link><pubDate>Sun, 29 Nov 2020 22:21:44 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/p2p/ipfs/</guid><description><![CDATA[<h2 id="ipfs简介">IPFS简介</h2>
+]]></description></item><item><title>IPFS新手指北</title><link>https://lgf.im/posts/tutorials/p2p/ipfs/</link><pubDate>Sun, 29 Nov 2020 22:21:44 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/tutorials/p2p/ipfs/</guid><description><![CDATA[<h2 id="ipfs简介">IPFS简介</h2>
 <p><strong>IPFS</strong>全称<code>InterPlanetary File System</code>，中文名叫<strong>星际文件系统</strong>，听起来非常酷炫。</p>
 <p>它是是一个旨在创建<strong>持久</strong>且<strong>分布式</strong>存储和<strong>共享</strong>文件的网络传输协议，是一种内容可寻址的对等超媒体分发协议。在IPFS网络中的<strong>全球所有</strong>节点将构成<strong>一个</strong>分布式文件系统，全球中的每一个人都可以通过IPFS网关存储和访问IPFS里面的文件。</p>
 <p>这个酷炫的项目最初由Juan Benet设计，自2014年开始由Protocol Labs在开源社区的帮助下发展，是一个<strong>完全开源</strong>的项目。</p>
