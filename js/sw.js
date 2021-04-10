@@ -81,6 +81,6 @@ const myHandler = new CacheFirst({
 routing.registerRoute( /:\/\/lgf\.im\//, myHandler)
 
 routing.registerRoute(
-    '/sw.js',
+    '/js/sw.js',
     new StaleWhileRevalidate()
 );
