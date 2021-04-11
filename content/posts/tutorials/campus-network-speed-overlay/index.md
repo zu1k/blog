@@ -1,6 +1,6 @@
 ---
 title: "垃圾校园网，我忍不了了"
-date: 2021-04-10 23:50:00+0800
+date: 2021-04-11 17:11:00+0800
 description: "校园网被限速了，受不了垃圾网速，动手搞了单线多拨网速叠加"
 tags:
 - Linux
@@ -234,10 +234,59 @@ iptables -t nat -A POSTROUTING -o vmac+ -j MASQUERADE
 
 主要涉及到两个插件：kmod-macvlan和mwan3
 
+### 添加设备，获取IP
+
+首先在正确配置好网络的基础上，先创建网络设备，类型是macvlan，在学习了Linux下手工操作的基础上，这里的配置项都好理解
+
+![status](openwrt/network-device.png)
+
+要几拨就添加几个设备，注意最好手工指定一下mac，基础设备选正常上网的wan口物理设备
+
+![status](openwrt/network-device-add.png)
+
+然后添加相同数量的接口，协议选DHCP，接口设备选刚刚创建的，一一对应
+
+![status](openwrt/network-interface-add.png)
+
+接口添加好后，进行连接就会自动获取IP了，然后与上面手工方式一样，把所有IP都认证一下
+
+### 配置mwan3分流
+
+在mwan的管理界面，首先添加接口，与网络里面刚刚配置的接口一一对应
+
+![status](openwrt/mwan-interface.png)
+
+{{< admonition >}}
+这里涉及到接口可用性的检测，需要仔细设置一下，后面的分流需要依赖这个可用性检测，总不能把流量分给不可用的接口吧
+{{< /admonition >}}
+
+然后添加成员，与刚刚添加的接口一一对应，这里添加的可以在后面策略那里选择
+
+![status](openwrt/mwan-member.png)
+
+添加策略，图中第一条是负载均衡策略，刚刚添加的成员全都选中，意思就是说同时使用这所有的网络
+
+后面几条策略分别是用来测试想用网络设备的
+
+![status](openwrt/mwan-policy.png)
+
+最后添加分流规则，最简单的如图所示，目的地址不限，端口不限，协议不限，都走负载均衡策略，也就是从所有网口出
+
+![status](openwrt/mwan-rule.png)
+
+![status](openwrt/mwan-rule-config.png)
+
+在状态面板可以看到，多拨成功
+
+![status](openwrt/status.png)
+
 {{< admonition tip >}}
-mwan3代码在：https://github.com/openwrt/packages/tree/master/net/mwan3  
+mwan3代码在：[https://github.com/openwrt/packages/tree/master/net/mwan3](https://github.com/openwrt/packages/tree/master/net/mwan3)    
 是纯shell写的，可以学习
 {{< /admonition >}}
 
 ## 爱快，分流很强大
 
+正好我在的实验室里有老旧的台式机，又有多个网卡，我就安装了以分流著称的iKuai系统
+
+爱快路由系统对性能要求很高，64位甚至要求4G运存才能安装，不太建议宿舍用，不过实话实话这个是真的爽
