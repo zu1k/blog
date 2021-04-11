@@ -175,53 +175,33 @@ ip route add 0/0 dev vmac1 table vmac1
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 新建 VMAC0 链</span>
-iptables -t mangle -N VMAC0
+<pre class="chroma"><code class="language-shell" data-lang="shell">iptables -t mangle -N VMAC0
 iptables -t mangle -A VMAC0 -j MARK --set-mark 0x100
 iptables -t mangle -A VMAC0 -j CONNMARK --save-mark
 
-<span class="c1"># 新建 VMAC1 链</span>
 iptables -t mangle -N VMAC1
 iptables -t mangle -A VMAC1 -j MARK --set-mark 0x101
 iptables -t mangle -A VMAC1 -j CONNMARK --save-mark
 </code></pre></td></tr></table>
 </div>
-</div><p>应用至 OUTPUT 链</p>
+</div><p>配置打标记的规则，每两个包（只看新建的连接）中第一个交给<code>VMAC0</code>处理，第二个交给<code>VMAC1</code>处理</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">iptables -t mangle -A OUTPUT -o vmac+ -p  tcp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
-iptables -t mangle -A OUTPUT -o vmac+ -p  tcp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
-iptables -t mangle -A OUTPUT -o vmac+ -p  tcp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-
-iptables -t mangle -A OUTPUT -o vmac+ -p  udp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
-iptables -t mangle -A OUTPUT -o vmac+ -p  udp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
-iptables -t mangle -A OUTPUT -o vmac+ -p  udp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-
-iptables -t mangle -A OUTPUT -o vmac+ -p icmp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
-iptables -t mangle -A OUTPUT -o vmac+ -p icmp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
-iptables -t mangle -A OUTPUT -o vmac+ -p icmp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
+<pre class="chroma"><code class="language-shell" data-lang="shell">iptables -t mangle -A OUTPUT -o vmac+ -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
+iptables -t mangle -A OUTPUT -o vmac+ -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
+iptables -t mangle -A OUTPUT -o vmac+ -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="配置策略路由">配置策略路由</h4>
 <p>下面需要配置策略路由，根据我们设置的策略，流量分别由多个路由表进行路由，所以就可以走多个网络接口了</p>
-<p>我们让防火墙标记为``0x100<code>的用</code>vmac0<code>路由表，标记为</code>0x101<code>流量的用</code>vmac1`路由表</p>
+<p>我们让防火墙标记为<code>0x100</code>的用<code>vmac0</code>路由表，标记为<code>0x101</code>流量的用<code>vmac1</code>路由表</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -248,30 +228,14 @@ ip rule add from &lt;vmac1-ip&gt; table vmac1
 <p>如果这台linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 <code>192.168/16</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  tcp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  tcp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  tcp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  udp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  udp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  udp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p icmp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p icmp -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p icmp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
+<pre class="chroma"><code class="language-shell" data-lang="shell">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
+iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
+iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
 </code></pre></td></tr></table>
 </div>
 </div><p>同时需要对内网流量进行SNAT</p>
@@ -340,6 +304,9 @@ iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p icmp -m state 
 <h2 id="爱快分流很强大">爱快，分流很强大</h2>
 <p>正好我在的实验室里有老旧的台式机，又有多个网卡，我就安装了以分流著称的iKuai系统</p>
 <p>爱快路由系统对性能要求很高，64位甚至要求4G运存才能安装，不太建议宿舍用，不过实话实话这个是真的爽</p>
+<h2 id="新发现">新发现</h2>
+<p>在与同学的交流中，发现校园网还可以用任意手机号验证码登录，登陆后的权限是访客，不过与学生权限一样，如此看来可以利用多个手机号突破5台设备的限制了</p>
+<p>注意，登录成功后一定要修改密码，否则第二次登录的时候会提示创建新账号失败，是后台的BUG，日</p>
 ]]></description></item><item><title>IPFS新手指北</title><link>https://lgf.im/posts/tutorials/p2p/ipfs/</link><pubDate>Sun, 29 Nov 2020 22:21:44 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/tutorials/p2p/ipfs/</guid><description><![CDATA[<h2 id="ipfs简介">IPFS简介</h2>
 <p><strong>IPFS</strong>全称<code>InterPlanetary File System</code>，中文名叫<strong>星际文件系统</strong>，听起来非常酷炫。</p>
 <p>它是是一个旨在创建<strong>持久</strong>且<strong>分布式</strong>存储和<strong>共享</strong>文件的网络传输协议，是一种内容可寻址的对等超媒体分发协议。在IPFS网络中的<strong>全球所有</strong>节点将构成<strong>一个</strong>分布式文件系统，全球中的每一个人都可以通过IPFS网关存储和访问IPFS里面的文件。</p>

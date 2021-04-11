@@ -137,38 +137,28 @@ ip route add 0/0 dev vmac1 table vmac1
 分别创建多个新的链
 
 ```shell
-# 新建 VMAC0 链
 iptables -t mangle -N VMAC0
 iptables -t mangle -A VMAC0 -j MARK --set-mark 0x100
 iptables -t mangle -A VMAC0 -j CONNMARK --save-mark
 
-# 新建 VMAC1 链
 iptables -t mangle -N VMAC1
 iptables -t mangle -A VMAC1 -j MARK --set-mark 0x101
 iptables -t mangle -A VMAC1 -j CONNMARK --save-mark
 ```
 
-应用至 OUTPUT 链
+配置打标记的规则，每两个包（只看新建的连接）中第一个交给`VMAC0`处理，第二个交给`VMAC1`处理
 
 ```shell
-iptables -t mangle -A OUTPUT -o vmac+ -p  tcp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
-iptables -t mangle -A OUTPUT -o vmac+ -p  tcp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
-iptables -t mangle -A OUTPUT -o vmac+ -p  tcp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-
-iptables -t mangle -A OUTPUT -o vmac+ -p  udp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
-iptables -t mangle -A OUTPUT -o vmac+ -p  udp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
-iptables -t mangle -A OUTPUT -o vmac+ -p  udp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-
-iptables -t mangle -A OUTPUT -o vmac+ -p icmp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
-iptables -t mangle -A OUTPUT -o vmac+ -p icmp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
-iptables -t mangle -A OUTPUT -o vmac+ -p icmp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
+iptables -t mangle -A OUTPUT -o vmac+ -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
+iptables -t mangle -A OUTPUT -o vmac+ -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
+iptables -t mangle -A OUTPUT -o vmac+ -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
 ```
 
 #### 配置策略路由
 
 下面需要配置策略路由，根据我们设置的策略，流量分别由多个路由表进行路由，所以就可以走多个网络接口了
 
-我们让防火墙标记为``0x100`的用`vmac0`路由表，标记为`0x101`流量的用`vmac1`路由表
+我们让防火墙标记为`0x100`的用`vmac0`路由表，标记为`0x101`流量的用`vmac1`路由表
 
 ```shell
 ip rule add fwmark 0x100 table vmac0
@@ -189,17 +179,9 @@ ip rule add from <vmac1-ip> table vmac1
 如果这台linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 `192.168/16`
 
 ```shell
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  tcp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  tcp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  tcp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  udp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  udp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  udp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p icmp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p icmp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
-iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p icmp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
+iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
+iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
+iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
 ```
 
 同时需要对内网流量进行SNAT
@@ -283,3 +265,8 @@ mwan3代码在：[https://github.com/openwrt/packages/tree/master/net/mwan3](htt
 
 爱快路由系统对性能要求很高，64位甚至要求4G运存才能安装，不太建议宿舍用，不过实话实话这个是真的爽
 
+## 新发现
+
+在与同学的交流中，发现校园网还可以用任意手机号验证码登录，登陆后的权限是访客，不过与学生权限一样，如此看来可以利用多个手机号突破5台设备的限制了
+
+注意，登录成功后一定要修改密码，否则第二次登录的时候会提示创建新账号失败，是后台的BUG，日
