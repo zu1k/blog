@@ -7,10 +7,23 @@ tags:
 - 多拨
 categories:
 - 教程
-draft: true
 ---
 
+记得大一刚入学时，免费的校园网是上下行对等的100Mbps带宽，虽然赶不上家里的速度，但是用起来还是比较舒服的
+
+万万没想到，当别的学校都在忙着升级成千兆网络的时候，自己学校竟然来了个反向操作，30Mbps限速，真TMD鬼，不知道怎么想的
+
+这垃圾校园网，我是忍不了了，考虑到每个人都能多个设备同时登录，肯定就有多拨的可能，那就搞起来！
+
 ## Linux下手工操作
+
+本着学习的态度，上来肯定要先在Linux下手动操作一遍（其实我是先用iKuai验证可行后，才尝试用Linux手工配的
+
+我们的基本思路是：
+
+1. 拿到多个IP
+2. 过了学校的联网认证
+3. 进行负载均衡
 
 以下所有操作都需要root权限
 
@@ -97,13 +110,13 @@ login:
 
 经过上面的步骤，其实现在已经有多个可以上网的接口了，每一个接口都限速30Mbps，可以通过修改路由表验证，但是测速发现还是总速度还是30Mbps，速度并没有叠加
 
-这其实是因为你的主机只有一个默认网关，流量实际上只走了一条线，所以还是受单接口限速的限制
+这其实是因为你的主机只有一个默认网关，流量实际上只走了一条线，所以还是受单接口限速的限制。我们的目的是让流量能够分别走多个接口，从而达到速度叠加的效果，也就是常说的负载均衡
 
-我们的目的是让流量能够分别走多个接口，从而达到速度叠加的效果，也就是常说的负载均衡。这里主要用到负载均衡的轮询模式，让数据包一个走1号线，下一个走2号线，不断切换流量出口，反复循环。
+思路是：通过iptables规则给数据包打上标记，然后通过策略路由根据标记来选择走哪个接口出去。需要注意不同包之间的关系，追踪连接状态并恢复标记，否则的话同一个连接的不同包走了不同的接口，会被丢弃掉。
 
-#### 配置策略路由
+#### 创建路由表
 
-首先创建多个路由表，刚刚创建了多少虚拟网络接口，这里就要增加几个路由表，我按照2个接口来演示
+首先创建多个路由表，因为每一个路由表只能默认走一个接口，所以刚刚创建了多少虚拟网络接口，这里就要增加几个路由表，我按照2个接口来演示
 
 编辑 `/etc/iproute2/rt_tables` 文件，在文件末尾增加两个路由表
 
@@ -125,24 +138,6 @@ ip route flush table vmac1
 ```shell
 ip route add 0/0 dev vmac0 table vmac0
 ip route add 0/0 dev vmac1 table vmac1
-```
-
-下面需要配置策略路由，根据我们设置的策略，流量分别由多个路由表进行路由，所以就可以走多个网络接口了
-
-我们让防火墙标记为``0x100`的用`vmac0`路由表，标记为`0x101`流量的用`vmac1`路由表
-
-```shell
-ip rule add fwmark 0x100 table vmac0
-ip rule add fwmark 0x101 table vmac1
-```
-
-此时会出现一个问题，就是从外部发起的连接在进来后并没有打上防火墙标记，所以返回的包只能走默认的路由表。假如我们的默认路由表的默认路由是走`vmac0`，那来自`vmac1`的请求的响应包也会走`vmac0`出去，因为不属于同一个连接，这个包就会被丢掉。
-
-我们的解决方法是再增加两条规则，来自哪个网卡的包的响应就从该网卡出
-
-```shell
-ip rule add from <vmac0-ip> table vmac0
-ip rule add from <vmac1-ip> table vmac1
 ```
 
 #### 配置iptables
@@ -167,35 +162,77 @@ iptables -t mangle -A VMAC1 -j CONNMARK --save-mark
 iptables -t mangle -A OUTPUT -o vmac+ -p  tcp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
 iptables -t mangle -A OUTPUT -o vmac+ -p  tcp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
 iptables -t mangle -A OUTPUT -o vmac+ -p  tcp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
+
 iptables -t mangle -A OUTPUT -o vmac+ -p  udp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
 iptables -t mangle -A OUTPUT -o vmac+ -p  udp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
 iptables -t mangle -A OUTPUT -o vmac+ -p  udp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
+
 iptables -t mangle -A OUTPUT -o vmac+ -p icmp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
 iptables -t mangle -A OUTPUT -o vmac+ -p icmp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
 iptables -t mangle -A OUTPUT -o vmac+ -p icmp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
 ```
 
-应用至 PREROUTING 链
+#### 配置策略路由
+
+下面需要配置策略路由，根据我们设置的策略，流量分别由多个路由表进行路由，所以就可以走多个网络接口了
+
+我们让防火墙标记为``0x100`的用`vmac0`路由表，标记为`0x101`流量的用`vmac1`路由表
+
+```shell
+ip rule add fwmark 0x100 table vmac0
+ip rule add fwmark 0x101 table vmac1
+```
+
+此时会出现一个问题，就是从外部发起的连接在进来后并没有打上防火墙标记，所以返回的包只能走默认的路由表。假如我们的默认路由表的默认路由是走`vmac0`，那来自`vmac1`的请求的响应包也会走`vmac0`出去，因为不属于同一个连接，这个包就会被丢掉。
+
+我们的解决方法是再增加两条规则，来自哪个网卡的包的响应就从该网卡出
+
+```shell
+ip rule add from <vmac0-ip> table vmac0
+ip rule add from <vmac1-ip> table vmac1
+```
+
+#### 用作路由器
+
+如果这台linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 `192.168/16`
 
 ```shell
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  tcp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  tcp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  tcp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
+
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  udp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  udp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p  udp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
+
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p icmp -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p icmp -m state --state NEW -m statistic --mode nth --every 2 --packet 1 -j VMAC1
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -p icmp -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
+```
 
-
-对内网流量进行SNAT
+同时需要对内网流量进行SNAT
 
 ```shell 
 iptables -t nat -A POSTROUTING -o vmac+ -j MASQUERADE
 ```
 
+经过上面的步骤，已经能够利用多个网络接口了。不过我们本质上是通过连接分流的，同一个连接的所有包会走同一个接口出去，所以如果你的程序是单线程网络，就看不到加速效果。可以通过speedtest多线程来进行测试，可以看到明显的网速叠加。
+
+{{< admonition >}}
+我刚刚的演示重启后虚拟网卡会丢失，因为自动分配的mac地址，重新运行命令会导致mac和ip变动，需要重新认证
+
+可以使用指定mac地址的方法创建，也有持久化虚拟网卡的方法，可以一劳永逸
+
+后面会将更加成熟的方法，这里手工配置不是重点，需要的自行学习研究吧！
+{{< /admonition >}}
+
 ## 使用OpenWRT+mvan3
+
+我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWRT或者弄个树莓派刷OpenWRT都行，我比较推荐买个二手矿渣 newifi 3
+
+因为在OpenWRT里面有现成的插件，可以非常方便的创建多个虚拟网络接口，并能够利用图形界面配置更加强大的分流策略。
+
+主要涉及到两个插件：kmod-macvlan和mwan3
 
 {{< admonition tip >}}
 mwan3代码在：https://github.com/openwrt/packages/tree/master/net/mwan3  
