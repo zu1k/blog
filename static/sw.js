@@ -85,7 +85,7 @@ const pageHandler = new CacheFirst({
             statuses: [200],
         }),
         new ExpirationPlugin({
-            maxAgeSeconds: 7 * 24 * 60 * 60,
+            maxAgeSeconds: 60 * 60,
             purgeOnQuotaError: true
         })
     ]
