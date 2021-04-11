@@ -7,6 +7,19 @@ tags:
 - 多拨
 categories:
 - 教程
+keywords:
+- 多拨
+- 校园网
+- 带宽叠加
+- openwrt
+- lede
+- macvlan
+- ikuai
+- 爱快
+- 分流
+- 负载均衡
+- 策略路由
+- iptables
 ---
 
 记得大一刚入学时，免费的校园网是上下行对等的100Mbps带宽，虽然赶不上家里的速度，但是用起来还是比较舒服的
@@ -35,7 +48,7 @@ categories:
 
 查看一下你的系统是否支持：
 
-```
+```shell
 # modprobe macvlan
 # lsmod | grep macvlan
 macvlan                24576  0
