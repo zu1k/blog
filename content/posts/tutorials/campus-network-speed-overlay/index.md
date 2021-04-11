@@ -264,7 +264,6 @@ iptables -t nat -A POSTROUTING -o vmac+ -j MASQUERADE
 
 {{< admonition tip >}}
 mwan3代码在：[https://github.com/openwrt/packages/tree/master/net/mwan3](https://github.com/openwrt/packages/tree/master/net/mwan3)    
-是纯shell写的，可以学习
 {{< /admonition >}}
 
 ## 爱快，分流很强大
