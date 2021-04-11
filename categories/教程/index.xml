@@ -297,8 +297,7 @@ iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state 
             <i class="icon fas fa-lightbulb fa-fw"></i>技巧<i class="details-icon fas fa-angle-right fa-fw"></i>
         </div>
         <div class="details-content">
-            <div class="admonition-content">mwan3代码在：<a href="https://github.com/openwrt/packages/tree/master/net/mwan3" target="_blank" rel="noopener noreffer">https://github.com/openwrt/packages/tree/master/net/mwan3</a> <br>
-是纯shell写的，可以学习</div>
+            <div class="admonition-content">mwan3代码在：<a href="https://github.com/openwrt/packages/tree/master/net/mwan3" target="_blank" rel="noopener noreffer">https://github.com/openwrt/packages/tree/master/net/mwan3</a></div>
         </div>
     </div>
 <h2 id="爱快分流很强大">爱快，分流很强大</h2>
