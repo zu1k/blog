@@ -27,28 +27,12 @@ routing.registerRoute(
 );
 
 const cdnhost = 'doge.blog.zuik.ren'
-const jsdelivrhost = 'cdn.jsdelivr.net'
-const jsdelivrpath = '/gh/zu1k/blog@gh-pages'
 const myPlugin = {
     requestWillFetch: async ({request}) => {
         let url = new URL(request.url);
         url.protocol = 'https';
         url.port = '';
-
-        let pathparts = url.pathname.split('/')
-        let filename = pathparts[pathparts.length-1]
-
-        let rnd = Math.random();
-        if (filename.length===0 || /(\.html|\.md|\.xml|\.json)$/.test(filename) || !filename.includes('.')) {
-            url.host = cdnhost;
-        } else {
-            if (rnd>0.8) {
-                url.host = jsdelivrhost;
-                url.pathname = jsdelivrpath + url.pathname;
-            } else {
-                url.host = cdnhost;
-            }            
-        }
+        url.host = cdnhost;
 
         var headers = new Headers(request.headers);
         headers.set('Host', url.host);
@@ -64,21 +48,52 @@ const myPlugin = {
     }
 };
 
-const myHandler = new CacheFirst({
-    cacheName: 'zu1k-cache-20210405',
+const assetsHandler = new CacheFirst({
+    cacheName: 'zu1k-cache-assets-20210405',
     plugins: [
         myPlugin,
         new CacheableResponsePlugin({
             statuses: [200],
         }),
         new ExpirationPlugin({
-            maxAgeSeconds: 1 * 24 * 60 * 60,
+            maxAgeSeconds: 30 * 24 * 60 * 60,
             purgeOnQuotaError: true
         })
     ]
 });
 
-routing.registerRoute( /:\/\/lgf\.im\//, myHandler)
+
+const staticHandler = new CacheFirst({
+    cacheName: 'zu1k-cache-static-20210405',
+    plugins: [
+        myPlugin,
+        new CacheableResponsePlugin({
+            statuses: [200],
+        }),
+        new ExpirationPlugin({
+            maxAgeSeconds: 7 * 24 * 60 * 60,
+            purgeOnQuotaError: true
+        })
+    ]
+});
+
+const pageHandler = new CacheFirst({
+    cacheName: 'zu1k-cache-page-20210405',
+    plugins: [
+        myPlugin,
+        new CacheableResponsePlugin({
+            statuses: [200],
+        }),
+        new ExpirationPlugin({
+            maxAgeSeconds: 7 * 24 * 60 * 60,
+            purgeOnQuotaError: true
+        })
+    ]
+});
+
+routing.registerRoute( /:\/\/lgf\.im\/.*(\.jpg|\.png|\.jpeg|\.svg|\.ico|\.gif|\.zip|\.7z|\.rar)$/, assetsHandler);
+routing.registerRoute( /:\/\/lgf\.im\/.*(\.js|\.css)$/, staticHandler);
+routing.registerRoute( /:\/\/lgf\.im\/.*(\/|\.html|\.xml|\.json)$/, pageHandler);
 
 routing.registerRoute(
     '/sw.js',
