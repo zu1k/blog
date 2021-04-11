@@ -259,9 +259,9 @@ iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state 
 </div>
         </div>
     </div>
-<h2 id="使用openwrtmvan3">使用OpenWRT+mvan3</h2>
-<p>我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWRT或者弄个树莓派刷OpenWRT都行，我比较推荐买个二手矿渣 newifi 3</p>
-<p>因为在OpenWRT里面有现成的插件，可以非常方便的创建多个虚拟网络接口，并能够利用图形界面配置更加强大的分流策略。</p>
+<h2 id="使用openwrtmvan3">使用OpenWrt+mvan3</h2>
+<p>我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWrt或者弄个树莓派刷OpenWrt都行，我比较推荐买个二手矿渣 newifi 3</p>
+<p>因为在OpenWrt里面有现成的插件，可以非常方便的创建多个虚拟网络接口，并能够利用图形界面配置更加强大的分流策略。</p>
 <p>主要涉及到两个插件：kmod-macvlan和mwan3</p>
 <h3 id="添加设备获取ip">添加设备，获取IP</h3>
 <p>首先在正确配置好网络的基础上，先创建网络设备，类型是macvlan，在学习了Linux下手工操作的基础上，这里的配置项都好理解</p>

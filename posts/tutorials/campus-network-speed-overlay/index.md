@@ -200,11 +200,11 @@ iptables -t nat -A POSTROUTING -o vmac+ -j MASQUERADE
 后面会将更加成熟的方法，这里手工配置不是重点，需要的自行学习研究吧！
 {{< /admonition >}}
 
-## 使用OpenWRT+mvan3
+## 使用OpenWrt+mvan3
 
-我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWRT或者弄个树莓派刷OpenWRT都行，我比较推荐买个二手矿渣 newifi 3
+我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWrt或者弄个树莓派刷OpenWrt都行，我比较推荐买个二手矿渣 newifi 3
 
-因为在OpenWRT里面有现成的插件，可以非常方便的创建多个虚拟网络接口，并能够利用图形界面配置更加强大的分流策略。
+因为在OpenWrt里面有现成的插件，可以非常方便的创建多个虚拟网络接口，并能够利用图形界面配置更加强大的分流策略。
 
 主要涉及到两个插件：kmod-macvlan和mwan3
 
