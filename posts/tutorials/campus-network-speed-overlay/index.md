@@ -27,7 +27,7 @@
 
 查看一下你的系统是否支持：
 
-```
+```shell
 # modprobe macvlan
 # lsmod | grep macvlan
 macvlan                24576  0

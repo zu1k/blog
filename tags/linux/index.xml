@@ -21,9 +21,9 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># modprobe macvlan
-# lsmod | grep macvlan
-macvlan                24576  0
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># modprobe macvlan</span>
+<span class="c1"># lsmod | grep macvlan</span>
+macvlan                <span class="m">24576</span>  <span class="m">0</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>如果显示类似上面的内容就表示支持</p>
