@@ -306,3 +306,5 @@ mwan3代码在：[https://github.com/openwrt/packages/tree/master/net/mwan3](htt
 在与同学的交流中，发现校园网还可以用任意手机号验证码登录，登陆后的权限是访客，不过与学生权限一样，如此看来可以利用多个手机号突破5台设备的限制了
 
 注意，登录成功后一定要修改密码，否则第二次登录的时候会提示创建新账号失败，是后台的BUG，日
+
+最后，向大家推荐一个讲iptables的视频，可以在Youtube或者Bilibili搜索`坏人的iptables小讲堂`，讲的真的很不错
