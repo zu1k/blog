@@ -259,8 +259,8 @@ iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state 
 </div>
         </div>
     </div>
-<h2 id="使用openwrtmvan3">使用OpenWrt+mvan3</h2>
-<p>我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWrt或者弄个树莓派刷OpenWrt都行，我比较推荐买个二手矿渣 newifi 3</p>
+<h2 id="使用openwrtmwan3">使用OpenWrt+mwan3</h2>
+<p>我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWrt或者弄个树莓派刷OpenWrt都行，可以考虑买个二手矿渣 <code>newifi 3</code> 或者 <code>R2S</code></p>
 <p>因为在OpenWrt里面有现成的插件，可以非常方便的创建多个虚拟网络接口，并能够利用图形界面配置更加强大的分流策略。</p>
 <p>主要涉及到两个插件：kmod-macvlan和mwan3</p>
 <h3 id="添加设备获取ip">添加设备，获取IP</h3>
@@ -314,6 +314,7 @@ iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state 
 <h2 id="新发现">新发现</h2>
 <p>在与同学的交流中，发现校园网还可以用任意手机号验证码登录，登陆后的权限是访客，不过与学生权限一样，如此看来可以利用多个手机号突破5台设备的限制了</p>
 <p>注意，登录成功后一定要修改密码，否则第二次登录的时候会提示创建新账号失败，是后台的BUG，日</p>
+<p>最后，向大家推荐一个讲iptables的视频，可以在Youtube或者Bilibili搜索<code>坏人的iptables小讲堂</code>，讲的真的很不错</p>
 ]]></description></item><item><title>Linux添加swap</title><link>https://lgf.im/posts/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/linux-add-swap/</guid><description><![CDATA[<p>给 linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
 <h2 id="查看当前swap">查看当前swap</h2>
 <div class="highlight"><div class="chroma">

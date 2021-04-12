@@ -259,8 +259,8 @@ iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state 
 </div>
         </div>
     </div>
-<h2 id="使用openwrtmvan3">使用OpenWrt+mvan3</h2>
-<p>我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWrt或者弄个树莓派刷OpenWrt都行，我比较推荐买个二手矿渣 newifi 3</p>
+<h2 id="使用openwrtmwan3">使用OpenWrt+mwan3</h2>
+<p>我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWrt或者弄个树莓派刷OpenWrt都行，可以考虑买个二手矿渣 <code>newifi 3</code> 或者 <code>R2S</code></p>
 <p>因为在OpenWrt里面有现成的插件，可以非常方便的创建多个虚拟网络接口，并能够利用图形界面配置更加强大的分流策略。</p>
 <p>主要涉及到两个插件：kmod-macvlan和mwan3</p>
 <h3 id="添加设备获取ip">添加设备，获取IP</h3>
@@ -314,6 +314,7 @@ iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state 
 <h2 id="新发现">新发现</h2>
 <p>在与同学的交流中，发现校园网还可以用任意手机号验证码登录，登陆后的权限是访客，不过与学生权限一样，如此看来可以利用多个手机号突破5台设备的限制了</p>
 <p>注意，登录成功后一定要修改密码，否则第二次登录的时候会提示创建新账号失败，是后台的BUG，日</p>
+<p>最后，向大家推荐一个讲iptables的视频，可以在Youtube或者Bilibili搜索<code>坏人的iptables小讲堂</code>，讲的真的很不错</p>
 ]]></description></item><item><title>IPFS新手指北</title><link>https://lgf.im/posts/tutorials/p2p/ipfs/</link><pubDate>Sun, 29 Nov 2020 22:21:44 +0800</pubDate><author>作者</author><guid>https://lgf.im/posts/tutorials/p2p/ipfs/</guid><description><![CDATA[<h2 id="ipfs简介">IPFS简介</h2>
 <p><strong>IPFS</strong>全称<code>InterPlanetary File System</code>，中文名叫<strong>星际文件系统</strong>，听起来非常酷炫。</p>
 <p>它是是一个旨在创建<strong>持久</strong>且<strong>分布式</strong>存储和<strong>共享</strong>文件的网络传输协议，是一种内容可寻址的对等超媒体分发协议。在IPFS网络中的<strong>全球所有</strong>节点将构成<strong>一个</strong>分布式文件系统，全球中的每一个人都可以通过IPFS网关存储和访问IPFS里面的文件。</p>

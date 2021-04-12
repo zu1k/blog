@@ -200,9 +200,9 @@ iptables -t nat -A POSTROUTING -o vmac+ -j MASQUERADE
 后面会将更加成熟的方法，这里手工配置不是重点，需要的自行学习研究吧！
 {{< /admonition >}}
 
-## 使用OpenWrt+mvan3
+## 使用OpenWrt+mwan3
 
-我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWrt或者弄个树莓派刷OpenWrt都行，我比较推荐买个二手矿渣 newifi 3
+我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWrt或者弄个树莓派刷OpenWrt都行，可以考虑买个二手矿渣 `newifi 3` 或者 `R2S`
 
 因为在OpenWrt里面有现成的插件，可以非常方便的创建多个虚拟网络接口，并能够利用图形界面配置更加强大的分流策略。
 
@@ -285,4 +285,6 @@ mwan3代码在：[https://github.com/openwrt/packages/tree/master/net/mwan3](htt
 在与同学的交流中，发现校园网还可以用任意手机号验证码登录，登陆后的权限是访客，不过与学生权限一样，如此看来可以利用多个手机号突破5台设备的限制了
 
 注意，登录成功后一定要修改密码，否则第二次登录的时候会提示创建新账号失败，是后台的BUG，日
+
+最后，向大家推荐一个讲iptables的视频，可以在Youtube或者Bilibili搜索`坏人的iptables小讲堂`，讲的真的很不错
 
