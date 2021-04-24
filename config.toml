@@ -47,7 +47,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
   gitRepo = "https://github.com/zu1k/blog"
   fingerprint = "sha256"  # 哪种哈希函数用来 SRI, 为空时表示不使用 SRI ("sha256", "sha384", "sha512", "md5")
   dateFormat = "2006-01-02"
-  images = ["/logo.png"]
+  images = ["/images/logo.png"]
   description = "A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."
   keywords = ["zu1k", "zuik", "lgf", "lgf.im"]
   [params.app]
@@ -97,7 +97,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     mobileMode = "auto"  # 移动端导航栏模式 ("fixed", "normal", "auto")
     # 页面头部导航栏标题配置
     [params.header.title]
-      logo = "" # LOGO 的 URL
+      logo = "/images/logo.jpg" # LOGO 的 URL
       name = "zu1k" # 标题名称
       pre = "" # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标  #"<i class='far fa-kiss-wink-heart fa-fw'></i>"  
       post = ""  # 你可以在名称 (允许 HTML 格式) 之后添加其他信息, 例如图标
@@ -209,7 +209,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
         # Or 或者
         # someJavascript = "https://cdn.example.com/some.js"
     [params.page.seo]
-      images = ["https://lgf.im/images/logo.jpg"]
+      images = ["/images/logo.jpg"]
       # 出版者信息
       [params.page.seo.publisher]
         name = "zu1k"
@@ -222,8 +222,8 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     duration = -1  # 打字结束之后光标的持续时间 (单位是毫秒, "-1" 代表无限大)
 
   [params.seo]
-    image = "/images/Apple-Devices-Preview.png"  # 图片 URL
-    thumbnailUrl = "/images/screenshot.png"  # 缩略图 URL
+    image = "/images/logo.jpg"  # 图片 URL
+    thumbnailUrl = "/images/logo.jpg"  # 缩略图 URL
 
   [params.analytics]
     enable = true
