@@ -97,7 +97,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     mobileMode = "auto"  # 移动端导航栏模式 ("fixed", "normal", "auto")
     # 页面头部导航栏标题配置
     [params.header.title]
-      logo = "/images/logo.jpg" # LOGO 的 URL
+      logo = "" # LOGO 的 URL
       name = "zu1k" # 标题名称
       pre = "" # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标  #"<i class='far fa-kiss-wink-heart fa-fw'></i>"  
       post = ""  # 你可以在名称 (允许 HTML 格式) 之后添加其他信息, 例如图标
