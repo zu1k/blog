@@ -40,12 +40,11 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     title = "GitHub"
     weight = 6
 
-
 [params]
   version = "0.2.X"
   defaultTheme = "auto"  # 网站默认主题 ("light", "dark", "auto")
   gitRepo = "https://github.com/zu1k/blog"
-  fingerprint = "sha256"  # 哪种哈希函数用来 SRI, 为空时表示不使用 SRI ("sha256", "sha384", "sha512", "md5")
+  fingerprint = ""  # 哪种哈希函数用来 SRI, 为空时表示不使用 SRI ("sha256", "sha384", "sha512", "md5")
   dateFormat = "2006-01-02"
   images = ["/images/logo.png"]
   description = "A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."
