@@ -56,9 +56,9 @@ const pageHandler = new CacheFirst({
     ]
 });
 
-routing.registerRoute( /:\/\/lgf\.im\/.*(\.jpg|\.png|\.jpeg|\.svg|\.ico|\.gif|\.zip|\.7z|\.rar)$/, assetsHandler);
-routing.registerRoute( /:\/\/lgf\.im\/.*(\.js|\.css)$/, staticHandler);
-routing.registerRoute( /:\/\/lgf\.im\/.*(\/|\.html|\.xml|\.json)$/, pageHandler);
+routing.registerRoute( /(\.jpg|\.png|\.jpeg|\.svg|\.ico|\.gif|\.zip|\.7z|\.rar)$/, assetsHandler);
+routing.registerRoute( /(\.js|\.css)$/, staticHandler);
+routing.registerRoute( /(\/|\.html|\.xml|\.json)$/, pageHandler);
 
 routing.registerRoute(
     '/sw.js',
