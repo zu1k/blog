@@ -23,4 +23,4 @@ function webpushrscript() {
     webpushr1(window, document, 'script', 'webpushr-jssdk');
     webpushr('setup',{'key':'BCIE9s5vikfzfIqnC164D6-Gwquv1Wl38cCZOj8TzG4ZvPns4u1NWzbEb8rRvF3mWZJ8sJzhhTvs0o--sLFmUyQ' });
 };
-setTimeout(webpushrscript, 100000);
+setTimeout(webpushrscript, 10000);
