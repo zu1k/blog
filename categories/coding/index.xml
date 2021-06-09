@@ -1950,8 +1950,8 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="n">group_concat</span><span class="p">([</span><span class="k">DISTINCT</span><span class="p">]</span> <span class="err">要连接的字段</span> <span class="p">[</span><span class="k">Order</span> <span class="k">BY</span> <span class="k">ASC</span><span class="o">/</span><span class="k">DESC</span> <span class="err">排序字段</span><span class="p">]</span> <span class="p">[</span><span class="n">Separator</span> <span class="err">‘分隔符’</span><span class="p">])</span>
-</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="n">group_concat</span><span class="p">([</span><span class="k">DISTINCT</span><span class="p">]</span><span class="w"> </span><span class="err">要连接的字段</span><span class="w"> </span><span class="p">[</span><span class="k">Order</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ASC</span><span class="o">/</span><span class="k">DESC</span><span class="w"> </span><span class="err">排序字段</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">Separator</span><span class="w"> </span><span class="err">‘分隔符’</span><span class="p">])</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
 </div><h4 id="基本查询">基本查询</h4>
 <div class="highlight"><div class="chroma">

