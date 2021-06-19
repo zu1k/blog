@@ -92,12 +92,12 @@
 
 <span class="k">class</span> <span class="nc">MyEmail</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">to_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cc_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s1">&#39;&#39;&#39;
@@ -108,9 +108,9 @@
             <span class="n">server</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span><span class="p">)</span>
             <span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="s2">&#34;&lt;</span><span class="si">%s</span><span class="s2">&gt;&#34;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_attach</span><span class="p">())</span>
             <span class="n">server</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="k">print</span> <span class="s2">&#34;send email successful&#34;</span>
+            <span class="nb">print</span> <span class="s2">&#34;send email successful&#34;</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s2">&#34;send email failed </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="n">e45</span>
+            <span class="nb">print</span> <span class="s2">&#34;send email failed </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="n">e45</span>
 
     <span class="k">def</span> <span class="nf">get_attach</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s1">&#39;&#39;&#39;
@@ -124,10 +124,10 @@
         <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">txt</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
         <span class="n">attach</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># 主题,最上面的一行</span>
             <span class="n">attach</span><span class="p">[</span><span class="s2">&#34;Subject&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># 显示在发件人</span>
             <span class="n">attach</span><span class="p">[</span><span class="s2">&#34;From&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;PI&lt;</span><span class="si">%s</span><span class="s2">&gt;&#34;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_list</span><span class="p">:</span>
@@ -157,7 +157,7 @@
     <span class="n">my</span><span class="o">.</span><span class="n">to_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;username@126.com&#34;</span><span class="p">,</span> <span class="p">]</span>
     <span class="n">my</span><span class="o">.</span><span class="n">cc_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="p">]</span>
     <span class="n">my</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="s2">&#34;PI IP&#34;</span>
-    <span class="n">my</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1">#u&#34;C:\Documents and Settings\Administrator\Desktop\日报.doc&#34;</span>
+    <span class="n">my</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#u&#34;C:\Documents and Settings\Administrator\Desktop\日报.doc&#34;</span>
     <span class="n">my</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
 </code></pre></td></tr></table>
 </div>

@@ -754,7 +754,7 @@ wrangler config
 
 <span class="p">[</span><span class="nx">site</span><span class="p">]</span>
 <span class="nx">bucket</span> <span class="p">=</span> <span class="s2">&#34;public&#34;</span>
-<span class="nx">entry</span><span class="err">-</span><span class="nx">point</span> <span class="p">=</span> <span class="s2">&#34;workers-site&#34;</span>
+<span class="nx">entry-point</span> <span class="p">=</span> <span class="s2">&#34;workers-site&#34;</span>
 </code></pre></td></tr></table>
 </div>
 </div><h3 id="预览">预览</h3>

@@ -423,7 +423,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <span class="n">total_image_name</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">total_face_encoding</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>  <span class="c1">#fn 表示的是文件名q</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&#34;/&#34;</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&#34;/&#34;</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span>
     <span class="n">total_face_encoding</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">face_recognition</span><span class="o">.</span><span class="n">face_encodings</span><span class="p">(</span>
             <span class="n">face_recognition</span><span class="o">.</span><span class="n">load_image_file</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&#34;/&#34;</span> <span class="o">+</span> <span class="n">fn</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
@@ -565,7 +565,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">load_model</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">chineseText</span>
 
 <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&#34;img/xingye-1.png&#34;</span><span class="p">)</span>
@@ -650,7 +650,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">load_model</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">chineseText</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 
@@ -658,7 +658,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <span class="n">emotion_classifier</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span>
     <span class="s1">&#39;classifier/emotion_models/simple_CNN.530-0.65.hdf5&#39;</span><span class="p">)</span>
 <span class="n">endTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">endTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">endTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)</span>
 
 <span class="n">emotion_labels</span> <span class="o">=</span> <span class="p">{</span>
     <span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;生气&#39;</span><span class="p">,</span>
@@ -737,9 +737,9 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">dlib</span>
-<span class="k">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">__</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">DLIB_USE_CUDA</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_num_devices</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">DLIB_USE_CUDA</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_num_devices</span><span class="p">())</span>
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="人脸检测和识别学习就告一段落了感谢观看">人脸检测和识别学习就告一段落了，感谢观看</h2>]]></description></item></channel></rss>

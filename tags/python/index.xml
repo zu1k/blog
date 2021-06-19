@@ -149,11 +149,11 @@
 
     <span class="c1"># Check if is successful</span>
     <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span> <span class="o">!=</span> <span class="s2">&#34;</span><span class="se">\&#34;</span><span class="s2">success</span><span class="se">\&#34;</span><span class="s2">&#34;</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;登陆出错&#34;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Detailed message: &#34;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;登陆出错&#34;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Detailed message: &#34;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;登陆成功&#34;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;登陆成功&#34;</span><span class="p">)</span>
 
 
 <span class="c1"># get one page data</span>
@@ -183,7 +183,7 @@
         <span class="c1"># 提交到数据库执行</span>
         <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="k">except</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
         <span class="c1"># 如果发生错误则回滚</span>
         <span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
 
@@ -191,8 +191,8 @@
 <span class="k">def</span> <span class="nf">godata</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
     <span class="n">js</span> <span class="o">=</span> <span class="n">onepage</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">js</span><span class="p">[</span><span class="s2">&#34;object&#34;</span><span class="p">][</span><span class="s2">&#34;resultList&#34;</span><span class="p">]:</span>
-        <span class="n">kch</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KCH&#34;</span><span class="p">]</span> <span class="k">if</span> <span class="n">kch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s2">&#34;&#34;</span>  <span class="c1"># 课程号</span>
-        <span class="n">kxh</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;KXH&#34;</span><span class="p">])</span> <span class="k">if</span> <span class="n">kxh</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s2">&#34;&#34;</span>  <span class="c1"># 课序号</span>
+        <span class="n">kch</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KCH&#34;</span><span class="p">]</span> <span class="k">if</span> <span class="n">kch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&#34;&#34;</span>  <span class="c1"># 课程号</span>
+        <span class="n">kxh</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;KXH&#34;</span><span class="p">])</span> <span class="k">if</span> <span class="n">kxh</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&#34;&#34;</span>  <span class="c1"># 课序号</span>
         <span class="n">kcm</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KCM&#34;</span><span class="p">]</span>  <span class="c1"># 课程名</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">kcm</span><span class="p">:</span> <span class="n">kcm</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
         <span class="n">xf</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;XF&#34;</span><span class="p">])</span>  <span class="c1"># 学分</span>
@@ -222,7 +222,7 @@
 <span class="n">login</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">173</span><span class="p">):</span>
     <span class="n">godata</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;第&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&#34;页完成&#34;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;第&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&#34;页完成&#34;</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div>]]></description></item><item><title>树莓派开机发送IP到指定邮箱的脚本</title><link>https://lgf.im/posts/linux/raspberry-pi-boot-script-to-send-ip-to-specified-email/</link><pubDate>Sun, 14 Oct 2018 18:17:18 +0000</pubDate><author>作者</author><guid>https://lgf.im/posts/linux/raspberry-pi-boot-script-to-send-ip-to-specified-email/</guid><description><![CDATA[<p>本脚本使用的是腾讯企业邮的smtp服务，可以根据需求进行相应修改</p>
@@ -319,12 +319,12 @@
 
 <span class="k">class</span> <span class="nc">MyEmail</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">to_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cc_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s1">&#39;&#39;&#39;
@@ -335,9 +335,9 @@
             <span class="n">server</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span><span class="p">)</span>
             <span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="s2">&#34;&lt;</span><span class="si">%s</span><span class="s2">&gt;&#34;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_attach</span><span class="p">())</span>
             <span class="n">server</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="k">print</span> <span class="s2">&#34;send email successful&#34;</span>
+            <span class="nb">print</span> <span class="s2">&#34;send email successful&#34;</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s2">&#34;send email failed </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="n">e45</span>
+            <span class="nb">print</span> <span class="s2">&#34;send email failed </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="n">e45</span>
 
     <span class="k">def</span> <span class="nf">get_attach</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s1">&#39;&#39;&#39;
@@ -351,10 +351,10 @@
         <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">txt</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
         <span class="n">attach</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># 主题,最上面的一行</span>
             <span class="n">attach</span><span class="p">[</span><span class="s2">&#34;Subject&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># 显示在发件人</span>
             <span class="n">attach</span><span class="p">[</span><span class="s2">&#34;From&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;PI&lt;</span><span class="si">%s</span><span class="s2">&gt;&#34;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_list</span><span class="p">:</span>
@@ -384,7 +384,7 @@
     <span class="n">my</span><span class="o">.</span><span class="n">to_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;username@126.com&#34;</span><span class="p">,</span> <span class="p">]</span>
     <span class="n">my</span><span class="o">.</span><span class="n">cc_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="p">]</span>
     <span class="n">my</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="s2">&#34;PI IP&#34;</span>
-    <span class="n">my</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1">#u&#34;C:\Documents and Settings\Administrator\Desktop\日报.doc&#34;</span>
+    <span class="n">my</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#u&#34;C:\Documents and Settings\Administrator\Desktop\日报.doc&#34;</span>
     <span class="n">my</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
 </code></pre></td></tr></table>
 </div>
@@ -550,7 +550,7 @@
 <span class="n">root</span> <span class="o">=</span> <span class="s2">&#34;http://202.194.7.18/NPlearning&#34;</span>
 <span class="n">timeurl</span> <span class="o">=</span> <span class="n">root</span><span class="o">+</span><span class="s2">&#34;/Student/LogTime.aspx&#34;</span>
 <span class="n">studyurl</span> <span class="o">=</span> <span class="n">root</span><span class="o">+</span><span class="s2">&#34;/student/CourseStudy.aspx&#34;</span>
-<span class="n">ctoken</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">ctoken</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="n">s</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
 <span class="n">ua</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;User-Agent&#34;</span><span class="p">:</span> <span class="s2">&#34;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:57.0) Gecko/20100101 Firefox/57.0&#34;</span><span class="p">}</span>
@@ -570,7 +570,7 @@
         <span class="s2">&#34;Content-Type&#34;</span><span class="p">:</span> <span class="s2">&#34;application/x-www-form-urlencoded&#34;</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">root</span><span class="o">+</span><span class="s2">&#34;/login.aspx&#34;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;登陆成功&#34;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;登陆成功&#34;</span><span class="p">)</span>
 
     <span class="n">ctoken</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&#34;InitToken(&#39;&#34;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">11</span><span class="p">:</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&#34;InitToken(&#39;&#34;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">49</span><span class="p">]</span>
     <span class="c1"># 添加了cookies</span>
@@ -677,9 +677,9 @@
     <span class="nb">min</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">updateStatTime</span><span class="p">()</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;更新&#34;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">min</span><span class="p">)</span><span class="o">+</span><span class="s2">&#34;分钟&#34;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;更新&#34;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">min</span><span class="p">)</span><span class="o">+</span><span class="s2">&#34;分钟&#34;</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">min</span><span class="o">&gt;</span><span class="n">tim</span><span class="p">):</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&#34;结束&#34;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;结束&#34;</span><span class="p">)</span>
             <span class="n">endStatTime</span><span class="p">()</span>
             <span class="k">break</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
@@ -760,7 +760,7 @@
 
 <span class="n">root</span> <span class="o">=</span> <span class="s2">&#34;http://202.194.7.18/NPlearning&#34;</span>
 <span class="n">answerurl</span><span class="o">=</span><span class="n">root</span><span class="o">+</span><span class="s2">&#34;/Student/ViewTestTask.aspx&#34;</span>
-<span class="n">ctoken</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">ctoken</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="n">s</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
 <span class="n">ua</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;User-Agent&#34;</span><span class="p">:</span> <span class="s2">&#34;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:57.0) Gecko/20100101 Firefox/57.0&#34;</span><span class="p">}</span>
@@ -776,7 +776,7 @@
         <span class="s2">&#34;Content-Type&#34;</span><span class="p">:</span> <span class="s2">&#34;application/x-www-form-urlencoded&#34;</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">root</span><span class="o">+</span><span class="s2">&#34;/login.aspx&#34;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;登陆成功&#34;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;登陆成功&#34;</span><span class="p">)</span>
     <span class="n">ctoken</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&#34;InitToken(&#39;&#34;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">11</span><span class="p">:</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&#34;InitToken(&#39;&#34;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">49</span><span class="p">]</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">RequestsCookieJar</span><span class="p">()</span>
     <span class="n">c</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;ctoken&#39;</span><span class="p">,</span> <span class="n">ctoken</span><span class="p">)</span>
@@ -1237,7 +1237,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <span class="n">total_image_name</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">total_face_encoding</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>  <span class="c1">#fn 表示的是文件名q</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&#34;/&#34;</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&#34;/&#34;</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span>
     <span class="n">total_face_encoding</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">face_recognition</span><span class="o">.</span><span class="n">face_encodings</span><span class="p">(</span>
             <span class="n">face_recognition</span><span class="o">.</span><span class="n">load_image_file</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&#34;/&#34;</span> <span class="o">+</span> <span class="n">fn</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
@@ -1379,7 +1379,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">load_model</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">chineseText</span>
 
 <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&#34;img/xingye-1.png&#34;</span><span class="p">)</span>
@@ -1464,7 +1464,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">load_model</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">chineseText</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 
@@ -1472,7 +1472,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <span class="n">emotion_classifier</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span>
     <span class="s1">&#39;classifier/emotion_models/simple_CNN.530-0.65.hdf5&#39;</span><span class="p">)</span>
 <span class="n">endTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">endTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">endTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)</span>
 
 <span class="n">emotion_labels</span> <span class="o">=</span> <span class="p">{</span>
     <span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;生气&#39;</span><span class="p">,</span>
@@ -1551,9 +1551,9 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">dlib</span>
-<span class="k">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">__</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">DLIB_USE_CUDA</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_num_devices</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">DLIB_USE_CUDA</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_num_devices</span><span class="p">())</span>
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="人脸检测和识别学习就告一段落了感谢观看">人脸检测和识别学习就告一段落了，感谢观看</h2>]]></description></item></channel></rss>

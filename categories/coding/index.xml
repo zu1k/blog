@@ -82,7 +82,7 @@ wrangler config
 
 <span class="p">[</span><span class="nx">site</span><span class="p">]</span>
 <span class="nx">bucket</span> <span class="p">=</span> <span class="s2">&#34;public&#34;</span>
-<span class="nx">entry</span><span class="err">-</span><span class="nx">point</span> <span class="p">=</span> <span class="s2">&#34;workers-site&#34;</span>
+<span class="nx">entry-point</span> <span class="p">=</span> <span class="s2">&#34;workers-site&#34;</span>
 </code></pre></td></tr></table>
 </div>
 </div><h3 id="预览">预览</h3>
@@ -3251,15 +3251,15 @@ sudo make install
             <span class="n">num</span> <span class="o">=</span> <span class="n">num</span><span class="o">+</span><span class="mi">1</span>
             <span class="n">txt</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="s1">&#39;http&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
             <span class="n">fo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">continue</span>
 
 <span class="n">fo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 <span class="n">fi</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">numall</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">numall</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="分析与扫描">分析与扫描</h2>
@@ -3338,11 +3338,11 @@ sudo make install
     <span class="k">while</span> <span class="ow">not</span> <span class="n">myqueue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
         <span class="n">ip</span><span class="o">=</span><span class="n">myqueue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&#34;[*]scan:&#34;</span><span class="o">+</span><span class="n">ip</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;[*]scan:&#34;</span><span class="o">+</span><span class="n">ip</span><span class="p">)</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="p">(</span><span class="s2">&#34;http://</span><span class="si">%s</span><span class="s2">/PSIA/Custom/HIK/userCheck&#34;</span> <span class="o">%</span> <span class="n">ip</span><span class="p">),</span><span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span><span class="s1">&#39;12345&#39;</span><span class="p">),</span><span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
             <span class="n">status</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;statusValue&gt;(.*)&lt;/statusValue&gt;&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">status</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;200&#39;</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;[√] Host http://&#39;</span><span class="o">+</span> <span class="n">ip</span> <span class="o">+</span><span class="s1">&#39; Login Success!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[√] Host http://&#39;</span><span class="o">+</span> <span class="n">ip</span> <span class="o">+</span><span class="s1">&#39; Login Success!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ok.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a+&#39;</span><span class="p">)</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ip</span><span class="o">+</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -4026,11 +4026,11 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 
     <span class="c1"># Check if is successful</span>
     <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span> <span class="o">!=</span> <span class="s2">&#34;</span><span class="se">\&#34;</span><span class="s2">success</span><span class="se">\&#34;</span><span class="s2">&#34;</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;登陆出错&#34;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Detailed message: &#34;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;登陆出错&#34;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Detailed message: &#34;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;登陆成功&#34;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;登陆成功&#34;</span><span class="p">)</span>
 
 
 <span class="c1"># get one page data</span>
@@ -4060,7 +4060,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
         <span class="c1"># 提交到数据库执行</span>
         <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="k">except</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
         <span class="c1"># 如果发生错误则回滚</span>
         <span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
 
@@ -4068,8 +4068,8 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <span class="k">def</span> <span class="nf">godata</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
     <span class="n">js</span> <span class="o">=</span> <span class="n">onepage</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">js</span><span class="p">[</span><span class="s2">&#34;object&#34;</span><span class="p">][</span><span class="s2">&#34;resultList&#34;</span><span class="p">]:</span>
-        <span class="n">kch</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KCH&#34;</span><span class="p">]</span> <span class="k">if</span> <span class="n">kch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s2">&#34;&#34;</span>  <span class="c1"># 课程号</span>
-        <span class="n">kxh</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;KXH&#34;</span><span class="p">])</span> <span class="k">if</span> <span class="n">kxh</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s2">&#34;&#34;</span>  <span class="c1"># 课序号</span>
+        <span class="n">kch</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KCH&#34;</span><span class="p">]</span> <span class="k">if</span> <span class="n">kch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&#34;&#34;</span>  <span class="c1"># 课程号</span>
+        <span class="n">kxh</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;KXH&#34;</span><span class="p">])</span> <span class="k">if</span> <span class="n">kxh</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&#34;&#34;</span>  <span class="c1"># 课序号</span>
         <span class="n">kcm</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&#34;KCM&#34;</span><span class="p">]</span>  <span class="c1"># 课程名</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">kcm</span><span class="p">:</span> <span class="n">kcm</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
         <span class="n">xf</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;XF&#34;</span><span class="p">])</span>  <span class="c1"># 学分</span>
@@ -4099,7 +4099,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <span class="n">login</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">173</span><span class="p">):</span>
     <span class="n">godata</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;第&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&#34;页完成&#34;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;第&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&#34;页完成&#34;</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div>]]></description></item></channel></rss>
