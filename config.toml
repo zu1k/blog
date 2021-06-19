@@ -105,14 +105,15 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
   # 页面底部信息配置
   [params.footer]
     enable = true
-    custom = ''  # 自定义内容 (支持 HTML 格式)
-    hugo = false  # 是否显示 Hugo 和主题信息
+    custom = ''
+    hugo = true  # 是否显示 Hugo 和主题信息
     copyright = true  # 是否显示版权信息
     author = true  # 是否显示作者
     since = 2017 # 网站创立年份
     icp = "" # ICP 备案信息，仅在中国使用 (支持 HTML 格式)
     # 许可协议信息 (支持 HTML 格式)
     license= '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+    statistic = """<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1280032151'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1280032151%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>"""
 
   # Section (所有文章) 页面配置
   [params.section]
