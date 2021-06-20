@@ -29,6 +29,11 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     url = "/tags/"
     weight = 3
   [[menu.main]]
+    identifier = "links"
+    name = "友链"
+    url = "/links/"
+    weight = 4
+  [[menu.main]]
     identifier = "about"
     name = "关于"
     url = "/about/"

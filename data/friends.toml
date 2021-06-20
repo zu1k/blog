@@ -1,0 +1,20 @@
+[[blogroll]]
+  name = "簞純"
+  url = "https://blog.qwqdanchun.com/"
+  avatar = "/images/friends/danchun.ico"
+  description = "我惭携宝剑，只为看山来"
+  weight = 1
+
+[[blogroll]]
+  name = "烽征战"
+  url = "http://fzzyes.com/"
+  avatar = "https://guanqr.com/icons/android-chrome-512x512.png"
+  description = "爱光学，爱生活，爱创造"
+  weight = 2
+
+[[blogroll]]
+  name = "静觅"
+  url = "https://cuiqingcai.com/"
+  avatar = "/images/friends/cuiqingcai.png"
+  description = "静觅，静静寻觅生活的美好"
+  weight = 3
