@@ -39,3 +39,11 @@
   avatar = "/images/friends/magic.jpg"
   description = "The world is so Magic"
   weight = 6
+
+[[blogroll]]
+  name = "小超超"
+  url = "胸怀猛虎 细嗅蔷薇"
+  avatar = "/images/friends/xiaochaochao.jpg"
+  description = "胸怀猛虎 细嗅蔷薇"
+  weight = 7
+
