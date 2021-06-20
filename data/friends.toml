@@ -8,7 +8,7 @@
 [[blogroll]]
   name = "烽征战"
   url = "http://fzzyes.com/"
-  avatar = "https://guanqr.com/icons/android-chrome-512x512.png"
+  avatar = "/images/friends/fzz.png"
   description = "爱光学，爱生活，爱创造"
   weight = 2
 
@@ -18,3 +18,24 @@
   avatar = "/images/friends/cuiqingcai.png"
   description = "静觅，静静寻觅生活的美好"
   weight = 3
+
+[[blogroll]]
+  name = "iamwang"
+  url = "https://iamywang.github.io/"
+  avatar = "/images/friends/iamwang.jpg"
+  description = "No 996, plz."
+  weight = 4
+
+[[blogroll]]
+  name = "Sarace"
+  url = "https://blog.huisa.win/"
+  avatar = "/images/friends/sarace.jpg"
+  description = "伪网络安全专业，辣鸡CTFer"
+  weight = 5
+
+[[blogroll]]
+  name = "Magic's Blog"
+  url = "https://blog.magic-king.cool/"
+  avatar = "/images/friends/magic.jpg"
+  description = "The world is so Magic"
+  weight = 6
