@@ -2,7 +2,7 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
     display: inline-block !important;
-    width: calc(50% - 15px);
+    width: calc(50% - 10px);
 }
 
 #article-container a {
@@ -32,6 +32,7 @@
     height: 90px;
     border-radius: 8px;
     line-height: 17px;
+    transform: translateZ(0);
     -webkit-transform: translateZ(0);
     -moz-box-shadow:2px 2px 5px #333333;
     -webkit-box-shadow:2px 2px 5px #333333;
@@ -40,12 +41,20 @@
 
 @media screen and (max-width: 1100px) {
     .flink#article-container .friend-list-div>.friend-div {
-        width: calc(50% - 15px) !important
+        width: calc(100% - 10px) !important
     }
 
     @media screen and (max-width: 600px) {
+        #article-container {
+            width: 100% !important;
+        }
+
         .flink#article-container .friend-list-div>.friend-div {
-            width: calc(100% - 15px) !important
+            width: calc(100% - 10px) !important
+        }
+
+        .flink#article-container .friend-list-div {
+            padding: 0 0 0 !important;
         }
     }
 }
