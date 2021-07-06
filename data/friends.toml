@@ -1,49 +1,56 @@
 [[blogroll]]
+  name = "港岛妹妹"
+  url = "https://gangdaomeimei.cn/"
+  avatar = "/images/friends/gdmm.png"
+  description = "一个互联网炒饭评论员的站点"
+  weight = 1
+
+[[blogroll]]
   name = "簞純"
   url = "https://blog.qwqdanchun.com/"
   avatar = "/images/friends/danchun.png"
   description = "我惭携宝剑，只为看山来"
-  weight = 1
+  weight = 10
 
 [[blogroll]]
   name = "烽征战"
   url = "http://fzzyes.com/"
   avatar = "/images/friends/fzz.jpg"
   description = "爱光学，爱生活，爱创造"
-  weight = 2
+  weight = 20
 
 [[blogroll]]
   name = "静觅"
   url = "https://cuiqingcai.com/"
   avatar = "/images/friends/cuiqingcai.png"
   description = "静觅，静静寻觅生活的美好"
-  weight = 3
+  weight = 30
 
 [[blogroll]]
   name = "iamwang"
   url = "https://iamywang.github.io/"
   avatar = "/images/friends/iamwang.jpg"
   description = "No 996, plz."
-  weight = 4
+  weight = 40
 
 [[blogroll]]
   name = "Sarace"
   url = "https://blog.huisa.win/"
   avatar = "/images/friends/sarace.jpg"
   description = "伪网络安全专业，辣鸡CTFer"
-  weight = 5
+  weight = 50
 
 [[blogroll]]
   name = "Magic's Blog"
   url = "https://blog.magic-king.cool/"
   avatar = "/images/friends/magic.jpg"
   description = "The world is so Magic"
-  weight = 6
+  weight = 60
 
 [[blogroll]]
   name = "小超超"
   url = "https://ccclll777.github.io/"
   avatar = "/images/friends/xiaochaochao.jpg"
   description = "胸怀猛虎 细嗅蔷薇"
-  weight = 7
+  weight = 70
 
