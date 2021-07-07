@@ -1,5 +1,5 @@
 baseURL = "https://lgf.im/"
-relativeURLs = true
+relativeURLs = false
 defaultContentLanguage = "zh-cn"
 theme = "LoveIt"
 title = "zu1k"
@@ -54,6 +54,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
   images = ["/images/logo.png"]
   description = "A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."
   keywords = ["zu1k", "zuik", "lgf", "lgf.im"]
+
   [params.app]
     title = "zu1k"
     noFavicon = false
@@ -242,6 +243,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     # 可以在你的项目下相同路径存放你自己的数据文件:
     # "assets/data/cdn/"
     data = "jsdelivr.yml"
+    prefix = "https://blog.zuik.ren/"
 
 [markup]
   # 语法高亮设置 (https://gohugo.io/content-management/syntax-highlighting)

@@ -14,6 +14,17 @@
     {{- $large = .RelPermalink -}}
 {{- end -}}
 
+{{- if eq hugo.Environment "production" -}}
+    {{- $cdnPrefix := "" -}}
+    {{- with site.Params.cdn.prefix -}}
+        {{- $cdnPrefix = . -}}
+    {{- end -}}
+
+    {{- $src = printf "%v%v" $cdnPrefix $src -}}
+    {{- $small = printf "%v%v" $cdnPrefix $small -}}
+    {{- $large = printf "%v%v" $cdnPrefix $large -}}
+{{- end -}}
+
 {{- $alt := .Alt | default $src -}}
 {{- $loading := resources.Get "svg/loading.svg" | minify -}}
 {{- if .Linked -}}
