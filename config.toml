@@ -82,7 +82,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
       avatarURL = "/images/logo.jpg"
       title = "zu1k"   # 主页显示的网站标题 (支持 HTML 格式)
       subtitle = "A boy dreaming of traveling around the world."  # 主页显示的网站副标题
-      typeit = false  # 是否为副标题显示打字机动画
       social = true  # 是否显示社交账号
       disclaimer = ""  # 免责声明 (支持 HTML 格式)
     [params.home.posts]
@@ -106,7 +105,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
       name = "zu1k" # 标题名称
       pre = "" # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标  #"<i class='far fa-kiss-wink-heart fa-fw'></i>"  
       post = ""  # 你可以在名称 (允许 HTML 格式) 之后添加其他信息, 例如图标
-      typeit = false  # 是否为标题显示打字机动画
 
   # 页面底部信息配置
   [params.footer]
@@ -150,21 +148,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     [params.page.code]
       copy = true  # 是否显示代码块的复制按钮
       maxShownLines = 20 # 默认展开显示的代码行数
-    # KaTeX 数学公式配置 (KaTeX https://katex.org/)
-    [params.page.math]
-      enable = false
-      # default block delimiter is $$ ... $$ and \\[ ... \\]
-      # 默认块定界符是 $$ ... $$ 和 \\[ ... \\]
-      blockLeftDelimiter = ""
-      blockRightDelimiter = ""
-      # default inline delimiter is $ ... $ and \\( ... \\)
-      # 默认行内定界符是 $ ... $ 和 \\( ... \\)
-      inlineLeftDelimiter = ""
-      inlineRightDelimiter = ""
-      # KaTeX 插件 copy_tex
-      copyTex = true
-      # KaTeX 插件 mhchem
-      mhchem = true
     # Mapbox GL JS 配置 (Mapbox GL JS https://docs.mapbox.com/mapbox-gl-js)
     [params.page.mapbox]
       # Mapbox GL JS 的 access token
@@ -220,12 +203,6 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
       [params.page.seo.publisher]
         name = "zu1k"
         logoUrl = "https://lgf.im/images/logo.jpg"
-
-  [params.typeit]
-    speed = 15  # 每一步的打字速度 (单位是毫秒)
-    cursorSpeed = 1000  # 光标的闪烁速度 (单位是毫秒)
-    cursorChar = "|"  # 光标的字符 (支持 HTML 格式)
-    duration = -1  # 打字结束之后光标的持续时间 (单位是毫秒, "-1" 代表无限大)
 
   [params.seo]
     image = "/images/logo.jpg"  # 图片 URL

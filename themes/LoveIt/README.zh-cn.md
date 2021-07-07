@@ -36,7 +36,6 @@
 * 支持基于 **[Font Awesome](https://fontawesome.com/) 图标**的扩展 Markdown 语法
 * 支持**上标注释**的扩展 Markdown 语法
 * 支持**分数**的扩展 Markdown 语法
-* 支持基于 [KaTeX](https://katex.org/) 的**数学公式**
 * 支持基于 [mermaid](https://github.com/knsv/mermaid) 的**图表**生成功能
 * 支持基于 [ECharts](https://echarts.apache.org/) 的**交互式数据可视化**生成功能
 * 支持基于 [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js) 的 **Mapbox** 地图显示功能
@@ -81,8 +80,6 @@
 * 支持多达 **28** 种网站分享
 * 支持 **[Disqus](https://disqus.com)** 评论系统
 * 支持 **[Gitalk](https://github.com/gitalk/gitalk)** 评论系统
-* 支持 **[Valine](https://valine.js.org/)** 评论系统
-* 支持 **[Facebook](https://developers.facebook.com/docs/plugins/comments/) 评论**系统
 * 支持 **[Telegram comments](https://comments.app/) 评论**系统
 * 支持 **[Commento](https://commento.io/)** 评论系统
 * 支持 **[Utterances](https://utteranc.es/)** 评论系统
@@ -97,7 +94,6 @@
 * 支持 **[Font Awesome](https://fontawesome.com/) 图标**的扩展 Markdown 语法
 * 支持**上标注释**的扩展 Markdown 语法
 * 支持**分数**的扩展 Markdown 语法
-* 支持基于 [KaTeX](https://katex.org/) 的**数学公式**
 * 支持基于 [mermaid](https://github.com/knsv/mermaid) 的**图表** shortcode
 * 支持基于 [ECharts](https://echarts.apache.org/) 的**交互式数据可视化** shortcode
 * 支持基于 [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js) 的 **Mapbox** shortcode
@@ -106,7 +102,6 @@
 * 支持多种**注释**的 shortcode
 * 支持**自定义样式**的 shortcode
 * 支持**自定义脚本**的 shortcode
-* 支持基于 [TypeIt](https://typeitjs.com/) 的**打字动画** shortcode
 * 支持基于 [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll) 的**滚动动画**
 * 支持基于 [cookieconsent](https://github.com/osano/cookieconsent) 的 **Cookie 许可横幅**
 * ...
@@ -165,15 +160,12 @@ LoveIt 主题中用到了以下项目，感谢它们的作者：
 * [lightgallery.js](https://github.com/sachinchoolur/lightgallery.js)
 * [clipboard.js](https://github.com/zenorocha/clipboard.js)
 * [Sharer.js](https://github.com/ellisonleao/sharer.js)
-* [TypeIt](https://typeitjs.com/)
-* [KaTeX](https://katex.org/)
 * [mermaid](https://github.com/knsv/mermaid)
 * [ECharts](https://echarts.apache.org/)
 * [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js)
 * [APlayer](https://github.com/MoePlayer/APlayer)
 * [MetingJS](https://github.com/metowolf/MetingJS)
 * [Gitalk](https://github.com/gitalk/gitalk)
-* [Valine](https://valine.js.org/)
 * [cookieconsent](https://github.com/osano/cookieconsent)
 
 ## 作者

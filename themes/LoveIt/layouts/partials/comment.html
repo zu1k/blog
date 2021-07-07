@@ -30,50 +30,6 @@
             </noscript>
         {{- end -}}
 
-        {{- /* Valine Comment System */ -}}
-        {{- $valine := $comment.valine | default dict -}}
-        {{- if $valine.enable -}}
-            <div id="valine" class="comment"></div>
-            {{- $options := dict "targetPath" "lib/valine/valine.min.css" -}}
-            {{- dict "Source" "lib/valine/valine.scss" "ToCSS" $options | dict "Scratch" .Scratch "Data" | partial "scratch/style.html" -}}
-            {{- $source := $cdn.valineJS | default "lib/valine/Valine.min.js" -}}
-            {{- dict "Source" $source "Fingerprint" $fingerprint | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
-            {{- $commentConfig = dict "el" "#valine" "appId" $valine.appId "appKey" $valine.appKey "lang" ($valine.lang | default (T "valineLang")) "visitor" $valine.visitor "recordIP" $valine.recordIP "placeholder" ($valine.placeholder | default (T "valinePlaceholder")) "highlight" (ne $valine.highlight false) "enableQQ" $valine.enableQQ | dict "valine" | merge $commentConfig -}}
-            {{- with $valine.avatar -}}
-                {{- $commentConfig = dict "avatar" . | dict "valine" | merge $commentConfig -}}
-            {{- end -}}
-            {{- with $valine.meta -}}
-                {{- $commentConfig = dict "meta" . | dict "valine" | merge $commentConfig -}}
-            {{- end -}}
-            {{- with $valine.pageSize -}}
-                {{- $commentConfig = dict "pageSize" . | dict "valine" | merge $commentConfig -}}
-            {{- end -}}
-            {{- with $valine.serverURLs -}}
-                {{- $commentConfig = dict "serverURLs" . | dict "valine" | merge $commentConfig -}}
-            {{- end -}}
-            {{- $commentConfig = $valine.emoji | default "google.yml" | printf "data/emoji/%v" | resources.Get | transform.Unmarshal | dict "valine" | merge $commentConfig -}}
-            <noscript>
-                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
-            </noscript>
-        {{- end -}}
-
-        {{- /* Facebook Comment System */ -}}
-        {{- $facebook := $comment.facebook | default dict -}}
-        {{- if $facebook.enable -}}
-            <div id="fb-root" class="comment"></div>
-            <div
-                class="fb-comments"
-                data-href="{{ .Permalink }}"
-                data-width="{{ $facebook.width }}"
-                data-numposts="{{ $facebook.numPosts }}"
-            ></div>
-            {{- $source := printf "https://connect.facebook.net/%v/sdk.js#xfbml=1&version=v5.0&appId=%v&autoLogAppEvents=1" ($facebook.languageCode | default (T "facebookLanguageCode")) $facebook.appId -}}
-            {{- dict "Source" $source "Defer" true | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
-            <noscript>
-                Please enable JavaScript to view the comments powered by <a href="https://developers.facebook.com/docs/plugins/comments/"></a>Facebook</a>.
-            </noscript>
-        {{- end -}}
-
         {{- /* Telegram Comments System */ -}}
         {{- $telegram := $comment.telegram | default dict -}}
         {{- if $telegram.enable -}}
