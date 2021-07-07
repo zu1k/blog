@@ -81,8 +81,8 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
       enable = true
       avatarURL = "/images/logo.jpg"
       title = "zu1k"   # 主页显示的网站标题 (支持 HTML 格式)
-      subtitle = "A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."  # 主页显示的网站副标题
-      typeit = true  # 是否为副标题显示打字机动画
+      subtitle = "A boy dreaming of traveling around the world."  # 主页显示的网站副标题
+      typeit = false  # 是否为副标题显示打字机动画
       social = true  # 是否显示社交账号
       disclaimer = ""  # 免责声明 (支持 HTML 格式)
     [params.home.posts]
@@ -119,7 +119,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     icp = "" # ICP 备案信息，仅在中国使用 (支持 HTML 格式)
     # 许可协议信息 (支持 HTML 格式)
     license= '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
-    statistic = """<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1280032151'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1280032151%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>"""
+    statistic = """<span id='cnzz_stat_icon_1280032151'></span><script>var oldonload = window.onload;if (typeof window.onload != 'function') {window.onload = function() {var cz = document.createElement("script");cz.src = "//v1.cnzz.com/z_stat.php?id=1280032151&online=1&show=line";document.getElementsByTagName('body')[0].appendChild(cz);}} else {window.onload = function() {if (oldonload) {oldonload();}var cz = document.createElement("script");cz.src = "//v1.cnzz.com/z_stat.php?id=1280032151&online=1&show=line";document.getElementsByTagName('body')[0].appendChild(cz);}}</script>"""
 
   # Section (所有文章) 页面配置
   [params.section]
