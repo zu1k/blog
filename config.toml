@@ -243,7 +243,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     # 可以在你的项目下相同路径存放你自己的数据文件:
     # "assets/data/cdn/"
     data = "jsdelivr.yml"
-    prefix = "https://blog.zuik.ren/"
+    prefix = "https://blog.zuik.ren"
 
 [markup]
   # 语法高亮设置 (https://gohugo.io/content-management/syntax-highlighting)
