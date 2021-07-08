@@ -26,13 +26,8 @@
             {{- $integrity = $resource.Data.Integrity -}}
         {{- end -}}
         {{- $href = $resource.RelPermalink -}}
-    {{- end -}}
-    {{- if eq hugo.Environment "production" -}}
-        {{- if hasPrefix $href "http" |not -}}
-            {{- $cdnPrefix := "" -}}
-            {{- with site.Params.cdn.prefix -}}
-                {{- $cdnPrefix = . -}}
-            {{- end -}}
+        {{- if eq hugo.Environment "production" -}}
+            {{- $cdnPrefix := site.Params.cdn.prefix | default "" -}}
             {{- $href = printf "%v%v" $cdnPrefix $href -}}
         {{- end -}}
     {{- end -}}

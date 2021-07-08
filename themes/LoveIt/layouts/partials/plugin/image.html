@@ -15,11 +15,7 @@
 {{- end -}}
 
 {{- if eq hugo.Environment "production" -}}
-    {{- $cdnPrefix := "" -}}
-    {{- with site.Params.cdn.prefix -}}
-        {{- $cdnPrefix = . -}}
-    {{- end -}}
-
+    {{- $cdnPrefix := site.Params.cdn.prefix | default "" -}}
     {{- $src = printf "%v%v" $cdnPrefix $src -}}
     {{- $small = printf "%v%v" $cdnPrefix $small -}}
     {{- $large = printf "%v%v" $cdnPrefix $large -}}

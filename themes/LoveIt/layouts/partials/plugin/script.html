@@ -20,6 +20,10 @@
             {{- $integrity = $resource.Data.Integrity -}}
         {{- end -}}
         {{- $src = $resource.RelPermalink -}}
+        {{- if eq hugo.Environment "production" -}}
+            {{- $cdnPrefix := site.Params.cdn.prefix | default "" -}}
+            {{- $src = printf "%v%v" $cdnPrefix $src -}}
+        {{- end -}}
     {{- end -}}
     <script type="text/javascript" src="{{ $src }}"{{ if .Crossorigin }} crossorigin="anonymous"{{ end }}{{ with $integrity }} integrity="{{ . }}"{{ end }}{{ if .Async }} async{{ end }}{{ if .Defer }} defer{{ end }}{{ with .Attr }} {{ . | safeHTMLAttr }}{{ end }}></script>
 {{- end -}}
