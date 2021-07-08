@@ -28,11 +28,13 @@
         {{- $href = $resource.RelPermalink -}}
     {{- end -}}
     {{- if eq hugo.Environment "production" -}}
-        {{- $cdnPrefix := "" -}}
-        {{- with site.Params.cdn.prefix -}}
-            {{- $cdnPrefix = . -}}
+        {{- if hasPrefix $href "http" |not -}}
+            {{- $cdnPrefix := "" -}}
+            {{- with site.Params.cdn.prefix -}}
+                {{- $cdnPrefix = . -}}
+            {{- end -}}
+            {{- $href = printf "%v%v" $cdnPrefix $href -}}
         {{- end -}}
-        {{- $href = printf "%v%v" $cdnPrefix $href -}}
     {{- end -}}
     <link rel="stylesheet" href="{{ $href }}"{{ if .Crossorigin }} crossorigin="anonymous"{{ end }}{{ with $integrity }} integrity="{{ . }}"{{ end }}{{ with .Attr }} {{ . | safeHTMLAttr }}{{ end }}>
 {{- end -}}
