@@ -15,17 +15,6 @@ class Util {
     isTocStatic() {
         return window.matchMedia('only screen and (max-width: 960px)').matches;
     }
-
-    animateCSS(element, animation, reserved, callback) {
-        if (!Array.isArray(animation)) animation = [animation];
-        element.classList.add('animated', ...animation);
-        const handler = () => {
-            element.classList.remove('animated', ...animation);
-            element.removeEventListener('animationend', handler);
-            if (typeof callback === 'function') callback();
-        };
-        if (!reserved) element.addEventListener('animationend', handler, false);
-    }
 }
 
 class Theme {
@@ -366,9 +355,6 @@ class Theme {
                     $copy.setAttribute('data-clipboard-text', code);
                     $copy.title = this.config.code.copyTitle;
                     const clipboard = new ClipboardJS($copy);
-                    clipboard.on('success', _e => {
-                        this.util.animateCSS($code, 'flash');
-                    });
                     $header.appendChild($copy);
                 }
                 $chroma.insertBefore($header, $chroma.firstChild);
@@ -614,25 +600,20 @@ class Theme {
             this.util.forEach($headers, $header => {
                 if (scroll > ACCURACY) {
                     $header.classList.remove('fadeInDown');
-                    this.util.animateCSS($header, ['fadeOutUp', 'faster'], true);
                 } else if (scroll < - ACCURACY) {
                     $header.classList.remove('fadeOutUp');
-                    this.util.animateCSS($header, ['fadeInDown', 'faster'], true);
                 }
             });
             if (this.newScrollTop > MINIMUM) {
                 if (isMobile && scroll > ACCURACY) {
                     $fixedButtons.classList.remove('fadeIn');
-                    this.util.animateCSS($fixedButtons, ['fadeOut', 'faster'], true);
                 } else if (!isMobile || scroll < - ACCURACY) {
                     $fixedButtons.style.display = 'block';
                     $fixedButtons.classList.remove('fadeOut');
-                    this.util.animateCSS($fixedButtons, ['fadeIn', 'faster'], true);
                 }
             } else {
                 if (!isMobile) {
                     $fixedButtons.classList.remove('fadeIn');
-                    this.util.animateCSS($fixedButtons, ['fadeOut', 'faster'], true);
                 }
                 $fixedButtons.style.display = 'none';
             }
