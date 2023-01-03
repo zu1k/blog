@@ -1,0 +1,415 @@
+# 001: Github
+github:
+  Weight: 1
+  Prefix: https://github.com/
+  Title: GitHub
+  Icon:
+    Class: icon-github
+
+# 002: LinkedIn
+linkedin:
+  Weight: 2
+  Prefix: https://linkedin.com/in/
+  Title: LinkedIn
+  Icon:
+    Class: icon-linkedin
+
+# 003: Twitter
+twitter:
+  Weight: 3
+  Prefix: https://twitter.com/
+  Title: Twitter
+  Icon:
+    Class: icon-twitter
+
+# 004: Instagram
+instagram:
+  Weight: 4
+  Prefix: https://www.instagram.com/
+  Title: Instagram
+  Icon:
+    Class: icon-instagram
+
+# 005: facebook
+facebook:
+  Weight: 5
+  Prefix: https://facebook.com/
+  Title: facebook
+  Icon:
+    Class: icon-facebook
+
+# 006: Telegram
+telegram:
+  Weight: 6
+  Prefix: https://t.me/
+  Title: Telegram
+  Icon:
+    Class: icon-telegram
+
+# 007: Medium
+medium:
+  Weight: 7
+  Prefix: https://medium.com/
+  Title: Medium
+  Icon:
+    Class: icon-medium
+
+# 008: GitLab
+gitlab:
+  Weight: 8
+  Prefix: https://gitlab.com/
+  Title: GitLab
+  Icon:
+    Class: icon-gitlab
+
+# 009: YouTube Legacy
+youtubelegacy:
+  Weight: 9
+  Prefix: https://www.youtube.com/user/
+  Title: YouTube
+  Icon:
+    Class: icon-youtube
+
+# 010: YouTube Custom
+youtubecustom:
+  Weight: 10
+  Prefix: https://www.youtube.com/c/
+  Title: YouTube
+  Icon:
+    Class: icon-youtube
+
+# 011: YouTube Channel
+youtubechannel:
+  Weight: 11
+  Prefix: https://www.youtube.com/channel/
+  Title: YouTube
+  Icon:
+    Class: icon-youtube
+
+# 012: Tumblr
+tumblr:
+  Weight: 12
+  Template: https://%v.tumblr.com/
+  Title: Tumblr
+  Icon:
+    Class: icon-tumblr
+
+# 013: Quora
+quora:
+  Weight: 13
+  Prefix: https://www.quora.com/profile/
+  Title: Quora
+  Icon:
+    Class: icon-quora
+
+# 014: Keybase
+keybase:
+  Weight: 14
+  Prefix: https://keybase.io/
+  Title: Keybase
+  Icon:
+    Class: icon-keybase
+
+# 015: Pinterest
+pinterest:
+  Weight: 15
+  Prefix: https://www.pinterest.com/
+  Title: Pinterest
+  Icon:
+    Class: icon-pinterest
+
+# 016: Reddit
+reddit:
+  Weight: 16
+  Prefix: https://www.reddit.com/user/
+  Title: Reddit
+  Icon:
+    Class: icon-reddit
+
+# 017: CodePen
+codepen:
+  Weight: 17
+  Prefix: https://codepen.io/
+  Title: CodePen
+  Icon:
+    Class: icon-codepen
+
+# 018: freeCodeCamp
+freecodecamp:
+  Weight: 18
+  Prefix: https://freecodecamp.org/
+  Title: freeCodeCamp
+  Icon:
+    Class: icon-free-code-camp
+
+# 019: Bitbucket
+bitbucket:
+  Weight: 19
+  Prefix: https://bitbucket.org/
+  Title: Bitbucket
+  Icon:
+    Class: icon-bitbucket
+
+# 020: Stack Overflow
+stackoverflow:
+  Weight: 20
+  Prefix: https://stackoverflow.com/users/
+  Title: Stack Overflow
+  Icon:
+    Class: icon-codepen
+
+# 021: 微博
+weibo:
+  Weight: 21
+  Prefix: https://weibo.com/
+  Title: 微博
+  Icon:
+    Class: icon-weibo
+
+# 028: Spotify
+spotify:
+  Weight: 28
+  Prefix: https://open.spotify.com/user/
+  Title: Spotify
+  Icon:
+    Class: icon-spotify
+
+# 029: Bandcamp
+bandcamp:
+  Weight: 29
+  Template: https://%v.bandcamp.com/
+  Title: Bandcamp
+  Icon:
+    Class: icon-bandcamp
+
+# 030: PayPal
+paypal:
+  Weight: 30
+  Prefix: https://paypal.me/
+  Title: PayPal
+  Icon:
+    Class: icon-paypal
+
+# 036: Hacker News
+hackernews:
+  Weight: 36
+  Template: https://news.ycombinator.com/user?id=%v
+  Title: Hacker News
+  Icon:
+    Class: icon-hacker-news
+
+# 037: Kickstarter
+kickstarter:
+  Weight: 37
+  Prefix: https://kickstarter.com/profile/
+  Title: Kickstarter
+  Icon:
+    Class: icon-kickstarter
+
+# 038: Patreon
+patreon:
+  Weight: 38
+  Prefix: https://patreon.com/
+  Title: Patreon
+  Icon:
+    Class: icon-patreon
+
+# 039: Steam
+steam:
+  Weight: 39
+  Prefix: https://steamcommunity.com/id/
+  Title: Steam
+  Icon:
+    Class: icon-steam
+
+# 040: Twitch
+twitch:
+  Weight: 40
+  Prefix: https://www.twitch.tv/
+  Title: Twitch
+  Icon:
+    Class: icon-twitch
+
+# 041: Strava
+strava:
+  Weight: 41
+  Prefix: https://www.strava.com/athletes/
+  Title: Strava
+  Icon:
+    Class: icon-strava
+
+# 042: Skype
+skype:
+  Weight: 42
+  Template: "skype:"
+  Title: Skype
+  Icon:
+    Class: icon-skype
+
+# 043: WhatsApp
+whatsapp:
+  Weight: 43
+  Prefix: https://wa.me/
+  Title: WhatsApp
+  Icon:
+    Class: icon-whatsapp
+
+# 044: 知乎
+zhihu:
+  Weight: 44
+  Prefix: https://www.zhihu.com/people/
+  Title: 知乎
+  Icon:
+    Simpleicons: zhihu
+
+# 045: 豆瓣
+douban:
+  Weight: 45
+  Prefix: https://www.douban.com/people/
+  Title: 豆瓣
+  Icon:
+    Simpleicons: douban
+
+# 046: Angellist
+angellist:
+  Weight: 46
+  Prefix: https://angel.co/
+  Title: Angellist
+  Icon:
+    Class: icon-angellist
+
+# 047: SlideShare
+slideshare:
+  Weight: 47
+  Prefix: https://slideshare.com/
+  Title: SlideShare
+  Icon:
+    Class: icon-slideshare
+
+# 048: JSFiddle
+jsfiddle:
+  Weight: 48
+  Prefix: https://jsfiddle.com/
+  Title: JSFiddle
+  Icon:
+    Class: icon-jsfiddle
+
+# 049: DeviantArt
+deviantart:
+  Weight: 49
+  Template: https://%v.deviantart.com/
+  Title: DeviantArt
+  Icon:
+    Class: icon-deviantart
+
+# 050: Behance
+behance:
+  Weight: 50
+  Prefix: https://behance.net/
+  Title: Behance
+  Icon:
+    Class: icon-behance
+
+# 051: Dribbble
+dribbble:
+  Weight: 51
+  Prefix: https://dribbble.com/
+  Title: Dribbble
+  Icon:
+    Class: icon-dribbble
+
+# 052: WordPress
+wordpress:
+  Weight: 52
+  Template: https://%v.wordpress.com/
+  Title: WordPress
+  Icon:
+    Class: icon-wordpress
+
+# 053: Vine
+vine:
+  Weight: 53
+  Prefix: https://vine.co/
+  Title: Vine
+  Icon:
+    Class: icon-vine
+
+# 054: Google Scholar
+googlescholar:
+  Weight: 54
+  Template: https://scholar.google.com/citations?%v
+  Title: Google Scholar
+  Icon:
+    Simpleicons: googlescholar
+
+# 055: ResearchGate
+researchgate:
+  Weight: 55
+  Prefix: https://www.researchgate.net/profile/
+  Title: ResearchGate
+  Icon:
+    Class: icon-researchgate
+
+# 056: Mastodon
+mastodon:
+  Weight: 56
+  Prefix: https://mastodon.social/
+  Title: Mastodon
+  Icon:
+    Class: icon-mastodon
+
+# 057: Thingiverse
+thingiverse:
+  Weight: 57
+  Prefix: https://www.thingiverse.com/
+  Title: Thingiverse
+  Icon:
+    Src: svg/icons/thingiverse.svg
+
+# 058: Dev.To
+devto:
+  Weight: 58
+  Prefix: https://dev.to/
+  Title: Dev.To
+  Icon:
+    Class: icon-dev
+
+# 059: Gitea
+gitea:
+  Weight: 59
+  Title: Gitea
+  Icon:
+    Simpleicons: gitea
+
+# 060: XMPP
+xmpp:
+  Weight: 60
+  Template: xmpp:%v
+  Title: XMPP
+  Icon:
+    Simpleicons: xmpp
+
+# 061: Matrix
+matrix:
+  Weight: 61
+  Prefix: https://matrix.to/#/
+  Title: Matrix
+  Icon:
+    Simpleicons: matrix
+
+# 063: Email
+email:
+  Weight: 63
+  Template: mailto:%v
+  Title: Email
+  Icon:
+    Class: icon-mail
+
+# 064: RSS
+rss:
+  Weight: 64
+  Url: /index.xml
+  Title: RSS
+  Newtab: true
+  Icon:
+    Class: icon-rss

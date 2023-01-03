@@ -1,0 +1,145 @@
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.friend-link-item {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: inline-block !important;
+    width: calc(50% - 12px);
+}
+
+.friend-link-item a {
+    color: #c9c9c9
+}
+
+.friend-link-item a:hover {
+    text-decoration: underline
+}
+
+.friend-link-item img {
+    margin: 0 auto .8rem
+}
+
+.friend-link-item .friend-list-item-box {
+    overflow: auto;
+    padding: 5px 10px 0;
+    text-align: center;
+}
+
+.friend-link-item .friend-list-item-box>.friend-div {
+    position: relative;
+    float: left;
+    overflow: hidden;
+    margin: 5px 0 5px 5px;
+    width: calc(100% - 5px);
+    height: 90px;
+    border-radius: 8px;
+    line-height: 17px;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    -moz-box-shadow:2px 2px 5px #333333;
+    -webkit-box-shadow:2px 2px 5px #333333;
+    box-shadow:2px 2px 5px #333333;
+}
+
+@media screen and (max-width: 1100px) {
+    .friend-link-item .friend-list-item-box>.friend-div {
+        width: calc(100% - 10px) !important
+    }
+
+    @media screen and (max-width: 600px) {
+        .friend-link-item {
+            width: 100% !important;
+        }
+
+        .friend-link-item .friend-list-item-box>.friend-div {
+            width: calc(100% - 10px) !important
+        }
+
+        .friend-link-item .friend-list-item-box {
+            padding: 0 0 0 !important;
+        }
+    }
+}
+
+.friend-link-item .friend-list-item-box>.friend-div:hover {
+    background: #91919126;
+}
+
+.friend-link-item .friend-list-item-box>.friend-div:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    background: var(--text-bg-hover);
+    content: '';
+    -webkit-transition: -webkit-transform .3s ease-out;
+    -moz-transition: -moz-transform .3s ease-out;
+    -o-transition: -o-transform .3s ease-out;
+    -ms-transition: -ms-transform .3s ease-out;
+    transition: transform .3s ease-out;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -o-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0)
+}
+
+.friend-link-item .friend-list-item-box>.friend-div:hover:before,
+.friend-link-item .friend-list-item-box>.friend-div:focus:before,
+.friend-link-item .friend-list-item-box>.friend-div:active:before {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1)
+}
+
+.friend-link-item .friend-list-item-box>.friend-div a {
+    color: var(--font-color);
+    text-decoration: none
+}
+
+.friend-link-item .friend-list-item-box>.friend-div a img {
+    float: left;
+    margin: 15px 10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 35px;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -o-transition: all .3s;
+    -ms-transition: all .3s;
+    transition: all .3s
+}
+
+.friend-link-item .friend-list-item-box>.friend-div a .friend-info,
+.friend-link-item .friend-list-item-box>.friend-div a .friend-name {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.friend-link-item .friend-list-item-box>.friend-div a .friend-name {
+    display: block;
+    padding: 16px 10px 0 0;
+    height: 40px;
+    font-weight: 700;
+    font-size: 20px
+}
+
+.friend-link-item .friend-list-item-box>.friend-div a .friend-info {
+    display: block;
+    padding: 1px 10px 1px 0;
+    height: 50px;
+    font-size: 13px
+}

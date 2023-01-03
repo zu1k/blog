@@ -1,0 +1,101 @@
+{{- $params := .Scratch.Get "params" -}}
+{{- $cdn := .Scratch.Get "cdn" | default dict -}}
+{{- $fingerprint := .Scratch.Get "fingerprint" -}}
+{{- $config := (.Scratch.Get "this").config -}}
+
+{{- /* Smooth Scroll */ -}}
+{{- $source := $cdn.smoothScrollJS | default "lib/smooth-scroll/smooth-scroll.min.js" -}}
+{{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+
+{{- /* Search */ -}}
+{{- if .Site.Params.search | and .Site.Params.search.enable -}}
+    {{- $search := .Site.Params.search -}}
+    {{- $source := $cdn.autocompleteJS | default "lib/autocomplete/autocomplete.min.js" -}}
+    {{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+    {{- $config = dict "maxResultLength" $search.maxResultLength "snippetLength" $search.snippetLength "highlightTag" $search.highlightTag "noResultsFound" (T "noResultsFound") | dict "search" | merge $config -}}
+    {{- with .Site.Home.OutputFormats.Get "json" -}}
+        {{- $config = dict "type" "fuse" "fuseIndexURL" .RelPermalink | dict "search" | merge $config -}}
+    {{- end -}}
+    {{- $source := $cdn.fuseJS | default "lib/fuse/fuse.min.js" -}}
+    {{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+    {{- $config = dict "isCaseSensitive" $search.fuse.isCaseSensitive "minMatchCharLength" $search.fuse.minMatchCharLength "findAllMatches" $search.fuse.findAllMatches "location" $search.fuse.location "threshold" $search.fuse.threshold "distance" $search.fuse.distance "ignoreLocation" $search.fuse.ignoreLocation "useExtendedSearch" $search.fuse.useExtendedSearch "ignoreFieldNorm" $search.fuse.ignoreFieldNorm | dict "search" | merge $config -}}
+{{- end -}}
+
+{{- /* lazysizes */ -}}
+{{- $source := $cdn.lazysizesJS | default "lib/lazysizes/lazysizes.min.js" -}}
+{{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+
+{{- /* instant page */ -}}
+{{- $source := $cdn.instantPageJS | default "lib/instant-page/5.1.0.min.js" -}}
+{{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+
+{{- /* lightgallery.js */ -}}
+{{- if $params.lightgallery -}}
+    {{- $source := $cdn.lightgalleryCSS | default "lib/lightgallery/lightgallery.min.css" -}}
+    {{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/style.html" -}}
+    {{- $source := $cdn.lightgalleryJS | default "lib/lightgallery/lightgallery.min.js" -}}
+    {{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+    {{- $source := $cdn.lightgalleryThumbnailJS | default "lib/lightgallery/lg-thumbnail.min.js" -}}
+    {{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+    {{- $source := $cdn.lightgalleryZoomJS | default "lib/lightgallery/lg-zoom.min.js" -}}
+    {{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+    {{- $config = dict "selector" ".lightgallery" "speed" 400 "hideBarsDelay" 2000 "thumbnail" true "exThumbImage" "data-thumbnail" "thumbWidth" 80 "thumbContHeight" 80 "actualSize" false | dict "lightGallery" | merge $config -}}
+{{- end -}}
+
+{{- $code := $params.code | default dict -}}
+{{- $config = cond (ne $code.maxShownLines nil) $code.maxShownLines 10 | dict "maxShownLines" | dict "code" | merge $config -}}
+
+{{- /* clipboard.js */ -}}
+{{- if ne $code.copy false -}}
+    {{- $source := $cdn.clipboardJS | default "lib/clipboard/clipboard.min.js" -}}
+    {{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+    {{- $config = T "copyToClipboard" | dict "copyTitle" | dict "code" | merge $config -}}
+{{- end -}}
+
+{{- /* Sharer.js */ -}}
+{{- if $params.share.enable -}}
+    {{- $source := $cdn.sharerJS | default "lib/sharer/sharer.min.js" -}}
+    {{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+{{- end -}}
+
+{{- /* mermaid */ -}}
+{{- if (.Page.Scratch.Get "this").mermaid -}}
+    {{- $source := $cdn.mermaidJS | default "lib/mermaid/mermaid.min.js" -}}
+    {{- dict "Source" $source | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+    {{- $options := dict "targetPath" "lib/mermaid/mermaid.min.css" "enableSourceMap" true -}}
+    {{- dict "Source" "lib/mermaid/mermaid.scss" "ToCSS" $options | dict "Scratch" .Scratch "Data" | partial "scratch/style.html" -}}
+{{- end -}}
+
+{{- range $params.library.css -}}
+    {{- dict "Source" . | dict "Scratch" $.Scratch "Data" | partial "scratch/style.html" -}}
+{{- end -}}
+
+{{- range $params.library.js -}}
+    {{- dict "Source" . | dict "Scratch" $.Scratch "Data" | partial "scratch/script.html" -}}
+{{- end -}}
+
+{{- with (.Scratch.Get "this").styleArr -}}
+    {{- $content := delimit . "" -}}
+    {{- $path := substr (md5 $content) 0 6 | printf "css/%v" -}}
+    {{- $options := printf "%v.min.css" $path | dict "targetPath" -}}
+    {{- dict "Content" $content "Path" (printf "%v.scss" $path) "ToCSS" $options | dict "Scratch" $.Scratch "Data" | partial "scratch/style.html" -}}
+{{- end -}}
+
+{{- /* Config script */ -}}
+{{- $config | jsonify | printf "window.config=%s;" | dict "Content" | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+
+{{- /* Theme script */ -}}
+{{- dict "Source" "js/theme.min.js" | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+{{- $_ := (resources.Get "js/theme.min.js.map").RelPermalink -}}
+
+{{- with (.Scratch.Get "this").scriptArr -}}
+    {{- delimit . "\n" | dict "Content" | dict "Scratch" $.Scratch "Data" | partial "scratch/script.html" -}}
+{{- end -}}
+
+{{- range (.Scratch.Get "this").style -}}
+    {{- partial "plugin/style.html" . -}}
+{{- end -}}
+
+{{- range (.Scratch.Get "this").script -}}
+    {{- partial "plugin/script.html" . -}}
+{{- end -}}

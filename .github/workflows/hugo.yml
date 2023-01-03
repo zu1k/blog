@@ -1,0 +1,57 @@
+name: hugo
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      # for ipfs
+      - name: Build local
+        run: hugo --minify --config config_local.toml
+
+      - name: Deploy to GitHub Pages local
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: local
+
+      # plain
+      - name: Build
+        run: hugo --minify
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+      
+
+      - name: rm all html
+        run: find public -name "*.html" | xargs rm -f
+      - name: Upload to DogeCloud
+        uses: zu1k/dogecloud-cos-action@v0.1.3
+        with:
+          access_key: ${{ secrets.ACCESS_KEY }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+          bucket: ${{ secrets.BUCKET }}
+          region: ${{ secrets.REGION }}
+          local_path: public
+          remote_path: /
+          clean: false
+          accelerate: false

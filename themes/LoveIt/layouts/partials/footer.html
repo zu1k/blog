@@ -1,0 +1,59 @@
+{{- if ne .Site.Params.footer.enable false -}}
+    <footer class="footer">
+        <div class="footer-container">
+            {{- /* Custom Content */ -}}
+            {{- with .Site.Params.footer.custom -}}
+                <div class="footer-line">
+                    {{- safeHTML . -}}
+                </div>
+            {{- end -}}
+
+            <div class="footer-line">
+                {{- /* Copyright year */ -}}
+                {{- if ne .Site.Params.footer.copyright false -}}
+                    <i class="icon-copyright"></i>
+                    {{- with .Site.Params.footer.since -}}
+                        <span itemprop="copyrightYear">
+                            {{- if lt . now.Year }}{{ . }} - {{ end }}{{ now.Year -}}
+                        </span>
+                    {{- else -}}
+                        <span itemprop="copyrightYear">{{ now.Year }}</span>
+                    {{- end -}}
+                {{- end -}}
+
+                {{- /* Author */ -}}
+                {{- if ne .Site.Params.footer.author false -}}
+                    <span class="author" itemprop="copyrightHolder">&nbsp;<a href="{{ $.Site.Author.link | default .Site.Home.RelPermalink }}" target="_blank">{{ .Site.Author.name }}</a></span>
+                {{- end -}}
+
+                {{- /* License */ -}}
+                {{- with .Site.Params.footer.license -}}
+                    &nbsp;|&nbsp;<span class="license">{{ . | safeHTML }}</span>
+                {{- end -}}
+
+                {{- if ne .Site.Params.footer.hugo false -}}
+                    &nbsp;|&nbsp;
+                    {{- $hugo := printf `<a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo %v">Hugo</a>` -}}
+                    {{- $theme := .Scratch.Get "version" | printf `<a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt %v">LoveIt</a>` -}}
+                    {{- dict "Hugo" $hugo "Theme" $theme | T "poweredBySome" | safeHTML }}
+                {{- end -}}
+
+                {{- if .Site.Params.footer.cdnprovider -}}
+                    {{- if .Site.Params.footer.cdnprovider.enable -}}
+                        &nbsp;|&nbsp;<span class="cdnprovider"><a href="{{ .Site.Params.footer.cdnprovider.url }}" target="_blank">{{ .Site.Params.footer.cdnprovider.name }}</a></span>
+                    {{- end -}}
+                {{- end -}}
+
+                {{- /* ICP */ -}}
+                {{- with .Site.Params.footer.icp -}}
+                    <span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">{{ . | safeHTML }}</span>
+                {{- end -}}
+
+                {{- with .Site.Params.footer.statistic -}}
+                    {{- safeHTML . -}}
+                {{- end -}}
+            </div>
+        </div>
+    </footer>
+{{- end -}}

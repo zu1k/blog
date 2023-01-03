@@ -1,0 +1,41 @@
+{{- $inner := .Inner | .Page.RenderString -}}
+
+{{- $iconMap := dict "note" "icon-pencil" -}}
+{{- $iconMap  = dict "abstract" "icon-list" | merge $iconMap -}}
+{{- $iconMap  = dict "info" "icon-info-circled" | merge $iconMap -}}
+{{- $iconMap  = dict "tip" "icon-lightbulb" | merge $iconMap -}}
+{{- $iconMap  = dict "success" "icon-ok-circled" | merge $iconMap -}}
+{{- $iconMap  = dict "question" "icon-help-circle" | merge $iconMap -}}
+{{- $iconMap  = dict "warning" "icon-attention-circled" | merge $iconMap -}}
+{{- $iconMap  = dict "failure" "icon-cancel-circled" | merge $iconMap -}}
+{{- $iconMap  = dict "danger" "icon-skull-crossbones" | merge $iconMap -}}
+{{- $iconMap  = dict "bug" "icon-bug" | merge $iconMap -}}
+{{- $iconMap  = dict "example" "icon-list-alt" | merge $iconMap -}}
+{{- $iconMap  = dict "quote" "icon-quote-right" | merge $iconMap -}}
+{{- $iconDetails := "icon-angle-circled-right" -}}
+
+{{- if .IsNamedParams -}}
+    {{- $type := .Get "type" | default "note" -}}
+    <div class="details admonition {{ $type }}{{ if .Get `open` | ne false }} open{{ end }}">
+        <div class="details-summary admonition-title">
+            <i class="icon {{ index $iconMap $type | default (index $iconMap "note") }}"></i>{{ .Get "title" | default (T $type) }}<i class="details-icon {{ $iconDetails }}"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">
+                {{- $inner -}}
+            </div>
+        </div>
+    </div>
+{{- else -}}
+    {{- $type := .Get 0 | default "note" -}}
+    <div class="details admonition {{ $type }}{{ if .Get 2 | ne false }} open{{ end }}">
+        <div class="details-summary admonition-title">
+            <i class="icon {{ index $iconMap $type | default (index $iconMap "note") }}"></i>{{ .Get 1 | default (T $type) }}<i class="details-icon {{ $iconDetails }}"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">
+                {{- $inner -}}
+            </div>
+        </div>
+    </div>
+{{- end -}}

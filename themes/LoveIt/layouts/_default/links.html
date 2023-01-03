@@ -1,0 +1,53 @@
+{{- define "title" }}{{ .Title }} - {{ .Site.Title }}{{ end -}}
+
+{{- define "content" -}}
+    {{- $params := .Scratch.Get "params" -}}
+    <div class="page single special">
+        {{- /* Title */ -}}
+        <h1 class="single-title">
+            {{- .Title -}}
+        </h1>
+
+        {{- /* Subtitle */ -}}
+        {{- with $params.subtitle -}}
+            <h2 class="single-subtitle">{{ . }}</h2>
+        {{- end -}}
+
+        <div class="post-body m-t-2">
+            {{ range .Site.Data.friends }}
+                {{ range sort . "weight" }}
+                    <div class="friend-link-item noselect">
+                        <div class="friend-list-item-box" >
+                        <div class="friend-div">
+                            <a target="_blank" href={{ .url  | safeURL }} title={{ .name }} >
+                                {{- $src := .avatar -}}
+                                {{- with dict "Path" .Src "Resources" .Resources | partial "function/resource.html" -}}
+                                    {{- $src = .RelPermalink -}}
+                                {{- end -}}
+                                {{- $alt := .alt | default $src -}}
+                                {{- $loading := resources.Get "svg/loading.svg" | minify -}}
+                                <img class="lazyload friend-img"
+                                    src="{{ $loading.RelPermalink }}"
+                                    data-src="{{ $src | partial "function/cdn.html" | safeURL }}"
+                                    alt="{{ $alt }}"
+                                    data-sizes="auto"
+                                    data-srcset="{{ $src | safeURL }}, {{ $src | safeURL }} 1.5x, {{ $src | safeURL }} 2x" />
+                                <span class="friend-name">{{ .name }}</span>
+                                <span class="friend-info">{{ .description }}</span>
+                            </a>
+                        </div>
+                        </div>
+                    </div>
+                {{ end }}
+            {{ end }}
+        </div>
+
+        {{- /* Content */ -}}
+        <div class="content m-t-2" id="content">
+            {{- dict "Content" .Content "Fraction" $params.fraction | partial "function/content.html" | safeHTML -}}
+        </div>
+
+        {{- /* Comment */ -}}
+        {{- partial "comment.html" . -}}
+    </div>
+{{- end -}}

@@ -1,0 +1,10 @@
+name = "blog"
+type = "webpack"
+account_id = "d8c3c1c95d12c13b4e154ca929eb78c9"
+workers_dev = true
+route = "cf.lgf.im/*"
+zone_id = "6dcf91a06f47d9c8d59e8a967c99e7ac"
+
+[site]
+bucket = "public"
+entry-point = "workers-site"
