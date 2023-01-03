@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>EMail - 标签 - zu1k</title><link>https://zu1k.com/tags/email/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 27 Nov 2019 23:22:22 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/email/" rel="self" type="application/rss+xml"/><item><title>了解邮件列表</title><link>https://zu1k.com/posts/learn/maillist/</link><pubDate>Wed, 27 Nov 2019 23:22:22 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/maillist/</guid><description><![CDATA[<blockquote>
+<p>之前经常听说或者在新闻里见到邮件列表这个词，知道很多大佬，特别是计算机大佬、某某编程语言之父、某某操作系统之父等一堆大佬都在用邮件列表，就感到十分好奇。近期我特意上网搜索相关资料，亲身实践邮件列表的使用</p>
+</blockquote>
+<h2 id="什么是邮件列表">什么是邮件列表</h2>
+<p>邮件列表（Mailing List）的起源可以追溯到1975年，是互联网上最早的社区形式之一，也是Internet上的一种重要工具，用于各种群体之间的信息交流和信息发布</p>
+<p>邮件列表根据不同作用分为不同形式，其实我们生活中也有接触和使用过邮件列表这个东东，只是自己不知道这个东西就要邮件列表而已</p>
+<h3 id="常见的邮件列表有六种形式">常见的邮件列表有六种形式</h3>
+<ul>
+<li>电子刊物</li>
+<li>新闻邮件</li>
+<li>注册会员通讯</li>
+<li>新产品通知</li>
+<li>顾客服务/顾客关系邮件</li>
+<li>顾客定制信息</li>
+</ul>
+<h3 id="根据不同的邮件分发方式邮件列表可以分为两大类">根据不同的邮件分发方式，邮件列表可以分为两大类</h3>
+<ul>
+<li>公告型(Announcement list)</li>
+<li>讨论型(Discussion list)</li>
+</ul>
+<p><strong>公告型</strong> 顾名思义就是类似于公告板，管理员可以给邮件列表所有成员发送公告邮件，比如我们常见的 广告邮件、新闻邮件、通知邮件等</p>
+<p><strong>讨论型</strong> 通俗点讲，就是一堆人加入一个列表中，这个列表有一个公用的邮箱地址，你可以给这个邮箱地址发邮件，他会自动将邮件转发给列表中的每一个人，列表中的成员可以直接通过回复邮件参与讨论，讨论内容同样会被转发给每一个人</p>
+<p>公告型邮件列表我们在生活中经常用，不需要多说，这篇文章我们主要来实践 讨论型 邮件列表的使用</p>
+<blockquote>
+<p>下面提到的邮件列表一词特指讨论型邮件列表</p>
+</blockquote>
+<h2 id="哪里用到邮件列表">哪里用到邮件列表</h2>
+<p>其实很多地方会用到邮件列表，特别是在计算机领域，很多大佬喜欢用。他们认为网页论坛内容杂乱，无法进行深入、高效的交流，内容往往缺乏思考和谨慎。邮件就恰恰相反，发邮件时我们往往会进行慎重思考，深思熟虑之后写一长篇文章，这样最有利于交流</p>
+<p>QQ邮箱中会看到群邮件功能，这其实就是一个讨论型的邮件列表功能。但这一功能实际上只有极少一部分人充分利用了起来，绝大多数群并没有有效的利用。这个功能现大多沦为广告和病毒木马多发地，真是令人惋惜</p>
+<p>Debian、维基百科等大型组织大都自己搭建邮件列表服务，而大部分中小组织都时直接使用Google Group提供的服务，Google Group应该拥有最多的邮件列表</p>
+<p>现在Github仓库的Issue功能也与邮件列表差不多了，watching该仓库的人可以收到对应的邮件，也可以通过邮件进行回复</p>
+<h2 id="如何使用邮件列表">如何使用邮件列表</h2>
+<p>接下来我们实践如何加入一个邮件列表、在邮件列表中发起讨论、参与邮件列表中已经发起的讨论、退出邮件列表等常用操作</p>
+<h3 id="加入邮件列表">加入邮件列表</h3>
+<p>加入一个邮件列表有两种方法:</p>
+<ol>
+<li>通过在<strong>网页</strong>填写自己的邮箱地址加入</li>
+<li>比较正统的方法，通过<strong>发送邮件</strong>加入</li>
+</ol>
+<p>我们以 <strong><a href="mailto:sdusec@googlegroups.com" rel="">sdusec@googlegroups.com</a></strong> 这个邮件列表为例，演示如何加入它</p>
+<p>邮件列表有一个主邮箱地址，同时有一些辅助邮箱地址，通过发送邮件加入邮件列表需要使用 <strong><a href="mailto:sdusec&#43;subscribe@googlegroups.com" rel="">sdusec+subscribe@googlegroups.com</a></strong> 这个辅助邮箱地址</p>
+<p></p>
+<p>在Google Group中订阅一个邮箱列表可以给 <strong>邮件列表名+subscribe@googlegroups.com</strong> 这个邮箱地址发任意邮件，这里需要注意不能省略加号</p>
+<p></p>
+<p>在发送邮件后就会收到邮件列表的确认邮件，按照提示回复或点击按钮即可成功加入，对于Google Group我们回复<code>confirm</code>进行确定</p>
+<p>然后我们就会收到加入成功的通知，有些列表需要管理员进行审核，等待即可</p>
+<p></p>
+<p>审核通过后也会收到邮件通知</p>
+<p></p>
+<p>一些其他类型邮箱列表的加入方式可能稍有不同，其中有一部分需要发送主题为 <strong>subscribe</strong> 的邮件才能加入，同时订阅的邮箱地址不是**+subscribe**，而是**-subscribe**，这里是减号</p>
+<blockquote>
+<p>这里介绍的是通用方法，可能与某些邮件列表的方法不符，在尝试加入一个邮件列表之前你需要通过说明页面查看具体的订阅方法</p>
+</blockquote>
+<h3 id="发起讨论">发起讨论</h3>
+<p>在邮件列表中发起讨论也是通过发送邮件来实现的，将讨论的内容发送给公共的邮箱地址，例如发送给<strong><a href="mailto:sdusec@googlegroups.com" rel="">sdusec@googlegroups.com</a></strong>，邮件列表服务器就会将你的邮件发送给订阅该列表的每一个人</p>
+<p>注意，不要往主邮箱地址发送垃圾内容，否则会引起大家的反感。同时，在发起讨论前你要精心编辑问题内容和标题，发布高质量的讨论而不是垃圾</p>
+<h3 id="参与讨论">参与讨论</h3>
+<p>如果你收到一封邮件，想要参与讨论，只需要回复这封邮件</p>
+<p>一般情况下我们使用的邮件服务会自动将标题重命名为 <code>Re: 原标题</code>或者<code>回复：原标题</code>的格式，同时正文内容中会引用被回复的邮件内容。如果你是用的邮箱系统不支持这个操作，建议切换至Gmail</p>
+<blockquote>
+<p>注意，点击发送前观察你回复的是不是公共邮箱，只有这样其他人所有人才能看到你回复的内容
+如果回复内容只想让部分人可见，需要手动指定回复的邮箱地址</p>
+</blockquote>
+<h3 id="退订邮件列表">退订邮件列表</h3>
+<p>与加入方式类似，需要将<strong>subscribe</strong>换成<strong>unsubscribe</strong></p>
+<h2 id="如何用好邮件列表">如何用好邮件列表</h2>
+<p>使用邮件列表非常简单，但是想要用好还是得花点功夫。无论是邮件的标题还是内容，都需要精心准备，否则会被列表中的其他人视作垃圾或问题被忽视</p>
+<h3 id="email格式">Email格式</h3>
+<ul>
+<li>设置好签名档</li>
+<li>公务邮箱应该包括姓名, 公司名称, 地址, 传真, 联系方式等</li>
+<li>私人邮箱包括姓名(如经常与国外往来,应使用拼音或英文名), 邮箱地址, blog等必要信息</li>
+<li>清晰简明的标题，30字以内, 尽可能的包含5W1H</li>
+<li>可以添加标签, 方便收件人客户端自动分类.如, 通知, 汇报等</li>
+<li>抬头, 落款</li>
+</ul>
+<h3 id="内容表述">内容表述</h3>
+<ul>
+<li>倒金字塔叙事</li>
+<li>开头讲清楚概括大意, 讲清楚5W1H</li>
+<li>慢慢展开，旁征博引</li>
+</ul>
+<h4 id="5w1h">5W1H</h4>
+<ul>
+<li>who 谁</li>
+<li>When 何时</li>
+<li>Where 何地, 或什么过程中</li>
+<li>What 遇到了什么问题</li>
+<li>Why 为何会出现这个问题</li>
+<li>How 如何,或进行过怎样的尝试, 以及其他方便他人理解问题的信息</li>
+</ul>
+<h3 id="提问的智慧">提问的智慧</h3>
+<h4 id="提问之前">提问之前</h4>
+<ul>
+<li>Google it</li>
+<li>询问精通此道的身边人</li>
+<li>三思而后问</li>
+</ul>
+<h4 id="怎样提问">怎样提问</h4>
+<ul>
+<li>语法正确, 拼写无误</li>
+<li>精确描述, 信息量大</li>
+<li>只说症状, 不说猜想</li>
+<li>问题解决后要有简短声明</li>
+<li>具体参见http://wiki.woodpecker.org.cn/moin/AskForHelp&hellip;</li>
+<li>附件文档请输出为pdf版</li>
+</ul>
+<h3 id="避免邮件出现乱码">避免邮件出现乱码</h3>
+<ul>
+<li>注意编码格式，使用utf-8编码, 不要使用GBK之类的编码</li>
+<li>避免中文标点</li>
+<li>使用常见的emoji，避免使用生僻的图标</li>
+</ul>
+<h3 id="防止线索断开">防止线索断开</h3>
+<p>在使用邮件列表的过程中，会遇到<strong>线索断开</strong>的情况</p>
+<p>当看到有人提到线索断了的时候，就需要检查自己回复的邮件，标题是否有 <code>RE原邮件</code> ，内容中是否有引用被回复的邮件</p>
+<p>正常情况下你使用的邮件软件会自动完成这些内容，如果没有那你得考虑更换邮件软件或者服务</p>
+<h2 id="一些邮件列表">一些邮件列表</h2>
+<p><a href="https://lists.wikimedia.org/mailman/listinfo" target="_blank" rel="noopener noreffer">https://lists.wikimedia.org/mailman/listinfo</a></p>
+<h2 id="附加资料">附加资料</h2>
+<p><a href="https://en.wikipedia.org/wiki/Posting_style" target="_blank" rel="noopener noreffer">https://en.wikipedia.org/wiki/Posting_style</a></p>
+]]></description></item><item><title>通过Sendmail服务发送邮件</title><link>https://zu1k.com/posts/coding/send-mail-via-endmail-service/</link><pubDate>Mon, 03 Dec 2018 17:59:48 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/send-mail-via-endmail-service/</guid><description><![CDATA[<p>通过Sendmail服务发送邮件</p>
+<p>系统centos7</p>
+<p>需要开启25端口</p>
+<h3 id="安装sendmail">安装sendmail</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum  -y  install sendmail  sendmail-cf
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="安装mta功能测试用软件">安装MTA功能测试用软件</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum -y install  mailx   php
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="切换系统的邮件发送接口">切换系统的邮件发送接口</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">alternatives --config mta
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>画面显示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">There are <span class="m">2</span> programs which provide <span class="s1">&#39;mta&#39;</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Selection    Command
+</span></span><span class="line"><span class="cl">-----------------------------------------------
+</span></span><span class="line"><span class="cl">+ <span class="m">1</span>           /usr/sbin/sendmail.postfix
+</span></span><span class="line"><span class="cl">*  <span class="m">2</span>           /usr/sbin/sendmail.sendmail
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Enter to keep the current selection<span class="o">[</span>+<span class="o">]</span>, or <span class="nb">type</span> selection number: <span class="m">2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输入2后回车即把MTA功能切换到sendmail上，+号会显示在sendmail的行头。</p>
+<h3 id="配置sendmail">配置sendmail</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">vi /etc/mail/sendmail.mc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">DAEMON_OPTIONS<span class="o">(</span><span class="se">\`</span><span class="nv">Port</span><span class="o">=</span>smtp,Addr<span class="o">=</span>127.0.0.1, <span class="nv">Name</span><span class="o">=</span>MTA<span class="se">\&#39;</span><span class="o">)</span>dnl
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">把Addr的值从127.0.0.1修改为0.0.0.0，不限制使用MTA的IP。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf
+</span></span><span class="line"><span class="cl">生成正式的配置文件。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="重启并测试功能">重启并测试功能</h3>
+<p><code>reboot -f</code></p>
+<p>重启完成后确认MTA程序已经切换到sendmail</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ps aux <span class="p">|</span> grep sendmail
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      root       <span class="m">1003</span>  0.0  0.2  <span class="m">88688</span>  <span class="m">2280</span> ?        Ss   10:40   0:00 sendmail: accepting connections
+</span></span><span class="line"><span class="cl">      smmsp      <span class="m">1018</span>  0.0  0.1  <span class="m">84120</span>  <span class="m">1912</span> ?        Ss   10:40   0:00 sendmail: Queue runner@01:00:00 <span class="k">for</span> /var/spool/clientmqueue
+</span></span><span class="line"><span class="cl">      root       <span class="m">1141</span>  0.0  0.0 <span class="m">112660</span>   <span class="m">968</span> pts/1    R+   10:51   0:00 grep --color<span class="o">=</span>auto sendmail
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      sendmail的相关进程已经启动
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ps aux <span class="p">|</span> grep postfix
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      root       <span class="m">1161</span>  0.0  0.0 <span class="m">112660</span>   <span class="m">968</span> pts/1    R+   11:04   0:00 grep --color<span class="o">=</span>auto postfix
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      postfix的相关进程都没有开启
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="用php函数发送邮件">用PHP函数发送邮件</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">php</span> <span class="o">-</span><span class="nx">a</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">在PHP的交互界面下输入以下函数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">mail</span><span class="p">(</span><span class="s1">&#39;test@sohu.com&#39;</span><span class="p">,</span> <span class="s2">&#34;Test email content&#34;</span><span class="p">,</span> <span class="s2">&#34;sendmail title&#34;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s2">&#34;-f testname@sendmail.com&#34;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>使用PHP接口做测试的好处是可以随意指定发送方的邮件地址，即mail函数的最后一个参数。</li>
+</ul>
+<p>即使系统的hostname未设置也可以正常发送出邮件。</p>
+<h3 id="使用linux的mail命令发送邮件">使用linux的mail命令发送邮件</h3>
+<p>mail命令就没有使用自定义的邮件发送地址，而是使用HOSTNAME。</p>
+<p>安装系统时由于没有对hostname做特别设置，HOSTNAME的值是默认的 localhost.localdomain</p>
+<p>这样的邮件域名会被大多数邮箱如163，QQ拒收。</p>
+<p>查看邮件发送log会发现以下错误</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cat /var/log/maillog
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nv">dsn</span><span class="o">=</span>4.1.8, <span class="nv">stat</span><span class="o">=</span>Deferred: <span class="m">450</span> 4.1.8 &lt;root@localhost.localdomain&gt;: Sender address rejected: Domain not found
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>修改HOSTNAME</p>
+<p><code>vi  /etc/hosts</code></p>
+<p>在最后加上一行</p>
+<p><code>192.168.2.108  intest.com</code></p>
+<p>这里的IP地址是我跑sendmail虚拟机的IP，需根据实际情况设置</p>
+<ul>
+<li>其实这个文件hosts只是用来设置本地路由表，但填上本机IP时，系统在启动初始化中查到本机IP在hosts中，就会用hosts文件中对应的域名来设置HOSTNAME。</li>
+</ul>
+<p>重新启动</p>
+<p><code>reboot -f</code></p>
+<p>重启后发现本地的DNS配置文件etc/resolv.conf 已经被自动更新。</p>
+<p>内容变成  <code>nameserver 192.168.2.1</code></p>
+<p>执行mail命令发送邮件</p>
+<p><code>echo &quot;test mail content&quot;|mail -s &quot;Mail title&quot; test@sohu.com</code></p>
+<hr>
+<h2 id="补充">补充</h2>
+<h3 id="切换系统的邮件发送接口-1">切换系统的邮件发送接口</h3>
+<p><code>alternatives --config mta</code></p>
+<ul>
+<li>Postfix是Centos7系统默认自带。 也可以用命令 yum list installed | grep postfix 确认</li>
+</ul>
+<p>选择postfix所在行的编号后回车</p>
+<h3 id="重启并测试功能-1">重启并测试功能</h3>
+<p><code>reboot -f</code></p>
+<p>重启后查看进程看到postfix相关的进程已经启动</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ps aux <span class="p">|</span> grep postfix
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      root       <span class="m">1093</span>  0.0  0.2  <span class="m">89544</span>  <span class="m">2172</span> ?        Ss   08:55   0:00 /usr/libexec/postfix/master -w
+</span></span><span class="line"><span class="cl">      postfix    <span class="m">1094</span>  0.0  0.4  <span class="m">89648</span>  <span class="m">4016</span> ?        S    08:55   0:00 pickup -l -t unix -u
+</span></span><span class="line"><span class="cl">      postfix    <span class="m">1095</span>  0.0  0.4  <span class="m">89716</span>  <span class="m">4044</span> ?        S    08:55   0:00 qmgr -l -t unix -u
+</span></span><span class="line"><span class="cl">      postfix    <span class="m">1237</span>  0.0  0.4  <span class="m">89796</span>  <span class="m">4072</span> ?        S    09:08   0:00 cleanup -z -t unix -u
+</span></span><span class="line"><span class="cl">      postfix    <span class="m">1238</span>  0.0  0.4  <span class="m">89652</span>  <span class="m">4024</span> ?        S    09:08   0:00 trivial-rewrite -n rewrite -t unix -u
+</span></span><span class="line"><span class="cl">      postfix    <span class="m">1239</span>  0.0  0.4  <span class="m">89856</span>  <span class="m">4272</span> ?        S    09:08   0:00 smtp -t unix -u
+</span></span><span class="line"><span class="cl">      root       <span class="m">1274</span>  0.0  0.0 <span class="m">112660</span>   <span class="m">972</span> pts/1    R+   09:09   0:00 grep --color<span class="o">=</span>auto postfix
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>系统的hostname已经在sendmail配置的第六步中完成了配置，这里就直接使用PHP与mail命令</p>
+<p>两种方法做测试。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">php -a
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mail<span class="o">(</span><span class="s1">&#39;test@sohu.com&#39;</span>, <span class="s2">&#34;Test email No1&#34;</span>, <span class="s2">&#34;postfix mail&#34;</span>, null, <span class="s2">&#34;-f test@ccfst.com&#34;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">* php的mail函数可以随意指定发送地址
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;test mail&#34;</span><span class="p">|</span>mail -s <span class="s2">&#34;postfix mail title&#34;</span> test@sohu.com
+</span></span></code></pre></td></tr></table>
+</div>
+</div>]]></description></item></channel></rss>

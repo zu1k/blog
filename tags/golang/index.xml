@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Golang - 标签 - zu1k</title><link>https://zu1k.com/tags/golang/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 05 Oct 2020 20:11:24 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/golang/" rel="self" type="application/rss+xml"/><item><title>Golang逆向资料</title><link>https://zu1k.com/posts/security/reverse/golang-reverse/</link><pubDate>Mon, 05 Oct 2020 20:11:24 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/reverse/golang-reverse/</guid><description><![CDATA[<p>前段时间从逆向xray开始入门Golang逆向，打算深入学习一下Golang逆向方法，这几天看了很多相关的文章，原本想要自己总结一文，但无奈大佬们的总结太全面了，我就直接扔链接吧</p>
+<h2 id="go二进制文件逆向分析从基础到进阶">Go二进制文件逆向分析从基础到进阶</h2>
+<p>J!4Yu大佬的系列文章太全面了，他写的<a href="https://github.com/0xjiayu/go_parser" target="_blank" rel="noopener noreffer">go_parser</a>相当好用</p>
+<ul>
+<li><a href="https://www.anquanke.com/post/id/214940" target="_blank" rel="noopener noreffer">综述</a></li>
+<li><a href="https://www.anquanke.com/post/id/215419" target="_blank" rel="noopener noreffer">MetaInfo、函数符号和源码文件路径列表</a></li>
+<li><a href="https://www.anquanke.com/post/id/215820" target="_blank" rel="noopener noreffer">数据类型</a></li>
+<li><a href="https://www.anquanke.com/post/id/218377" target="_blank" rel="noopener noreffer">itab与strings</a></li>
+<li><a href="https://www.anquanke.com/post/id/218674" target="_blank" rel="noopener noreffer">Tips与实战案例</a></li>
+</ul>
+<h2 id="英文文章">英文文章</h2>
+<ul>
+<li><a href="https://rednaga.io/2016/09/21/reversing_go_binaries_like_a_pro/" target="_blank" rel="noopener noreffer">Reversing GO binaries like a pro</a></li>
+<li><a href="https://github.com/strazzere/golang_loader_assist/blob/master/Bsides-GO-Forth-And-Reverse.pdf" target="_blank" rel="noopener noreffer">Bsides-GO-Forth-And-Reverse</a></li>
+<li><a href="http://home.in.tum.de/~engelke/pubs/1709-ma.pdf" target="_blank" rel="noopener noreffer">Reconstructing Program Semantics from Go binaries</a></li>
+<li><a href="https://www.pnfsoftware.com/blog/analyzing-golang-executables/" target="_blank" rel="noopener noreffer">JEB Analyzing Golang Executables</a></li>
+<li><a href="https://dr-knz.net/go-calling-convention-x86-64.html" target="_blank" rel="noopener noreffer">The Go low-level calling convention on x86-64</a></li>
+</ul>
+<h2 id="操作文章和总结">操作文章和总结</h2>
+<ul>
+<li><a href="https://www.anquanke.com/post/id/85694" target="_blank" rel="noopener noreffer">手把手教你如何专业地逆向GO二进制程序</a></li>
+<li><a href="https://bbs.pediy.com/thread-247232.htm" target="_blank" rel="noopener noreffer">inctf(ultimateGo)</a></li>
+<li><a href="https://www.freebuf.com/articles/others-articles/176803.html" target="_blank" rel="noopener noreffer">Go语言逆向去符号信息还原</a></li>
+<li><a href="https://www.anquanke.com/post/id/170332" target="_blank" rel="noopener noreffer">无符号Golang程序逆向方法解析</a></li>
+<li><a href="https://www.cnxct.com/why-golang-elf-binary-file-is-large-than-c/" target="_blank" rel="noopener noreffer">golang语言编译的二进制可执行文件为什么比 C 语言大</a></li>
+<li><a href="http://blog.wuwenxiang.net/Go-Questions" target="_blank" rel="noopener noreffer">Go-逆向学习问题总结</a></li>
+</ul>
+<h2 id="工具和插件">工具和插件</h2>
+<ul>
+<li><a href="https://github.com/strazzere/golang_loader_assist" target="_blank" rel="noopener noreffer">https://github.com/strazzere/golang_loader_assist</a></li>
+<li><a href="https://github.com/sibears/IDAGolangHelper" target="_blank" rel="noopener noreffer">https://github.com/sibears/IDAGolangHelper</a></li>
+<li><a href="https://github.com/0xjiayu/go_parser" target="_blank" rel="noopener noreffer">https://github.com/0xjiayu/go_parser</a></li>
+<li><a href="https://github.com/CarveSystems/gostringsr2" target="_blank" rel="noopener noreffer">https://github.com/CarveSystems/gostringsr2</a></li>
+<li><a href="https://github.com/JacobPimental/r2-gohelper" target="_blank" rel="noopener noreffer">https://github.com/JacobPimental/r2-gohelper</a></li>
+<li><a href="https://github.com/sysopfb/GoMang" target="_blank" rel="noopener noreffer">https://github.com/sysopfb/GoMang</a></li>
+<li><a href="https://github.com/pnfsoftware/jeb-golang-analyzer" target="_blank" rel="noopener noreffer">https://github.com/pnfsoftware/jeb-golang-analyzer</a></li>
+<li><a href="https://gitlab.com/zaytsevgu/goutils" target="_blank" rel="noopener noreffer">https://gitlab.com/zaytsevgu/goutils</a></li>
+<li><a href="https://gitlab.com/zaytsevgu/GoUtils2.0" target="_blank" rel="noopener noreffer">https://gitlab.com/zaytsevgu/GoUtils2.0</a></li>
+</ul>
+]]></description></item><item><title>Golang逆向思考</title><link>https://zu1k.com/posts/security/reverse/golang-reverse-thinking/</link><pubDate>Sat, 20 Jun 2020 17:48:53 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/reverse/golang-reverse-thinking/</guid><description><![CDATA[<p>在前段时间对xray进行逆向过程中，发现golang编译的程序会有巨多函数，不能说都是多余的，但是大部分函数的确不是用户编写的代码生成的，而是golang运行时和各种库所需要的东西</p>
+<p>同时，因为去除了符号表，这些大量的非实际业务代码会对我们逆向工作造成极大困难，如果能够利用一些自动化工具重建符号表或者重新命名，就可以极大的便利我们逆向</p>
+<h2 id="golang特殊段">golang特殊段</h2>
+<p>在本次逆向的过程中，我遇到了上述的问题，在网上搜索发现了一个ida插件， <a href="https://github.com/sibears/IDAGolangHelper.git" target="_blank" rel="noopener noreffer">IDAGolangHelper</a></p>
+<p>这个插件的作者对golang编译器有深入的研究，他发现golang编译器在linux平台下交叉编译windows平台下运行的程序时，会生成一个特殊的段<code>.gopclntab</code>，在这个段中会保存一份特殊的符号表，作者利用这个段的信息对符号表进行了重建，我在使用过程中发现效果不错</p>
+<p>但是该方法的使用是由限制条件的，如果没有这个段的信息就完全无法使用这个工具了</p>
+<h2 id="基于同源性">基于同源性</h2>
+<p>golang编译生成的程序中大部分函数都是<code>golang运行时函数</code>和一些<code>库函数</code></p>
+<p>运行时函数与golang版本、运行平台和操作系统有关，感觉也会与是否采用交叉编译有关系，我没有深入研究</p>
+<p>而库函数分为官方库和第三方库两种，官方库是golang官方维护的基本函数库，大家用的都是相同的，第三方库大家用的实际上也是比较集中，golang生态还不是非常完善，好用的库就那么多</p>
+<p>基于以上的特点，我们可以考虑使用同源性分析的方法</p>
+<h3 id="预先的工作">预先的工作</h3>
+<p>在逆向之前，我们需要进行预先的准备</p>
+<p>首先需要使用不同版本、不同平台的golang编译器对go运行时函数、基本库函数、知名第三方库函数等代码针对不同目标平台、目标系统进行编译，生成二进制程序，然后对二进制的函数提取特征，建立函数的特征库</p>
+<h3 id="特征匹配">特征匹配</h3>
+<p>在逆向的时候，我们就可以先分析程序的golang版本、编译平台、运行平台，然后使用相对应的特征库对去除了符号表的二进制函数进行特征匹配，通过这种方法可以对大部分基本的函数重建符号表，而剩余的小量函数便可以确定为用户编写的代码，需要我们深入分析</p>
+<p>这个工作应该已经有人开始做了</p>
+]]></description></item></channel></rss>

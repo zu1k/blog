@@ -1,0 +1,173 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>树莓派开机发送IP到指定邮箱的脚本 - zu1k</title><meta name=description content="A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."><meta name=keywords content="zu1k,zuik,zu1k.com,网络安全,思考,逆向"><meta name=author content="zu1k"><meta property="og:title" content="树莓派开机发送IP到指定邮箱的脚本"><meta property="og:description" content="本脚本使用的是腾讯企业邮的smtp服务，可以根据需求进行相应修改"><meta property="og:type" content="article"><meta property="og:url" content="https://zu1k.com/posts/linux/raspberry-pi-boot-script-to-send-ip-to-specified-email/"><meta property="og:image" content="https://zu1k.com/images/logo.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-10-14T18:17:18+08:00"><meta property="article:modified_time" content="2023-01-03T09:11:33+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://zu1k.com/images/logo.jpg"><meta name=twitter:title content="树莓派开机发送IP到指定邮箱的脚本"><meta name=twitter:description content="本脚本使用的是腾讯企业邮的smtp服务，可以根据需求进行相应修改"><meta name=application-name content="zu1k"><meta name=apple-mobile-web-app-title content="zu1k"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><meta itemprop=name content="树莓派开机发送IP到指定邮箱的脚本"><meta itemprop=description content="本脚本使用的是腾讯企业邮的smtp服务，可以根据需求进行相应修改"><meta itemprop=datePublished content="2018-10-14T18:17:18+08:00"><meta itemprop=dateModified content="2023-01-03T09:11:33+08:00"><meta itemprop=wordCount content="408"><meta itemprop=image content="https://zu1k.com/images/logo.jpg"><meta itemprop=keywords content="python,树莓派,"><link rel="shortcut icon" type=image/x-icon href=../../../favicon.ico><link rel=icon type=image/png sizes=32x32 href=../../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../../favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=../../../apple-touch-icon.png><link rel=mask-icon href=../../../apple-touch-icon.png color=#5bbad5><link rel=manifest href=../../../site.webmanifest><link rel=canonical href=https://zu1k.com/posts/linux/raspberry-pi-boot-script-to-send-ip-to-specified-email/><link rel=prev href=https://zu1k.com/posts/coding/new-concept-foreign-language-online-teaching-platform-script/><link rel=next href=https://zu1k.com/posts/coding/c-cpp-string-op/><link rel=stylesheet href=../../../lib/normalize/normalize.min.css><link rel=stylesheet href=../../../css/style.min.css><link rel=stylesheet href=../../../lib/icon/css/icon-embedded.css><script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/sw_local.js")})</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"树莓派开机发送IP到指定邮箱的脚本","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/zu1k.com\/posts\/linux\/raspberry-pi-boot-script-to-send-ip-to-specified-email\/"},"image":[{"@type":"ImageObject","url":"https:\/\/zu1k.com\/images\/logo.jpg","width":256,"height":256}],"genre":"posts","keywords":"python, 树莓派","wordcount":408,"url":"https:\/\/zu1k.com\/posts\/linux\/raspberry-pi-boot-script-to-send-ip-to-specified-email\/","datePublished":"2018-10-14T18:17:18+08:00","dateModified":"2023-01-03T09:11:33+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"zu1k","logo":"https:\/\/zu1k.com\/images\/logo.jpg"},"author":{"@type":"Person","name":"zu1k"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../../ title=zu1k>zu1k</a></div><div class=menu><div class=menu-inner><a class=menu-item href=../../../posts/>文章 </a><a class=menu-item href=../../../categories/>分类 </a><a class=menu-item href=../../../tags/>标签 </a><a class=menu-item href=../../../projects/>项目 </a><a class=menu-item href=../../../links/>友链 </a><a class=menu-item href=../../../about/>关于 </a><a class=menu-item href=../../../index.xml title=RSS><i class=icon-rss></i> </a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-desktop title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class=icon-spin2></i></span>
+</span><a class="menu-item theme-switch" title=切换主题><i class=icon-adjust></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../../ title=zu1k>zu1k</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-mobile title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class=icon-spin2></i></span></div><a class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=../../../posts/ title>文章</a><a class=menu-item href=../../../categories/ title>分类</a><a class=menu-item href=../../../tags/ title>标签</a><a class=menu-item href=../../../projects/ title>项目</a><a class=menu-item href=../../../links/ title>友链</a><a class=menu-item href=../../../about/ title>关于</a><a class=menu-item href=../../../index.xml title=RSS><i class=icon-rss></i></a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i></a><a class="menu-item theme-switch" title=切换主题>
+<i class=icon-adjust></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class=single-title>树莓派开机发送IP到指定邮箱的脚本</h1><div class=post-meta><div class=post-meta-line>&nbsp;<span class=post-category>收录于 <a href=../../../categories/coding/><i class=icon-folder></i>编程</a></span></div><div class=post-meta-line><i class=icon-calendar></i>&nbsp;<time datetime=2018-10-14>2018-10-14</time>&nbsp;<i class=icon-pencil></i>&nbsp;约 408 字&nbsp;
+<i class=icon-clock></i>&nbsp;阅读 1 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon icon-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents></nav></div></div><div class=content id=content><p>本脚本使用的是腾讯企业邮的smtp服务，可以根据需求进行相应修改</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># coding:utf8</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>email</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>smtplib</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>os</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>email.mime.text</span> <span class=kn>import</span> <span class=n>MIMEText</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>email.mime.multipart</span> <span class=kn>import</span> <span class=n>MIMEMultipart</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>socket</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyEmail</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>user</span> <span class=o>=</span> <span class=kc>None</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>passwd</span> <span class=o>=</span> <span class=kc>None</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>to_list</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>cc_list</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>tag</span> <span class=o>=</span> <span class=kc>None</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>doc</span> <span class=o>=</span> <span class=kc>None</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>send</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;&#39;&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>        发送邮件
+</span></span></span><span class=line><span class=cl><span class=s1>        &#39;&#39;&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=k>try</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>server</span> <span class=o>=</span> <span class=n>smtplib</span><span class=o>.</span><span class=n>SMTP_SSL</span><span class=p>(</span><span class=s2>&#34;smtp.exmail.qq.com&#34;</span><span class=p>,</span> <span class=n>port</span><span class=o>=</span><span class=mi>465</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>server</span><span class=o>.</span><span class=n>login</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>user</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>passwd</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>server</span><span class=o>.</span><span class=n>sendmail</span><span class=p>(</span><span class=s2>&#34;&lt;</span><span class=si>%s</span><span class=s2>&gt;&#34;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>user</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>to_list</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_attach</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>            <span class=n>server</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span> <span class=s2>&#34;send email successful&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=k>except</span> <span class=ne>Exception</span><span class=p>,</span> <span class=n>e</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span> <span class=s2>&#34;send email failed </span><span class=si>%s</span><span class=s2>&#34;</span> <span class=o>%</span> <span class=n>e45</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>get_attach</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;&#39;&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>        构造邮件内容
+</span></span></span><span class=line><span class=cl><span class=s1>        &#39;&#39;&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=n>attach</span> <span class=o>=</span> <span class=n>MIMEMultipart</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>s</span> <span class=o>=</span> <span class=n>socket</span><span class=o>.</span><span class=n>socket</span><span class=p>(</span><span class=n>socket</span><span class=o>.</span><span class=n>AF_INET</span><span class=p>,</span> <span class=n>socket</span><span class=o>.</span><span class=n>SOCK_DGRAM</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>s</span><span class=o>.</span><span class=n>connect</span><span class=p>((</span><span class=s2>&#34;1.1.1.1&#34;</span><span class=p>,</span> <span class=mi>80</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=n>txt</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>getsockname</span><span class=p>()[</span><span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>s</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>txt</span> <span class=o>=</span> <span class=n>MIMEText</span><span class=p>(</span><span class=n>txt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>attach</span><span class=o>.</span><span class=n>attach</span><span class=p>(</span><span class=n>txt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>tag</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 主题,最上面的一行</span>
+</span></span><span class=line><span class=cl>            <span class=n>attach</span><span class=p>[</span><span class=s2>&#34;Subject&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>tag</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>user</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 显示在发件人</span>
+</span></span><span class=line><span class=cl>            <span class=n>attach</span><span class=p>[</span><span class=s2>&#34;From&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;PI&lt;</span><span class=si>%s</span><span class=s2>&gt;&#34;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>user</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>to_list</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 收件人列表</span>
+</span></span><span class=line><span class=cl>            <span class=n>attach</span><span class=p>[</span><span class=s2>&#34;To&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;;&#34;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>to_list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>cc_list</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 抄送列表</span>
+</span></span><span class=line><span class=cl>            <span class=n>attach</span><span class=p>[</span><span class=s2>&#34;Cc&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;;&#34;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>cc_list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>doc</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 估计任何文件都可以用base64，比如rar等</span>
+</span></span><span class=line><span class=cl>            <span class=c1># 文件名汉字用gbk编码代替</span>
+</span></span><span class=line><span class=cl>            <span class=n>name</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>basename</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>doc</span><span class=p>)</span><span class=o>.</span><span class=n>encode</span><span class=p>(</span><span class=s2>&#34;gbk&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>f</span> <span class=o>=</span> <span class=nb>open</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>doc</span><span class=p>,</span> <span class=s2>&#34;rb&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>doc</span> <span class=o>=</span> <span class=n>MIMEText</span><span class=p>(</span><span class=n>f</span><span class=o>.</span><span class=n>read</span><span class=p>(),</span> <span class=s2>&#34;base64&#34;</span><span class=p>,</span> <span class=s2>&#34;gb2312&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>doc</span><span class=p>[</span><span class=s2>&#34;Content-Type&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s1>&#39;application/octet-stream&#39;</span>
+</span></span><span class=line><span class=cl>            <span class=n>doc</span><span class=p>[</span><span class=s2>&#34;Content-Disposition&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s1>&#39;attachment; filename=&#34;&#39;</span> <span class=o>+</span> <span class=n>name</span> <span class=o>+</span> <span class=s1>&#39;&#34;&#39;</span>
+</span></span><span class=line><span class=cl>            <span class=n>attach</span><span class=o>.</span><span class=n>attach</span><span class=p>(</span><span class=n>doc</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>f</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>attach</span><span class=o>.</span><span class=n>as_string</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s2>&#34;__main__&#34;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>my</span> <span class=o>=</span> <span class=n>MyEmail</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>my</span><span class=o>.</span><span class=n>user</span> <span class=o>=</span> <span class=s2>&#34;username@example.com&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>my</span><span class=o>.</span><span class=n>passwd</span> <span class=o>=</span> <span class=s2>&#34;password&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>my</span><span class=o>.</span><span class=n>to_list</span> <span class=o>=</span> <span class=p>[</span><span class=s2>&#34;username@126.com&#34;</span><span class=p>,</span> <span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>my</span><span class=o>.</span><span class=n>cc_list</span> <span class=o>=</span> <span class=p>[</span><span class=s2>&#34;&#34;</span><span class=p>,</span> <span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>my</span><span class=o>.</span><span class=n>tag</span> <span class=o>=</span> <span class=s2>&#34;PI IP&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>my</span><span class=o>.</span><span class=n>doc</span> <span class=o>=</span> <span class=kc>None</span> <span class=c1>#u&#34;C:\Documents and Settings\Administrator\Desktop\日报.doc&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>my</span><span class=o>.</span><span class=n>send</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-01-03&nbsp;<a class=git-hash href=https://github.com/zu1k/blog/commit/ae3381bc545582a739ebaf7d8a620343711c9cfa target=_blank title="commit by zu1k(i@zu1k.com) ae3381bc545582a739ebaf7d8a620343711c9cfa: init">
+<i class=icon-hashtag></i>ae3381b</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=../../../posts/linux/raspberry-pi-boot-script-to-send-ip-to-specified-email/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a title="分享到 Twitter" data-sharer=twitter data-url=https://zu1k.com/posts/linux/raspberry-pi-boot-script-to-send-ip-to-specified-email/ data-title=树莓派开机发送IP到指定邮箱的脚本 data-via=zu1k_lv data-hashtags=python,树莓派><i class=icon-twitter></i>
+</a><a title="分享到 Tumblr" data-sharer=tumblr data-url=https://zu1k.com/posts/linux/raspberry-pi-boot-script-to-send-ip-to-specified-email/ data-title=树莓派开机发送IP到指定邮箱的脚本 data-tags=python,树莓派><i class=icon-tumblr></i>
+</a><a title="分享到 Evernote" data-sharer=evernote data-url=https://zu1k.com/posts/linux/raspberry-pi-boot-script-to-send-ip-to-specified-email/ data-title=树莓派开机发送IP到指定邮箱的脚本><i class=icon-evernote></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class=icon-tags></i>&nbsp;<a href=../../../tags/python/>Python</a>,&nbsp;<a href=../../../tags/%E6%A0%91%E8%8E%93%E6%B4%BE/>树莓派</a></section><section><span><a onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=../../../>主页</a></span></section></div><div class=post-nav><a href=../../../posts/coding/new-concept-foreign-language-online-teaching-platform-script/ class=prev rel=prev title=新理念外语网络教学平台脚本刷时长><i class=icon-angle-left></i>新理念外语网络教学平台脚本刷时长</a>
+<a href=../../../posts/coding/c-cpp-string-op/ class=next rel=next title=c/c++字符串处理大集合>c/c++字符串处理大集合<i class=icon-angle-right></i></a></div></div><div id=comments><div class=giscus id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/zh-CN>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class=icon-copyright></i><span itemprop=copyrightYear>2017 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://zu1k.com target=_blank>zu1k</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class=icon-up></i>
+</a><a id=view-comments class=fixed-button title=查看评论><i class=icon-comment></i></a></div><link rel=stylesheet href=../../../lib/lightgallery/lightgallery.min.css><script type=text/javascript src=../../../lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=../../../lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=../../../lib/fuse/fuse.min.js></script><script type=text/javascript src=../../../lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=../../../lib/instant-page/5.1.0.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=../../../lib/clipboard/clipboard.min.js></script><script type=text/javascript src=../../../lib/sharer/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{giscus:{category:"Comments",categoryid:"DIC_kwDOEfJ9084CA02V",enable:!0,mapping:"og:title",repo:"zu1k/blog",repoid:"MDEwOlJlcG9zaXRvcnkzMDExMDQ1OTU="}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1}}</script><script type=text/javascript src=../../../js/theme.min.js></script></body></html>

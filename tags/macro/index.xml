@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>宏 - 标签 - zu1k</title><link>https://zu1k.com/tags/macro/</link><description>所谓 ‘宏’ 就是用代码生成代码，也称 ‘元编程’，可以避免书写重复代码，还能减少修改后的适配工作</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zu1k.com/tags/macro/" rel="self" type="application/rss+xml"/><item><title>我爱 Rust 过程宏</title><link>https://zu1k.com/posts/coding/i-love-rust-proc_macro/</link><pubDate>Thu, 31 Mar 2022 18:09:45 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/i-love-rust-proc_macro/</guid><description><![CDATA[<h2 id="需求">需求</h2>
+<p>今天遇到一个需求，需要随机的生成一个枚举类型的实例。</p>
+<p>不像 Python 那样方便，用 Rust 需要实现特定的 Trait，最简单的想法就是给枚举类型不同的成员编个号，然后生成一个随机数，实例化对应的成员，如果成员拥有数据，就递归的随机生成这些数据。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Rust" data-lang="Rust"><span class="line"><span class="cl"><span class="k">impl</span><span class="w"> </span><span class="n">Distribution</span><span class="o">&lt;</span><span class="n">Instruction</span><span class="o">&gt;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Standard</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">sample</span><span class="o">&lt;</span><span class="n">R</span>: <span class="nc">rand</span>::<span class="n">Rng</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="o">?</span><span class="nb">Sized</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">rng</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">R</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Instruction</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">match</span><span class="w"> </span><span class="n">rng</span><span class="p">.</span><span class="n">gen_range</span><span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">459</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="mi">0</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Instruction</span>::<span class="n">Unreachable</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="mi">1</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Instruction</span>::<span class="n">Nop</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="mi">2</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Instruction</span>::<span class="n">Block</span><span class="p">(</span><span class="n">BlockType</span>::<span class="n">FunctionType</span><span class="p">(</span><span class="n">rng</span><span class="p">.</span><span class="n">gen</span><span class="p">())),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="mi">3</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Instruction</span>::<span class="n">Catch</span><span class="p">(</span><span class="n">rng</span><span class="p">.</span><span class="n">gen</span><span class="p">()),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c1">// ... 预估超过2千行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">            </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">unreachable!</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>需求本身确实简单，问题在于这个枚举类型的成员太多了，足足有 459 个，按照传统的思路，保守估计至少要写半天，并且很枯燥。图中可以看出，要对该枚举类型实现一个简单的函数都需要上千行。</p>
+<p><figure><a class="lightgallery" href="/posts/coding/i-love-rust-proc_macro/enum_variants_count.png" title="庞大的枚举类型" data-thumbnail="/posts/coding/i-love-rust-proc_macro/enum_variants_count.png" data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>">
+        
+    </a><figcaption class="image-caption">庞大的枚举类型</figcaption>
+    </figure></p>
+<p>我非常讨厌这种简单却繁重的工作的，我想到了 Rust 过程宏。</p>
+<h2 id="过程宏">过程宏</h2>
+<p>当初学 Rust 的时候，了解过 <code>宏</code> 相关的内容，其中 <code>声明宏</code> 技术我已经在其他项目中实践过了，因为其本身就是个模板生成代码，所以无法满足我这次的需求。而过程宏可以通过编写函数，对代码本身进行解析和处理，在抽象语法树的基础上进行操作，所以可以实现非常复杂的逻辑，是代码生成方面的绝佳工具。</p>
+<p>过程宏的编写比较费脑子，写一个自动生成代码的过程宏可能会让我掉几根头发。但相比较写几千行枯燥代码浪费生命，我还是更愿意舍弃掉这几根头发。并且我还惊奇的发现，<code>rand</code> 库在 <code>0.5</code> 版本的时候曾经实现过类似的过程宏，可以给任意的结构、元组和枚举实现 <code>Rand</code>，虽然已经不维护了，但是可以给我借鉴。</p>
+<h3 id="定义derive宏">定义<code>#[derive]</code>宏</h3>
+<p>我的需求是根据 <code>Instruction</code> 的成员信息，自动实现 <code>impl Distribution&lt;Instruction&gt; for Standard</code>，这里就需要写一个 <code>#[derive]</code>宏，使其作用在 <code>Instruction</code> 上。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Rust" data-lang="Rust"><span class="line"><span class="cl"><span class="cp">#[derive(Debug, Rand)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">pub</span><span class="w"> </span><span class="k">enum</span> <span class="nc">Instruction</span><span class="w"> </span><span class="p">{</span><span class="o">..</span><span class="p">.}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>首先定义名为 <code>Rand</code> 的 <code>#[derive]</code>过程宏。在这个函数里，我们可以拿到 <code>Instruction</code> 的 token 序列，然后将其解析为抽象语法树 (AST)，最后通过 AST 和我们的逻辑生成新的 token 序列，即最终生成的代码。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Rust" data-lang="Rust"><span class="line"><span class="cl"><span class="cp">#[proc_macro_derive(Rand)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">rand_derive</span><span class="p">(</span><span class="n">input</span>: <span class="nc">TokenStream</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">TokenStream</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">ast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parse_macro_input</span><span class="o">!</span><span class="p">(</span><span class="n">input</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">DeriveInput</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">impl_rand_derive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ast</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">TokenStream</span>::<span class="n">from</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
+</blockquote>
+<h3 id="解析与生成">解析与生成</h3>
+<p>在拿到抽象语法树后，顶层便是 <code>Instruction</code>，根据思路我们应该遍历其所有的成员，分析成员的类型并根据相关信息生成代码。</p>
+<p>成员可能有三种类型:</p>
+<ul>
+<li>Named: 带名称的，类似于 <code>Named { x: u8, y: i32}</code></li>
+<li>Unnamed: 不带名称的，类似于 <code>Unamed(u8, i32)</code></li>
+<li>Unit: <code>()</code> 类型</li>
+</ul>
+<p>对于 Named 和 Unamed 两种类型，都需要遍历其所有元素，递归的生成代码，用 <code>__rng.gen()</code> 来初始化数据。</p>
+<p>最后判断枚举类型成员数量，生成 <code>match</code> 语句。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Rust" data-lang="Rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">rand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="n">syn</span>::<span class="n">Data</span>::<span class="n">Enum</span><span class="p">(</span><span class="k">ref</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ast</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">ref</span><span class="w"> </span><span class="n">virants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">variants</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">virants</span><span class="p">.</span><span class="n">len</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">arms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">virants</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">variant</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">ref</span><span class="w"> </span><span class="n">ident</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">variant</span><span class="p">.</span><span class="n">ident</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">match</span><span class="w"> </span><span class="o">&amp;</span><span class="n">variant</span><span class="p">.</span><span class="n">fields</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">syn</span>::<span class="n">Fields</span>::<span class="n">Named</span><span class="p">(</span><span class="n">field</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">field</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">.</span><span class="n">named</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">.</span><span class="n">filter_map</span><span class="p">(</span><span class="o">|</span><span class="n">field</span><span class="o">|</span><span class="w"> </span><span class="n">field</span><span class="p">.</span><span class="n">ident</span><span class="p">.</span><span class="n">as_ref</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">ident</span><span class="o">|</span><span class="w"> </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="n">ident</span>: <span class="nc">__rng</span><span class="p">.</span><span class="n">gen</span><span class="p">()</span><span class="w"> </span><span class="p">})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">.</span><span class="n">collect</span>::<span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">_</span><span class="o">&gt;&gt;</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="n">name</span>::#<span class="n">ident</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="p">(</span>#<span class="n">fields</span><span class="p">,)</span><span class="o">*</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">syn</span>::<span class="n">Fields</span>::<span class="n">Unnamed</span><span class="p">(</span><span class="n">field</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">field</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">.</span><span class="n">unnamed</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">field</span><span class="o">|</span><span class="w"> </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">__rng</span><span class="p">.</span><span class="n">gen</span><span class="p">()</span><span class="w"> </span><span class="p">})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">.</span><span class="n">collect</span>::<span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">_</span><span class="o">&gt;&gt;</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="n">name</span>::#<span class="n">ident</span><span class="w"> </span><span class="p">(</span>#<span class="p">(</span>#<span class="n">fields</span><span class="p">),</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">syn</span>::<span class="n">Fields</span>::<span class="n">Unit</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="n">name</span>::#<span class="n">ident</span><span class="w"> </span><span class="p">},</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">});</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="mi">1</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="p">(</span>#<span class="n">arms</span><span class="p">)</span><span class="o">*</span><span class="w"> </span><span class="p">},</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="mi">2</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">arms</span><span class="p">.</span><span class="n">next</span><span class="p">(),</span><span class="w"> </span><span class="n">arms</span><span class="p">.</span><span class="n">next</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">__rng</span><span class="p">.</span><span class="n">gen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="n">a</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="n">b</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">variants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arms</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">.</span><span class="n">enumerate</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">arm</span><span class="p">)</span><span class="o">|</span><span class="w"> </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="n">index</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span>#<span class="n">arm</span><span class="w"> </span><span class="p">})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">.</span><span class="n">collect</span>::<span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">_</span><span class="o">&gt;&gt;</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">variants</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">unreachable!</span><span class="p">()</span><span class="w"> </span><span class="p">});</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">__rng</span><span class="p">.</span><span class="n">gen_range</span><span class="p">(</span><span class="mi">0</span><span class="o">..</span>#<span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="p">(</span>#<span class="n">variants</span><span class="p">,)</span><span class="o">*</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">unimplemented!</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">};</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="我讨厌递归">我讨厌递归</h3>
+<p>紧接着就会发现，上面在 <code>Named</code> 和 <code>Unamed</code> 的部分进行递归 <code>__rng.gen()</code>，需要其使用的类型也实现相应的 trait。除去已有的对基本类型的实现外，剩下的类型就需要我们手动实现，这也就要求我们的过程宏也能应用在其他结构上。</p>
+<p>因此我们的函数需要进行修改，以处理其他非枚举类型：结构体和元组（元组在我的需求中没用到，就不实现了）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Rust" data-lang="Rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">rand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">ast</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">syn</span>::<span class="n">Data</span>::<span class="n">Struct</span><span class="p">(</span><span class="k">ref</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="n">fields</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="n">filter_map</span><span class="p">(</span><span class="o">|</span><span class="n">field</span><span class="o">|</span><span class="w"> </span><span class="n">field</span><span class="p">.</span><span class="n">ident</span><span class="p">.</span><span class="n">as_ref</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">ident</span><span class="o">|</span><span class="w"> </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="n">ident</span>: <span class="nc">__rng</span><span class="p">.</span><span class="n">gen</span><span class="p">()</span><span class="w"> </span><span class="p">})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="n">collect</span>::<span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">_</span><span class="o">&gt;&gt;</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="n">name</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>#<span class="p">(</span>#<span class="n">fields</span><span class="p">,)</span><span class="o">*</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">syn</span>::<span class="n">Data</span>::<span class="n">Enum</span><span class="p">(</span><span class="k">ref</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// 刚刚的方法拿进来
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">unimplemented!</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">};</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>测试，发现 459 个成员通过了 458 个，剩下的那一个成员是 <code>Cow</code> 类型的。是真的烦，没办法给 Cow 实现这个 trait，甚至理论上根本没办法生成一个随机的 <code>Cow</code>，因为其根本不拥有数据，它只有指针。</p>
+<p>我马上想到了一个解决方案，牺牲一点性能，用 <code>Vec</code> 替换掉 <code>Cow</code>。虽然我们仍然无法给 <code>Vec</code> 实现这个 trait（因为 <code>Vec</code> 是外部定义的），但是我可以在解析的时候判断一下类型，如果是 <code>Vec</code> 就手动生成随机长度的随机数据，我真是个小机灵鬼。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Rust" data-lang="Rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">field</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="n">unnamed</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">field</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">inner_type_is_vec</span><span class="p">(</span><span class="o">&amp;</span><span class="n">field</span><span class="p">.</span><span class="n">ty</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">__rng</span><span class="p">.</span><span class="n">gen_range</span><span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">100</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="n">__rng</span><span class="p">.</span><span class="n">sample_iter</span><span class="p">(</span>::<span class="n">rand</span>::<span class="n">distributions</span>::<span class="n">Standard</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                        </span><span class="p">.</span><span class="n">take</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                        </span><span class="p">.</span><span class="n">collect</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">quote</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">__rng</span><span class="p">.</span><span class="n">gen</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="n">collect</span>::<span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">_</span><span class="o">&gt;&gt;</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">inner_type_is_vec</span><span class="p">(</span><span class="n">ty</span>: <span class="kp">&amp;</span><span class="nc">syn</span>::<span class="n">Type</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="n">syn</span>::<span class="n">Type</span>::<span class="n">Path</span><span class="p">(</span><span class="n">syn</span>::<span class="n">TypePath</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">ref</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ty</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">seg</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path</span><span class="p">.</span><span class="n">segments</span><span class="p">.</span><span class="n">last</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">seg</span><span class="p">.</span><span class="n">ident</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#34;Vec&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>测试，全部通过！开心！</p>
+<h2 id="总结">总结</h2>
+<p>学习过程宏，写过程宏、写测试用例，到最后测试通过，着实花了不小功夫。原本还挺有成就感的，直到刚刚，我发现虽然 <code>rand</code> 不再维护这个 <code>derive</code>宏了，但是有一个第三方维护的版本，测试了一下，除了有几个测试用例过不了，在我目前的需求上完全可用。真是痛苦，如果早点发现就好了，又是造轮子的下午。不过幸亏最终结果是好的，通过编写过程宏，用 100 行代码完成了需要 2k+ 行代码的任务，最重要的是不再枯燥。</p>
+<p>Rust 的宏机制真的强大，利用好可以做很多有意思的事。例如目前的变长参数函数还有序列化反序列化，在Rust中都是通过过程宏实现的。通过过程宏可以将其他语言中很多需要在运行时进行的工作提前到编译期进行，明显的提高了Rust程序的性能和灵活性，为我们提供了强大的表达和实现能力。</p>
+<p>我突然想到，可以用宏来做代码混淆和字面量加密，后面尝试一下。</p>
+]]></description></item></channel></rss>

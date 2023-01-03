@@ -1,0 +1,132 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>md5缺陷0e - zu1k</title><meta name=description content="A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."><meta name=keywords content="zu1k,zuik,zu1k.com,网络安全,思考,逆向"><meta name=author content="zu1k"><meta property="og:title" content="md5缺陷0e"><meta property="og:description" content="PHP在处理哈希字符串时，会利用”!=”或”==”来对哈希值进行比较，它把每一个以”0E”开头的哈希值都解释为0，所以如果两个不同的密码经过哈希以后，其哈希值都是以”0E”开头的，那么PHP将会认为他们相同，都是0。"><meta property="og:type" content="article"><meta property="og:url" content="https://zu1k.com/posts/security/web-security/md5-compare-0e/"><meta property="og:image" content="https://zu1k.com/images/logo.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-10-14T18:09:46+08:00"><meta property="article:modified_time" content="2023-01-03T09:11:33+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://zu1k.com/images/logo.jpg"><meta name=twitter:title content="md5缺陷0e"><meta name=twitter:description content="PHP在处理哈希字符串时，会利用”!=”或”==”来对哈希值进行比较，它把每一个以”0E”开头的哈希值都解释为0，所以如果两个不同的密码经过哈希以后，其哈希值都是以”0E”开头的，那么PHP将会认为他们相同，都是0。"><meta name=application-name content="zu1k"><meta name=apple-mobile-web-app-title content="zu1k"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><meta itemprop=name content="md5缺陷0e"><meta itemprop=description content="PHP在处理哈希字符串时，会利用”!=”或”==”来对哈希值进行比较，它把每一个以”0E”开头的哈希值都解释为0，所以如果两个不同的密码经过哈希以后，其哈希值都是以”0E”开头的，那么PHP将会认为他们相同，都是0。"><meta itemprop=datePublished content="2018-10-14T18:09:46+08:00"><meta itemprop=dateModified content="2023-01-03T09:11:33+08:00"><meta itemprop=wordCount content="244"><meta itemprop=image content="https://zu1k.com/images/logo.jpg"><meta itemprop=keywords content="MD5,PHP,web-security,"><link rel="shortcut icon" type=image/x-icon href=../../../../favicon.ico><link rel=icon type=image/png sizes=32x32 href=../../../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../../../favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=../../../../apple-touch-icon.png><link rel=mask-icon href=../../../../apple-touch-icon.png color=#5bbad5><link rel=manifest href=../../../../site.webmanifest><link rel=canonical href=https://zu1k.com/posts/security/web-security/md5-compare-0e/><link rel=prev href=https://zu1k.com/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/><link rel=next href=https://zu1k.com/posts/security/web-security/xss-payload/><link rel=stylesheet href=../../../../lib/normalize/normalize.min.css><link rel=stylesheet href=../../../../css/style.min.css><link rel=stylesheet href=../../../../lib/icon/css/icon-embedded.css><script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/sw_local.js")})</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"md5缺陷0e","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/zu1k.com\/posts\/security\/web-security\/md5-compare-0e\/"},"image":[{"@type":"ImageObject","url":"https:\/\/zu1k.com\/images\/logo.jpg","width":256,"height":256}],"genre":"posts","keywords":"MD5, PHP, web-security","wordcount":244,"url":"https:\/\/zu1k.com\/posts\/security\/web-security\/md5-compare-0e\/","datePublished":"2018-10-14T18:09:46+08:00","dateModified":"2023-01-03T09:11:33+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"zu1k","logo":"https:\/\/zu1k.com\/images\/logo.jpg"},"author":{"@type":"Person","name":"zu1k"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../../../ title=zu1k>zu1k</a></div><div class=menu><div class=menu-inner><a class=menu-item href=../../../../posts/>文章 </a><a class=menu-item href=../../../../categories/>分类 </a><a class=menu-item href=../../../../tags/>标签 </a><a class=menu-item href=../../../../projects/>项目 </a><a class=menu-item href=../../../../links/>友链 </a><a class=menu-item href=../../../../about/>关于 </a><a class=menu-item href=../../../../index.xml title=RSS><i class=icon-rss></i> </a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-desktop title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class=icon-spin2></i></span>
+</span><a class="menu-item theme-switch" title=切换主题><i class=icon-adjust></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../../../ title=zu1k>zu1k</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-mobile title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class=icon-spin2></i></span></div><a class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=../../../../posts/ title>文章</a><a class=menu-item href=../../../../categories/ title>分类</a><a class=menu-item href=../../../../tags/ title>标签</a><a class=menu-item href=../../../../projects/ title>项目</a><a class=menu-item href=../../../../links/ title>友链</a><a class=menu-item href=../../../../about/ title>关于</a><a class=menu-item href=../../../../index.xml title=RSS><i class=icon-rss></i></a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i></a><a class="menu-item theme-switch" title=切换主题>
+<i class=icon-adjust></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class=single-title>md5缺陷0e</h1><div class=post-meta><div class=post-meta-line>&nbsp;<span class=post-category>收录于 <a href=../../../../categories/web-security/><i class=icon-folder></i>Web 安全</a></span></div><div class=post-meta-line><i class=icon-calendar></i>&nbsp;<time datetime=2018-10-14>2018-10-14</time>&nbsp;<i class=icon-pencil></i>&nbsp;约 244 字&nbsp;
+<i class=icon-clock></i>&nbsp;阅读 1 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon icon-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents></nav></div></div><div class=content id=content><p>PHP在处理哈希字符串时，会利用”!=”或”==”来对哈希值进行比较，它把每一个以”0E”开头的哈希值都解释为0，所以如果两个不同的密码经过哈希以后，其哈希值都是以”0E”开头的，那么PHP将会认为他们相同，都是0。</p><p>关于PHP hash比较缺陷详细介绍：http://www.freebuf.com/news/67007.html</p><pre><code>0x01 md5(str)
+ 
+QNKCDZO
+0e830400451993494058024219903391
+  
+s878926199a
+0e545993274517709034328855841020
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s214587387a
+0e848240448830537924465865611904
+  
+s214587387a
+0e848240448830537924465865611904
+  
+s878926199a
+0e545993274517709034328855841020
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1184209335a
+0e072485820392773389523109082030
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s532378020a
+0e220463095855511507588041205815
+  
+s878926199a
+0e545993274517709034328855841020
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s214587387a
+0e848240448830537924465865611904
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s878926199a
+0e545993274517709034328855841020
+ 
+ 
+0x02 md5(md5())
+  
+0x03 md5(md5(str).&quot;SALT&quot;)
+2
+0e774261293712168181959463563504</code></pre></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-01-03&nbsp;<a class=git-hash href=https://github.com/zu1k/blog/commit/ae3381bc545582a739ebaf7d8a620343711c9cfa target=_blank title="commit by zu1k(i@zu1k.com) ae3381bc545582a739ebaf7d8a620343711c9cfa: init">
+<i class=icon-hashtag></i>ae3381b</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=../../../../posts/security/web-security/md5-compare-0e/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a title="分享到 Twitter" data-sharer=twitter data-url=https://zu1k.com/posts/security/web-security/md5-compare-0e/ data-title=md5缺陷0e data-via=zu1k_lv data-hashtags=MD5,PHP,web-security><i class=icon-twitter></i>
+</a><a title="分享到 Tumblr" data-sharer=tumblr data-url=https://zu1k.com/posts/security/web-security/md5-compare-0e/ data-title=md5缺陷0e data-tags=MD5,PHP,web-security><i class=icon-tumblr></i>
+</a><a title="分享到 Evernote" data-sharer=evernote data-url=https://zu1k.com/posts/security/web-security/md5-compare-0e/ data-title=md5缺陷0e><i class=icon-evernote></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class=icon-tags></i>&nbsp;<a href=../../../../tags/md5/>MD5</a>,&nbsp;<a href=../../../../tags/php/>PHP</a>,&nbsp;<a href=../../../../tags/web-security/>Web 安全</a></section><section><span><a onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=../../../../>主页</a></span></section></div><div class=post-nav><a href=../../../../posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/ class=prev rel=prev title=sql注入针对关键字过滤的绕过技巧><i class=icon-angle-left></i>sql注入针对关键字过滤的绕过技巧</a>
+<a href=../../../../posts/security/web-security/xss-payload/ class=next rel=next title="xss payload">xss payload<i class=icon-angle-right></i></a></div></div><div id=comments><div class=giscus id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/zh-CN>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class=icon-copyright></i><span itemprop=copyrightYear>2017 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://zu1k.com target=_blank>zu1k</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class=icon-up></i>
+</a><a id=view-comments class=fixed-button title=查看评论><i class=icon-comment></i></a></div><link rel=stylesheet href=../../../../lib/lightgallery/lightgallery.min.css><script type=text/javascript src=../../../../lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=../../../../lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=../../../../lib/fuse/fuse.min.js></script><script type=text/javascript src=../../../../lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=../../../../lib/instant-page/5.1.0.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=../../../../lib/clipboard/clipboard.min.js></script><script type=text/javascript src=../../../../lib/sharer/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{giscus:{category:"Comments",categoryid:"DIC_kwDOEfJ9084CA02V",enable:!0,mapping:"og:title",repo:"zu1k/blog",repoid:"MDEwOlJlcG9zaXRvcnkzMDExMDQ1OTU="}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1}}</script><script type=text/javascript src=../../../../js/theme.min.js></script></body></html>

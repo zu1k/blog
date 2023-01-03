@@ -1,0 +1,237 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>爬取教务系统所有课程并存入数据库 - zu1k</title><meta name=description content="A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."><meta name=keywords content="zu1k,zuik,zu1k.com,网络安全,思考,逆向"><meta name=author content="zu1k"><meta property="og:title" content="爬取教务系统所有课程并存入数据库"><meta property="og:description" content="环境python3.6 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59"><meta property="og:type" content="article"><meta property="og:url" content="https://zu1k.com/posts/coding/crawl-all-the-courses-of-the-educational-administration-system-and-store-them-in-the-database/"><meta property="og:image" content="https://zu1k.com/images/logo.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-12-03T17:57:48+08:00"><meta property="article:modified_time" content="2023-01-03T09:11:33+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://zu1k.com/images/logo.jpg"><meta name=twitter:title content="爬取教务系统所有课程并存入数据库"><meta name=twitter:description content="环境python3.6 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59"><meta name=application-name content="zu1k"><meta name=apple-mobile-web-app-title content="zu1k"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><meta itemprop=name content="爬取教务系统所有课程并存入数据库"><meta itemprop=description content="环境python3.6 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59"><meta itemprop=datePublished content="2018-12-03T17:57:48+08:00"><meta itemprop=dateModified content="2023-01-03T09:11:33+08:00"><meta itemprop=wordCount content="707"><meta itemprop=image content="https://zu1k.com/images/logo.jpg"><meta itemprop=keywords content="Python,"><link rel="shortcut icon" type=image/x-icon href=../../../favicon.ico><link rel=icon type=image/png sizes=32x32 href=../../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../../favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=../../../apple-touch-icon.png><link rel=mask-icon href=../../../apple-touch-icon.png color=#5bbad5><link rel=manifest href=../../../site.webmanifest><link rel=canonical href=https://zu1k.com/posts/coding/crawl-all-the-courses-of-the-educational-administration-system-and-store-them-in-the-database/><link rel=prev href=https://zu1k.com/posts/linux/block-all-ips-in-a-country/><link rel=next href=https://zu1k.com/posts/coding/send-mail-via-endmail-service/><link rel=stylesheet href=../../../lib/normalize/normalize.min.css><link rel=stylesheet href=../../../css/style.min.css><link rel=stylesheet href=../../../lib/icon/css/icon-embedded.css><script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/sw_local.js")})</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"爬取教务系统所有课程并存入数据库","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/zu1k.com\/posts\/coding\/crawl-all-the-courses-of-the-educational-administration-system-and-store-them-in-the-database\/"},"image":[{"@type":"ImageObject","url":"https:\/\/zu1k.com\/images\/logo.jpg","width":256,"height":256}],"genre":"posts","keywords":"Python","wordcount":707,"url":"https:\/\/zu1k.com\/posts\/coding\/crawl-all-the-courses-of-the-educational-administration-system-and-store-them-in-the-database\/","datePublished":"2018-12-03T17:57:48+08:00","dateModified":"2023-01-03T09:11:33+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"zu1k","logo":"https:\/\/zu1k.com\/images\/logo.jpg"},"author":{"@type":"Person","name":"zu1k"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../../ title=zu1k>zu1k</a></div><div class=menu><div class=menu-inner><a class=menu-item href=../../../posts/>文章 </a><a class=menu-item href=../../../categories/>分类 </a><a class=menu-item href=../../../tags/>标签 </a><a class=menu-item href=../../../projects/>项目 </a><a class=menu-item href=../../../links/>友链 </a><a class=menu-item href=../../../about/>关于 </a><a class=menu-item href=../../../index.xml title=RSS><i class=icon-rss></i> </a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-desktop title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class=icon-spin2></i></span>
+</span><a class="menu-item theme-switch" title=切换主题><i class=icon-adjust></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../../ title=zu1k>zu1k</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-mobile title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class=icon-spin2></i></span></div><a class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=../../../posts/ title>文章</a><a class=menu-item href=../../../categories/ title>分类</a><a class=menu-item href=../../../tags/ title>标签</a><a class=menu-item href=../../../projects/ title>项目</a><a class=menu-item href=../../../links/ title>友链</a><a class=menu-item href=../../../about/ title>关于</a><a class=menu-item href=../../../index.xml title=RSS><i class=icon-rss></i></a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i></a><a class="menu-item theme-switch" title=切换主题>
+<i class=icon-adjust></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class=single-title>爬取教务系统所有课程并存入数据库</h1><div class=post-meta><div class=post-meta-line>&nbsp;<span class=post-category>收录于 <a href=../../../categories/coding/><i class=icon-folder></i>编程</a></span></div><div class=post-meta-line><i class=icon-calendar></i>&nbsp;<time datetime=2018-12-03>2018-12-03</time>&nbsp;<i class=icon-pencil></i>&nbsp;约 707 字&nbsp;
+<i class=icon-clock></i>&nbsp;阅读 2 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon icon-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents></nav></div></div><div class=content id=content><p>环境python3.6</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># -*- coding:utf-8 -*-</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>sys</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>requests</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>hashlib</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>json</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>pymysql</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Initialize Session</span>
+</span></span><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>Session</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>ua</span> <span class=o>=</span> <span class=p>{</span><span class=s2>&#34;User-Agent&#34;</span><span class=p>:</span> <span class=s2>&#34;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:57.0) Gecko/20100101 Firefox/57.0&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>s</span><span class=o>.</span><span class=n>headers</span><span class=o>.</span><span class=n>update</span><span class=p>(</span><span class=n>ua</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>login</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>    <span class=n>username</span> <span class=o>=</span> <span class=s2>&#34;201700301234&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>password</span> <span class=o>=</span> <span class=s2>&#34;123456&#34;</span><span class=o>.</span><span class=n>encode</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># Get cookies</span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s2>&#34;http://bkjwxk.sdu.edu.cn&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># Set properties to login</span>
+</span></span><span class=line><span class=cl>    <span class=n>hs</span> <span class=o>=</span> <span class=n>hashlib</span><span class=o>.</span><span class=n>md5</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>hs</span><span class=o>.</span><span class=n>update</span><span class=p>(</span><span class=n>password</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>password</span> <span class=o>=</span> <span class=n>hs</span><span class=o>.</span><span class=n>hexdigest</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=n>data</span> <span class=o>=</span> <span class=s2>&#34;j_username=&#34;</span> <span class=o>+</span> <span class=n>username</span> <span class=o>+</span> <span class=s2>&#34;&amp;j_password=&#34;</span> <span class=o>+</span> <span class=n>password</span>
+</span></span><span class=line><span class=cl>    <span class=n>headers</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;Accept-Language&#34;</span><span class=p>:</span> <span class=s2>&#34;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;Referer&#34;</span><span class=p>:</span> <span class=s2>&#34;http://bkjwxk.sdu.edu.cn/f/login&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;Content-Type&#34;</span><span class=p>:</span> <span class=s2>&#34;application/x-www-form-urlencoded; charset=UTF-8&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;X-Requested-With&#34;</span><span class=p>:</span> <span class=s2>&#34;XMLHttpRequest&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>r</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>post</span><span class=p>(</span><span class=s2>&#34;http://bkjwxk.sdu.edu.cn/b/ajaxLogin&#34;</span><span class=p>,</span> <span class=n>data</span><span class=o>=</span><span class=n>data</span><span class=p>,</span> <span class=n>headers</span><span class=o>=</span><span class=n>headers</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># Check if is successful</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>r</span><span class=o>.</span><span class=n>text</span> <span class=o>!=</span> <span class=s2>&#34;</span><span class=se>\&#34;</span><span class=s2>success</span><span class=se>\&#34;</span><span class=s2>&#34;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;登陆出错&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;Detailed message: &#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=n>r</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>sys</span><span class=o>.</span><span class=n>exit</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;登陆成功&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># get one page data</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>onepage</span><span class=p>(</span><span class=n>i</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>data</span> <span class=o>=</span> <span class=s2>&#34;type=kc&amp;currentPage=&#34;</span> <span class=o>+</span> <span class=n>i</span> <span class=o>+</span> <span class=s2>&#34;&amp;kch=&amp;jsh=&amp;skxq=&amp;skjc=&amp;kkxsh=&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>headers</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;Accept-Language&#34;</span><span class=p>:</span> <span class=s2>&#34;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;Referer&#34;</span><span class=p>:</span> <span class=s2>&#34;http://bkjwxk.sdu.edu.cn/f/common/main&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;Content-Type&#34;</span><span class=p>:</span> <span class=s2>&#34;application/x-www-form-urlencoded; charset=UTF-8&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;X-Requested-With&#34;</span><span class=p>:</span> <span class=s2>&#34;XMLHttpRequest&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>r</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>post</span><span class=p>(</span><span class=s2>&#34;http://bkjwxk.sdu.edu.cn/b/xk/xs/kcsearch&#34;</span><span class=p>,</span> <span class=n>data</span><span class=o>=</span><span class=n>data</span><span class=p>,</span> <span class=n>headers</span><span class=o>=</span><span class=n>headers</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>json</span><span class=o>.</span><span class=n>loads</span><span class=p>(</span><span class=n>r</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 向数据库插入一条数据</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>insertone</span><span class=p>(</span><span class=n>index</span><span class=p>,</span> <span class=n>kch</span><span class=p>,</span> <span class=n>kxh</span><span class=p>,</span> <span class=n>kcm</span><span class=p>,</span> <span class=n>xf</span><span class=p>,</span> <span class=n>kclb</span><span class=p>,</span> <span class=n>kclbmc</span><span class=p>,</span> <span class=n>kkxsh</span><span class=p>,</span> <span class=n>kkxsm</span><span class=p>,</span> <span class=n>kkxsjc</span><span class=p>,</span> <span class=n>jsh</span><span class=p>,</span> <span class=n>ksm</span><span class=p>,</span> <span class=n>sjdd</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 打开数据库连接</span>
+</span></span><span class=line><span class=cl>    <span class=n>db</span> <span class=o>=</span> <span class=n>pymysql</span><span class=o>.</span><span class=n>connect</span><span class=p>(</span><span class=s2>&#34;localhost&#34;</span><span class=p>,</span> <span class=s2>&#34;kc&#34;</span><span class=p>,</span> <span class=s2>&#34;kc&#34;</span><span class=p>,</span> <span class=s2>&#34;kc&#34;</span><span class=p>,</span> <span class=n>charset</span><span class=o>=</span><span class=s1>&#39;utf8&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 使用cursor()方法获取操作游标</span>
+</span></span><span class=line><span class=cl>    <span class=n>cursor</span> <span class=o>=</span> <span class=n>db</span><span class=o>.</span><span class=n>cursor</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=c1># SQL 插入语句</span>
+</span></span><span class=line><span class=cl>    <span class=n>sql</span> <span class=o>=</span> <span class=s2>&#34;INSERT INTO kcinfo(`id`,`kch`,`kxh`,`kcm`,`xf`,`kclb`,`kclbmc`,`kkxsh`,`kkxsm`,`kkxsjc`,`jsh`,`ksm`,`sjdd`) VALUES (&#39;&#34;</span> <span class=o>+</span> <span class=n>index</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>kch</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>kxh</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>kcm</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>xf</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>kclb</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>kclbmc</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>kkxsh</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>kkxsm</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>kkxsjc</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>jsh</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>ksm</span> <span class=o>+</span> <span class=s2>&#34;&#39;,&#39;&#34;</span> <span class=o>+</span> <span class=n>sjdd</span> <span class=o>+</span> <span class=s2>&#34;&#39;)&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 执行sql语句</span>
+</span></span><span class=line><span class=cl>        <span class=n>cursor</span><span class=o>.</span><span class=n>execute</span><span class=p>(</span><span class=n>sql</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 提交到数据库执行</span>
+</span></span><span class=line><span class=cl>        <span class=n>db</span><span class=o>.</span><span class=n>commit</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>except</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=n>sql</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 如果发生错误则回滚</span>
+</span></span><span class=line><span class=cl>        <span class=n>db</span><span class=o>.</span><span class=n>rollback</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>godata</span><span class=p>(</span><span class=n>i</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>js</span> <span class=o>=</span> <span class=n>onepage</span><span class=p>(</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>result</span> <span class=ow>in</span> <span class=n>js</span><span class=p>[</span><span class=s2>&#34;object&#34;</span><span class=p>][</span><span class=s2>&#34;resultList&#34;</span><span class=p>]:</span>
+</span></span><span class=line><span class=cl>        <span class=n>kch</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;KCH&#34;</span><span class=p>]</span> <span class=k>if</span> <span class=n>kch</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span> <span class=k>else</span> <span class=s2>&#34;&#34;</span>  <span class=c1># 课程号</span>
+</span></span><span class=line><span class=cl>        <span class=n>kxh</span> <span class=o>=</span> <span class=nb>str</span><span class=p>(</span><span class=n>result</span><span class=p>[</span><span class=s2>&#34;KXH&#34;</span><span class=p>])</span> <span class=k>if</span> <span class=n>kxh</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span> <span class=k>else</span> <span class=s2>&#34;&#34;</span>  <span class=c1># 课序号</span>
+</span></span><span class=line><span class=cl>        <span class=n>kcm</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;KCM&#34;</span><span class=p>]</span>  <span class=c1># 课程名</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>kcm</span><span class=p>:</span> <span class=n>kcm</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>xf</span> <span class=o>=</span> <span class=nb>str</span><span class=p>(</span><span class=n>result</span><span class=p>[</span><span class=s2>&#34;XF&#34;</span><span class=p>])</span>  <span class=c1># 学分</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>xf</span><span class=p>:</span> <span class=n>xf</span> <span class=o>=</span> <span class=s2>&#34;0&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>kclb</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;KCLB&#34;</span><span class=p>]</span>  <span class=c1># 课程类别</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>kclb</span><span class=p>:</span> <span class=n>kclb</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>kclbmc</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;KCLBMC&#34;</span><span class=p>]</span>  <span class=c1># 课程类别名称</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>kclbmc</span><span class=p>:</span> <span class=n>kclbmc</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>kkxsh</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;KKXSH&#34;</span><span class=p>]</span>  <span class=c1># 开课学院号</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>kkxsh</span><span class=p>:</span> <span class=n>kkxsh</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>kkxsm</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;KKXSM&#34;</span><span class=p>]</span>  <span class=c1># 开科学院名</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>kkxsm</span><span class=p>:</span> <span class=n>kkxsm</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>kkxsjc</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;KKXSJC&#34;</span><span class=p>]</span>  <span class=c1># 开课学院简称</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>kkxsjc</span><span class=p>:</span> <span class=n>kkxsjc</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>jsh</span> <span class=o>=</span> <span class=nb>str</span><span class=p>(</span><span class=n>result</span><span class=p>[</span><span class=s2>&#34;JSH&#34;</span><span class=p>])</span>  <span class=c1># 教师号</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>jsh</span><span class=p>:</span> <span class=n>jsh</span> <span class=o>=</span> <span class=s2>&#34;0&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>ksm</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;JSM&#34;</span><span class=p>]</span>  <span class=c1># 教师名</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>ksm</span><span class=p>:</span> <span class=n>ksm</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>sjdd</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;SJDD&#34;</span><span class=p>]</span>  <span class=c1># 上课时间/地点</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>sjdd</span><span class=p>:</span> <span class=n>sjdd</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>index</span> <span class=o>=</span> <span class=nb>str</span><span class=p>(</span><span class=n>result</span><span class=p>[</span><span class=s2>&#34;NUM&#34;</span><span class=p>])</span>  <span class=c1># 序号 无用</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=ow>not</span> <span class=n>index</span><span class=p>:</span> <span class=n>index</span> <span class=o>=</span> <span class=s2>&#34;0&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 插</span>
+</span></span><span class=line><span class=cl>        <span class=n>insertone</span><span class=p>(</span><span class=n>index</span><span class=p>,</span> <span class=n>kch</span><span class=p>,</span> <span class=n>kxh</span><span class=p>,</span> <span class=n>kcm</span><span class=p>,</span> <span class=n>xf</span><span class=p>,</span> <span class=n>kclb</span><span class=p>,</span> <span class=n>kclbmc</span><span class=p>,</span> <span class=n>kkxsh</span><span class=p>,</span> <span class=n>kkxsm</span><span class=p>,</span> <span class=n>kkxsjc</span><span class=p>,</span> <span class=n>jsh</span><span class=p>,</span> <span class=n>ksm</span><span class=p>,</span> <span class=n>sjdd</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>login</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>173</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>godata</span><span class=p>(</span><span class=nb>str</span><span class=p>(</span><span class=n>i</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;第&#34;</span> <span class=o>+</span> <span class=nb>str</span><span class=p>(</span><span class=n>i</span><span class=p>)</span> <span class=o>+</span> <span class=s2>&#34;页完成&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-01-03&nbsp;<a class=git-hash href=https://github.com/zu1k/blog/commit/ae3381bc545582a739ebaf7d8a620343711c9cfa target=_blank title="commit by zu1k(i@zu1k.com) ae3381bc545582a739ebaf7d8a620343711c9cfa: init">
+<i class=icon-hashtag></i>ae3381b</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=../../../posts/coding/crawl-all-the-courses-of-the-educational-administration-system-and-store-them-in-the-database/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a title="分享到 Twitter" data-sharer=twitter data-url=https://zu1k.com/posts/coding/crawl-all-the-courses-of-the-educational-administration-system-and-store-them-in-the-database/ data-title=爬取教务系统所有课程并存入数据库 data-via=zu1k_lv data-hashtags=Python><i class=icon-twitter></i>
+</a><a title="分享到 Tumblr" data-sharer=tumblr data-url=https://zu1k.com/posts/coding/crawl-all-the-courses-of-the-educational-administration-system-and-store-them-in-the-database/ data-title=爬取教务系统所有课程并存入数据库 data-tags=Python><i class=icon-tumblr></i>
+</a><a title="分享到 Evernote" data-sharer=evernote data-url=https://zu1k.com/posts/coding/crawl-all-the-courses-of-the-educational-administration-system-and-store-them-in-the-database/ data-title=爬取教务系统所有课程并存入数据库><i class=icon-evernote></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class=icon-tags></i>&nbsp;<a href=../../../tags/python/>Python</a></section><section><span><a onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=../../../>主页</a></span></section></div><div class=post-nav><a href=../../../posts/linux/block-all-ips-in-a-country/ class=prev rel=prev title=屏蔽一个国家所有IP><i class=icon-angle-left></i>屏蔽一个国家所有IP</a>
+<a href=../../../posts/coding/send-mail-via-endmail-service/ class=next rel=next title=通过Sendmail服务发送邮件>通过Sendmail服务发送邮件<i class=icon-angle-right></i></a></div></div><div id=comments><div class=giscus id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/zh-CN>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class=icon-copyright></i><span itemprop=copyrightYear>2017 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://zu1k.com target=_blank>zu1k</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class=icon-up></i>
+</a><a id=view-comments class=fixed-button title=查看评论><i class=icon-comment></i></a></div><link rel=stylesheet href=../../../lib/lightgallery/lightgallery.min.css><script type=text/javascript src=../../../lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=../../../lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=../../../lib/fuse/fuse.min.js></script><script type=text/javascript src=../../../lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=../../../lib/instant-page/5.1.0.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=../../../lib/clipboard/clipboard.min.js></script><script type=text/javascript src=../../../lib/sharer/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{giscus:{category:"Comments",categoryid:"DIC_kwDOEfJ9084CA02V",enable:!0,mapping:"og:title",repo:"zu1k/blog",repoid:"MDEwOlJlcG9zaXRvcnkzMDExMDQ1OTU="}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1}}</script><script type=text/javascript src=../../../js/theme.min.js></script></body></html>

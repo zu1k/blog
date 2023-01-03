@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MD5 - 标签 - zu1k</title><link>https://zu1k.com/tags/md5/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 14 Oct 2018 18:09:46 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/md5/" rel="self" type="application/rss+xml"/><item><title>md5缺陷0e</title><link>https://zu1k.com/posts/security/web-security/md5-compare-0e/</link><pubDate>Sun, 14 Oct 2018 18:09:46 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/md5-compare-0e/</guid><description><![CDATA[<p>PHP在处理哈希字符串时，会利用”!=”或”==”来对哈希值进行比较，它把每一个以”0E”开头的哈希值都解释为0，所以如果两个不同的密码经过哈希以后，其哈希值都是以”0E”开头的，那么PHP将会认为他们相同，都是0。</p>
+<p>关于PHP hash比较缺陷详细介绍：http://www.freebuf.com/news/67007.html</p>
+<pre><code>0x01 md5(str)
+ 
+QNKCDZO
+0e830400451993494058024219903391
+  
+s878926199a
+0e545993274517709034328855841020
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s214587387a
+0e848240448830537924465865611904
+  
+s214587387a
+0e848240448830537924465865611904
+  
+s878926199a
+0e545993274517709034328855841020
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1184209335a
+0e072485820392773389523109082030
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s532378020a
+0e220463095855511507588041205815
+  
+s878926199a
+0e545993274517709034328855841020
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s214587387a
+0e848240448830537924465865611904
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s878926199a
+0e545993274517709034328855841020
+ 
+ 
+0x02 md5(md5())
+  
+0x03 md5(md5(str).&quot;SALT&quot;)
+2
+0e774261293712168181959463563504</code></pre>]]></description></item><item><title>MD5的Hash长度扩展攻击</title><link>https://zu1k.com/posts/security/crypto/md5-hash-length-extension-attack/</link><pubDate>Sun, 14 Oct 2018 17:53:03 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/crypto/md5-hash-length-extension-attack/</guid><description><![CDATA[<h2 id="一遇到的问题">一、遇到的问题</h2>
+<p>在一道web题目中遇到了以下判断:
+<code>if ($COOKIE[&quot;md5hash&quot;] === md5($secret . $input))</code></p>
+<p>在该题目中我们可以掌握的参数有<code>md5hash</code>、<code>input</code>的值，<code>secret</code>的md5值和长度，我们需要想办法让这个判断通过。</p>
+<p>由此想到了md5的hash长度扩展攻击。</p>
+<h2 id="二md5算法原理">二、md5算法原理</h2>
+<h3 id="基本介绍">基本介绍</h3>
+<p>md5是对一段信息（Message）产生信息摘要（Message-Digest），所谓信息就是指我们需要加密的原数据，信息摘要是数据经过一系列计算得出来的一个长度固定的数据（可以说是源数据的一个独一无二的指纹）。</p>
+<h3 id="计算步骤">计算步骤</h3>
+<p>MD5以512位分组来处理输入的信息，且每一分组又被划分为16个32位子分组，经过了一系列的处理后，算法的输出由四个32位分组组成，将这四个32位分组级联后将生成一个128位散列值。</p>
+<h4 id="第一步填充">第一步、填充</h4>
+<p>如果输入信息的长度(bit)对512求余的结果不等于448，就需要填充使得对512求余的结果等于448。填充的方法是填充一个1和n个0。填充完后，信息的长度就为N*512+448(bit)；</p>
+<h4 id="第二步记录信息长度">第二步、记录信息长度</h4>
+<p>用64位来存储填充前信息长度。这64位加在第一步结果的后面，这样信息长度就变为N*512+448+64=(N+1)*512位。</p>
+<h4 id="第三步装入标准的幻数四个整数">第三步、装入标准的幻数（四个整数）</h4>
+<p>标准的幻数（物理顺序）是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">（A=(01234567)16，B=(89ABCDEF)16，C=(FEDCBA98)16，D=(76543210)16）。如果在程序中定义应该是（A=0X67452301L，B=0XEFCDAB89L，C=0X98BADCFEL，D=0X10325476L）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>标准的初幻数是Md5算法固定的，不会变化，但是幻数本身是随着每一轮计算不断变动的。</p>
+<h4 id="第四步四轮循环运算">第四步、四轮循环运算</h4>
+<p>复杂运算，具体计算方法可以google一下代码。</p>
+<h3 id="举个计算的例子">举个计算的例子</h3>
+<p>比如计算字符串<code>test</code>的md5值。</p>
+<p>十六进制<code>0x74657374</code>
+二进制<code>0b1110100011001010111001101110100</code></p>
+<p>这里与448模512不同余，补位后的数据如下:</p>
+<p>十六进制</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0x74657374800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>二进制</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0b1110100011001010111001101110100100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将补位后的数据进行一次复杂的运算，计算出</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">A=0xcd6b8f09
+</span></span><span class="line"><span class="cl">B=0x73d32146
+</span></span><span class="line"><span class="cl">C=0x834edeca
+</span></span><span class="line"><span class="cl">D=0xf6b42726
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>数据小于512位，所以将ABCD通过小端规则转换就是MD5值：<code>098f6bcd4621d373cade4e832627b4f6</code></p>
+<p>如果我输入的数据不是test而是一串很长的字符，换算出来大于512小于1024，就需要计算两次，第一次先计算前512位的ABCD的值，算出来后再用这个ABCD去计算后面512位的的ABCD的值，最后算出来的ABCD经过拼接就是这串字符的MD5了</p>
+<h2 id="三md5的hash扩展攻击">三、md5的hash扩展攻击</h2>
+<h3 id="解决的问题">解决的问题</h3>
+<p>如文章最初遇到的问题，由两个字符串组成一个字符串<code>$str=$a+$b</code>，第一个字符串<code>$a</code>不知道也不可控，只可控第二个字符串<code>$b</code>，同时知道第一个字符串<code>$a</code>的MD5值和长度，这时候将第二个字符串精心构造一下，便可以算出合成的字符串<code>$str</code>的MD5的值</p>
+<h3 id="攻击原理">攻击原理</h3>
+<p>要明白攻击的原理，需要对md5计算方法稍微了解一下，就是上边的几个步骤，我们先来看一下以上问题正常计算的步骤。</p>
+<h4 id="正常的计算步骤">正常的计算步骤</h4>
+<p>假如第一个字符串<code>$a=“test”</code>,为了方便转为十六进制<code>0x74657374</code></p>
+<p>构造第二个字符串首先手动将<code>$str</code>补成一个标准的可以直接计算的512位</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$str=0x74657374800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样子，这时候再在后面追加一个<code>0x746573748</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$str=0x74657374800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000746573748
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这时候再将<code>$str</code>大于512位，程序会先将这串数据补为1024位，补充完如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$str=0x7465737480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000074657374800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002002000000000000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这时将<code>$str</code>分为两部分</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">74657374800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>和</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">74657374800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002002000000000000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这时候程序计算前一部分的ABCD的值，由于和之前算的test的数值是相同的所以</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">A=0xcd6b8f09
+</span></span><span class="line"><span class="cl">B=0x73d32146
+</span></span><span class="line"><span class="cl">C=0x834edeca
+</span></span><span class="line"><span class="cl">D=0xf6b42726
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>到了第二部分，第二部分的计算是用的第一部分的ABCD去计算，计算新的ABCD如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">A=0x226359e5
+</span></span><span class="line"><span class="cl">b=0x99df12eb
+</span></span><span class="line"><span class="cl">C=0x6853f59e
+</span></span><span class="line"><span class="cl">D=0xf5406385
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后算出来的MD5是<code>e5596322eb12df999ef55368856340f5</code></p>
+<h4 id="发现问题">发现问题</h4>
+<p>我们看到了，将原数据按长度拆分后，第一轮计算的结果会作为幻数用在第二轮计算中。而在我们的问题中，第一轮计算的结果我们是已知的，也就是说，我们知道了第二轮计算的幻数，可以进行接下来的运算。</p>
+<p>因为知道了第一个字符串<code>$a</code>的长度，我们可以构造第二个字符串<code>$b</code>的值，也就是说我们手动在第二个字符串<code>$b</code>的前端添加一些特定数据，使得第一轮计算因为我们添加数据后符合一轮计算的原数据长度而只计算出第一个字符串的hash值。这样我们就可以利用这个结果作为我们二轮计算的幻数进行下面的计算，从而预测最终的md结果。</p>
+<p>具体的操作步骤看一下例子。</p>
+<h4 id="md5的hash长度扩展攻击操作实例">md5的hash长度扩展攻击操作实例</h4>
+<p>我们作为攻击者来复现一下刚才正常计算的那个过程。</p>
+<h5 id="知道的条件">知道的条件</h5>
+<pre><code>1.$a的MD5(098f6bcd4621d373cade4e832627b4f6)
+2.$a的长度=4
+3.$b我们可以任意控制
+</code></pre>
+<p>由1我们可以逆推算出其ABCD的值</p>
+<pre><code>A=0xcd6b8f09
+B=0x73d32146
+C=0x834edeca
+D=0xf6b42726
+</code></pre>
+<p>我们构造<code>$b</code>的值，在前面添加特定长度的补全值：
+<code>$b='\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00'+'test'</code></p>
+<p>其中<code>\x80\x00\x00\x00\x00\x00\x00\x00</code>这一类的数据是在md5计算的补位过程中填充的数据，我们手动来填充一下，长度视已知的<code>$a的长度=4</code>决定。</p>
+<p>此时$str如下，由于不知道$a，我们假设$a=&ldquo;aaaa&rdquo;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$str=&#39;aaaa&#39;+&#39;\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00&#39;+&#39;test&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="我们脑补一下程序计算str的过程">我们脑补一下程序计算str的过程</h5>
+<pre><code>1.由于大于512位，先补全为1024位，
+2.将其分为两部分
+3.计算第一部分的ABCD的值
+4.再用第一部分算出来的ABCD拿来算第二部分的值。
+</code></pre>
+<p>这里由于第一部分的ABCD我们可以逆推出来，我们可以直接跳过前三部分直接进行第四部分的计算，只需要将标准的MD5的源码里面的初始的ABCD的值改为逆推出来的那个值</p>
+<p>我们用假的初始的ABCD计算一下</p>
+<p><code>0x74657374800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002002000000000000</code></p>
+<p>的MD5，发现是<code>e5596322eb12df999ef55368856340f5</code>，和上面正向计算出来的一样！</p>
+<p>到此，md5的hash扩展攻击结束。</p>
+<h2 id="四代码实现">四、代码实现</h2>
+<h3 id="my_md5py">my_md5.py</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env python</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -*- coding: utf-8 -*-</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># @Author：DshtAnger</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># theory reference:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   blog：</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#       http://blog.csdn.net/adidala/article/details/28677393</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#       http://blog.csdn.net/forgotaboutgirl/article/details/7258109</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#       http://blog.sina.com.cn/s/blog_6fe0eb1901014cpl.html</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   RFC1321：</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#       https://www.rfc-editor.org/rfc/pdfrfc/rfc1321.txt.pdf</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##############################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">genMsgLengthDescriptor</span><span class="p">(</span><span class="n">msg_bitsLenth</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    ---args:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            msg_bitsLenth : the bits length of raw message
+</span></span></span><span class="line"><span class="cl"><span class="s1">    --return:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            16 hex-encoded string , i.e.64bits,8bytes which used to describe the bits length of raw message added after padding
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#39;&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&#34;struct&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s2">&#34;&gt;Q&#34;</span><span class="p">,</span><span class="n">msg_bitsLenth</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&#34;hex&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">reverse_hex_8bytes</span><span class="p">(</span><span class="n">hex_str</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    --args:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            hex_str: a hex-encoded string with length 16 , i.e.8bytes
+</span></span></span><span class="line"><span class="cl"><span class="s1">    --return:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            transform raw message descriptor to little-endian 
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#39;&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hex_str</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">%016x</span><span class="s2">&#34;</span><span class="o">%</span><span class="nb">int</span><span class="p">(</span><span class="n">hex_str</span><span class="p">,</span><span class="mi">16</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">hex_str</span><span class="p">)</span><span class="o">==</span><span class="mi">16</span>    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&#34;struct&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s2">&#34;&lt;Q&#34;</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">hex_str</span><span class="p">,</span><span class="mi">16</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&#34;hex&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">reverse_hex_4bytes</span><span class="p">(</span><span class="n">hex_str</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    --args:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            hex_str: a hex-encoded string with length 8 , i.e.4bytes
+</span></span></span><span class="line"><span class="cl"><span class="s1">    --return:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            transform 4 bytes message block to little-endian
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#39;&#39;&#39;</span>    
+</span></span><span class="line"><span class="cl">    <span class="n">hex_str</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">%08x</span><span class="s2">&#34;</span><span class="o">%</span><span class="nb">int</span><span class="p">(</span><span class="n">hex_str</span><span class="p">,</span><span class="mi">16</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">hex_str</span><span class="p">)</span><span class="o">==</span><span class="mi">8</span>    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&#34;struct&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s2">&#34;&lt;L&#34;</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">hex_str</span><span class="p">,</span><span class="mi">16</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&#34;hex&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">deal_rawInputMsg</span><span class="p">(</span><span class="n">input_msg</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    --args:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            input_msg : inputed a ascii-encoded string
+</span></span></span><span class="line"><span class="cl"><span class="s1">    --return:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            a hex-encoded string which can be inputed to mathematical transformation function.
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#39;&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ascii_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&#34;hex&#34;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">input_msg</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">length_msg_bytes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ascii_list</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">length_msg_bits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ascii_list</span><span class="p">)</span><span class="o">*</span><span class="mi">8</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#padding</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ascii_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;80&#39;</span><span class="p">)</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ascii_list</span><span class="p">)</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mi">64</span><span class="p">)</span><span class="o">%</span><span class="mi">512</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>  
+</span></span><span class="line"><span class="cl">        <span class="n">ascii_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;00&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#add Descriptor</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ascii_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reverse_hex_8bytes</span><span class="p">(</span><span class="n">genMsgLengthDescriptor</span><span class="p">(</span><span class="n">length_msg_bits</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s2">&#34;&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ascii_list</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">getM16</span><span class="p">(</span><span class="n">hex_str</span><span class="p">,</span><span class="n">operatingBlockNum</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    --args:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            hex_str : a hex-encoded string with length in integral multiple of 512bits
+</span></span></span><span class="line"><span class="cl"><span class="s1">            operatingBlockNum : message block number which is being operated , greater than 1
+</span></span></span><span class="line"><span class="cl"><span class="s1">    --return:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            M : result of splited 64bytes into 4*16 message blocks with little-endian
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#39;&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">M</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">reverse_hex_4bytes</span><span class="p">(</span><span class="n">hex_str</span><span class="p">[</span><span class="n">i</span><span class="p">:(</span><span class="n">i</span><span class="o">+</span><span class="mi">8</span><span class="p">)]),</span><span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">128</span><span class="o">*</span><span class="p">(</span><span class="n">operatingBlockNum</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="mi">128</span><span class="o">*</span><span class="n">operatingBlockNum</span><span class="p">,</span><span class="mi">8</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">M</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#定义函数，用来产生常数T[i]，常数有可能超过32位，同样需要&amp;0xffffffff操作。注意返回的是十进制的数</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">T</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mi">4294967296</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="nb">__import__</span><span class="p">(</span><span class="s2">&#34;math&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">i</span><span class="p">))))</span><span class="o">&amp;</span><span class="mh">0xffffffff</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span>   
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#定义每轮中用到的函数</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#RL为循环左移，注意左移之后可能会超过32位，所以要和0xffffffff做与运算，确保结果为32位</span>
+</span></span><span class="line"><span class="cl"><span class="n">F</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">:((</span><span class="n">x</span><span class="o">&amp;</span><span class="n">y</span><span class="p">)</span><span class="o">|</span><span class="p">((</span><span class="o">~</span><span class="n">x</span><span class="p">)</span><span class="o">&amp;</span><span class="n">z</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">G</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">:((</span><span class="n">x</span><span class="o">&amp;</span><span class="n">z</span><span class="p">)</span><span class="o">|</span><span class="p">(</span><span class="n">y</span><span class="o">&amp;</span><span class="p">(</span><span class="o">~</span><span class="n">z</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="n">H</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">:(</span><span class="n">x</span><span class="o">^</span><span class="n">y</span><span class="o">^</span><span class="n">z</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">I</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">:(</span><span class="n">y</span><span class="o">^</span><span class="p">(</span><span class="n">x</span><span class="o">|</span><span class="p">(</span><span class="o">~</span><span class="n">z</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="n">RL</span> <span class="o">=</span> <span class="n">L</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">n</span><span class="p">:(((</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="n">n</span><span class="p">)</span><span class="o">|</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="mi">32</span><span class="o">-</span><span class="n">n</span><span class="p">)))</span><span class="o">&amp;</span><span class="p">(</span><span class="mh">0xffffffff</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">FF</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">ac</span><span class="p">):</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">F</span> <span class="p">((</span><span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">ac</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="n">RL</span> <span class="p">((</span><span class="n">a</span><span class="p">),</span> <span class="p">(</span><span class="n">s</span><span class="p">))</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span>  
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">GG</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">ac</span><span class="p">):</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">G</span> <span class="p">((</span><span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">ac</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="n">RL</span> <span class="p">((</span><span class="n">a</span><span class="p">),</span> <span class="p">(</span><span class="n">s</span><span class="p">))</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span>  
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">HH</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">ac</span><span class="p">):</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">H</span> <span class="p">((</span><span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">ac</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="n">RL</span> <span class="p">((</span><span class="n">a</span><span class="p">),</span> <span class="p">(</span><span class="n">s</span><span class="p">))</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span>  
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">II</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">ac</span><span class="p">):</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">I</span> <span class="p">((</span><span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">ac</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="n">RL</span> <span class="p">((</span><span class="n">a</span><span class="p">),</span> <span class="p">(</span><span class="n">s</span><span class="p">))</span><span class="o">&amp;</span><span class="mh">0xffffffff</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffffff</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span>      
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">show_md5</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s2">&#34;&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="p">[</span>  <span class="s2">&#34;&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">__import__</span><span class="p">(</span><span class="s2">&#34;re&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;..&#34;</span><span class="p">,</span><span class="s2">&#34;</span><span class="si">%08x</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">i</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">)</span>  <span class="p">]</span>  <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">run_md5</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="mh">0x67452301</span><span class="p">,</span><span class="n">B</span><span class="o">=</span><span class="mh">0xefcdab89</span><span class="p">,</span><span class="n">C</span><span class="o">=</span><span class="mh">0x98badcfe</span><span class="p">,</span><span class="n">D</span><span class="o">=</span><span class="mh">0x10325476</span><span class="p">,</span><span class="n">readyMsg</span><span class="o">=</span><span class="s2">&#34;&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="n">A</span>
+</span></span><span class="line"><span class="cl">    <span class="n">b</span> <span class="o">=</span> <span class="n">B</span>
+</span></span><span class="line"><span class="cl">    <span class="n">c</span> <span class="o">=</span> <span class="n">C</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d</span> <span class="o">=</span> <span class="n">D</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">readyMsg</span><span class="p">)</span><span class="o">/</span><span class="mi">128</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">M</span> <span class="o">=</span> <span class="n">getM16</span><span class="p">(</span><span class="n">readyMsg</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">exec</span> <span class="s2">&#34;M&#34;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s2">&#34;=M[&#34;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s2">&#34;]&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#First round</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M0</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mh">0xd76aa478</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M1</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mh">0xe8c7b756</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M2</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mh">0x242070db</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M3</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mh">0xc1bdceee</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mh">0xf57c0faf</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M5</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mh">0x4787c62a</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M6</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mh">0xa8304613</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M7</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mh">0xfd469501</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mh">0x698098d8</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M9</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mh">0x8b44f7af</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M10</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mh">0xffff5bb1</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M11</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mh">0x895cd7be</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M12</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mh">0x6b901122</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M13</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mh">0xfd987193</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M14</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mh">0xa679438e</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">FF</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M15</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mh">0x49b40821</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#Second round</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mh">0xf61e2562</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mh">0xc040b340</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M11</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mh">0x265e5a51</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mh">0xe9b6c7aa</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mh">0xd62f105d</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M10</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mh">0x02441453</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M15</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mh">0xd8a1e681</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M4</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mh">0xe7d3fbc8</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M9</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mh">0x21e1cde6</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M14</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mh">0xc33707d6</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M3</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mh">0xf4d50d87</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M8</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mh">0x455a14ed</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M13</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mh">0xa9e3e905</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M2</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mh">0xfcefa3f8</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M7</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mh">0x676f02d9</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">GG</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M12</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mh">0x8d2a4c8a</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#Third round</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mh">0xfffa3942</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M8</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mh">0x8771f681</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M11</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mh">0x6d9d6122</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M14</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mh">0xfde5380c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mh">0xa4beea44</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M4</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mh">0x4bdecfa9</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M7</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mh">0xf6bb4b60</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M10</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mh">0xbebfbc70</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M13</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mh">0x289b7ec6</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mh">0xeaa127fa</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M3</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mh">0xd4ef3085</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M6</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mh">0x04881d05</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mh">0xd9d4d039</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M12</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mh">0xe6db99e5</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M15</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mh">0x1fa27cf8</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">HH</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M2</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mh">0xc4ac5665</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#Fourth round</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mh">0xf4292244</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M7</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mh">0x432aff97</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mh">0xab9423a7</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M5</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mh">0xfc93a039</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M12</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mh">0x655b59c3</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M3</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mh">0x8f0ccc92</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mh">0xffeff47d</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M1</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mh">0x85845dd1</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mh">0x6fa87e4f</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M15</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mh">0xfe2ce6e0</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M6</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mh">0xa3014314</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M13</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mh">0x4e0811a1</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">M4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mh">0xf7537e82</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">M11</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mh">0xbd3af235</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">M2</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mh">0x2ad7d2bb</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="o">=</span><span class="n">II</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">M9</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mh">0xeb86d391</span><span class="n">L</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">A</span> <span class="o">+=</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl">        <span class="n">B</span> <span class="o">+=</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl">        <span class="n">C</span> <span class="o">+=</span> <span class="n">c</span>
+</span></span><span class="line"><span class="cl">        <span class="n">D</span> <span class="o">+=</span> <span class="n">d</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="o">&amp;</span><span class="mh">0xffffffff</span>
+</span></span><span class="line"><span class="cl">        <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="o">&amp;</span><span class="mh">0xffffffff</span>
+</span></span><span class="line"><span class="cl">        <span class="n">C</span> <span class="o">=</span> <span class="n">C</span><span class="o">&amp;</span><span class="mh">0xffffffff</span>
+</span></span><span class="line"><span class="cl">        <span class="n">D</span> <span class="o">=</span> <span class="n">D</span><span class="o">&amp;</span><span class="mh">0xffffffff</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">a</span> <span class="o">=</span> <span class="n">A</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span> <span class="o">=</span> <span class="n">B</span>
+</span></span><span class="line"><span class="cl">        <span class="n">c</span> <span class="o">=</span> <span class="n">C</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span> <span class="o">=</span> <span class="n">D</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span> <span class="s2">&#34;</span><span class="si">%x</span><span class="s2">,</span><span class="si">%x</span><span class="s2">,</span><span class="si">%x</span><span class="s2">,</span><span class="si">%x</span><span class="s2">&#34;</span><span class="o">%</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">show_md5</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="testpy">test.py</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># -*- coding: utf-8 -*-</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">my_md5</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">six</span>
+</span></span><span class="line"><span class="cl"><span class="n">MD5_Hash</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">length</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">text</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">s1</span><span class="o">=</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;0x&#39;</span><span class="o">+</span><span class="n">MD5_Hash</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">s2</span><span class="o">=</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;0x&#39;</span><span class="o">+</span><span class="n">MD5_Hash</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">16</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">s3</span><span class="o">=</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;0x&#39;</span><span class="o">+</span><span class="n">MD5_Hash</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">24</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">s4</span><span class="o">=</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;0x&#39;</span><span class="o">+</span><span class="n">MD5_Hash</span><span class="p">[</span><span class="mi">24</span><span class="p">:</span><span class="mi">32</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">secret</span> <span class="o">=</span> <span class="s2">&#34;a&#34;</span><span class="o">*</span><span class="n">length</span>
+</span></span><span class="line"><span class="cl"><span class="n">test</span><span class="o">=</span><span class="n">secret</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\x80</span><span class="s1">&#39;</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="o">*</span><span class="p">((</span><span class="mi">512</span><span class="o">-</span><span class="n">length</span><span class="o">*</span><span class="mi">8</span><span class="o">-</span><span class="mi">8</span><span class="o">-</span><span class="mi">8</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span><span class="o">+</span><span class="n">six</span><span class="o">.</span><span class="n">int2byte</span><span class="p">(</span><span class="n">length</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\x00\x00\x00\x00\x00\x00\x00</span><span class="s1">&#39;</span><span class="o">+</span><span class="n">text</span>
+</span></span><span class="line"><span class="cl"><span class="n">s</span> <span class="o">=</span> <span class="n">my_md5</span><span class="o">.</span><span class="n">deal_rawInputMsg</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">r</span> <span class="o">=</span> <span class="n">my_md5</span><span class="o">.</span><span class="n">deal_rawInputMsg</span><span class="p">(</span><span class="n">secret</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">inp</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">):]</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="s1">&#39;填充完的数据为:&#39;</span><span class="o">+</span><span class="n">test</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="s1">&#39;----------------------------------------------------------&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="s1">&#39;扩充完的数据为(16进制):&#39;</span><span class="o">+</span><span class="n">s</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="s1">&#39;----------------------------------------------------------&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="s1">&#39;截取最后分组的数据(16进制):&#39;</span><span class="o">+</span><span class="n">inp</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="s1">&#39;----------------------------------------------------------&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span>  <span class="s1">&#39;最终填充结果为:&#39;</span><span class="o">+</span><span class="nb">bytes</span><span class="p">(</span><span class="n">test</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span> <span class="s2">&#34;填充后的md5为:&#34;</span><span class="o">+</span><span class="n">my_md5</span><span class="o">.</span><span class="n">run_md5</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">s3</span><span class="p">,</span><span class="n">s4</span><span class="p">,</span><span class="n">inp</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>脚本使用时第一个命令行参数是一个服务端加密一个固定长度数据的md5，第二个参数是固定的长度
+例如已知服务端加密一个15字符的md5：test.py 571580b26c65f306376d4f64e53cb5c7 15</p>
+<h4 id="参考文章">参考文章</h4>
+<p><a href="https://www.cnblogs.com/p00mj/p/6288337.html" target="_blank" rel="noopener noreffer">MD5的Hash长度扩展攻击</a></p>]]></description></item></channel></rss>

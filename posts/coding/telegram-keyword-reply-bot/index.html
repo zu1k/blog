@@ -1,0 +1,173 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Telegram关键词自动回复机器人 - zu1k</title><meta name=description content="A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."><meta name=keywords content="telegram,tgbot,bot,tg,autoreply,regex,正则表达式,关键词,关键词回复,关键词自动回复,自动回复机器人,机器人,关键词机器人,关键词自动回复机器人,正则匹配,群主助手,群主小秘,群管家,群主帮手,tg机器人,telegram机器人,添加规则,规则匹配,删除规则,规则管理,群组管理,自动禁言,自动群管,自动封禁,自动踢出,Markdown,用户信息,开源,zu1k,zuik,zu1k.com,网络安全,思考,逆向"><meta name=author content="zu1k"><meta property="og:title" content="Telegram关键词自动回复机器人"><meta property="og:description" content="功能 下面简单说一下机器人实现的一些功能，具体还是推荐你亲身进行体验。 首先为了满足最初的需求，机器人需要能够对特定关键词回复特定的文字内容。 为"><meta property="og:type" content="article"><meta property="og:url" content="https://zu1k.com/posts/coding/telegram-keyword-reply-bot/"><meta property="og:image" content="https://zu1k.com/images/logo.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-11-26T19:03:35+08:00"><meta property="article:modified_time" content="2023-01-03T09:11:33+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://zu1k.com/images/logo.jpg"><meta name=twitter:title content="Telegram关键词自动回复机器人"><meta name=twitter:description content="功能 下面简单说一下机器人实现的一些功能，具体还是推荐你亲身进行体验。 首先为了满足最初的需求，机器人需要能够对特定关键词回复特定的文字内容。 为"><meta name=application-name content="zu1k"><meta name=apple-mobile-web-app-title content="zu1k"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><meta itemprop=name content="Telegram关键词自动回复机器人"><meta itemprop=description content="功能 下面简单说一下机器人实现的一些功能，具体还是推荐你亲身进行体验。 首先为了满足最初的需求，机器人需要能够对特定关键词回复特定的文字内容。 为"><meta itemprop=datePublished content="2019-11-26T19:03:35+08:00"><meta itemprop=dateModified content="2023-01-03T09:11:33+08:00"><meta itemprop=wordCount content="4012"><meta itemprop=image content="https://zu1k.com/images/logo.jpg"><meta itemprop=keywords content="telegram,bot,coding,"><link rel="shortcut icon" type=image/x-icon href=../../../favicon.ico><link rel=icon type=image/png sizes=32x32 href=../../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../../favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=../../../apple-touch-icon.png><link rel=mask-icon href=../../../apple-touch-icon.png color=#5bbad5><link rel=manifest href=../../../site.webmanifest><link rel=canonical href=https://zu1k.com/posts/coding/telegram-keyword-reply-bot/><link rel=prev href=https://zu1k.com/posts/coding/set-ipv6-for-every-docker-container/><link rel=next href=https://zu1k.com/posts/life/bad-experience-with-name/><link rel=stylesheet href=../../../lib/normalize/normalize.min.css><link rel=stylesheet href=../../../css/style.min.css><link rel=stylesheet href=../../../lib/icon/css/icon-embedded.css><script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/sw_local.js")})</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Telegram关键词自动回复机器人","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/zu1k.com\/posts\/coding\/telegram-keyword-reply-bot\/"},"image":[{"@type":"ImageObject","url":"https:\/\/zu1k.com\/images\/logo.jpg","width":256,"height":256}],"genre":"posts","keywords":"telegram, bot, coding","wordcount":4012,"url":"https:\/\/zu1k.com\/posts\/coding\/telegram-keyword-reply-bot\/","datePublished":"2019-11-26T19:03:35+08:00","dateModified":"2023-01-03T09:11:33+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"zu1k","logo":"https:\/\/zu1k.com\/images\/logo.jpg"},"author":{"@type":"Person","name":"zu1k"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../../ title=zu1k>zu1k</a></div><div class=menu><div class=menu-inner><a class=menu-item href=../../../posts/>文章 </a><a class=menu-item href=../../../categories/>分类 </a><a class=menu-item href=../../../tags/>标签 </a><a class=menu-item href=../../../projects/>项目 </a><a class=menu-item href=../../../links/>友链 </a><a class=menu-item href=../../../about/>关于 </a><a class=menu-item href=../../../index.xml title=RSS><i class=icon-rss></i> </a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-desktop title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class=icon-spin2></i></span>
+</span><a class="menu-item theme-switch" title=切换主题><i class=icon-adjust></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../../ title=zu1k>zu1k</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-mobile title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class=icon-spin2></i></span></div><a class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=../../../posts/ title>文章</a><a class=menu-item href=../../../categories/ title>分类</a><a class=menu-item href=../../../tags/ title>标签</a><a class=menu-item href=../../../projects/ title>项目</a><a class=menu-item href=../../../links/ title>友链</a><a class=menu-item href=../../../about/ title>关于</a><a class=menu-item href=../../../index.xml title=RSS><i class=icon-rss></i></a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i></a><a class="menu-item theme-switch" title=切换主题>
+<i class=icon-adjust></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class=single-title>Telegram关键词自动回复机器人</h1><div class=post-meta><div class=post-meta-line>&nbsp;<span class=post-category>收录于 <a href=../../../categories/coding/><i class=icon-folder></i>编程</a></span></div><div class=post-meta-line><i class=icon-calendar></i>&nbsp;<time datetime=2019-11-26>2019-11-26</time>&nbsp;<i class=icon-pencil></i>&nbsp;约 4012 字&nbsp;
+<i class=icon-clock></i>&nbsp;阅读 9 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon icon-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#功能>功能</a></li><li><a href=#使用示例>使用示例</a><ul><li><a href=#回复文本内容>回复文本内容</a></li><li><a href=#回复图片>回复图片</a></li><li><a href=#回复动图视频文件>回复动图\视频\文件</a></li><li><a href=#图片文件添加文字>图片\文件添加文字</a></li><li><a href=#正则表达式进行匹配>正则表达式进行匹配</a></li><li><a href=#一次回复多条消息>一次回复多条消息</a></li><li><a href=#回复随机消息>回复随机消息</a></li><li><a href=#自动删除消息>自动删除消息</a></li><li><a href=#自动禁言踢人>自动禁言\踢人</a></li><li><a href=#屏蔽特定后缀文件>屏蔽特定后缀文件</a></li><li><a href=#进群欢迎和退群欢送>进群欢迎和退群欢送</a></li><li><a href=#回复按钮>回复按钮</a></li></ul></li><li><a href=#命令列表>命令列表</a></li><li><a href=#开源>开源</a></li></ul></nav></div></div><div class=content id=content><h2 id=功能>功能</h2><p>下面简单说一下机器人实现的一些功能，具体还是推荐你亲身进行体验。</p><ul><li>首先为了满足最初的需求，机器人需要能够对特定关键词回复特定的文字内容。</li><li>为了能够更加灵活的匹配关键词，针对关键词识别增加了正则匹配方式的关键词识别方法，可以让用户能够编写更加灵活的关键词规则。</li><li>为了满足更加更多种类的回复内容，回复种类除了文字还增加了照片、动图、视频、文件、表情、Marddown等其他的回复种类，并且允许给图片、文件等添加描述信息。</li><li>为了满足部分群组的多样化回复需求，回复方式增加了 多个回复消息混合、多个回复类型混合、回复内容随机选择 等复杂但灵活的规则配置方式。</li><li>为了能够实现部分群管功能，回复类型增加了群管操作，包括 消息删除、消息置顶、人员禁言、人员踢出等功能，只需要设置相应的关键词回复规则即可。</li><li>除了关键词功能外，我还给机器人增加了群管命令、获取用户id信息、禁言游戏、加群欢迎、退群送别、一键呼叫所有管理员等功能。</li></ul><p>下面我将演示一些基本的功能配置和使用方法。</p><h2 id=使用示例>使用示例</h2><ul><li>关键词规则的使用</li><li>添加规则使用 /add 关键词===回复内容</li><li>删除规则使用 /del 关键词</li><li>查看规则在群组里使用 /list</li></ul><h3 id=回复文本内容>回复文本内容</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/add 汉化===tg支持语言包功能，点击【链接】即可修改为中文。
+</span></span></code></pre></td></tr></table></div></div><p>添加这条规则之后，机器人就会对每一条包含有“汉化”关键词的消息回复“tg支持语言包功能，点击【链接】即可修改为中文。”这个特定内容。</p><p>回复文字支持markdown语法，添加前缀 <code>md::</code> 即可使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>/add <span class=nv>testmd</span><span class=o>===</span>md::加粗**bold**
+</span></span></code></pre></td></tr></table></div></div><h3 id=回复图片>回复图片</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/add 关键词===photo::图片链接
+</span></span></code></pre></td></tr></table></div></div><p>图片链接需要时互联网上tg服务器可以访问到的图片，可以是tg上公开群组或者频道的图片消息链接或者互联网上任意图片资源链接</p><p>例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/add 小白兔===photo::https://img.cdn.com/tupian.jpg
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/add 小可爱===photo::https://t.me/peekfun/1000
+</span></span></code></pre></td></tr></table></div></div><h3 id=回复动图视频文件>回复动图\视频\文件</h3><p>机器人除了回复图片外，还支持回复动图、视频、文件，如果你已经学会了回复图片，那这些种类也没有问题。</p><ul><li>动图 <code>/add 关键词===gif::动图链接</code></li><li>视频 <code>/add 关键词===video::视频链接</code></li><li>文件 <code>/add 关键词===file::文件链接</code></li></ul><p>需要注意的是，各种链接要么是tg上公开群组或者频道的链接（私有群组不行），要么是互联网上的资源链接，注意链接需要与发送的种类对应好。</p><h3 id=图片文件添加文字>图片\文件添加文字</h3><p>在手动发送图片等的时候我们可以添加描述信息，机器人回复规则也可以。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>为了便于理解，添加了缩进和换行，添加规则的时候不要缩进和换行
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/add 关键词===photo::图片链接::描述文字
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/add 小白兔===
+</span></span><span class=line><span class=cl>            photo::https://img.cdn.com/tupian.jpg  ::
+</span></span><span class=line><span class=cl>            这里是描述文字，例如原来你也喜欢小白兔呀
+</span></span></code></pre></td></tr></table></div></div><p>文件的使用也是类似，就不再重复</p><blockquote><p>注意：图片和文件的介绍文字默认开启markdown语法</p></blockquote><h3 id=正则表达式进行匹配>正则表达式进行匹配</h3><p>现在你已经会使用关键词来回复特定内容了，但是为了更加灵活的回复，而不是令机器人看起来傻乎乎的<br>事实上机器人聪明与否完全看你设置的关键词规则是否灵活，你需要学习简单的正则表达式并且利用正则来进行匹配。</p><p>使用正则匹配非常简单，只需要将原来的关键词替换为 <code>re:正则规则</code> 即可。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/add re:(如何|怎样).*(激活|使用)===请查看这个说明
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子里面，使用了正则表达式进行了匹配，此时用户发送 “有谁知道怎样进行账号的激活吗？”也可以匹配上，这大大提高了规则的灵活性。</p><blockquote><p>需要说明的是，机器人的所有关键词使用方法均支持正则，你可以随意进行尝试。</p></blockquote><h3 id=一次回复多条消息>一次回复多条消息</h3><p>有些时候一条消息无法满足回复的需求，需要机器人同时返回多个消息，这也是支持的。</p><p>你只需要用 || 将多个回复内容间隔开就可以了。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/add 关键词===回复文字1||回复文字2||回复文字3
+</span></span></code></pre></td></tr></table></div></div><p>不同种类的回复内容也可以混合在一起，请随意混搭</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>为了便于理解，添加了缩进和换行，添加规则的时候不要缩进和换行
+</span></span><span class=line><span class=cl>/add 关键词===
+</span></span><span class=line><span class=cl>            请欣赏  ||
+</span></span><span class=line><span class=cl>            photo::图片链接  ||
+</span></span><span class=line><span class=cl>            video::视频链接  ||
+</span></span><span class=line><span class=cl>            如果需要更多内容，你可以下载软件  ||
+</span></span><span class=line><span class=cl>            file::文件链接
+</span></span></code></pre></td></tr></table></div></div><h3 id=回复随机消息>回复随机消息</h3><p>有一个群组提出了这样一个特定需求，想要从设置好的回复内容中随机回复一个，这也是支持的。</p><p>使用方法：<br>random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符号间隔。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>为了便于理解，添加了缩进和换行，添加规则的时候不要缩进和换行
+</span></span><span class=line><span class=cl>/add 关键词===
+</span></span><span class=line><span class=cl>            random::{
+</span></span><span class=line><span class=cl>                一条消息  $$
+</span></span><span class=line><span class=cl>                photo::PHOTO_URL  $$
+</span></span><span class=line><span class=cl>                另一条消息
+</span></span><span class=line><span class=cl>            }
+</span></span></code></pre></td></tr></table></div></div><p>在这个关键词规则里，机器人将自动从三条消息中选择一个发出。</p><p>你可以结合上面一个使用方法，让规则更加灵活</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>为了便于理解，添加了缩进和换行，添加规则的时候不要缩进和换行
+</span></span><span class=line><span class=cl>/add 小白兔===
+</span></span><span class=line><span class=cl>            你也喜欢小白兔呀，送你一张小白兔的照片  ||
+</span></span><span class=line><span class=cl>            random::{
+</span></span><span class=line><span class=cl>                photo::照片链接1 $$
+</span></span><span class=line><span class=cl>                photo::照片链接2 $$
+</span></span><span class=line><span class=cl>                photo::照片链接3
+</span></span><span class=line><span class=cl>            }  ||
+</span></span><span class=line><span class=cl>            如果喜欢可以下载软件获取更多图片  ||
+</span></span><span class=line><span class=cl>            file::文件的链接
+</span></span></code></pre></td></tr></table></div></div><h3 id=自动删除消息>自动删除消息</h3><p>大多数时候我们需要屏蔽一些关键词，防止用户讨论相关内容，比如说政治、色情、黑产等内容。<br>机器人既然可以识别关键词，就可以进行相关消息删除操作，你需要给机器人删除消息的管理员权限。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/add 日站===delete
+</span></span></code></pre></td></tr></table></div></div><p>这样机器人就会将含有 日站 二字的消息自动删除，起到屏蔽的作用，你可以使用正则进行更加灵活的匹配。</p><p>直接删除可能不太友好，你可以结合前面的内容进行优化，比如结合多个回复内容进行添加提示语。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/add 日站===本群禁止讨论黑产相关内容||delete
+</span></span></code></pre></td></tr></table></div></div><p>这样的规则机器人就会先回复“本群禁止讨论黑产相关内容”，然后再进行删除。</p><blockquote><p>注意：delete一定要放在最后，否则回复消息发送不出来。</p></blockquote><h3 id=自动禁言踢人>自动禁言\踢人</h3><p>只删除还不过瘾，有人刷消息？禁言和踢人同样支持。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>禁言
+</span></span><span class=line><span class=cl>/add <span class=nv>keyword</span><span class=o>===</span>ban
+</span></span><span class=line><span class=cl>会自动禁言发送keyword的用户 永久
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>禁言特定时长
+</span></span><span class=line><span class=cl>/add <span class=nv>keyword</span><span class=o>===</span>ban::3d6h20m36s
+</span></span><span class=line><span class=cl>会自动禁言发送keyword的用户 3天6个小时20分钟36s
+</span></span><span class=line><span class=cl>时长信息4个时间单位不必全部写满，时长换算成秒如果低于30s意味着永久禁言，多于1年也是永久禁言
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>踢人
+</span></span><span class=line><span class=cl>/add 日站<span class=o>===</span>kick
+</span></span></code></pre></td></tr></table></div></div><p>你还是可以结合上面的内容进行优化，因为delete、ban、kick也是回复种类之一，所以跟文字、照片、视频、文件等的使用方法相同，也就可以进行组合。</p><h3 id=屏蔽特定后缀文件>屏蔽特定后缀文件</h3><p>有人发送exe\com\bat等后缀的病毒？不用再去找其他机器人了，使用自定义规则即可完成屏蔽和禁言。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/add re:(\.exe|\.scr|\.cpl|\.com|\.cmd|\.bat|\.vbs)$===ban
+</span></span></code></pre></td></tr></table></div></div><p>这样带有exe\src\cpl\com\cmd\bat\vbs等可执行后缀的文件就会被自动删除，相关发送者就会被禁言。</p><blockquote><p>关键词功能可以根据每个群组添加的不同的关键词规则实现一些简单的回复或者更加复杂的操作，通过组合等方式来实现相应功能完全看你的规则，所以发挥你的脑洞吧。</p></blockquote><h3 id=进群欢迎和退群欢送>进群欢迎和退群欢送</h3><p>机器人可以设置欢迎和欢送文字</p><p>需要使用 <code>/welcome</code> 和 <code>/goodbye</code> 命令分别开启</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>/welcome
+</span></span><span class=line><span class=cl>开启后，可以设置内容
+</span></span><span class=line><span class=cl>/setwelcometext 欢迎 <span class=nv>$username</span> 加入 <span class=nv>$groupname</span> 这个大家庭
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/goodbye
+</span></span><span class=line><span class=cl>开启后，可以设置内容
+</span></span><span class=line><span class=cl>/setgoodbyetext <span class=nv>$username</span>离开了我们群
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注意：加群欢迎和退群欢送文字默认开启markdown语法
+使用 $userid 自动替换 用户id, $username 自动替换用户名
+使用 $groupid 自动替换 群组id， $groupname 自动替换群组名</p></blockquote><h3 id=回复按钮>回复按钮</h3><blockquote><p>看样子很多人需要这个功能，就加上了</p></blockquote><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/add test===button::{&#34;text&#34;: &#34;测试按钮消息，支持_Markdown_&#34;,&#34;buttons&#34;: [[{&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},{&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;},{&#34;text&#34;:&#34;拾取&#34;,&#34;url&#34;:&#34;http://t.me/peekfun&#34;}],[{&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},{&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;}]]}
+</span></span></code></pre></td></tr></table></div></div><p>button::后面的json格式如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    &#34;text&#34;: &#34;测试按钮消息，支持_Markdown_&#34;,   // 这里是回复的消息内容，支持markdown，群组名替换啥的
+</span></span><span class=line><span class=cl>    &#34;buttons&#34;: [ // 按钮列表
+</span></span><span class=line><span class=cl>        // 第一行按钮
+</span></span><span class=line><span class=cl>        [
+</span></span><span class=line><span class=cl>            {&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},
+</span></span><span class=line><span class=cl>            {&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;},
+</span></span><span class=line><span class=cl>            {&#34;text&#34;:&#34;拾取&#34;,&#34;url&#34;:&#34;http://t.me/peekfun&#34;}
+</span></span><span class=line><span class=cl>        ],
+</span></span><span class=line><span class=cl>        // 第二行按钮
+</span></span><span class=line><span class=cl>        [
+</span></span><span class=line><span class=cl>            {&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},
+</span></span><span class=line><span class=cl>            {&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;}
+</span></span><span class=line><span class=cl>        ]
+</span></span><span class=line><span class=cl>    ]
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h2 id=命令列表>命令列表</h2><ul><li>help - 查看帮助</li><li>add - 添加规则</li><li>del - 删除规则</li><li>list - 列出规则</li><li>admin - 呼叫管理员</li><li>banme - 禁言小游戏</li><li>getid - 查看用户的信息 可回复查看别人</li><li>autoreply - 开关自动回复功能</li><li>autodelete - 开关自动删除消息功能</li><li>replyorder - 开关回复ban/kick命令功能</li><li>banmegame - 开关禁言小游戏功能</li><li>playorderban - 开关玩命令惩罚功能</li><li>banqingzhen - 开关防清真功能</li><li>calladmin - 开关呼叫管理员功能</li><li>welcome - 开关加群欢迎功能</li><li>goodbye - 开关离群送别功能</li><li>deletejoinmessage - 开关删除加群消息功能</li><li>servicelist - 查看机器人功能列表</li><li>deleteallrules - 清空本群所有关键词规则</li><li>deleteallmessage - 删除48小时内所有消息</li></ul><h2 id=开源>开源</h2><p>开源地址： <a href=https://github.com/zu1k/tg-keyword-reply-bot target=_blank rel="noopener noreffer">https://github.com/zu1k/tg-keyword-reply-bot</a></p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-01-03&nbsp;<a class=git-hash href=https://github.com/zu1k/blog/commit/ae3381bc545582a739ebaf7d8a620343711c9cfa target=_blank title="commit by zu1k(i@zu1k.com) ae3381bc545582a739ebaf7d8a620343711c9cfa: init">
+<i class=icon-hashtag></i>ae3381b</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=../../../posts/coding/telegram-keyword-reply-bot/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a title="分享到 Twitter" data-sharer=twitter data-url=https://zu1k.com/posts/coding/telegram-keyword-reply-bot/ data-title=Telegram关键词自动回复机器人 data-via=zu1k_lv data-hashtags=telegram,bot,coding><i class=icon-twitter></i>
+</a><a title="分享到 Tumblr" data-sharer=tumblr data-url=https://zu1k.com/posts/coding/telegram-keyword-reply-bot/ data-title=Telegram关键词自动回复机器人 data-tags=telegram,bot,coding><i class=icon-tumblr></i>
+</a><a title="分享到 Evernote" data-sharer=evernote data-url=https://zu1k.com/posts/coding/telegram-keyword-reply-bot/ data-title=Telegram关键词自动回复机器人><i class=icon-evernote></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class=icon-tags></i>&nbsp;<a href=../../../tags/telegram/>telegram</a>,&nbsp;<a href=../../../tags/bot/>bot</a>,&nbsp;<a href=../../../tags/coding/>编程</a></section><section><span><a onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=../../../>主页</a></span></section></div><div class=post-nav><a href=../../../posts/coding/set-ipv6-for-every-docker-container/ class=prev rel=prev title=给docker里的每一个容器一个独立的ipv6地址><i class=icon-angle-left></i>给docker里的每一个容器一个独立的ipv6地址</a>
+<a href=../../../posts/life/bad-experience-with-name/ class=next rel=next title=使用Name的一次糟糕的体验>使用Name的一次糟糕的体验<i class=icon-angle-right></i></a></div></div><div id=comments><div class=giscus id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/zh-CN>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class=icon-copyright></i><span itemprop=copyrightYear>2017 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://zu1k.com target=_blank>zu1k</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class=icon-up></i>
+</a><a id=view-comments class=fixed-button title=查看评论><i class=icon-comment></i></a></div><link rel=stylesheet href=../../../lib/lightgallery/lightgallery.min.css><script type=text/javascript src=../../../lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=../../../lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=../../../lib/fuse/fuse.min.js></script><script type=text/javascript src=../../../lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=../../../lib/instant-page/5.1.0.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=../../../lib/clipboard/clipboard.min.js></script><script type=text/javascript src=../../../lib/sharer/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{giscus:{category:"Comments",categoryid:"DIC_kwDOEfJ9084CA02V",enable:!0,mapping:"og:title",repo:"zu1k/blog",repoid:"MDEwOlJlcG9zaXRvcnkzMDExMDQ1OTU="}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1}}</script><script type=text/javascript src=../../../js/theme.min.js></script></body></html>

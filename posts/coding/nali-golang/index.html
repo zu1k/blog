@@ -1,0 +1,217 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Nali IP地理信息和CDN服务商查询 - zu1k</title><meta name=description content="A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."><meta name=keywords content="zu1k,zuik,zu1k.com,网络安全,思考,逆向"><meta name=author content="zu1k"><meta property="og:title" content="Nali IP地理信息和CDN服务商查询"><meta property="og:description" content="Nali 一个查询IP地理信息和CDN提供商的离线终端工具 来源 该工具受 Nali C版本 和 nali-cli js版本 的启发. 我想要在终端对IP地理信息和CDN服务提供商进行查"><meta property="og:type" content="article"><meta property="og:url" content="https://zu1k.com/posts/coding/nali-golang/"><meta property="og:image" content="https://zu1k.com/images/logo.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-07-17T13:39:47+08:00"><meta property="article:modified_time" content="2023-01-03T09:11:33+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://zu1k.com/images/logo.jpg"><meta name=twitter:title content="Nali IP地理信息和CDN服务商查询"><meta name=twitter:description content="Nali 一个查询IP地理信息和CDN提供商的离线终端工具 来源 该工具受 Nali C版本 和 nali-cli js版本 的启发. 我想要在终端对IP地理信息和CDN服务提供商进行查"><meta name=application-name content="zu1k"><meta name=apple-mobile-web-app-title content="zu1k"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><meta itemprop=name content="Nali IP地理信息和CDN服务商查询"><meta itemprop=description content="Nali 一个查询IP地理信息和CDN提供商的离线终端工具 来源 该工具受 Nali C版本 和 nali-cli js版本 的启发. 我想要在终端对IP地理信息和CDN服务提供商进行查"><meta itemprop=datePublished content="2020-07-17T13:39:47+08:00"><meta itemprop=dateModified content="2023-01-03T09:11:33+08:00"><meta itemprop=wordCount content="1793"><meta itemprop=image content="https://zu1k.com/images/logo.jpg"><meta itemprop=keywords content="coding,"><link rel="shortcut icon" type=image/x-icon href=../../../favicon.ico><link rel=icon type=image/png sizes=32x32 href=../../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../../favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=../../../apple-touch-icon.png><link rel=mask-icon href=../../../apple-touch-icon.png color=#5bbad5><link rel=manifest href=../../../site.webmanifest><link rel=canonical href=https://zu1k.com/posts/coding/nali-golang/><link rel=prev href=https://zu1k.com/posts/security/web-security/brush-votes/><link rel=next href=https://zu1k.com/posts/security/web-security/hide-your-webshell/><link rel=stylesheet href=../../../lib/normalize/normalize.min.css><link rel=stylesheet href=../../../css/style.min.css><link rel=stylesheet href=../../../lib/icon/css/icon-embedded.css><script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/sw_local.js")})</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Nali IP地理信息和CDN服务商查询","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/zu1k.com\/posts\/coding\/nali-golang\/"},"image":[{"@type":"ImageObject","url":"https:\/\/zu1k.com\/images\/logo.jpg","width":256,"height":256}],"genre":"posts","keywords":"coding","wordcount":1793,"url":"https:\/\/zu1k.com\/posts\/coding\/nali-golang\/","datePublished":"2020-07-17T13:39:47+08:00","dateModified":"2023-01-03T09:11:33+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"zu1k","logo":"https:\/\/zu1k.com\/images\/logo.jpg"},"author":{"@type":"Person","name":"zu1k"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../../ title=zu1k>zu1k</a></div><div class=menu><div class=menu-inner><a class=menu-item href=../../../posts/>文章 </a><a class=menu-item href=../../../categories/>分类 </a><a class=menu-item href=../../../tags/>标签 </a><a class=menu-item href=../../../projects/>项目 </a><a class=menu-item href=../../../links/>友链 </a><a class=menu-item href=../../../about/>关于 </a><a class=menu-item href=../../../index.xml title=RSS><i class=icon-rss></i> </a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-desktop title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class=icon-spin2></i></span>
+</span><a class="menu-item theme-switch" title=切换主题><i class=icon-adjust></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../../ title=zu1k>zu1k</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class=icon-search></i></a>
+<a class="search-button search-clear" id=search-clear-mobile title=清空><i class=icon-cancel-circled></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class=icon-spin2></i></span></div><a class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=../../../posts/ title>文章</a><a class=menu-item href=../../../categories/ title>分类</a><a class=menu-item href=../../../tags/ title>标签</a><a class=menu-item href=../../../projects/ title>项目</a><a class=menu-item href=../../../links/ title>友链</a><a class=menu-item href=../../../about/ title>关于</a><a class=menu-item href=../../../index.xml title=RSS><i class=icon-rss></i></a><a class=menu-item href=https://github.com/zu1k title=GitHub rel="noopener noreffer" target=_blank><i class=icon-github></i></a><a class="menu-item theme-switch" title=切换主题>
+<i class=icon-adjust></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class=single-title>Nali IP地理信息和CDN服务商查询</h1><div class=post-meta><div class=post-meta-line>&nbsp;<span class=post-category>收录于 <a href=../../../categories/coding/><i class=icon-folder></i>编程</a></span></div><div class=post-meta-line><i class=icon-calendar></i>&nbsp;<time datetime=2020-07-17>2020-07-17</time>&nbsp;<i class=icon-pencil></i>&nbsp;约 1793 字&nbsp;
+<i class=icon-clock></i>&nbsp;阅读 4 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon icon-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#来源>来源</a></li><li><a href=#功能>功能</a></li><li><a href=#安装>安装</a><ul><li><a href=#从源码安装>从源码安装</a></li><li><a href=#下载预编译的可执行程序>下载预编译的可执行程序</a></li><li><a href=#使用-docker-版本>使用 Docker 版本</a></li></ul></li><li><a href=#使用说明>使用说明</a><ul><li><a href=#查询一个ip的地理信息>查询一个IP的地理信息</a><ul><li><a href=#或者-使用-管道>或者 使用 <code>管道</code></a></li></ul></li><li><a href=#同时查询多个ip的地理信息>同时查询多个IP的地理信息</a></li><li><a href=#交互式查询>交互式查询</a></li><li><a href=#与-dig-命令配合使用>与 <code>dig</code> 命令配合使用</a></li><li><a href=#与-nslookup-命令配合使用>与 <code>nslookup</code> 命令配合使用</a></li><li><a href=#与任意程序配合使用>与任意程序配合使用</a></li><li><a href=#支持ipv6>支持IPv6</a></li><li><a href=#查询-cdn-服务提供商>查询 CDN 服务提供商</a><ul><li><a href=#只查询-cdn-服务提供商>只查询 CDN 服务提供商</a></li><li><a href=#查询所有信息>查询所有信息</a></li><li><a href=#单独使用>单独使用</a></li></ul></li></ul></li><li><a href=#用户交互>用户交互</a><ul><li><a href=#查看帮助>查看帮助</a></li><li><a href=#更新纯真数据库>更新纯真数据库</a></li><li><a href=#使用-geoip2-数据库>使用 Geoip2 数据库</a><ul><li><a href=#windows平台>Windows平台</a><ul><li><a href=#使用geoip数据库>使用geoip数据库</a></li><li><a href=#使用ipip数据库>使用ipip数据库</a></li></ul></li><li><a href=#linux平台>Linux平台</a><ul><li><a href=#使用geoip数据库-1>使用geoip数据库</a></li><li><a href=#使用ipip数据库-1>使用ipip数据库</a></li></ul></li></ul></li><li><a href=#更换数据库目录>更换数据库目录</a></li></ul></li><li><a href=#感谢列表>感谢列表</a></li><li><a href=#开源证书>开源证书</a></li></ul></nav></div></div><div class=content id=content><p><a href=https://github.com/zu1k/nali target=_blank rel="noopener noreffer">Nali</a></p><blockquote><p>一个查询IP地理信息和CDN提供商的离线终端工具</p></blockquote><h2 id=来源>来源</h2><p>该工具受 <a href=https://github.com/meteoral/Nali target=_blank rel="noopener noreffer">Nali C版本</a> 和 <a href=https://github.com/SukkaW/nali-cli target=_blank rel="noopener noreffer">nali-cli js版本</a> 的启发.</p><p>我想要在终端对IP地理信息和CDN服务提供商进行查询，发现了Nali这个工具，Nali与哪里谐音，非常适合这类工具</p><p>经过简单的使用，我发现最初的C语言版本功能缺失，而苏卡卡大佬的js版本包实在大的恐怖、而支持的平台非常有限，所以我用golang重写了这个工具，在原有功能的基础上增加了对IPv6的支持，并且增加了Geoip2数据库</p><h2 id=功能>功能</h2><ul><li>纯真 IPv4 离线数据库</li><li>ZX IPv6 离线数据库</li><li>Geoip2 城市数据库 (可选)</li><li>IPIP 数据库 (可选)</li><li>CDN 服务提供商查询</li><li>支持管道处理</li><li>支持交互式查询</li><li>同时支持IPv4和IPv6</li><li>查询完全离线</li><li>全平台支持</li></ul><h2 id=安装>安装</h2><h3 id=从源码安装>从源码安装</h3><p>Nali 需要预先安装 Go. 安装后可以从源码安装软件:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go get -u -v github.com/zu1k/nali
+</span></span></code></pre></td></tr></table></div></div><h3 id=下载预编译的可执行程序>下载预编译的可执行程序</h3><p>可以从Release页面下载预编译好的可执行程序: <a href=https://github.com/zu1k/nali/releases target=_blank rel="noopener noreffer">Release</a></p><p>你需要选择适合你系统和硬件架构的版本下载，解压后可直接运行</p><h3 id=使用-docker-版本>使用 Docker 版本</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>docker pull docker.pkg.github.com//zu1k/nali/nali:latest
+</span></span></code></pre></td></tr></table></div></div><h2 id=使用说明>使用说明</h2><p><a href=https://asciinema.org/a/RFVaZ3Pwy0Qbr27msFcDYhwcD target=_blank><img width=520 src=https://asciinema.org/a/RFVaZ3Pwy0Qbr27msFcDYhwcD.svg></a></p><h3 id=查询一个ip的地理信息>查询一个IP的地理信息</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ nali 1.2.3.4
+</span></span><span class=line><span class=cl>1.2.3.4 [澳大利亚 APNIC Debogon-prefix网络]
+</span></span></code></pre></td></tr></table></div></div><h4 id=或者-使用-管道>或者 使用 <code>管道</code></h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ echo IP 6.6.6.6 | nali
+</span></span><span class=line><span class=cl>IP 6.6.6.6 [美国 亚利桑那州华楚卡堡市美国国防部网络中心]
+</span></span></code></pre></td></tr></table></div></div><h3 id=同时查询多个ip的地理信息>同时查询多个IP的地理信息</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ nali 1.2.3.4 4.3.2.1 123.23.3.0
+</span></span><span class=line><span class=cl>1.2.3.4 [澳大利亚 APNIC Debogon-prefix网络]
+</span></span><span class=line><span class=cl>4.3.2.1 [美国 新泽西州纽瓦克市Level3Communications]
+</span></span><span class=line><span class=cl>123.23.3.0 [越南 越南邮电集团公司]
+</span></span></code></pre></td></tr></table></div></div><h3 id=交互式查询>交互式查询</h3><p>使用 <code>exit</code> 或 <code>quit</code> 退出查询</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ nali
+</span></span><span class=line><span class=cl>123.23.23.23
+</span></span><span class=line><span class=cl>123.23.23.23 [越南 越南邮电集团公司]
+</span></span><span class=line><span class=cl>1.0.0.1
+</span></span><span class=line><span class=cl>1.0.0.1 [美国 APNIC&amp;CloudFlare公共DNS服务器]
+</span></span><span class=line><span class=cl>8.8.8.8
+</span></span><span class=line><span class=cl>8.8.8.8 [美国 加利福尼亚州圣克拉拉县山景市谷歌公司DNS服务器]
+</span></span><span class=line><span class=cl>quit
+</span></span></code></pre></td></tr></table></div></div><h3 id=与-dig-命令配合使用>与 <code>dig</code> 命令配合使用</h3><p>需要你系统中已经安装好 dig 程序</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ dig nali.lgf.im +short | nali
+</span></span><span class=line><span class=cl>104.28.2.115 [美国 CloudFlare公司CDN节点]
+</span></span><span class=line><span class=cl>104.28.3.115 [美国 CloudFlare公司CDN节点]
+</span></span><span class=line><span class=cl>172.67.135.48 [美国 CloudFlare节点]
+</span></span></code></pre></td></tr></table></div></div><h3 id=与-nslookup-命令配合使用>与 <code>nslookup</code> 命令配合使用</h3><p>需要你系统中已经安装好 nslookup 程序</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ nslookup nali.lgf.im 8.8.8.8 | nali
+</span></span><span class=line><span class=cl>Server:         8.8.8.8 [美国 加利福尼亚州圣克拉拉县山景市谷歌公司DNS服务器]
+</span></span><span class=line><span class=cl>Address:        8.8.8.8 [美国 加利福尼亚州圣克拉拉县山景市谷歌公司DNS服务器]#53
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Non-authoritative answer:
+</span></span><span class=line><span class=cl>Name:   nali.lgf.im
+</span></span><span class=line><span class=cl>Address: 104.28.3.115 [美国 CloudFlare公司CDN节点]
+</span></span><span class=line><span class=cl>Name:   nali.lgf.im
+</span></span><span class=line><span class=cl>Address: 104.28.2.115 [美国 CloudFlare公司CDN节点]
+</span></span><span class=line><span class=cl>Name:   nali.lgf.im
+</span></span><span class=line><span class=cl>Address: 172.67.135.48 [美国 CloudFlare节点]
+</span></span></code></pre></td></tr></table></div></div><h3 id=与任意程序配合使用>与任意程序配合使用</h3><p>因为 nali 支持管道处理，所以可以和任意程序配合使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>bash abc.sh | nali
+</span></span></code></pre></td></tr></table></div></div><p>Nali 将在 IP后面插入IP地理信息，CDN域名后面插入CDN服务提供商信息</p><h3 id=支持ipv6>支持IPv6</h3><p>和 IPv4 用法完全相同</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ nslookup google.com | nali
+</span></span><span class=line><span class=cl>Server:         127.0.0.53 [局域网 IP]
+</span></span><span class=line><span class=cl>Address:        127.0.0.53 [局域网 IP]#53
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Non-authoritative answer:
+</span></span><span class=line><span class=cl>Name:   google.com
+</span></span><span class=line><span class=cl>Address: 216.58.211.110 [美国 Google全球边缘网络]
+</span></span><span class=line><span class=cl>Name:   google.com
+</span></span><span class=line><span class=cl>Address: 2a00:1450:400e:809::200e [荷兰Amsterdam Google Inc. 服务器网段]
+</span></span></code></pre></td></tr></table></div></div><h3 id=查询-cdn-服务提供商>查询 CDN 服务提供商</h3><p>因为 CDN 服务通常使用 CNAME 的域名解析方式，所以推荐与 <code>nslookup</code> 或者 <code>dig</code> 配合使用，在已经知道 CNAME 后可单独使用</p><h4 id=只查询-cdn-服务提供商>只查询 CDN 服务提供商</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ nslookup www.gov.cn | nali cdn
+</span></span><span class=line><span class=cl>Server:         127.0.0.53
+</span></span><span class=line><span class=cl>Address:        127.0.0.53#53
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Non-authoritative answer:
+</span></span><span class=line><span class=cl>www.gov.cn      canonical name = www.gov.cn.bsgslb.cn [白山云 CDN].
+</span></span><span class=line><span class=cl>www.gov.cn.bsgslb.cn [白山云 CDN]       canonical name = zgovweb.v.bsgslb.cn [白山云 CDN].
+</span></span><span class=line><span class=cl>Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
+</span></span><span class=line><span class=cl>Address: 185.232.56.148
+</span></span><span class=line><span class=cl>Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
+</span></span><span class=line><span class=cl>Address: 185.232.56.147
+</span></span><span class=line><span class=cl>Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
+</span></span><span class=line><span class=cl>Address: 2001:428:6402:21b::6
+</span></span><span class=line><span class=cl>Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
+</span></span><span class=line><span class=cl>Address: 2001:428:6402:21b::5
+</span></span></code></pre></td></tr></table></div></div><h4 id=查询所有信息>查询所有信息</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ nslookup www.gov.cn | nali
+</span></span><span class=line><span class=cl>Server:         127.0.0.53 [局域网 IP]
+</span></span><span class=line><span class=cl>Address:        127.0.0.53 [局域网 IP]#53
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Non-authoritative answer:
+</span></span><span class=line><span class=cl>www.gov.cn      canonical name = www.gov.cn.bsgslb.cn [白山云 CDN].
+</span></span><span class=line><span class=cl>www.gov.cn.bsgslb.cn [白山云 CDN]       canonical name = zgovweb.v.bsgslb.cn [白山云 CDN].
+</span></span><span class=line><span class=cl>Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
+</span></span><span class=line><span class=cl>Address: 103.104.170.25 [新加坡 ]
+</span></span><span class=line><span class=cl>Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
+</span></span><span class=line><span class=cl>Address: 2001:428:6402:21b::5 [美国Louisiana州Monroe Qwest Communications Company, LLC (CenturyLink)]
+</span></span><span class=line><span class=cl>Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
+</span></span><span class=line><span class=cl>Address: 2001:428:6402:21b::6 [美国Louisiana州Monroe Qwest Communications Company, LLC (CenturyLink)]
+</span></span></code></pre></td></tr></table></div></div><h4 id=单独使用>单独使用</h4><p>需要提前查询到 CNAME 域名</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ nali cdn cdn.somecdncname.com
+</span></span></code></pre></td></tr></table></div></div><h2 id=用户交互>用户交互</h2><h3 id=查看帮助>查看帮助</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ nali --help
+</span></span><span class=line><span class=cl>Usage:
+</span></span><span class=line><span class=cl>  nali [flags]
+</span></span><span class=line><span class=cl>  nali [command]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Available Commands:
+</span></span><span class=line><span class=cl>  cdn         Query cdn service provider
+</span></span><span class=line><span class=cl>  help        Help about any command
+</span></span><span class=line><span class=cl>  parse       Query IP information
+</span></span><span class=line><span class=cl>  update      update chunzhen ip database
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Flags:
+</span></span><span class=line><span class=cl>  -h, --help     help for nali
+</span></span><span class=line><span class=cl>  -t, --toggle   Help message for toggle
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Use &#34;nali [command] --help&#34; for more information about a command.
+</span></span></code></pre></td></tr></table></div></div><h3 id=更新纯真数据库>更新纯真数据库</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ nali update
+</span></span><span class=line><span class=cl>2020/07/17 12:53:46 正在下载最新纯真 IP 库...
+</span></span><span class=line><span class=cl>2020/07/17 12:54:05 已将最新的纯真 IP 库保存到本地 /root/.nali/qqwry.dat
+</span></span></code></pre></td></tr></table></div></div><h3 id=使用-geoip2-数据库>使用 Geoip2 数据库</h3><p>需要设置环境变量： <code>NALI_DB</code></p><p>支持的变量内容:</p><ul><li>Geoip2 <code>['geoip', 'geoip2', 'geo']</code></li><li>Chunzhen <code>['chunzhen', 'qqip', 'qqwry']</code></li></ul><h4 id=windows平台>Windows平台</h4><h5 id=使用geoip数据库>使用geoip数据库</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>set NALI_DB=geoip
+</span></span></code></pre></td></tr></table></div></div><h5 id=使用ipip数据库>使用ipip数据库</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>set NALI_DB=ipip
+</span></span></code></pre></td></tr></table></div></div><h4 id=linux平台>Linux平台</h4><h5 id=使用geoip数据库-1>使用geoip数据库</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>export NALI_DB=geoip
+</span></span></code></pre></td></tr></table></div></div><h5 id=使用ipip数据库-1>使用ipip数据库</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>export NALI_DB=ipip
+</span></span></code></pre></td></tr></table></div></div><h3 id=更换数据库目录>更换数据库目录</h3><p>如果未指定数据库存放目录，数据库默认将存放在 <code>~/.nali</code></p><p>设置环境变量 <code>NALI_DB_HOME</code> 来指定数据库目录</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>set NALI_DB_HOME=D:\nalidb
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>or
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>export NALI_DB_HOME=/home/nali
+</span></span></code></pre></td></tr></table></div></div><h2 id=感谢列表>感谢列表</h2><ul><li><a href=http://www.cz88.net/fox/ipdat.shtml target=_blank rel="noopener noreffer">纯真QQIP离线数据库</a></li><li><a href=https://qqwry.mirror.noc.one/ target=_blank rel="noopener noreffer">qqwry mirror</a></li><li><a href=https://github.com/yinheli/qqwry target=_blank rel="noopener noreffer">qqwry纯真数据库解析</a></li><li><a href=https://ip.zxinc.org/ipquery/ target=_blank rel="noopener noreffer">ZX公网ipv6数据库</a></li><li><a href=https://www.maxmind.com/en/geoip2-precision-city-service target=_blank rel="noopener noreffer">Geoip2 city数据库</a></li><li><a href=https://github.com/oschwald/geoip2-golang target=_blank rel="noopener noreffer">geoip2-golang解析器</a></li><li><a href=https://github.com/SukkaLab/cdn target=_blank rel="noopener noreffer">CDN provider数据库</a></li><li><a href=https://www.ipip.net/product/ip.html target=_blank rel="noopener noreffer">IPIP数据库</a></li><li><a href=https://github.com/ipipdotnet/ipdb-go target=_blank rel="noopener noreffer">IPIP数据库解析</a></li><li><a href=https://github.com/spf13/cobra target=_blank rel="noopener noreffer">Cobra CLI库</a></li><li><a href=https://github.com/SukkaW/nali-cli target=_blank rel="noopener noreffer">Nali-cli</a></li></ul><h2 id=开源证书>开源证书</h2><p>MIT</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-01-03&nbsp;<a class=git-hash href=https://github.com/zu1k/blog/commit/ae3381bc545582a739ebaf7d8a620343711c9cfa target=_blank title="commit by zu1k(i@zu1k.com) ae3381bc545582a739ebaf7d8a620343711c9cfa: init">
+<i class=icon-hashtag></i>ae3381b</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=../../../posts/coding/nali-golang/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a title="分享到 Twitter" data-sharer=twitter data-url=https://zu1k.com/posts/coding/nali-golang/ data-title="Nali IP地理信息和CDN服务商查询" data-via=zu1k_lv data-hashtags=coding><i class=icon-twitter></i>
+</a><a title="分享到 Tumblr" data-sharer=tumblr data-url=https://zu1k.com/posts/coding/nali-golang/ data-title="Nali IP地理信息和CDN服务商查询" data-tags=coding><i class=icon-tumblr></i>
+</a><a title="分享到 Evernote" data-sharer=evernote data-url=https://zu1k.com/posts/coding/nali-golang/ data-title="Nali IP地理信息和CDN服务商查询"><i class=icon-evernote></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class=icon-tags></i>&nbsp;<a href=../../../tags/coding/>编程</a></section><section><span><a onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=../../../>主页</a></span></section></div><div class=post-nav><a href=../../../posts/security/web-security/brush-votes/ class=prev rel=prev title=关于刷票><i class=icon-angle-left></i>关于刷票</a>
+<a href=../../../posts/security/web-security/hide-your-webshell/ class=next rel=next title=如何优雅的隐藏你的Webshell>如何优雅的隐藏你的Webshell<i class=icon-angle-right></i></a></div></div><div id=comments><div class=giscus id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/zh-CN>Giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class=icon-copyright></i><span itemprop=copyrightYear>2017 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://zu1k.com target=_blank>zu1k</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class=icon-up></i>
+</a><a id=view-comments class=fixed-button title=查看评论><i class=icon-comment></i></a></div><link rel=stylesheet href=../../../lib/lightgallery/lightgallery.min.css><script type=text/javascript src=../../../lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=../../../lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=../../../lib/fuse/fuse.min.js></script><script type=text/javascript src=../../../lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=../../../lib/instant-page/5.1.0.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=../../../lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=../../../lib/clipboard/clipboard.min.js></script><script type=text/javascript src=../../../lib/sharer/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{giscus:{category:"Comments",categoryid:"DIC_kwDOEfJ9084CA02V",enable:!0,mapping:"og:title",repo:"zu1k/blog",repoid:"MDEwOlJlcG9zaXRvcnkzMDExMDQ1OTU="}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1}}</script><script type=text/javascript src=../../../js/theme.min.js></script></body></html>
