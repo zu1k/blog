@@ -1,0 +1,21 @@
+.page {
+  position: relative;
+  max-width: 900px;
+  width: 60%;
+  margin: auto auto;
+
+  [header-desktop] & {
+    padding-top: $header-height + 1rem;
+  }
+
+  [header-desktop=normal] & {
+    padding-top: 0;
+  }
+
+  @include blur;
+}
+
+@import "_single";
+@import "_special";
+@import "_archive";
+@import "_home";

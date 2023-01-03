@@ -1,0 +1,34 @@
+[[blogroll]]
+  name = "港岛妹妹"
+  url = "https://gangdaomeimei.cn/"
+  avatar = "/images/friends/gdmm.png"
+  description = "一个互联网炒饭评论员的站点"
+  weight = 1
+
+[[blogroll]]
+  name = "簞純"
+  url = "https://blog.qwqdanchun.com/"
+  avatar = "/images/friends/danchun.png"
+  description = "我惭携宝剑，只为看山来"
+  weight = 10
+
+[[blogroll]]
+  name = "漩涡"
+  url = "https://xuanwo.io/"
+  avatar = "/images/friends/xuanwo.jpg"
+  description = "开源爱好者，专注自动化，分布式系统和存储"
+  weight = 15
+
+[[blogroll]]
+  name = "银色子弹"
+  url = "https://silverrainz.me/"
+  avatar = "/images/friends/sliverrainz.png"
+  description = "Programmer, Part-time artist"
+  weight = 20
+
+[[blogroll]]
+  name = "烧饼博客"
+  url = "https://u.sb/"
+  avatar = "/images/friends/sb.png"
+  description = "专注于服务器运维、专业域名投资分析"
+  weight = 21

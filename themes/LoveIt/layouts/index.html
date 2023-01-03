@@ -1,0 +1,40 @@
+{{- define "content" -}}
+    {{- $params := .Scratch.Get "params" -}}
+    {{- $profile := .Site.Params.home.profile -}}
+    {{- $posts := .Site.Params.home.posts -}}
+
+    <div class="page home">
+        {{- /* Profile */ -}}
+        {{- partial "home/profile.html" . -}}
+
+        {{- /* Content */ -}}
+        {{- if .Content -}}
+            <div class="single">
+                <div class="content" id="content">
+                    {{- dict "Content" .Content "Fraction" $params.fraction | partial "function/content.html" | safeHTML -}}
+                </div>
+            </div>
+        {{- end -}}
+
+        {{- /* Posts */ -}}
+        {{- if .Site.RegularPages -}}
+            <div class="summary-list">
+                {{- /* Paginate */ -}}
+                {{- $pages := where .Site.RegularPages "Type" "posts" -}}
+                {{- if .Site.Params.page.hiddenFromHomePage -}}
+                    {{- $pages = where $pages "Params.hiddenfromhomepage" false -}}
+                {{- else -}}
+                    {{- $pages = where $pages "Params.hiddenfromhomepage" "!=" true -}}
+                {{- end -}}
+                {{- with $posts.paginate | default .Site.Params.paginate -}}
+                    {{- $pages = $.Paginate $pages . -}}
+                {{- else -}}
+                    {{- $pages = .Paginate $pages -}}
+                {{- end -}}
+                {{- range $pages.Pages -}}
+                    {{- .Render "summary" -}}
+                {{- end -}}
+            </div>
+        {{- end -}}
+    </div>
+{{- end -}}
