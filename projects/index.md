@@ -36,28 +36,26 @@ https://github.com/zu1k/nali
 
 ---
 
-## zLib Searcher
+## Book Searcher
 
 <p>
-  <a href="https://github.com/zu1k/zlib-searcher/stargazers">
-    <img src="https://img.shields.io/github/stars/zu1k/zlib-searcher?style=flat-square">
+  <a href="https://github.com/book-searcher-org/book-searcher/stargazers">
+    <img src="https://img.shields.io/github/stars/book-searcher-org/book-searcher?style=flat-square">
   </a>
-    <a href="https://github.com/zu1k/zlib-searcher/network/members">
-    <img src="https://img.shields.io/github/forks/zu1k/zlib-searcher?style=flat-square">
+    <a href="https://github.com/book-searcher-org/book-searcher/network/members">
+    <img src="https://img.shields.io/github/forks/book-searcher-org/book-searcher?style=flat-square">
   </a>
-  <a href="https://github.com/zu1k/zlib-searcher/releases">
-    <img src="https://img.shields.io/github/release/zu1k/zlib-searcher?style=flat-square">
+  <a href="https://github.com/book-searcher-org/book-searcher/releases">
+    <img src="https://img.shields.io/github/release/book-searcher-org/book-searcher?style=flat-square">
   </a>
-  <a href="https://github.com/zu1k/zlib-searcher/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/zu1k/zlib-searcher?style=flat-square">
+  <a href="https://github.com/book-searcher-org/book-searcher/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/book-searcher-org/book-searcher?style=flat-square">
   </a>
 </p>
 
-搜索 `zlib`/`libgen` 索引以获得 `ipfs_cid`，我们不保存和提供文件，我们仅提供书籍检索
+为上千万书籍创建索引并提供搜索，用以创建您的私人本地图书馆
 
-我索引了940万本书籍的元信息，并想办法把索引压缩至 2GB，我希望每个人都有一份本地的索引，这样就不需要依赖任何集中的服务，借助 IPFS 的分布式力量访问人类的知识
-
-https://github.com/zu1k/zlib-searcher
+https://github.com/book-searcher-org/book-searcher
 
 ---
 
