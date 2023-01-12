@@ -32,7 +32,7 @@
 除此之外，你还可以通过以下方式联系到我:
 
 - Email: [i@zu1k.com](mailto:i@zu1k.com)
-- Twitter: [@zu1k_lv](https://twitter.com/zu1k_lv)
+- Twitter: [@zu1k_](https://twitter.com/zu1k_)
 - GitHub: [@zu1k](https://github.com/zu1k)
 - Keybase: [@zu1k](https://keybase.io/zu1k)
 - Matrix: [@zu1k:mozilla.org](https://matrix.to/#/@zu1k:mozilla.org)
