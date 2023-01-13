@@ -65,7 +65,7 @@
   with:
     github_token: ${{ secrets.GITHUB_TOKEN }}
     publish_dir: ./public
-    cname: g.blog.lgf.im
+    cname: g.blog.zu1k.com
 ```
 
 ### 增加更多功能
@@ -111,7 +111,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public
-        cname: g.blog.lgf.im
+        cname: g.blog.zu1k.com
     - name: Create Release
       uses: actions/create-release@latest
       env:

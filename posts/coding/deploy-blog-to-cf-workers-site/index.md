@@ -62,7 +62,7 @@ name = "blog"
 type = "webpack"
 account_id = "eu5d123456789987456321aabcddgeh"
 workers_dev = true
-route = "cf.lgf.im/*"
+route = "cf.zu1k.com/*"
 zone_id = "fhidag8u98f43h93fhiohr929c8d59efhauh"
 
 [site]

@@ -45,15 +45,3 @@ Host github.com
 ProxyCommand connect -S 127.0.0.1:1080 %h %p
 ```
 
-> 补充： 详见 https://blog.lgf.im/2020/use-ucloud-globalssh-to-speedup-server-ssh.html
-> 可以通过 GlobalSSH 的海外加速服务来加速github的访问，经过我的尝试效果还不错，可以跑到10Mbps
-> 我用的域名为 `zll.us` ，大家可以拿去用，使用方法如下：
-
-```bash
-原命令
-git clone git@github.com:moby/moby.git
-
-替换后
-git clone git@zll.us:moby/moby.git
-```
-

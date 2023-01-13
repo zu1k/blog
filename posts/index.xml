@@ -1917,7 +1917,7 @@
 </span></span><span class="line"><span class="cl"><span class="nx">type</span> <span class="p">=</span> <span class="s2">&#34;webpack&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nx">account_id</span> <span class="p">=</span> <span class="s2">&#34;eu5d123456789987456321aabcddgeh&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nx">workers_dev</span> <span class="p">=</span> <span class="kc">true</span>
-</span></span><span class="line"><span class="cl"><span class="nx">route</span> <span class="p">=</span> <span class="s2">&#34;cf.lgf.im/*&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">route</span> <span class="p">=</span> <span class="s2">&#34;cf.zu1k.com/*&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nx">zone_id</span> <span class="p">=</span> <span class="s2">&#34;fhidag8u98f43h93fhiohr929c8d59efhauh&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">site</span><span class="p">]</span>
@@ -2545,7 +2545,7 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ dig nali.lgf.im +short | nali
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ dig nali.zu1k.com +short | nali
 </span></span><span class="line"><span class="cl">104.28.2.115 [美国 CloudFlare公司CDN节点]
 </span></span><span class="line"><span class="cl">104.28.3.115 [美国 CloudFlare公司CDN节点]
 </span></span><span class="line"><span class="cl">172.67.135.48 [美国 CloudFlare节点]
@@ -2568,16 +2568,16 @@
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ nslookup nali.lgf.im 8.8.8.8 | nali
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ nslookup nali.zu1k.com 8.8.8.8 | nali
 </span></span><span class="line"><span class="cl">Server:         8.8.8.8 [美国 加利福尼亚州圣克拉拉县山景市谷歌公司DNS服务器]
 </span></span><span class="line"><span class="cl">Address:        8.8.8.8 [美国 加利福尼亚州圣克拉拉县山景市谷歌公司DNS服务器]#53
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Non-authoritative answer:
-</span></span><span class="line"><span class="cl">Name:   nali.lgf.im
+</span></span><span class="line"><span class="cl">Name:   nali.zu1k.com
 </span></span><span class="line"><span class="cl">Address: 104.28.3.115 [美国 CloudFlare公司CDN节点]
-</span></span><span class="line"><span class="cl">Name:   nali.lgf.im
+</span></span><span class="line"><span class="cl">Name:   nali.zu1k.com
 </span></span><span class="line"><span class="cl">Address: 104.28.2.115 [美国 CloudFlare公司CDN节点]
-</span></span><span class="line"><span class="cl">Name:   nali.lgf.im
+</span></span><span class="line"><span class="cl">Name:   nali.zu1k.com
 </span></span><span class="line"><span class="cl">Address: 172.67.135.48 [美国 CloudFlare节点]
 </span></span></code></pre></td></tr></table>
 </div>
