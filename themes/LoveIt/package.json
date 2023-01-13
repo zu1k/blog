@@ -1,0 +1,24 @@
+{
+  "name": "loveit",
+  "version": "0.2.0",
+  "description": "LoveIt theme source file",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.19.6",
+    "@babel/preset-env": "^7.19.4",
+    "babel-preset-minify": "^0.5.2",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "core-js": "^3.26.0"
+  },
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions",
+    "babel": "npx babel src/js --out-file assets/js/theme.min.js --source-maps",
+    "build": "npm run babel && hugo -v --source ../.. --gc",
+    "start": "npm run babel && hugo server --source ../.. -D --disableFastRender",
+    "start-production": "npm run babel && hugo server --source ../.. -D --disableFastRender -e production",
+    "check": "htmlproofer exampleSite/public --check-html --allow-hash-href --empty-alt-ignore --disable-external"
+  }
+}

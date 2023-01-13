@@ -1,0 +1,114 @@
+@font-face {
+  font-family: 'icon';
+  src: url('../font/icon.eot?75359867');
+  src: url('../font/icon.eot?75359867#iefix') format('embedded-opentype'),
+       url('../font/icon.woff2?75359867') format('woff2'),
+       url('../font/icon.woff?75359867') format('woff'),
+       url('../font/icon.ttf?75359867') format('truetype'),
+       url('../font/icon.svg?75359867#icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'icon';
+    src: url('../font/icon.svg?75359867#icon') format('svg');
+  }
+}
+*/
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "icon";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-hackernews:before { content: '\e800'; } /* '' */
+.icon-search:before { content: '\e801'; } /* '' */
+.icon-adjust:before { content: '\e802'; } /* '' */
+.icon-pencil:before { content: '\e803'; } /* '' */
+.icon-calendar:before { content: '\e804'; } /* '' */
+.icon-tag:before { content: '\e805'; } /* '' */
+.icon-comment:before { content: '\e806'; } /* '' */
+.icon-up:before { content: '\e807'; } /* '' */
+.icon-tags:before { content: '\e808'; } /* '' */
+.icon-clock:before { content: '\e809'; } /* '' */
+.icon-folder-open:before { content: '\e80a'; } /* '' */
+.icon-folder:before { content: '\e80b'; } /* '' */
+.icon-left-hand:before { content: '\e80c'; } /* '' */
+.icon-cancel-circled:before { content: '\e80d'; } /* '' */
+.icon-check:before { content: '\e80e'; } /* '' */
+.icon-list:before { content: '\e80f'; } /* '' */
+.icon-info-circled:before { content: '\e810'; } /* '' */
+.icon-ok-circled:before { content: '\e811'; } /* '' */
+.icon-help-circled:before { content: '\e812'; } /* '' */
+.icon-attention-circled:before { content: '\e813'; } /* '' */
+.icon-list-alt:before { content: '\e814'; } /* '' */
+.icon-github:before { content: '\e815'; } /* '' */
+.icon-rss:before { content: '\e816'; } /* '' */
+.icon-skull-crossbones:before { content: '\e817'; } /* '' */
+.icon-spin2:before { content: '\e831'; } /* '' */
+.icon-check-empty:before { content: '\f096'; } /* '' */
+.icon-twitter:before { content: '\f099'; } /* '' */
+.icon-copy:before { content: '\f0c5'; } /* '' */
+.icon-pinterest:before { content: '\f0d2'; } /* '' */
+.icon-mail:before { content: '\f0e0'; } /* '' */
+.icon-lightbulb:before { content: '\f0eb'; } /* '' */
+.icon-angle-left:before { content: '\f104'; } /* '' */
+.icon-angle-right:before { content: '\f105'; } /* '' */
+.icon-quote-right:before { content: '\f10e'; } /* '' */
+.icon-angle-circled-right:before { content: '\f138'; } /* '' */
+.icon-ellipsis:before { content: '\f141'; } /* '' */
+.icon-youtube:before { content: '\f167'; } /* '' */
+.icon-stackoverflow:before { content: '\f16c'; } /* '' */
+.icon-instagram:before { content: '\f16d'; } /* '' */
+.icon-bitbucket:before { content: '\f171'; } /* '' */
+.icon-tumblr:before { content: '\f173'; } /* '' */
+.icon-bug:before { content: '\f188'; } /* '' */
+.icon-weibo:before { content: '\f18a'; } /* '' */
+.icon-steam:before { content: '\f1b7'; } /* '' */
+.icon-spotify:before { content: '\f1bc'; } /* '' */
+.icon-paypal:before { content: '\f1ed'; } /* '' */
+.icon-copyright:before { content: '\f1f9'; } /* '' */
+.icon-medium:before { content: '\f23a'; } /* '' */
+.icon-reddit:before { content: '\f281'; } /* '' */
+.icon-hashtag:before { content: '\f292'; } /* '' */
+.icon-gitlab:before { content: '\f296'; } /* '' */
+.icon-user-circle:before { content: '\f2bd'; } /* '' */
+.icon-quora:before { content: '\f2c4'; } /* '' */
+.icon-telegram:before { content: '\f2c6'; } /* '' */
+.icon-facebook:before { content: '\f308'; } /* '' */
+.icon-linkedin:before { content: '\f30c'; } /* '' */
+.icon-codepen:before { content: '\f32c'; } /* '' */
+.icon-evernote:before { content: '\f333'; } /* '' */

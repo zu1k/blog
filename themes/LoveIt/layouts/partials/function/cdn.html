@@ -1,0 +1,10 @@
+{{- /* CDN */ -}}
+{{- $src := . -}}
+{{- if eq hugo.Environment "production" -}}
+    {{- if and (not (hasPrefix $src "https://")) (not (hasPrefix $src "http://")) -}}
+        {{- with site.Params.cdn.prefix -}}
+            {{- $src = printf "%v%v" . $src -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- return $src -}}

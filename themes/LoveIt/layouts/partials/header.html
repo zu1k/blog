@@ -1,0 +1,125 @@
+{{- /* Desktop header */ -}}
+<header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="{{ .Site.Home.RelPermalink }}" title="{{ .Site.Title }}">
+                {{- with .Site.Params.header.title -}}
+                    {{- with .logo -}}
+                        {{- dict "Src" . "Class" "logo" | partial "plugin/image.html" -}}
+                    {{- end -}}
+                    {{- with .pre -}}
+                        <span class="header-title-pre">{{ . | safeHTML }}</span>
+                    {{- end -}}
+                    {{- .name -}}
+                    {{- with .post -}}
+                        <span class="header-title-post">{{ . | safeHTML }}</span>
+                    {{- end -}}
+                {{- else -}}
+                    {{- .Site.Title -}}
+                {{- end -}}
+            </a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner">
+                {{- range .Site.Menus.main -}}
+                    {{- $url := .URL | relLangURL -}}
+                    {{- with .Page -}}
+                        {{- $url = .RelPermalink -}}
+                    {{- end -}}
+                    <a class="menu-item{{ if $.IsMenuCurrent `main` . | or ($.HasMenuCurrent `main` .) | or (eq $.RelPermalink $url) }} active{{ end }}" href="{{ $url }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if (urls.Parse $url).Host }} rel="noopener noreffer" target="_blank"{{ end }}>
+                        {{- .Pre | safeHTML }} {{ .Name }} {{ .Post | safeHTML -}}
+                    </a>
+                {{- end -}}
+                {{- if .Site.Menus.main -}}
+                    <span class="menu-item delimiter"></span>
+                {{- end -}}
+                {{- if .Site.Params.search.enable -}}
+                <span class="menu-item search" id="search-desktop">
+                    <input type="text" placeholder="{{ .Site.Params.search.placeholder | default (T `searchPlaceholder`) }}" id="search-input-desktop">
+                    <a class="search-button search-toggle" id="search-toggle-desktop" title="{{ T `search` }}">
+                        <i class="icon-search"></i>
+                    </a>
+                    <a class="search-button search-clear" id="search-clear-desktop" title="{{ T `clear` }}">
+                        <i class="icon-cancel-circled"></i>
+                    </a>
+                    <span class="search-button search-loading" id="search-loading-desktop">
+                        <i class="icon-spin2"></i>
+                    </span>
+                </span>
+                {{- end -}}
+                <a class="menu-item theme-switch" title="{{ T "switchTheme" }}">
+                    <i class="icon-adjust"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+{{- /* Mobile header */ -}}
+<header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="{{ .Site.Home.RelPermalink }}" title="{{ .Site.Title }}">
+                    {{- with .Site.Params.header.title -}}
+                        {{- with .logo -}}
+                            {{- dict "Src" . "Class" "logo" | partial "plugin/image.html" -}}
+                        {{- end -}}
+                        {{- with .pre -}}
+                            <span class="header-title-pre">{{ . | safeHTML }}</span>
+                        {{- end -}}
+                        {{- .name -}}
+                        {{- with .post -}}
+                            <span class="header-title-post">{{ . | safeHTML }}</span>
+                        {{- end -}}
+                    {{- else -}}
+                        {{- .Site.Title -}}
+                    {{- end -}}
+                </a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile">
+            {{- if .Site.Params.search.enable -}}
+                <div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="{{ .Site.Params.search.placeholder | default (T `searchPlaceholder`) }}" id="search-input-mobile">
+                        <a class="search-button search-toggle" id="search-toggle-mobile" title="{{ T `search` }}">
+                            <i class="icon-search"></i>
+                        </a>
+                        <a class="search-button search-clear" id="search-clear-mobile" title="{{ T `clear` }}">
+                            <i class="icon-cancel-circled"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="icon-spin2"></i>
+                        </span>
+                    </div>
+                    <a class="search-cancel" id="search-cancel-mobile">
+                        {{ T `cancel` }}
+                    </a>
+                </div>
+            {{- end -}}
+            {{- $currentPage := . -}}
+            {{- range .Site.Menus.main -}}
+                {{- $url := .URL | relLangURL -}}
+                {{- with .Page -}}
+                    {{- $url = .RelPermalink -}}
+                {{- end -}}
+                <a class="menu-item" href="{{ $url }}" title="{{ .Title }}"{{ if (urls.Parse $url).Host }} rel="noopener noreffer" target="_blank"{{ end }}>
+                    {{- .Pre | safeHTML }}{{ .Name }}{{ .Post | safeHTML -}}
+                </a>
+            {{- end -}}
+            <a class="menu-item theme-switch" title="{{ T "switchTheme" }}">
+                <i class="icon-adjust"></i>
+            </a>
+        </div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>

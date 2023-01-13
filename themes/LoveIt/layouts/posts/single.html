@@ -1,0 +1,89 @@
+{{- define "title" }}{{ .Title }} - {{ .Site.Title }}{{ end -}}
+
+{{- define "content" -}}
+    {{- $params := .Scratch.Get "params" -}}
+
+    {{- $toc := $params.toc -}}
+    {{- if eq $toc true -}}
+        {{- $toc = .Site.Params.page.toc | default dict -}}
+    {{- else if eq $toc false -}}
+        {{- $toc = dict "enable" false -}}
+    {{- end -}}
+
+    {{- /* Auto TOC */ -}}
+    {{- if ne $toc.enable false -}}
+        <div class="toc" id="toc-auto">
+            <h2 class="toc-title">{{ T "contents" }}</h2>
+            <div class="toc-content{{ if eq $toc.auto false }} always-active{{ end }}" id="toc-content-auto"></div>
+        </div>
+    {{- end -}}
+
+    <article class="page single">
+        {{- /* Title */ -}}
+        <h1 class="single-title">{{ .Title }}</h1>
+
+
+        {{- /* Subtitle */ -}}
+        {{- with $params.subtitle -}}
+            <h2 class="single-subtitle">{{ . }}</h2>
+        {{- end -}}
+
+        {{- /* Meta */ -}}
+        <div class="post-meta">
+            <div class="post-meta-line">
+                {{- $categories := slice -}}
+                {{- range .Params.categories -}}
+                    {{- $category := partialCached "function/path.html" . . | printf "/categories/%v" | $.Site.GetPage -}}
+                    {{- $categories = $categories | append (printf `<a href="%v"><i class="icon-folder"></i>%v</a>` $category.RelPermalink $category.Title) -}}
+                {{- end -}}
+                {{- with delimit $categories "&nbsp;" -}}
+                    &nbsp;<span class="post-category">
+                        {{- dict "Categories" . | T "includedInCategories" | safeHTML -}}
+                    </span>
+                {{- end -}}
+            </div>
+            <div class="post-meta-line">
+                {{- with .Site.Params.dateformat | default "2006-01-02" | .PublishDate.Format -}}
+                    <i class="icon-calendar"></i>&nbsp;<time datetime="{{ . }}">{{ . }}</time>&nbsp;
+                {{- end -}}
+                <i class="icon-pencil"></i>&nbsp;{{ T "wordCount" .WordCount }}&nbsp;
+                <i class="icon-clock"></i>&nbsp;{{ T "readingTime" .ReadingTime }}&nbsp;
+            </div>
+        </div>
+
+        {{- /* Featured image */ -}}
+        {{- $image := $params.featuredimage -}}
+        {{- with .Resources.GetMatch "featured-image" -}}
+            {{- $image = .RelPermalink -}}
+        {{- end -}}
+        {{- with $image -}}
+            <div class="featured-image">
+                {{- dict "Src" . "Title" $.Description "Resources" $.Resources | partial "plugin/image.html" -}}
+            </div>
+        {{- end -}}
+
+        {{- /* Static TOC */ -}}
+        {{- if ne $toc.enable false -}}
+            <div class="details toc" id="toc-static"  kept="{{ if $toc.keepStatic }}true{{ end }}">
+                <div class="details-summary toc-title">
+                    <span>{{ T "contents" }}</span>
+                    <span><i class="details-icon icon-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static">
+                    {{- dict "Content" .TableOfContents "Fraction" $params.fraction | partial "function/content.html" | safeHTML -}}
+                </div>
+            </div>
+        {{- end -}}
+
+        {{- /* Content */ -}}
+        <div class="content" id="content">
+            {{- dict "Content" .Content "Fraction" $params.fraction | partial "function/content.html" | safeHTML -}}
+        </div>
+
+        {{- /* Footer */ -}}
+        {{- partial "single/footer.html" . -}}
+
+        {{- /* Comment */ -}}
+        {{- partial "comment.html" . -}}
+    </article>
+{{- end -}}

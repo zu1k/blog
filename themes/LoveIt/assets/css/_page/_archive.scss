@@ -1,0 +1,14 @@
+.archive {
+  .single-title {
+    text-align: right;
+    font-size: 1.8rem;
+  }
+
+  .group-title {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  @import "../_partial/_archive/terms";
+  @import "../_partial/_archive/tags";
+}

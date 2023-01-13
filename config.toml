@@ -1,0 +1,251 @@
+baseURL = "https://zu1k.com/"
+relativeURLs = true
+defaultContentLanguage = "zh-cn"
+theme = "LoveIt"
+title = "zu1k"
+
+disableHugoGeneratorInject = true
+enableRobotsTXT = true
+enableGitInfo = true
+enableEmoji = true
+hasCJKLanguage = true
+paginate = 14
+copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
+timeZone = "Asia/Shanghai"
+LanguageCode = "zh-CN"
+
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    name = "文章"
+    url = "/posts/"
+    weight = 1
+  [[menu.main]]
+    identifier = "categories"
+    name = "分类"
+    url = "/categories/"
+    weight = 2
+  [[menu.main]]
+    identifier = "tags"
+    name = "标签"
+    url = "/tags/"
+    weight = 3
+  [[menu.main]]
+    identifier = "projects"
+    name = "项目"
+    url = "/projects/"
+    weight = 4
+  [[menu.main]]
+    identifier = "links"
+    name = "项目"
+    url = "/project/"
+    weight = 4
+  [[menu.main]]
+    identifier = "links"
+    name = "友链"
+    url = "/links/"
+    weight = 8
+  [[menu.main]]
+    identifier = "about"
+    name = "关于"
+    url = "/about/"
+    weight = 10
+  [[menu.main]]
+    identifier = "rss"
+    pre = "<i class='icon-rss'></i>"
+    url = "/index.xml"
+    title = "RSS"
+    weight = 18
+  [[menu.main]]
+    identifier = "github"
+    pre = "<i class='icon-github'></i>"
+    url = "https://github.com/zu1k"
+    title = "GitHub"
+    weight = 20
+
+[params]
+  defaultTheme = "auto"  # 网站默认主题 ("light", "dark", "auto")
+  gitRepo = "https://github.com/zu1k/blog"
+  dateFormat = "2006-01-02"
+  images = ["/images/logo.jpg"]
+  description = "A boy dreaming of traveling around the world.<br>This blog is used to record my study, thinking and life."
+  keywords = ["zu1k", "zuik", "zu1k.com", "网络安全", "思考", "逆向"]
+  author = "zu1k"
+  webmanifest = "/site.webmanifest"
+  swjs = "/sw.js"
+
+  [params.app]
+    title = "zu1k"
+    noFavicon = false
+    svgFavicon = ""
+    themeColor = "#ffffff"
+    iconColor = "#5bbad5"
+    tileColor = "#da532c"
+  [params.search]
+    enable = true
+    contentLength = 4000  # 文章内容最长索引长度
+    placeholder = ""  # 搜索框的占位提示语
+    maxResultLength = 10  # 最大结果数目
+    snippetLength = 50  # 结果内容片段长度
+    highlightTag = "em"  # 搜索结果中高亮部分的 HTML 标签
+    absoluteURL = true  # 是否在搜索索引中使用基于 baseURL 的绝对路径
+    [params.search.fuse]
+      # https://fusejs.io/api/options.html
+      isCaseSensitive = false
+      minMatchCharLength = 2
+      findAllMatches = false
+      location = 0
+      threshold = 0.1
+      distance = 100
+      ignoreLocation = true
+      useExtendedSearch = false
+      ignoreFieldNorm = false
+
+  [params.home]
+    rss = 20  # RSS 文章数目
+    [params.home.profile]
+      avatarURL = "assets/images/logo.jpg"
+      altLogoURL = "https://zu1k.com/images/logo.jpg"
+      title = "zu1k"
+      subtitle = "A boy dreaming of traveling around the world."
+    [params.home.posts]
+      paginate = 2
+  [params.social]
+    GitHub = "zu1k"
+    Twitter = "zu1k_"
+    Telegram = "peekfun"
+    Email = "i@zu1k.com"
+
+  [params.header]
+    desktopMode = "fixed"   # 桌面端导航栏模式 ("fixed", "normal", "auto")
+    mobileMode = "auto"  # 移动端导航栏模式 ("fixed", "normal", "auto")
+    # 页面头部导航栏标题配置
+    [params.header.title]
+      logo = "" # LOGO 的 URL
+      name = "zu1k" # 标题名称
+      pre = "" # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标  #"<i class='far fa-kiss-wink-heart fa-fw'></i>"  
+      post = ""  # 你可以在名称 (允许 HTML 格式) 之后添加其他信息, 例如图标
+
+  # 页面底部信息配置
+  [params.footer]
+    enable = true
+    custom = ''
+    hugo = false  # 是否显示 Hugo 和主题信息
+    copyright = true  # 是否显示版权信息
+    author = true  # 是否显示作者
+    since = 2017 # 网站创立年份
+    icp = "" # ICP 备案信息，仅在中国使用 (支持 HTML 格式)
+    # 许可协议信息 (支持 HTML 格式)
+    license= '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+    statistic = """"""
+
+    [params.footer.cdnprovider]
+      enable = false
+      name = "DogeCloud"
+      url = "https://www.dogecloud.com/?iuid=2357"
+
+  # Section (所有文章) 页面配置
+  [params.section]
+    paginate = 20  # list 页面每页显示文章数量
+    dateFormat = "01-02"  # 日期格式 (月和日)
+    rss = 20  # RSS 文章数目
+
+  # List (目录或标签) 页面配置
+  [params.list]
+    paginate = 20  # list 页面每页显示文章数量
+    dateFormat = "01-02"  # 日期格式 (月和日)
+    rss = 20  # RSS 文章数目
+
+  [params.page]
+    hiddenFromHomePage = false    # 是否在主页隐藏
+    hiddenFromSearch = false  # 是否在搜索结果中隐藏
+    lightgallery = true  # 是否使用 lightgallery
+    fraction = false  # 是否使用 fraction 扩展语法
+    linkToMarkdown = true  # 是否显示原始 Markdown 文档内容的链接
+    rssFullText = true  # 是否在 RSS 中显示全文内容
+    [params.page.toc]
+      enable = true  # 是否使用目录
+      keepStatic = false  # 是否保持使用文章前面的静态目录
+      auto = true  # 是否使侧边目录自动折叠展开
+    [params.page.code]
+      copy = true  # 是否显示代码块的复制按钮
+      maxShownLines = 100 # 默认展开显示的代码行数
+    # Social share links in post page
+    [params.page.share]
+      enable = true
+      Twitter = true
+      Whatsapp = false
+      Tumblr = true
+      Evernote = true
+    [params.page.seo]
+      images = ["/images/logo.jpg"]
+      # 出版者信息
+      [params.page.seo.publisher]
+        name = "zu1k"
+        logoUrl = "https://zu1k.com/images/logo.jpg"
+
+  [params.comment]
+      enable = true
+      [params.comment.giscus]
+        enable = true
+        repo = "zu1k/blog"
+        repoId = "MDEwOlJlcG9zaXRvcnkzMDExMDQ1OTU="
+        category = "Comments"
+        categoryId = "DIC_kwDOEfJ9084CA02V"
+        mapping = "og:title"
+
+
+  [params.seo]
+    image = "/images/logo.jpg"  # 图片 URL
+    thumbnailUrl = "/images/logo.jpg"  # 缩略图 URL
+
+[markup]
+  # 语法高亮设置 (https://gohugo.io/content-management/syntax-highlighting)
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = true
+    lineNumbersInTable = true
+    # false 是必要的设置 (https://github.com/dillonzq/LoveIt/issues/158)
+    noClasses = false
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
+    [markup.goldmark.renderer]
+      # 是否在文档中直接使用 HTML 标签
+      unsafe = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 6
+
+[author]
+  name = "zu1k"
+  email = "i@zu1k.com"
+  link = "https://zu1k.com"
+
+[sitemap]
+  changefreq = "always"
+  filename = "sitemap.xml"
+  priority = 1
+
+[mediaTypes]
+  [mediaTypes."text/plain"]
+    suffixes = ["md"]
+
+[outputFormats.MarkDown]
+  mediaType = "text/plain"
+  isPlainText = true
+  isHTML = false
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  page = ["HTML", "MarkDown"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+  taxonomyTerm = ["HTML"]
