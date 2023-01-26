@@ -348,9 +348,9 @@
     </div>
 <h3 id="解析域名">解析域名</h3>
 <p>IPNS不是在IPFS上创建可变地址的唯一方法，我们还可以使用<strong>DNSLink</strong>，它目前比IPNS<strong>快得多</strong>，还使用<strong>人类可读</strong>的名称。</p>
-<p>例如我想要给刚刚发布在IPFS上的网站绑定<code>ipfs.lgf.im</code>这个域名，那我就需要创建<code>_dnslink.ipfs.lgf.im</code>的<strong>TXT</strong>记录</p>
+<p>例如我想要给刚刚发布在IPFS上的网站绑定<code>ipfs.zu1k.com</code>这个域名，那我就需要创建<code>_dnslink.ipfs.zu1k.com</code>的<strong>TXT</strong>记录</p>
 <p></p>
-<p>然后任何人都可以用 <code>/ipfs/ipfs.lgf.im</code> 来找到我的网站了，访问<a href="http://localhost:8080/ipns/ipfs.lgf.im" target="_blank" rel="noopener noreffer">http://localhost:8080/ipns/ipfs.lgf.im</a></p>
+<p>然后任何人都可以用 <code>/ipfs/ipfs.zu1k.com</code> 来找到我的网站了，访问<a href="http://localhost:8080/ipns/ipfs.zu1k.com" target="_blank" rel="noopener noreffer">http://localhost:8080/ipns/ipfs.zu1k.com</a></p>
 <p></p>
 <p>详细文档见：<a href="https://docs.ipfs.io/concepts/dnslink/#publish-using-a-subdomain" target="_blank" rel="noopener noreffer">IPFS文档：DNSLink</a></p>
 <h3 id="更新内容">更新内容</h3>
@@ -371,7 +371,7 @@
 <h2 id="基于ipfs构建应用">基于IPFS构建应用</h2>
 <p>IPFS提供了IPFS协议的<strong>Golang</strong>和<strong>JavaScript</strong>实现，可以非常方便的将IPFS集成到我们的应用当中，充分利用IPFS的各种优势。</p>
 <h2 id="未来的期望">未来的期望</h2>
-<p>对于P2P：https://t.lgf.im/post/618818179793371136/%E5%85%B3%E4%BA%8Eresilio-sync</p>
+<p>对于P2P：https://t.zu1k.com/post/618818179793371136/%E5%85%B3%E4%BA%8Eresilio-sync</p>
 <h2 id="一些问题">一些问题</h2>
 <h3 id="ipfs可以永久存储文件">IPFS可以永久存储文件？</h3>
 <p>很多人误认为IPFS可以永久存储文件，从使用的技术来讲的确更有利于永久存储内容，但是还需不断需要有人访问、Pin、传播该内容，否则待全网所有节点都将该内容数据GC掉，数据还是会丢失。</p>
