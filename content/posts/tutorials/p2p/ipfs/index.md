@@ -304,11 +304,11 @@ Published to k51qzi5uqu5djhbknypxifn09wxhtf3y1bce8oriud1ojqz5r71mpu75rru520: /ip
 
 IPNS不是在IPFS上创建可变地址的唯一方法，我们还可以使用**DNSLink**，它目前比IPNS**快得多**，还使用**人类可读**的名称。
 
-例如我想要给刚刚发布在IPFS上的网站绑定`ipfs.lgf.im`这个域名，那我就需要创建`_dnslink.ipfs.lgf.im`的**TXT**记录
+例如我想要给刚刚发布在IPFS上的网站绑定`ipfs.zu1k.com`这个域名，那我就需要创建`_dnslink.ipfs.zu1k.com`的**TXT**记录
 
 ![DNSLink](web/dnslink.png)
 
-然后任何人都可以用 `/ipfs/ipfs.lgf.im` 来找到我的网站了，访问[http://localhost:8080/ipns/ipfs.lgf.im](http://localhost:8080/ipns/ipfs.lgf.im)
+然后任何人都可以用 `/ipfs/ipfs.zu1k.com` 来找到我的网站了，访问[http://localhost:8080/ipns/ipfs.zu1k.com](http://localhost:8080/ipns/ipfs.zu1k.com)
 
 ![DNSLink Web](web/ipfs_dnslink_web.png)
 
@@ -350,7 +350,7 @@ IPFS提供了IPFS协议的**Golang**和**JavaScript**实现，可以非常方便
 
 ## 未来的期望
 
-对于P2P：https://t.lgf.im/post/618818179793371136/%E5%85%B3%E4%BA%8Eresilio-sync
+对于P2P：https://t.zu1k.com/post/618818179793371136/%E5%85%B3%E4%BA%8Eresilio-sync
 
 ## 一些问题
 
