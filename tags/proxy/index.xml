@@ -325,8 +325,8 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># http或https代理</span>
-</span></span><span class="line"><span class="cl">git config --global https.proxy http://127.0.0.1:1080
-</span></span><span class="line"><span class="cl">git config --global https.proxy https://127.0.0.1:1080
+</span></span><span class="line"><span class="cl">git config --global http.proxy http://127.0.0.1:7890
+</span></span><span class="line"><span class="cl">git config --global https.proxy http://127.0.0.1:7890
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 取消代理</span>
 </span></span><span class="line"><span class="cl">git config --global --unset http.proxy

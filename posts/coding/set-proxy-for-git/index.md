@@ -15,8 +15,8 @@ Git 可以使用四种不同的协议来传输资料：本地协议（Local）�
 
 ```bash
 # http或https代理
-git config --global https.proxy http://127.0.0.1:1080
-git config --global https.proxy https://127.0.0.1:1080
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
 
 # 取消代理
 git config --global --unset http.proxy
