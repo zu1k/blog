@@ -113,7 +113,6 @@ LanguageCode = "zh-CN"
   [params.social]
     GitHub = "zu1k"
     Twitter = "zu1k_"
-    Telegram = "peekfun"
     Email = "i@zu1k.com"
 
   [params.header]
