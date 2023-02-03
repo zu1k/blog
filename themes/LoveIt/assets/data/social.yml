@@ -353,7 +353,7 @@ researchgate:
 # 056: Mastodon
 mastodon:
   Weight: 56
-  Prefix: https://mastodon.social/
+  Prefix: ""
   Title: Mastodon
   Icon:
     Class: icon-mastodon

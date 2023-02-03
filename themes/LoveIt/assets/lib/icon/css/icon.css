@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'icon';
-  src: url('../font/icon.eot?75359867');
-  src: url('../font/icon.eot?75359867#iefix') format('embedded-opentype'),
-       url('../font/icon.woff2?75359867') format('woff2'),
-       url('../font/icon.woff?75359867') format('woff'),
-       url('../font/icon.ttf?75359867') format('truetype'),
-       url('../font/icon.svg?75359867#icon') format('svg');
+  src: url('../font/icon.eot?62828172');
+  src: url('../font/icon.eot?62828172#iefix') format('embedded-opentype'),
+       url('../font/icon.woff2?62828172') format('woff2'),
+       url('../font/icon.woff?62828172') format('woff'),
+       url('../font/icon.ttf?62828172') format('truetype'),
+       url('../font/icon.svg?62828172#icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'icon';
-    src: url('../font/icon.svg?75359867#icon') format('svg');
+    src: url('../font/icon.svg?62828172#icon') format('svg');
   }
 }
 */
@@ -78,6 +78,7 @@
 .icon-github:before { content: '\e815'; } /* '' */
 .icon-rss:before { content: '\e816'; } /* '' */
 .icon-skull-crossbones:before { content: '\e817'; } /* '' */
+.icon-mastodon:before { content: '\e818'; } /* '' */
 .icon-spin2:before { content: '\e831'; } /* '' */
 .icon-check-empty:before { content: '\f096'; } /* '' */
 .icon-twitter:before { content: '\f099'; } /* '' */
