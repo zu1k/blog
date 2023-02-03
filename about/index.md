@@ -33,6 +33,7 @@
 
 - Email: [i@zu1k.com](mailto:i@zu1k.com)
 - Twitter: [@zu1k_](https://twitter.com/zu1k_)
+- Mastodon: [@zu1k@fosstodon.org](https://fosstodon.org/@zu1k)
 - GitHub: [@zu1k](https://github.com/zu1k)
 
 我的 PGP公钥 可以在 [https://pgp.zu1k.com](https://pgp.zu1k.com) 或 [hkps://keyserver.ubuntu.com](https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6A266AE018B6DD21C813150E4B9D09933F48F82D) 获取  
