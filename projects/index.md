@@ -18,11 +18,21 @@
   <a href="https://github.com/zu1k/nali/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/zu1k/nali?style=flat-square">
   </a>
+  <a href="https://github.com/zu1k/nali/releases">
+    <img src="https://img.shields.io/github/downloads/zu1k/nali/total?style=flat-square">
+  </a>
 </p>
 
 一个查询IP地理信息和CDN服务提供商的离线终端工具
 
-- 多IP数据库支持
+- 支持多种数据库
+  - 纯真 IPv4 离线数据库
+  - ZX IPv6 离线数据库
+  - Geoip2 城市数据库 (可选)
+  - IPIP 数据库 (可选)
+  - ip2region 数据库 (可选)
+  - DB-IP 数据库 (可选)
+  - IP2Location DB3 LITE 数据库 (可选)
 - CDN 服务提供商查询
 - 支持管道处理
 - 支持交互式查询
@@ -53,29 +63,9 @@ https://github.com/zu1k/nali
   </a>
 </p>
 
-为上千万书籍创建索引并提供搜索，用以创建您的私人本地图书馆
+简单快速的图书搜索器，创建和搜索您的私人图书馆。性能极强，可以在一分钟内为超过 1000 万本书的元数据编制索引，并在 30µs 内进行搜索。
 
 https://github.com/book-searcher-org/book-searcher
-
----
-
-## ProxyPool
-
-<p>
-  <a href="https://github.com/zu1k/proxypool/stargazers">
-    <img src="https://img.shields.io/github/stars/zu1k/proxypool?style=flat-square">
-  </a>
-    <a href="https://github.com/zu1k/proxypool/network/members">
-    <img src="https://img.shields.io/github/forks/zu1k/proxypool?style=flat-square">
-  </a>
-  <a href="https://github.com/zu1k/proxypool/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/zu1k/proxypool?style=flat-square">
-  </a>
-</p>
-
-自动抓取tg频道、订阅地址、公开互联网上的ss、ssr、vmess、trojan节点信息，聚合去重后提供节点列表
-
-https://github.com/zu1k/proxypool
 
 ---
 
@@ -126,29 +116,69 @@ https://github.com/zu1k/copy-translator
 
 使用MITM技术提供`rewrite`、`redirect`、`reject`等功能
 
+- 基于 TLS ClientHello 的自动证书签署
+- 支持选择性 MITM
+- 基于 YAML 格式的规则描述语言：重写/阻断/重定向
+  - 灵活的规则匹配器
+    - 域名前缀/后缀/全匹配
+    - 正则匹配
+    - 多筛选器规则
+  - 灵活的文本内容改写
+    - 抹除/替换
+    - 正则替换
+  - 灵活的字典类型内容改写
+    - HTTP Header 改写
+    - Cookie 改写
+  - 支持单条规则多个行为
+- 支持 JavaScript 脚本规则 (编程介入)
+- 支持透明代理
+- 透明代理 HTTPS 和 HTTP 复用单端口
+- 支持自动安装 CA 证书到系统信任区
+
 https://github.com/zu1k/good-mitm
 
 ---
 
-## Unified Clipboard
+## Srun
 
-统一剪切板，局域网内多设备剪切板同步，这边复制，那边粘贴
+<p>
+  <a href="https://github.com/zu1k/srun/stargazers">
+    <img src="https://img.shields.io/github/stars/zu1k/srun?style=flat-square">
+  </a>
+    <a href="https://github.com/zu1k/srun/network/members">
+    <img src="https://img.shields.io/github/forks/zu1k/srun?style=flat-square">
+  </a>
+  <a href="https://github.com/zu1k/srun/releases">
+    <img src="https://img.shields.io/github/release/zu1k/srun?style=flat-square">
+  </a>
+  <a href="https://github.com/zu1k/srun/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/zu1k/srun?style=flat-square">
+  </a>
+</p>
 
-局域网内通讯功能基于 libp2p 实现，利用 mDNS 协议进行设备发现，GossipSub 协议进行设备组区分和消息传递
+Srun 深澜认证登录，超轻量、多平台，支持多拨、自动探测IP、指定网卡
 
-**Supported Type**
+https://github.com/zu1k/srun
 
-- Text
-- Image
+---
 
-**Supported OS**
+## ProxyPool
 
-- Windows
-- Linux
-- MacOS
-- Android
+<p>
+  <a href="https://github.com/zu1k/proxypool/stargazers">
+    <img src="https://img.shields.io/github/stars/zu1k/proxypool?style=flat-square">
+  </a>
+    <a href="https://github.com/zu1k/proxypool/network/members">
+    <img src="https://img.shields.io/github/forks/zu1k/proxypool?style=flat-square">
+  </a>
+  <a href="https://github.com/zu1k/proxypool/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/zu1k/proxypool?style=flat-square">
+  </a>
+</p>
 
-https://github.com/zu1k/uniclip
+自动抓取tg频道、订阅地址、公开互联网上的ss、ssr、vmess、trojan节点信息，聚合去重后提供节点列表
+
+https://github.com/zu1k/proxypool
 
 ---
 
@@ -180,6 +210,28 @@ $ while true; do curl -x http://127.0.0.1:51080 ipv6.ip.sb; done
 https://github.com/zu1k/http-proxy-ipv6-pool
 
 https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/
+
+---
+
+## Unified Clipboard
+
+统一剪切板，局域网内多设备剪切板同步，这边复制，那边粘贴
+
+局域网内通讯功能基于 libp2p 实现，利用 mDNS 协议进行设备发现，GossipSub 协议进行设备组区分和消息传递
+
+**Supported Type**
+
+- Text
+- Image
+
+**Supported OS**
+
+- Windows
+- Linux
+- MacOS
+- Android
+
+https://github.com/zu1k/uniclip
 
 ---
 
@@ -233,40 +285,19 @@ https://github.com/zu1k/hosts-rs
 
 ---
 
-## SDUSRun
-
-<p>
-  <a href="https://github.com/zu1k/sdusrun/stargazers">
-    <img src="https://img.shields.io/github/stars/zu1k/sdusrun?style=flat-square">
-  </a>
-    <a href="https://github.com/zu1k/sdusrun/network/members">
-    <img src="https://img.shields.io/github/forks/zu1k/sdusrun?style=flat-square">
-  </a>
-  <a href="https://github.com/zu1k/sdusrun/releases">
-    <img src="https://img.shields.io/github/release/zu1k/sdusrun?style=flat-square">
-  </a>
-  <a href="https://github.com/zu1k/sdusrun/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/zu1k/sdusrun?style=flat-square">
-  </a>
-</p>
-
-校园网深澜认证登录，SRun 3000
-
-https://github.com/zu1k/sdusrun
-
----
-
 ## MITM Netflix VIP Unlocker
 
 Share your Netflix VIP with your friends without evealing password and cookies.
-
-https://nf.mitm.plus/
 
 ---
 
 ## DeepL Free API
 
 通过逆向DeepL客户端使用的协议，实现的免费DeepL API
+
+<a href="https://hub.docker.com/r/zu1k/deepl">
+  <img src="https://img.shields.io/docker/pulls/zu1k/deepl?style=flat-square">
+</a>
 
 `docker run -itd -p 8080:80 zu1k/deepl`
 
