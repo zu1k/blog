@@ -15,7 +15,7 @@
         </div>
     </div>
 <h3 id="官方后门">官方后门</h3>
-<p>通过查看请求和页面源码可以发现这个页面通过想&rdquo;<strong>192.168.1.1</strong>&ldquo;的某个接口进行<strong>jsonp</strong>请求来执行命令</p>
+<p>通过查看请求和页面源码可以发现这个页面通过向 <code>192.168.1.1</code> 的某个接口进行 <strong>jsonp</strong> 请求来执行命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
