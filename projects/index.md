@@ -23,7 +23,9 @@
   </a>
 </p>
 
-一个查询IP地理信息和CDN服务提供商的离线终端工具
+一个查询 IP 地理信息和 CDN 服务提供商的离线终端工具。
+
+这个工具是受 nali 原版 C 版和 nali-cli Javascript 版本启发而开发的，在原有功能的基础上，完全重写了 wry IP 数据库解析模块，增加了更多 IP 数据库的支持，并添加了例如彩色输出等更多实用功能。目前该工具已经上架 macOS Homebrew 和 Arch Aur 仓库，总下载量超过 20k 次。
 
 - 支持多种数据库
   - 纯真 IPv4 离线数据库
@@ -63,9 +65,13 @@ https://github.com/zu1k/nali
   </a>
 </p>
 
-简单快速的图书搜索器，创建和搜索您的私人图书馆。性能极强，可以在一分钟内为超过 1000 万本书的元数据编制索引，并在 30µs 内进行搜索。
+简单快速(最快)的图书搜索器，创建和搜索您的私人图书馆。性能极强，可以在一分钟内为超过 1000 万本书的元数据编制索引，并在 30µs 内进行搜索，同时保持极低的内存占用。
+
+这个项目是在 zLibrary 域名被封杀的那段时间开发的，初衷是为 Anna 在 IPFS 中分享的书籍提供便捷快速的搜索功能。此项目原型我在一周之内完成，包括初期基于 tantivy 的索引程序、搜索后端和使用 Vue + Antd 开发的前端。项目开源后迅速得到社区反馈，并吸引了一批优秀的开发者参与进来，他们为该项目提供了各种改进和贡献，包括 CI\CD, 新的基于 React + Chakra UI 开发的前端, 基于 Tauri 实现的桌面版程序等重要贡献。此项目曾在一天以内登顶 Hacker News 热榜第一并吸引了众多讨论，曾登顶 GitHub Trending 全球排行榜第一名，并持续多日位列 GitHub Trending 排行榜首屏。该项目月活曾近百万人，月请求总数超 1500 万，全球部署实例超过 500 个。
 
 https://github.com/book-searcher-org/book-searcher
+
+Demo: https://zbook.lol/
 
 ---
 
@@ -86,14 +92,16 @@ https://github.com/book-searcher-org/book-searcher
   </a>
 </p>
 
-使用Rust编写的，简单、轻量、好用的划词翻译软件，利用DeepL进行翻译
+使用Rust编写的，简单、轻量、好用的划词翻译软件，利用 DeepL 进行翻译。
+
+该项目产生的原因是我在阅读论文时，发现现有的翻译器程序臃肿并体验不佳，便萌生了开发自己的划词翻译器的想法。我基于 egui 库开发了这个翻译器，得益于我之前逆向 DeepL 接口的经验，我的翻译器支持免费的 DeepL 翻译。在开发过程中，我发现 egui 库中的多个性能问题，向 egui 社区提起 issue 和 PR 协助他们进行完善。
 
 - 程序大小12MB，极其轻量
 - 自动去除多余的换行和断句，优化PDF翻译体验
 - 选中即翻译(划词翻译)，专注论文阅读
 - 使用DeepL进行翻译，翻译效果极佳
 
-https://github.com/zu1k/copy-translator
+https://github.com/zu1k/translator
 
 ---
 
@@ -114,7 +122,7 @@ https://github.com/zu1k/copy-translator
   </a>
 </p>
 
-使用MITM技术提供`rewrite`、`redirect`、`reject`等功能
+使用MITM技术提供 `rewrite`、`redirect`、`reject` 等功能
 
 - 基于 TLS ClientHello 的自动证书签署
 - 支持选择性 MITM
