@@ -25,7 +25,8 @@
 
 一个查询 IP 地理信息和 CDN 服务提供商的离线终端工具。
 
-这个工具是受 nali 原版 C 版和 nali-cli Javascript 版本启发而开发的，在原有功能的基础上，完全重写了 wry IP 数据库解析模块，增加了更多 IP 数据库的支持，并添加了例如彩色输出等更多实用功能。目前该工具已经上架 macOS Homebrew 和 Arch Aur 仓库，总下载量超过 20k 次。
+这个工具是受 nali 原版 C 版和 nali-cli Javascript 版本启发而开发的，在原有功能的基础上，完全重写了 wry IP 数据库解析模块，增加了更多 IP 数据库的支持，并添加了例如彩色输出等更多实用功能。
+目前该工具已经上架 macOS Homebrew 和 Arch Aur 仓库，总下载量超过 20k 次。
 
 - 支持多种数据库
   - 纯真 IPv4 离线数据库
@@ -260,7 +261,11 @@ https://github.com/zu1k/uniclip
   </a>
 </p>
 
-Telegram关键词自动回复机器人: 根据群组管理员设定的关键词或者正则规则，自动回复文字、图片、文件或者进行永久禁言、临时禁言、踢出等群管操作
+Telegram 关键词自动回复机器人: 根据群组管理员设定的关键词或者正则规则，自动回复文字、图片、文件或者进行永久禁言、临时禁言、踢出等群管操作
+
+这是我学习 Golang 后的第一个项目，当时是某个考试周的周末，复习太无聊了，于是我就用了 2 天时间 Go 语言，然后便想要做个简单的项目练练手。
+正巧当时我有一个几千人的 TG 群要管理，于是便萌生了写一个关键词自动回复的机器人来替我解答群友的提问。最初的版本功能非常简单，仅能回复确定的关键词，无法实时的添加和删除规则，但是机器人上线后群友反响不错，很快便被有同样需求的其他群组发现。
+在此契机下，我便继续添加了各种必要的功能，使其成长为当时 TG 中文圈最受欢迎的自动群管机器人之一，管理群组数曾达到2万个。
 
 https://github.com/zu1k/tg-keyword-reply-bot
 
@@ -397,7 +402,11 @@ https://github.com/zu1k/github-hosts
   </a>
 </p>
 
-生成Xray永久证书
+解析和生成 Xray 永久证书
+
+在某些契机下，我使用 IDA Pro 花了一晚上的时间逆向了长亭科技的 Xray 扫描器的证书校验逻辑，使用 Golang 写出了 Xray 合法证书的生成逻辑，并在后续添加了 Xray 可执行程序的自动 Patch 功能。
+我曾经写了一篇文章来发布该工具，该工具得到安全圈的欢迎：[xray社区高级版破解](https://zu1k.com/posts/security/reverse/xray-cracker/)。
+不过后续长亭的小姐姐联系我，说有人拿这个代码去盈利，于是我删除了相关代码，这件事也让我反思，开源某些类型的代码是否真的能够带来好的结果？
 
 https://github.com/zu1k/xray-crack-rm
 
@@ -417,7 +426,10 @@ https://github.com/zu1k/xray-crack-rm
   </a>
 </p>
 
-使用 Github Actions 上传文件到DogeCloud COS
+使用 GitHub Actions 上传文件到 DogeCloud COS
+
+DogeCloud 的对象存储和 CDN 是分销腾讯云的，服务质量没问题，并且提供了足够吸引我的免费额度，于是我便打算将博客的某些静态资源使用他家的 CDN 来分发。
+后来发现他家官方并没有合适的持续部署模块，于是我便基于腾讯云官方的 [COS Action](https://github.com/TencentCloud/cos-action) 模块开发了一个，这个项目也得到了 DogeCloud 官方的认可。
 
 https://github.com/zu1k/dogecloud-cos-action
 
