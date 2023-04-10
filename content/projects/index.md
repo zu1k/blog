@@ -11,6 +11,18 @@ comment: false
 
 此页面介绍我做的一些项目和工具
 
+## GitHub Trending 项目
+
+我的以下项目曾进入过 GitHub Trending 排行榜
+
+- [Nali](#nali)
+- [Book Searcher](#book-searcher)
+- [Copy Translator](#copy-translator)
+- [Good MITM](#good-mitm)
+- [ProxyPool](#proxypool)
+- [Telegram Keyword Bot](#telegram-keyword-bot)
+- [Xray Cracker](#xray-cracker)
+
 ## Nali
 
 <p>
@@ -34,7 +46,10 @@ comment: false
 一个查询 IP 地理信息和 CDN 服务提供商的离线终端工具。
 
 这个工具是受 nali 原版 C 版和 nali-cli Javascript 版本启发而开发的，在原有功能的基础上，完全重写了 wry IP 数据库解析模块，增加了更多 IP 数据库的支持，并添加了例如彩色输出等更多实用功能。
+
 目前该工具已经上架 macOS Homebrew 和 Arch Aur 仓库，总下载量超过 20k 次。
+
+此项目曾多次进入 GitHub Trending 排行榜，[archive](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fnali&type=code)。
 
 - 支持多种数据库
   - 纯真 IPv4 离线数据库
@@ -78,6 +93,8 @@ https://github.com/zu1k/nali
 
 这个项目是在 zLibrary 域名被封杀的那段时间开发的，初衷是为 Anna 在 IPFS 中分享的书籍提供便捷快速的搜索功能。此项目原型我在一周之内完成，包括初期基于 tantivy 的索引程序、搜索后端和使用 Vue + Antd 开发的前端。项目开源后迅速得到社区反馈，并吸引了一批优秀的开发者参与进来，他们为该项目提供了各种改进和贡献，包括 CI\CD, 新的基于 React + Chakra UI 开发的前端, 基于 Tauri 实现的桌面版程序等重要贡献。此项目曾在一天以内登顶 Hacker News 热榜第一并吸引了众多讨论，曾登顶 GitHub Trending 全球排行榜第一名，并持续多日位列 GitHub Trending 排行榜首屏。该项目月活曾近百万人，月请求总数超 1500 万，全球部署实例超过 500 个。
 
+此项目曾多次进入 GitHub Trending 排行榜，[archive 1](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+book-searcher-org%2Fbook-searcher&type=code)、[archive 2](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fzlib-searcher&type=code)。
+
 https://github.com/book-searcher-org/book-searcher
 
 Demo: https://zbook.lol/
@@ -104,6 +121,8 @@ Demo: https://zbook.lol/
 使用Rust编写的，简单、轻量、好用的划词翻译软件，利用 DeepL 进行翻译。
 
 该项目产生的原因是我在阅读论文时，发现现有的翻译器程序臃肿并体验不佳，便萌生了开发自己的划词翻译器的想法。我基于 egui 库开发了这个翻译器，得益于我之前逆向 DeepL 接口的经验，我的翻译器支持免费的 DeepL 翻译。在开发过程中，我发现 egui 库中的多个性能问题，向 egui 社区提起 issue 和 PR 协助他们进行完善。
+
+此项目曾多次进入 GitHub Trending 排行榜，[archive](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fcopy-translator&type=code)。
 
 - 程序大小12MB，极其轻量
 - 自动去除多余的换行和断句，优化PDF翻译体验
@@ -132,6 +151,8 @@ https://github.com/zu1k/translator
 </p>
 
 使用MITM技术提供 `rewrite`、`redirect`、`reject` 等功能
+
+此项目曾多次进入 GitHub Trending 排行榜，[archive](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fgood-mitm&type=code)。
 
 - 基于 TLS ClientHello 的自动证书签署
 - 支持选择性 MITM
@@ -194,6 +215,8 @@ https://github.com/zu1k/srun
 </p>
 
 自动抓取tg频道、订阅地址、公开互联网上的ss、ssr、vmess、trojan节点信息，聚合去重后提供节点列表
+
+此项目曾进入 GitHub Trending 排行榜，[archive](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Ftg-keyword-reply-bot&type=code)。
 
 https://github.com/zu1k/proxypool
 
@@ -274,6 +297,8 @@ Telegram 关键词自动回复机器人: 根据群组管理员设定的关键词
 这是我学习 Golang 后的第一个项目，当时是某个考试周的周末，复习太无聊了，于是我就用了 2 天时间 Go 语言，然后便想要做个简单的项目练练手。
 正巧当时我有一个几千人的 TG 群要管理，于是便萌生了写一个关键词自动回复的机器人来替我解答群友的提问。最初的版本功能非常简单，仅能回复确定的关键词，无法实时的添加和删除规则，但是机器人上线后群友反响不错，很快便被有同样需求的其他群组发现。
 在此契机下，我便继续添加了各种必要的功能，使其成长为当时 TG 中文圈最受欢迎的自动群管机器人之一，管理群组数曾达到2万个。
+
+https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Ftg-keyword-reply-bot&type=code
 
 https://github.com/zu1k/tg-keyword-reply-bot
 
@@ -415,6 +440,8 @@ https://github.com/zu1k/github-hosts
 在某些契机下，我使用 IDA Pro 花了一晚上的时间逆向了长亭科技的 Xray 扫描器的证书校验逻辑，使用 Golang 写出了 Xray 合法证书的生成逻辑，并在后续添加了 Xray 可执行程序的自动 Patch 功能。
 我曾经写了一篇文章来发布该工具，该工具得到安全圈的欢迎：[xray社区高级版破解](https://zu1k.com/posts/security/reverse/xray-cracker/)。
 不过后续长亭的小姐姐联系我，说有人拿这个代码去盈利，于是我删除了相关代码，这件事也让我反思，开源某些类型的代码是否真的能够带来好的结果？
+
+此项目曾进入 GitHub Trending 排行榜，[archive](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fxray-crack&type=code)。
 
 https://github.com/zu1k/xray-crack-rm
 
