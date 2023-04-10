@@ -72,7 +72,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
-<p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
+<p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer" class="post-link">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer" class="post-link">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
 </blockquote>
 <h3 id="解析与生成">解析与生成</h3>
 <p>在拿到抽象语法树后，顶层便是 <code>Instruction</code>，根据思路我们应该遍历其所有的成员，分析成员的类型并根据相关信息生成代码。</p>
@@ -308,16 +308,16 @@
 <h3 id="网络栈实现">网络栈实现</h3>
 <ul>
 <li>
-<p>如果使用 <strong>C</strong> 语言，<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="noopener noreffer"><strong>lwIP</strong></a> 是一个非常不错的选择，由瑞典计算机科学研究所科学院开源，这是一个轻量级的 TCP/IP 栈实现，在占用超少内存的情况下，实现了完整的 TCP，被广泛应用到嵌入式设备中，稳定性有保证。同时，lwIP 有很多其他语言的绑定，包括 go 和 rust，这使我们在使用其他语言开发时也可以选择 lwIP 作为用户态网络栈实现。</p>
+<p>如果使用 <strong>C</strong> 语言，<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="noopener noreffer" class="post-link"><strong>lwIP</strong></a> 是一个非常不错的选择，由瑞典计算机科学研究所科学院开源，这是一个轻量级的 TCP/IP 栈实现，在占用超少内存的情况下，实现了完整的 TCP，被广泛应用到嵌入式设备中，稳定性有保证。同时，lwIP 有很多其他语言的绑定，包括 go 和 rust，这使我们在使用其他语言开发时也可以选择 lwIP 作为用户态网络栈实现。</p>
 </li>
 <li>
-<p>如果选择使用 <strong>Go</strong> 语言开发 TUN 的用户态程序(其实这也是大多数人的选择)，可以选择 Google 开源的 <a href="https://github.com/google/gvisor/tree/master/pkg/tcpip" target="_blank" rel="noopener noreffer"><strong>gVisor</strong></a> 中的实现，gVisor项目目的是为容器提供自己的应用程序内核，其中 tcpip 的实现有 Google 背书，质量有保证。</p>
+<p>如果选择使用 <strong>Go</strong> 语言开发 TUN 的用户态程序(其实这也是大多数人的选择)，可以选择 Google 开源的 <a href="https://github.com/google/gvisor/tree/master/pkg/tcpip" target="_blank" rel="noopener noreffer" class="post-link"><strong>gVisor</strong></a> 中的实现，gVisor项目目的是为容器提供自己的应用程序内核，其中 tcpip 的实现有 Google 背书，质量有保证。</p>
 </li>
 <li>
-<p>如果选择使用 <strong>Rust</strong> 进行开发，我们的选择就会困难一点，并没有一个饱经风霜、经过时间检验的实现，在广泛对比之后我推荐 <a href="https://github.com/smoltcp-rs/smoltcp" target="_blank" rel="noopener noreffer"><strong>smoltcp</strong></a>，这是为裸机实时系统开发的独立的、事件驱动的 TCP/IP 栈，其设计目标是简单和健壮，应该可以信任吧。</p>
+<p>如果选择使用 <strong>Rust</strong> 进行开发，我们的选择就会困难一点，并没有一个饱经风霜、经过时间检验的实现，在广泛对比之后我推荐 <a href="https://github.com/smoltcp-rs/smoltcp" target="_blank" rel="noopener noreffer" class="post-link"><strong>smoltcp</strong></a>，这是为裸机实时系统开发的独立的、事件驱动的 TCP/IP 栈，其设计目标是简单和健壮，应该可以信任吧。</p>
 </li>
 <li>
-<p>当然，我觉得还有一个可以期待的实现，就是 Google 为 Fuchsia 操作系统开发的 <a href="https://cs.opensource.google/fuchsia/fuchsia/&#43;/master:src/connectivity/network/netstack3/" target="_blank" rel="noopener noreffer"><strong>Netstack3</strong></a>，之前是由 Go 实现的，不过现在 Google 用 Rust 重新实现了一个新的，谷歌背书，可以期待。</p>
+<p>当然，我觉得还有一个可以期待的实现，就是 Google 为 Fuchsia 操作系统开发的 <a href="https://cs.opensource.google/fuchsia/fuchsia/&#43;/master:src/connectivity/network/netstack3/" target="_blank" rel="noopener noreffer" class="post-link"><strong>Netstack3</strong></a>，之前是由 Go 实现的，不过现在 Google 用 Rust 重新实现了一个新的，谷歌背书，可以期待。</p>
 </li>
 </ul>
 <h3 id="使用流程">使用流程</h3>
@@ -326,7 +326,7 @@
 <p>从原理上来讲，用户态网络栈就是要不断通过协议解析，从 IPv4 数据包中不断解析出 TCP 流中的载荷数据；将传输层载荷通过不断的协议封装，拿到最终的 IPv4 数据包。</p>
 <p><strong>从 TUN 往外读</strong></p>
 <p>从 TUN 设备所对应的句柄中读出了一段字节序列，便是需要处理的IP数据包，一般是 IPv4 协议，不过还是需要先根据字节序列的第一个字节进行判断。</p>
-<p>如果判断为 IPv4 包，就将整个字节序列扔到 IPv4 的 Packet Parser 实现中，还原出 IPv4 数据包结构。根据 IPv4 Header 中的 protocol 字段，判断 payload 应该使用哪个上层协议解析。<a href="https://datatracker.ietf.org/doc/html/rfc791#page-11" target="_blank" rel="noopener noreffer">rfc791</a></p>
+<p>如果判断为 IPv4 包，就将整个字节序列扔到 IPv4 的 Packet Parser 实现中，还原出 IPv4 数据包结构。根据 IPv4 Header 中的 protocol 字段，判断 payload 应该使用哪个上层协议解析。<a href="https://datatracker.ietf.org/doc/html/rfc791#page-11" target="_blank" rel="noopener noreffer" class="post-link">rfc791</a></p>
 <p>一般仅需要处理 ICMP、TCP、UDP 这三种协议，拿 TCP 为例，只需要将 IPv4 的 payload 扔到 TCP 的 Parser 中，即可取出我们想要的传输层载荷。（实际情况当然没有说的这么简单）</p>
 <p><strong>向 TUN 写数据</strong></p>
 <p>写的过程其实就是读的过程反过来，拿到的是某个传输层协议的 payload，就拿UDP为例，根据该数据报的元信息，构建出完整的 UDP Header，然后将 payload 内容拼接进去。</p>
@@ -402,24 +402,24 @@
 <p>物理网卡会有 <strong>DMA</strong> 功能，在启用 DMA 时网卡和网络栈(内存中的缓冲区)的通讯由 DMA 控制器管理，因此性能更高延迟也更低。</p>
 <h3 id="如何创建-tun-设备">如何创建 TUN 设备</h3>
 <p>在Linux下一切皆文件，<code>/dev/net/tun</code> 是特殊的字符(char)设备文件，通过打开这个文件获得一个文件句柄，然后通过 <code>ioctl()</code> 系统调用对其进行配置。在这里可以选择打开TUN设备还是TAP设备，可以设置设备名称。</p>
-<p>详见：<a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html#network-device-allocation" target="_blank" rel="noopener noreffer">Network device allocation</a></p>
+<p>详见：<a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html#network-device-allocation" target="_blank" rel="noopener noreffer" class="post-link">Network device allocation</a></p>
 <h3 id="与-bpf-的关系">与 BPF 的关系</h3>
 <p>BPF 是一种高级数据包过滤器，可以附加到现有的网络接口，但其本身不提供虚拟网络接口。 TUN/TAP 驱动程序提供虚拟网络接口，可以将 BPF 附加到该接口。</p>
 <h2 id="扩展阅读">扩展阅读</h2>
 <ul>
-<li><a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html" target="_blank" rel="noopener noreffer">https://www.kernel.org/doc/html/latest/networking/tuntap.html</a></li>
-<li><a href="https://github.com/xjasonlyu/tun2socks" target="_blank" rel="noopener noreffer">https://github.com/xjasonlyu/tun2socks</a></li>
-<li><a href="https://github.com/eycorsican/go-tun2socks" target="_blank" rel="noopener noreffer">https://github.com/eycorsican/go-tun2socks</a></li>
-<li><a href="https://github.com/gfreezy/seeker" target="_blank" rel="noopener noreffer">https://github.com/gfreezy/seeker</a></li>
-<li><a href="https://github.com/shadowsocks/shadowsocks-rust" target="_blank" rel="noopener noreffer">https://github.com/shadowsocks/shadowsocks-rust</a></li>
-<li><a href="https://www.wintun.net/" target="_blank" rel="noopener noreffer">https://www.wintun.net/</a></li>
+<li><a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.kernel.org/doc/html/latest/networking/tuntap.html</a></li>
+<li><a href="https://github.com/xjasonlyu/tun2socks" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/xjasonlyu/tun2socks</a></li>
+<li><a href="https://github.com/eycorsican/go-tun2socks" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/eycorsican/go-tun2socks</a></li>
+<li><a href="https://github.com/gfreezy/seeker" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/gfreezy/seeker</a></li>
+<li><a href="https://github.com/shadowsocks/shadowsocks-rust" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/shadowsocks/shadowsocks-rust</a></li>
+<li><a href="https://www.wintun.net/" target="_blank" rel="noopener noreffer" class="post-link">https://www.wintun.net/</a></li>
 </ul>
-]]></description></item><item><title>Nali IP地理信息和CDN服务商查询</title><link>https://zu1k.com/posts/coding/nali-golang/</link><pubDate>Fri, 17 Jul 2020 13:39:47 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/nali-golang/</guid><description><![CDATA[<p><a href="https://github.com/zu1k/nali" target="_blank" rel="noopener noreffer">Nali</a></p>
+]]></description></item><item><title>Nali IP地理信息和CDN服务商查询</title><link>https://zu1k.com/posts/coding/nali-golang/</link><pubDate>Fri, 17 Jul 2020 13:39:47 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/nali-golang/</guid><description><![CDATA[<p><a href="https://github.com/zu1k/nali" target="_blank" rel="noopener noreffer" class="post-link">Nali</a></p>
 <blockquote>
 <p>一个查询IP地理信息和CDN提供商的离线终端工具</p>
 </blockquote>
 <h2 id="来源">来源</h2>
-<p>该工具受 <a href="https://github.com/meteoral/Nali" target="_blank" rel="noopener noreffer">Nali C版本</a> 和 <a href="https://github.com/SukkaW/nali-cli" target="_blank" rel="noopener noreffer">nali-cli js版本</a> 的启发.</p>
+<p>该工具受 <a href="https://github.com/meteoral/Nali" target="_blank" rel="noopener noreffer" class="post-link">Nali C版本</a> 和 <a href="https://github.com/SukkaW/nali-cli" target="_blank" rel="noopener noreffer" class="post-link">nali-cli js版本</a> 的启发.</p>
 <p>我想要在终端对IP地理信息和CDN服务提供商进行查询，发现了Nali这个工具，Nali与哪里谐音，非常适合这类工具</p>
 <p>经过简单的使用，我发现最初的C语言版本功能缺失，而苏卡卡大佬的js版本包实在大的恐怖、而支持的平台非常有限，所以我用golang重写了这个工具，在原有功能的基础上增加了对IPv6的支持，并且增加了Geoip2数据库</p>
 <h2 id="功能">功能</h2>
@@ -447,7 +447,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="下载预编译的可执行程序">下载预编译的可执行程序</h3>
-<p>可以从Release页面下载预编译好的可执行程序: <a href="https://github.com/zu1k/nali/releases" target="_blank" rel="noopener noreffer">Release</a></p>
+<p>可以从Release页面下载预编译好的可执行程序: <a href="https://github.com/zu1k/nali/releases" target="_blank" rel="noopener noreffer" class="post-link">Release</a></p>
 <p>你需要选择适合你系统和硬件架构的版本下载，解压后可直接运行</p>
 <h3 id="使用-docker-版本">使用 Docker 版本</h3>
 <div class="highlight"><div class="chroma">
@@ -805,17 +805,17 @@
 </div>
 </div><h2 id="感谢列表">感谢列表</h2>
 <ul>
-<li><a href="http://www.cz88.net/fox/ipdat.shtml" target="_blank" rel="noopener noreffer">纯真QQIP离线数据库</a></li>
-<li><a href="https://qqwry.mirror.noc.one/" target="_blank" rel="noopener noreffer">qqwry mirror</a></li>
-<li><a href="https://github.com/yinheli/qqwry" target="_blank" rel="noopener noreffer">qqwry纯真数据库解析</a></li>
-<li><a href="https://ip.zxinc.org/ipquery/" target="_blank" rel="noopener noreffer">ZX公网ipv6数据库</a></li>
-<li><a href="https://www.maxmind.com/en/geoip2-precision-city-service" target="_blank" rel="noopener noreffer">Geoip2 city数据库</a></li>
-<li><a href="https://github.com/oschwald/geoip2-golang" target="_blank" rel="noopener noreffer">geoip2-golang解析器</a></li>
-<li><a href="https://github.com/SukkaLab/cdn" target="_blank" rel="noopener noreffer">CDN provider数据库</a></li>
-<li><a href="https://www.ipip.net/product/ip.html" target="_blank" rel="noopener noreffer">IPIP数据库</a></li>
-<li><a href="https://github.com/ipipdotnet/ipdb-go" target="_blank" rel="noopener noreffer">IPIP数据库解析</a></li>
-<li><a href="https://github.com/spf13/cobra" target="_blank" rel="noopener noreffer">Cobra CLI库</a></li>
-<li><a href="https://github.com/SukkaW/nali-cli" target="_blank" rel="noopener noreffer">Nali-cli</a></li>
+<li><a href="http://www.cz88.net/fox/ipdat.shtml" target="_blank" rel="noopener noreffer" class="post-link">纯真QQIP离线数据库</a></li>
+<li><a href="https://qqwry.mirror.noc.one/" target="_blank" rel="noopener noreffer" class="post-link">qqwry mirror</a></li>
+<li><a href="https://github.com/yinheli/qqwry" target="_blank" rel="noopener noreffer" class="post-link">qqwry纯真数据库解析</a></li>
+<li><a href="https://ip.zxinc.org/ipquery/" target="_blank" rel="noopener noreffer" class="post-link">ZX公网ipv6数据库</a></li>
+<li><a href="https://www.maxmind.com/en/geoip2-precision-city-service" target="_blank" rel="noopener noreffer" class="post-link">Geoip2 city数据库</a></li>
+<li><a href="https://github.com/oschwald/geoip2-golang" target="_blank" rel="noopener noreffer" class="post-link">geoip2-golang解析器</a></li>
+<li><a href="https://github.com/SukkaLab/cdn" target="_blank" rel="noopener noreffer" class="post-link">CDN provider数据库</a></li>
+<li><a href="https://www.ipip.net/product/ip.html" target="_blank" rel="noopener noreffer" class="post-link">IPIP数据库</a></li>
+<li><a href="https://github.com/ipipdotnet/ipdb-go" target="_blank" rel="noopener noreffer" class="post-link">IPIP数据库解析</a></li>
+<li><a href="https://github.com/spf13/cobra" target="_blank" rel="noopener noreffer" class="post-link">Cobra CLI库</a></li>
+<li><a href="https://github.com/SukkaW/nali-cli" target="_blank" rel="noopener noreffer" class="post-link">Nali-cli</a></li>
 </ul>
 <h2 id="开源证书">开源证书</h2>
 <p>MIT</p>
@@ -1373,7 +1373,7 @@
 </span></span><span class="line"><span class="cl">!sh
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer">https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html</a></p>
+</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html</a></p>
 <h2 id="suid在脚本中失效">SUID在脚本中失效</h2>
 <p>假如user1用 <code>chmod 4777 /home/user1/script.sh</code> 命令给<code>script.sh</code>脚本设置SUID位，登录user2后执行这个脚本提示没有权限</p>
 <p>这是因为SUID位只对编译过的可执行程序起作用，sh脚本的实际执行程序是sh或者bash之类，如果它们在执行的时候并不会检查脚本文件的SUID位，那就不会起作用了</p>
@@ -1770,7 +1770,7 @@
 <h2 id="阅读更多内容">阅读更多内容</h2>
 <p>如果你想了解功能，通过下面的命令查看官方文档吧</p>
 <p><code>man -Len -Pless\ +/^REDIRECTION bash</code></p>
-<p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer">stack overflow</a></p>
+<p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer" class="post-link">stack overflow</a></p>
 ]]></description></item><item><title>MySQL中几个concat的用法与区别</title><link>https://zu1k.com/posts/security/web-security/mysql-concat-concat-ws-group-concat/</link><pubDate>Sun, 22 Mar 2020 18:23:34 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/mysql-concat-concat-ws-group-concat/</guid><description><![CDATA[<h2 id="讲解与示例">讲解与示例</h2>
 <h3 id="concatstr1-str2-">CONCAT(str1, str2, &hellip;)</h3>
 <ol>
@@ -2025,12 +2025,12 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="区别">区别</h2>
-<p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
+<p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer" class="post-link">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
 <h3 id="concat_ws">concat_ws</h3>
-<p><a href="http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php" target="_blank" rel="noopener noreffer">http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php</a></p>
+<p><a href="http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php</a></p>
 <p></p>
 <h3 id="group_concat">group_concat</h3>
-<p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
+<p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
 <p></p>
 ]]></description></item><item><title>静态链接OpenSSL进行RSA\MD5\Base64</title><link>https://zu1k.com/posts/coding/openssl-first-try-rsa-md5-base64/</link><pubDate>Wed, 18 Mar 2020 12:50:10 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/openssl-first-try-rsa-md5-base64/</guid><description><![CDATA[<h2 id="简介">简介</h2>
 <p>目标平台： Windows 10 amd64</p>
@@ -2038,12 +2038,12 @@
 <h2 id="准备工作">准备工作</h2>
 <h3 id="下载openssl代码">下载openssl代码</h3>
 <p><code>git clone https://github.com/openssl/openssl.git</code></p>
-<p>或者从官网 <a href="https://www.openssl.org/source/" target="_blank" rel="noopener noreffer">https://www.openssl.org/source/</a> 下载源代码</p>
+<p>或者从官网 <a href="https://www.openssl.org/source/" target="_blank" rel="noopener noreffer" class="post-link">https://www.openssl.org/source/</a> 下载源代码</p>
 <p>我使用的是openssl 1.1.1</p>
 <h3 id="安装perl环境这里使用的是activeperl">安装perl环境，这里使用的是ActivePerl</h3>
-<p><a href="https://www.activestate.com/products/perl/" target="_blank" rel="noopener noreffer">https://www.activestate.com/products/perl/</a></p>
+<p><a href="https://www.activestate.com/products/perl/" target="_blank" rel="noopener noreffer" class="post-link">https://www.activestate.com/products/perl/</a></p>
 <h3 id="安装nasm汇编器">安装NASM汇编器</h3>
-<p><a href="https://www.nasm.us/" target="_blank" rel="noopener noreffer">https://www.nasm.us/</a></p>
+<p><a href="https://www.nasm.us/" target="_blank" rel="noopener noreffer" class="post-link">https://www.nasm.us/</a></p>
 <h3 id="配置环境变量">配置环境变量</h3>
 <p>将刚刚安装的nasm和perl的bin目录加入PATH</p>
 <p></p>
@@ -2647,7 +2647,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <li>deleteallmessage - 删除48小时内所有消息</li>
 </ul>
 <h2 id="开源">开源</h2>
-<p>开源地址： <a href="https://github.com/zu1k/tg-keyword-reply-bot" target="_blank" rel="noopener noreffer">https://github.com/zu1k/tg-keyword-reply-bot</a></p>
+<p>开源地址： <a href="https://github.com/zu1k/tg-keyword-reply-bot" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/tg-keyword-reply-bot</a></p>
 <!-- ## 赞助
 
 > 这里要特别感谢 聪聪，是他赞助了服务器费用。  

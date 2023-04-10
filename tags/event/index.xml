@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>事件 - 标签 - zu1k</title><link>https://zu1k.com/tags/event/</link><description>以正常人类的视角观察世界，记录发生在我身边的有趣或者重要的事件</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zu1k.com/tags/event/" rel="self" type="application/rss+xml"/><item><title>从最近披露的Pink僵尸网络想到的</title><link>https://zu1k.com/posts/events/pinkbot/</link><pubDate>Wed, 27 Oct 2021 13:00:45 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/pinkbot/</guid><description><![CDATA[<p>昨天上课的时候无聊刷<a href="https://www.v2ex.com/t/810633" target="_blank" rel="noopener noreffer">V2EX</a>，读到 360 Netlab 发布的文章<a href="https://blog.netlab.360.com/pinkbot/" target="_blank" rel="noopener noreffer">《一个藏在我们身边的巨型僵尸网络 Pink》</a>，披露了2019年底到2020年春节前后的一个名为&quot;<strong>Pink</strong>&ldquo;的巨型僵尸网络从被发现到攻防博弈过程的一些细节</p>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>事件 - 标签 - zu1k</title><link>https://zu1k.com/tags/event/</link><description>以正常人类的视角观察世界，记录发生在我身边的有趣或者重要的事件</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zu1k.com/tags/event/" rel="self" type="application/rss+xml"/><item><title>从最近披露的Pink僵尸网络想到的</title><link>https://zu1k.com/posts/events/pinkbot/</link><pubDate>Wed, 27 Oct 2021 13:00:45 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/pinkbot/</guid><description><![CDATA[<p>昨天上课的时候无聊刷<a href="https://www.v2ex.com/t/810633" target="_blank" rel="noopener noreffer" class="post-link">V2EX</a>，读到 360 Netlab 发布的文章<a href="https://blog.netlab.360.com/pinkbot/" target="_blank" rel="noopener noreffer" class="post-link">《一个藏在我们身边的巨型僵尸网络 Pink》</a>，披露了2019年底到2020年春节前后的一个名为&quot;<strong>Pink</strong>&ldquo;的巨型僵尸网络从被发现到攻防博弈过程的一些细节</p>
 <p>文中的攻防过程令我很是激动，因为我想起了在2020年初的一件事</p>
 <h2 id="光猫升级事件">光猫升级事件</h2>
 <p>2020年1月初，访问某些http协议(80端口)的网站，会被劫持到一个联通光猫升级页面</p>
@@ -11,7 +11,7 @@
             <i class="icon icon-info-circled"></i>信息<i class="details-icon icon-angle-circled-right"></i>
         </div>
         <div class="details-content">
-            <div class="admonition-content">对这个页面的源码在gist上进行了<a href="https://gist.github.com/zu1k/7120d1f71797153eb8c867bb09323eae" target="_blank" rel="noopener noreffer">备份</a>，感兴趣的同学可以看一下 <a href="https://gist.github.com/zu1k/7120d1f71797153eb8c867bb09323eae#L9923" target="_blank" rel="noopener noreffer">9923</a> 行</div>
+            <div class="admonition-content">对这个页面的源码在gist上进行了<a href="https://gist.github.com/zu1k/7120d1f71797153eb8c867bb09323eae" target="_blank" rel="noopener noreffer" class="post-link">备份</a>，感兴趣的同学可以看一下 <a href="https://gist.github.com/zu1k/7120d1f71797153eb8c867bb09323eae#L9923" target="_blank" rel="noopener noreffer" class="post-link">9923</a> 行</div>
         </div>
     </div>
 <h3 id="官方后门">官方后门</h3>
@@ -163,8 +163,8 @@
 <p>再加一句，不要把自己的安全完全托付在别人手中</p>
 <h2 id="参考链接">参考链接</h2>
 <ul>
-<li><a href="https://www.v2ex.com/t/810633" target="_blank" rel="noopener noreffer">运营商收回公网 IP 的原因之一</a></li>
-<li><a href="https://blog.netlab.360.com/pinkbot/" target="_blank" rel="noopener noreffer">一个藏在我们身边的巨型僵尸网络 Pink</a></li>
-<li><a href="https://www.freebuf.com/articles/endpoint/243189.html" target="_blank" rel="noopener noreffer">用户端设备ONU被肉鸡攻击实例浅析</a></li>
+<li><a href="https://www.v2ex.com/t/810633" target="_blank" rel="noopener noreffer" class="post-link">运营商收回公网 IP 的原因之一</a></li>
+<li><a href="https://blog.netlab.360.com/pinkbot/" target="_blank" rel="noopener noreffer" class="post-link">一个藏在我们身边的巨型僵尸网络 Pink</a></li>
+<li><a href="https://www.freebuf.com/articles/endpoint/243189.html" target="_blank" rel="noopener noreffer" class="post-link">用户端设备ONU被肉鸡攻击实例浅析</a></li>
 </ul>
 ]]></description></item></channel></rss>

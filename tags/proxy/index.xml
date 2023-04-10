@@ -5,7 +5,7 @@
 <p></p>
 <h2 id="教程">教程</h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
-<p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer">[AFF 链接]</a>.</p>
+<p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[AFF 链接]</a>.</p>
 <p>你可以通过 <code>ip a</code> 命令查看网络接口的地址，从而获取你的 IPv6 子网信息：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -154,7 +154,7 @@
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4:b598:409d:b946:17c
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
+</div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
 <h2 id="碎碎念">碎碎念</h2>
 <!-- ### Proxypool 项目
 
@@ -174,8 +174,8 @@
 <li>创建一个 TUN 设备，配置这个 TUN 设备的网段为 IPv6 子网，然后将 TUN 设备和真实网络设备创建网桥。</li>
 </ol>
 <p>通过 TUN 向系统网络栈注入源 IP 为网段下随机的 IPv6 地址，伪造有众多 host 的假象。</p>
-<p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
-<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
+<p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="" class="post-link">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="" class="post-link">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
+<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
 <p>幸亏后面搜资料发现了本文方便的方法，才避免了我陷入这些迷途。反思一下，即自己的知识不够，对 Linux 内核及其提供的众多功能了解不够深入，导致人家原本就有的功能自己根本不知道，所以想不出合适的方案。</p>
 <h3 id="waf">WAF</h3>
 <p>我也不是非常了解，现在的 WAF 是不是就是单纯根据 IP 来进行限流限速 ？如果真是这样，那利用这庞大的 IPv6 资源岂不是轻松绕过封禁。</p>
@@ -201,16 +201,16 @@
 <h3 id="网络栈实现">网络栈实现</h3>
 <ul>
 <li>
-<p>如果使用 <strong>C</strong> 语言，<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="noopener noreffer"><strong>lwIP</strong></a> 是一个非常不错的选择，由瑞典计算机科学研究所科学院开源，这是一个轻量级的 TCP/IP 栈实现，在占用超少内存的情况下，实现了完整的 TCP，被广泛应用到嵌入式设备中，稳定性有保证。同时，lwIP 有很多其他语言的绑定，包括 go 和 rust，这使我们在使用其他语言开发时也可以选择 lwIP 作为用户态网络栈实现。</p>
+<p>如果使用 <strong>C</strong> 语言，<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="noopener noreffer" class="post-link"><strong>lwIP</strong></a> 是一个非常不错的选择，由瑞典计算机科学研究所科学院开源，这是一个轻量级的 TCP/IP 栈实现，在占用超少内存的情况下，实现了完整的 TCP，被广泛应用到嵌入式设备中，稳定性有保证。同时，lwIP 有很多其他语言的绑定，包括 go 和 rust，这使我们在使用其他语言开发时也可以选择 lwIP 作为用户态网络栈实现。</p>
 </li>
 <li>
-<p>如果选择使用 <strong>Go</strong> 语言开发 TUN 的用户态程序(其实这也是大多数人的选择)，可以选择 Google 开源的 <a href="https://github.com/google/gvisor/tree/master/pkg/tcpip" target="_blank" rel="noopener noreffer"><strong>gVisor</strong></a> 中的实现，gVisor项目目的是为容器提供自己的应用程序内核，其中 tcpip 的实现有 Google 背书，质量有保证。</p>
+<p>如果选择使用 <strong>Go</strong> 语言开发 TUN 的用户态程序(其实这也是大多数人的选择)，可以选择 Google 开源的 <a href="https://github.com/google/gvisor/tree/master/pkg/tcpip" target="_blank" rel="noopener noreffer" class="post-link"><strong>gVisor</strong></a> 中的实现，gVisor项目目的是为容器提供自己的应用程序内核，其中 tcpip 的实现有 Google 背书，质量有保证。</p>
 </li>
 <li>
-<p>如果选择使用 <strong>Rust</strong> 进行开发，我们的选择就会困难一点，并没有一个饱经风霜、经过时间检验的实现，在广泛对比之后我推荐 <a href="https://github.com/smoltcp-rs/smoltcp" target="_blank" rel="noopener noreffer"><strong>smoltcp</strong></a>，这是为裸机实时系统开发的独立的、事件驱动的 TCP/IP 栈，其设计目标是简单和健壮，应该可以信任吧。</p>
+<p>如果选择使用 <strong>Rust</strong> 进行开发，我们的选择就会困难一点，并没有一个饱经风霜、经过时间检验的实现，在广泛对比之后我推荐 <a href="https://github.com/smoltcp-rs/smoltcp" target="_blank" rel="noopener noreffer" class="post-link"><strong>smoltcp</strong></a>，这是为裸机实时系统开发的独立的、事件驱动的 TCP/IP 栈，其设计目标是简单和健壮，应该可以信任吧。</p>
 </li>
 <li>
-<p>当然，我觉得还有一个可以期待的实现，就是 Google 为 Fuchsia 操作系统开发的 <a href="https://cs.opensource.google/fuchsia/fuchsia/&#43;/master:src/connectivity/network/netstack3/" target="_blank" rel="noopener noreffer"><strong>Netstack3</strong></a>，之前是由 Go 实现的，不过现在 Google 用 Rust 重新实现了一个新的，谷歌背书，可以期待。</p>
+<p>当然，我觉得还有一个可以期待的实现，就是 Google 为 Fuchsia 操作系统开发的 <a href="https://cs.opensource.google/fuchsia/fuchsia/&#43;/master:src/connectivity/network/netstack3/" target="_blank" rel="noopener noreffer" class="post-link"><strong>Netstack3</strong></a>，之前是由 Go 实现的，不过现在 Google 用 Rust 重新实现了一个新的，谷歌背书，可以期待。</p>
 </li>
 </ul>
 <h3 id="使用流程">使用流程</h3>
@@ -219,7 +219,7 @@
 <p>从原理上来讲，用户态网络栈就是要不断通过协议解析，从 IPv4 数据包中不断解析出 TCP 流中的载荷数据；将传输层载荷通过不断的协议封装，拿到最终的 IPv4 数据包。</p>
 <p><strong>从 TUN 往外读</strong></p>
 <p>从 TUN 设备所对应的句柄中读出了一段字节序列，便是需要处理的IP数据包，一般是 IPv4 协议，不过还是需要先根据字节序列的第一个字节进行判断。</p>
-<p>如果判断为 IPv4 包，就将整个字节序列扔到 IPv4 的 Packet Parser 实现中，还原出 IPv4 数据包结构。根据 IPv4 Header 中的 protocol 字段，判断 payload 应该使用哪个上层协议解析。<a href="https://datatracker.ietf.org/doc/html/rfc791#page-11" target="_blank" rel="noopener noreffer">rfc791</a></p>
+<p>如果判断为 IPv4 包，就将整个字节序列扔到 IPv4 的 Packet Parser 实现中，还原出 IPv4 数据包结构。根据 IPv4 Header 中的 protocol 字段，判断 payload 应该使用哪个上层协议解析。<a href="https://datatracker.ietf.org/doc/html/rfc791#page-11" target="_blank" rel="noopener noreffer" class="post-link">rfc791</a></p>
 <p>一般仅需要处理 ICMP、TCP、UDP 这三种协议，拿 TCP 为例，只需要将 IPv4 的 payload 扔到 TCP 的 Parser 中，即可取出我们想要的传输层载荷。（实际情况当然没有说的这么简单）</p>
 <p><strong>向 TUN 写数据</strong></p>
 <p>写的过程其实就是读的过程反过来，拿到的是某个传输层协议的 payload，就拿UDP为例，根据该数据报的元信息，构建出完整的 UDP Header，然后将 payload 内容拼接进去。</p>
@@ -295,17 +295,17 @@
 <p>物理网卡会有 <strong>DMA</strong> 功能，在启用 DMA 时网卡和网络栈(内存中的缓冲区)的通讯由 DMA 控制器管理，因此性能更高延迟也更低。</p>
 <h3 id="如何创建-tun-设备">如何创建 TUN 设备</h3>
 <p>在Linux下一切皆文件，<code>/dev/net/tun</code> 是特殊的字符(char)设备文件，通过打开这个文件获得一个文件句柄，然后通过 <code>ioctl()</code> 系统调用对其进行配置。在这里可以选择打开TUN设备还是TAP设备，可以设置设备名称。</p>
-<p>详见：<a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html#network-device-allocation" target="_blank" rel="noopener noreffer">Network device allocation</a></p>
+<p>详见：<a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html#network-device-allocation" target="_blank" rel="noopener noreffer" class="post-link">Network device allocation</a></p>
 <h3 id="与-bpf-的关系">与 BPF 的关系</h3>
 <p>BPF 是一种高级数据包过滤器，可以附加到现有的网络接口，但其本身不提供虚拟网络接口。 TUN/TAP 驱动程序提供虚拟网络接口，可以将 BPF 附加到该接口。</p>
 <h2 id="扩展阅读">扩展阅读</h2>
 <ul>
-<li><a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html" target="_blank" rel="noopener noreffer">https://www.kernel.org/doc/html/latest/networking/tuntap.html</a></li>
-<li><a href="https://github.com/xjasonlyu/tun2socks" target="_blank" rel="noopener noreffer">https://github.com/xjasonlyu/tun2socks</a></li>
-<li><a href="https://github.com/eycorsican/go-tun2socks" target="_blank" rel="noopener noreffer">https://github.com/eycorsican/go-tun2socks</a></li>
-<li><a href="https://github.com/gfreezy/seeker" target="_blank" rel="noopener noreffer">https://github.com/gfreezy/seeker</a></li>
-<li><a href="https://github.com/shadowsocks/shadowsocks-rust" target="_blank" rel="noopener noreffer">https://github.com/shadowsocks/shadowsocks-rust</a></li>
-<li><a href="https://www.wintun.net/" target="_blank" rel="noopener noreffer">https://www.wintun.net/</a></li>
+<li><a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.kernel.org/doc/html/latest/networking/tuntap.html</a></li>
+<li><a href="https://github.com/xjasonlyu/tun2socks" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/xjasonlyu/tun2socks</a></li>
+<li><a href="https://github.com/eycorsican/go-tun2socks" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/eycorsican/go-tun2socks</a></li>
+<li><a href="https://github.com/gfreezy/seeker" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/gfreezy/seeker</a></li>
+<li><a href="https://github.com/shadowsocks/shadowsocks-rust" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/shadowsocks/shadowsocks-rust</a></li>
+<li><a href="https://www.wintun.net/" target="_blank" rel="noopener noreffer" class="post-link">https://www.wintun.net/</a></li>
 </ul>
 ]]></description></item><item><title>给git设置代理</title><link>https://zu1k.com/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
 <p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议</p>

@@ -832,33 +832,33 @@
 python安装依赖可以选择在线安装，如 <code>pip install 依赖名</code><br>
 也可以选择使用whl文件安装，如 <code>pip install whl文件位置</code></p>
 </blockquote>
-<h4 id="1-python扩展程序集numpyhttpswwwlfduciedugohlkepythonlibsnumpy">1. python扩展程序集：<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy" target="_blank" rel="noopener noreffer">numpy</a></h4>
+<h4 id="1-python扩展程序集numpyhttpswwwlfduciedugohlkepythonlibsnumpy">1. python扩展程序集：<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy" target="_blank" rel="noopener noreffer" class="post-link">numpy</a></h4>
 <p>基于我的环境，我使用的是<code>numpy‑1.15.2+mkl‑cp36‑cp36m‑win_amd64.whl</code>这个版本，大家可以根据自己环境选择适合自己的版本下载。</p>
 <p>安装使用命令 <code>pip3 install numpy‑1.15.2+mkl‑cp36‑cp36m‑win_amd64.whl</code></p>
-<h4 id="2-计算机视觉库opencvhttpswwwlfduciedugohlkepythonlibsopencv">2. 计算机视觉库：<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#opencv" target="_blank" rel="noopener noreffer">OpenCV</a></h4>
+<h4 id="2-计算机视觉库opencvhttpswwwlfduciedugohlkepythonlibsopencv">2. 计算机视觉库：<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#opencv" target="_blank" rel="noopener noreffer" class="post-link">OpenCV</a></h4>
 <p>我使用的是<code>opencv_python‑3.4.3‑cp36‑cp36m‑win_amd64.whl</code>这个版本。</p>
 <p>安装使用命令 <code>pip3 install opencv_python‑3.4.3‑cp36‑cp36m‑win_amd64.whl</code></p>
-<h4 id="3-机器学习c算法库dlibhttpspypiorgsimpledlib">3. 机器学习c++算法库：<a href="https://pypi.org/simple/dlib/" target="_blank" rel="noopener noreffer">Dlib</a></h4>
+<h4 id="3-机器学习c算法库dlibhttpspypiorgsimpledlib">3. 机器学习c++算法库：<a href="https://pypi.org/simple/dlib/" target="_blank" rel="noopener noreffer" class="post-link">Dlib</a></h4>
 <p>我使用的是<code>dlib-19.8.1-cp36-cp36m-win_amd64.whl</code>。</p>
 <p>安装使用命令 <code>pip3 install dlib-19.8.1-cp36-cp36m-win_amd64.whl</code></p>
-<h4 id="4-人脸识别集成库face_recognitionhttpsgithubcomageitgeyface_recognition">4. 人脸识别集成库：<a href="https://github.com/ageitgey/face_recognition" target="_blank" rel="noopener noreffer">face_recognition</a></h4>
+<h4 id="4-人脸识别集成库face_recognitionhttpsgithubcomageitgeyface_recognition">4. 人脸识别集成库：<a href="https://github.com/ageitgey/face_recognition" target="_blank" rel="noopener noreffer" class="post-link">face_recognition</a></h4>
 <p>安装使用命令 <code>pip3 install face_recognition</code></p>
-<h4 id="5-深度学习库kerashttpskerasio">5. 深度学习库：<a href="https://keras.io/" target="_blank" rel="noopener noreffer">Keras</a></h4>
+<h4 id="5-深度学习库kerashttpskerasio">5. 深度学习库：<a href="https://keras.io/" target="_blank" rel="noopener noreffer" class="post-link">Keras</a></h4>
 <p>安装使用命令 <code>pip3 install keras</code></p>
 <p>前面部分用不到，后面高级应用会用到，可提前下载安装，也可后面需要的时候安装</p>
-<h4 id="6-机器学习框架tensorflowhttpswwwtensorfloworghlzh-cn">6. 机器学习框架：<a href="https://www.tensorflow.org/?hl=zh-cn" target="_blank" rel="noopener noreffer">TensorFlow</a></h4>
+<h4 id="6-机器学习框架tensorflowhttpswwwtensorfloworghlzh-cn">6. 机器学习框架：<a href="https://www.tensorflow.org/?hl=zh-cn" target="_blank" rel="noopener noreffer" class="post-link">TensorFlow</a></h4>
 <p>安装使用命令： <code>pip3 install tensorflow</code></p>
 <p>前面部分用不到，后面高级应用会用到，可提前下载安装，也可后面需要的时候安装</p>
 <h3 id="人脸识别用到的数据模型">人脸识别用到的数据模型</h3>
 <p>基于目前的数据量和个人知识与能力，我还不能自己利用机器学习来训练数据模型，所以使用的是国外别人已经训练好的数据模型。</p>
-<h4 id="1-opencv使用到的人脸分类模型xmlhaarcascadeshttpsgithubcomopencvopencvtreemasterdatahaarcascades">1. OpenCV使用到的人脸分类模型xml：<a href="https://github.com/opencv/opencv/tree/master/data/haarcascades" target="_blank" rel="noopener noreffer">haarcascades</a></h4>
+<h4 id="1-opencv使用到的人脸分类模型xmlhaarcascadeshttpsgithubcomopencvopencvtreemasterdatahaarcascades">1. OpenCV使用到的人脸分类模型xml：<a href="https://github.com/opencv/opencv/tree/master/data/haarcascades" target="_blank" rel="noopener noreffer" class="post-link">haarcascades</a></h4>
 <p>上面链接中所有的xml都推荐下载到本地备用，我所使用的是<code>haarcascade_frontalface_default.xml</code></p>
-<h4 id="2-dlib使用到的人脸识别训练模型shape_predictorhttpdlibnetfiles">2. Dlib使用到的人脸识别训练模型：<a href="http://dlib.net/files/" target="_blank" rel="noopener noreffer">shape_predictor</a></h4>
+<h4 id="2-dlib使用到的人脸识别训练模型shape_predictorhttpdlibnetfiles">2. Dlib使用到的人脸识别训练模型：<a href="http://dlib.net/files/" target="_blank" rel="noopener noreffer" class="post-link">shape_predictor</a></h4>
 <p>我所使用的是<code>shape_predictor_68_face_landmarks.dat.bz2</code>和<code>shape_predictor_5_face_landmarks.dat.bz2</code>这两个。</p>
 <p>推荐大家把这两个都下载下来，并解压，我们所需要的是里面的<code>dat</code>数据文件。</p>
 <blockquote>
 <p>好了，有了上面的这些基础环境与依赖，我们可以继续我们接下来的简单人脸检测与识别了。
-没有装好这些环境的同学请注意了，我们班级已经与谷歌、百度等大公司达成合作，有任何问题请在<a href="https://www.google.com" target="_blank" rel="noopener noreffer">Google</a>和<a href="https://www.baidu.com" target="_blank" rel="noopener noreffer">Baidu</a>进行搜索，他们会提供你所需要的答案。</p>
+没有装好这些环境的同学请注意了，我们班级已经与谷歌、百度等大公司达成合作，有任何问题请在<a href="https://www.google.com" target="_blank" rel="noopener noreffer" class="post-link">Google</a>和<a href="https://www.baidu.com" target="_blank" rel="noopener noreffer" class="post-link">Baidu</a>进行搜索，他们会提供你所需要的答案。</p>
 </blockquote>
 <h2 id="二简单人脸检测">二、简单人脸检测</h2>
 <blockquote>
@@ -1339,7 +1339,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </div><h3 id="4-利用keras实现性别识别">4. 利用<strong>keras</strong>实现性别识别</h3>
 <blockquote>
 <p>使用keras实现性别识别<br>
-模型数据使用的是<a href="https://github.com/oarriaga/face_classification" target="_blank" rel="noopener noreffer">oarriaga/face_classification的模型</a></p>
+模型数据使用的是<a href="https://github.com/oarriaga/face_classification" target="_blank" rel="noopener noreffer" class="post-link">oarriaga/face_classification的模型</a></p>
 </blockquote>
 <h4 id="实现代码-6">实现代码</h4>
 <div class="highlight"><div class="chroma">
@@ -1517,14 +1517,14 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 以前可能很麻烦，现在英伟达推出的CUDA就专门为了解决这个而生。</p>
 </blockquote>
 <h3 id="1-首先下载cuda">1. 首先下载<strong>CUDA</strong></h3>
-<p><a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="noopener noreffer">CUDA下载链接</a></p>
+<p><a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="noopener noreffer" class="post-link">CUDA下载链接</a></p>
 <p>下载并安装，不必多说，一路下一步</p>
 <h3 id="2-然后下载cudnn">2. 然后下载<strong>cudnn</strong></h3>
-<p><a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank" rel="noopener noreffer">cudnn下载链接</a></p>
+<p><a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank" rel="noopener noreffer" class="post-link">cudnn下载链接</a></p>
 <p>这里下载需要注册英伟达账号，注册就行，下载下来后解压，里面提供cudnn库文件以及头文件，需要把cudnn目录下的bin、include以及lib目录中的文件拷贝到相应的cuda目录中的bin、include和lib目录中去。</p>
 <h3 id="3-安装cmake">3. 安装<strong>cmake</strong></h3>
 <p>cmake是要在后面编译Dlib用到的。
-<a href="https://cmake.org/download/" target="_blank" rel="noopener noreffer">cmake下载链接</a>
+<a href="https://cmake.org/download/" target="_blank" rel="noopener noreffer" class="post-link">cmake下载链接</a>
 记住安装并添加path。</p>
 <h3 id="4-编译dlib">4. 编译Dlib</h3>
 <p>这里我们跳过，因为后面可以直接在安装Dlib库时让他自动编译，能自动搞何必去麻烦，如果感兴趣可以自己去编译。</p>

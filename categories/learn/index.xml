@@ -37,7 +37,7 @@
 <p>因此，正常情况下tor客户端与洋葱服务通讯是经过6次中转的，包括客户端连接会合节点的3次和服务端连接会合节点的3次</p>
 <p>如果tor客户端访问的服务不是洋葱服务，那通讯过程就不是上面那个流程了，也只有3次中转了</p>
 <h2 id="参考资料">参考资料</h2>
-<p><a href="https://community.torproject.org/onion-services/overview/" target="_blank" rel="noopener noreffer">https://community.torproject.org/onion-services/overview/</a></p>
+<p><a href="https://community.torproject.org/onion-services/overview/" target="_blank" rel="noopener noreffer" class="post-link">https://community.torproject.org/onion-services/overview/</a></p>
 ]]></description></item><item><title>DNS中SRV记录</title><link>https://zu1k.com/posts/learn/dns-srv-record/</link><pubDate>Tue, 24 Mar 2020 13:54:03 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/dns-srv-record/</guid><description><![CDATA[<p>SRV记录是服务器资源记录的缩写，是DNS服务器的数据库中支持的一种记录服务器提供的服务资源的记录，主要作用是说明一个服务器能够提供什么样的服务。</p>
 <p>简单来说，SRV记录了哪台计算机提供了哪个服务这么一个简单的信息。</p>
 <p>SRV记录是DNS记录中的新鲜面孔，在RFC2052中才对SRV记录进行了定义，因此很多老版本的DNS服务器并不支持SRV记录。</p>
@@ -147,8 +147,8 @@
 <li>通过在<strong>网页</strong>填写自己的邮箱地址加入</li>
 <li>比较正统的方法，通过<strong>发送邮件</strong>加入</li>
 </ol>
-<p>我们以 <strong><a href="mailto:sdusec@googlegroups.com" rel="">sdusec@googlegroups.com</a></strong> 这个邮件列表为例，演示如何加入它</p>
-<p>邮件列表有一个主邮箱地址，同时有一些辅助邮箱地址，通过发送邮件加入邮件列表需要使用 <strong><a href="mailto:sdusec&#43;subscribe@googlegroups.com" rel="">sdusec+subscribe@googlegroups.com</a></strong> 这个辅助邮箱地址</p>
+<p>我们以 <strong><a href="mailto:sdusec@googlegroups.com" rel="" class="post-link">sdusec@googlegroups.com</a></strong> 这个邮件列表为例，演示如何加入它</p>
+<p>邮件列表有一个主邮箱地址，同时有一些辅助邮箱地址，通过发送邮件加入邮件列表需要使用 <strong><a href="mailto:sdusec&#43;subscribe@googlegroups.com" rel="" class="post-link">sdusec+subscribe@googlegroups.com</a></strong> 这个辅助邮箱地址</p>
 <p></p>
 <p>在Google Group中订阅一个邮箱列表可以给 <strong>邮件列表名+subscribe@googlegroups.com</strong> 这个邮箱地址发任意邮件，这里需要注意不能省略加号</p>
 <p></p>
@@ -162,7 +162,7 @@
 <p>这里介绍的是通用方法，可能与某些邮件列表的方法不符，在尝试加入一个邮件列表之前你需要通过说明页面查看具体的订阅方法</p>
 </blockquote>
 <h3 id="发起讨论">发起讨论</h3>
-<p>在邮件列表中发起讨论也是通过发送邮件来实现的，将讨论的内容发送给公共的邮箱地址，例如发送给<strong><a href="mailto:sdusec@googlegroups.com" rel="">sdusec@googlegroups.com</a></strong>，邮件列表服务器就会将你的邮件发送给订阅该列表的每一个人</p>
+<p>在邮件列表中发起讨论也是通过发送邮件来实现的，将讨论的内容发送给公共的邮箱地址，例如发送给<strong><a href="mailto:sdusec@googlegroups.com" rel="" class="post-link">sdusec@googlegroups.com</a></strong>，邮件列表服务器就会将你的邮件发送给订阅该列表的每一个人</p>
 <p>注意，不要往主邮箱地址发送垃圾内容，否则会引起大家的反感。同时，在发起讨论前你要精心编辑问题内容和标题，发布高质量的讨论而不是垃圾</p>
 <h3 id="参与讨论">参与讨论</h3>
 <p>如果你收到一封邮件，想要参与讨论，只需要回复这封邮件</p>
@@ -226,7 +226,7 @@
 <p>当看到有人提到线索断了的时候，就需要检查自己回复的邮件，标题是否有 <code>RE原邮件</code> ，内容中是否有引用被回复的邮件</p>
 <p>正常情况下你使用的邮件软件会自动完成这些内容，如果没有那你得考虑更换邮件软件或者服务</p>
 <h2 id="一些邮件列表">一些邮件列表</h2>
-<p><a href="https://lists.wikimedia.org/mailman/listinfo" target="_blank" rel="noopener noreffer">https://lists.wikimedia.org/mailman/listinfo</a></p>
+<p><a href="https://lists.wikimedia.org/mailman/listinfo" target="_blank" rel="noopener noreffer" class="post-link">https://lists.wikimedia.org/mailman/listinfo</a></p>
 <h2 id="附加资料">附加资料</h2>
-<p><a href="https://en.wikipedia.org/wiki/Posting_style" target="_blank" rel="noopener noreffer">https://en.wikipedia.org/wiki/Posting_style</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Posting_style" target="_blank" rel="noopener noreffer" class="post-link">https://en.wikipedia.org/wiki/Posting_style</a></p>
 ]]></description></item></channel></rss>

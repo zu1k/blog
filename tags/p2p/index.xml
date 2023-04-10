@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>P2P - 标签 - zu1k</title><link>https://zu1k.com/tags/p2p/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 26 Jan 2023 19:29:26 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/p2p/" rel="self" type="application/rss+xml"/><item><title>谈谈 Mastodon、Fediverse 和 ActivityPub</title><link>https://zu1k.com/posts/tutorials/p2p/fediverse/</link><pubDate>Thu, 26 Jan 2023 19:29:26 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/p2p/fediverse/</guid><description><![CDATA[<p>埃隆·马斯克 440 亿美元拿下 Twitter 后就开始大刀阔斧进行改革，他要做推特 2.0，但没想到他的举措竟然是大量裁员，施行专政。接下来的一系列举措使 Twitter 俨然已经成为某些人自我营销和推广的个人发布平台，想必是之前通过 Twitter 割虚拟货币韭菜割爽了。我想未来老马利用 Twitter 宣传进入政界也不足为奇。于是很多人便开始考虑脱离专制的 Twitter 平台，寻找一个更加开放自由、权力更加分散的平台，Mastodon 凭借多年的技术积累、好看的 UI 和类 Twitter 的交互逻辑，一举跃入众人的视野。</p>
 <h2 id="mastodon">Mastodon</h2>
-<p><a href="https://www.youtube.com/watch?v=IPSbNdBmWKE" target="_blank" rel="noopener noreffer">Mastodon</a> 又叫长毛象，我是 21 年左右在某个论坛看到 &ldquo;草莓县&rdquo;(cmx.im) 从而接触并了解了 Mastodon。Mastodon 从 16 年就开始开发，在我第一次接触它的时候 UI 就已经很美观了，其在 22 年进入大众视野并受到大家喜爱我一点也不感到奇怪，这么长时间的积累使 Mastodon 的成功成为历史的必然。</p>
+<p><a href="https://www.youtube.com/watch?v=IPSbNdBmWKE" target="_blank" rel="noopener noreffer" class="post-link">Mastodon</a> 又叫长毛象，我是 21 年左右在某个论坛看到 &ldquo;草莓县&rdquo;(cmx.im) 从而接触并了解了 Mastodon。Mastodon 从 16 年就开始开发，在我第一次接触它的时候 UI 就已经很美观了，其在 22 年进入大众视野并受到大家喜爱我一点也不感到奇怪，这么长时间的积累使 Mastodon 的成功成为历史的必然。</p>
 <p>Mastodon 开源、去中心化(联邦制)的特性决定了任何个人和组织都可以搭建自己的 Mastodon 实例，从而加入到这个社交网络中来，人们既可以按照爱好、观念聚集在某个实例中，同时又可以与其他实例的用户进行各种交互，这种小邦大连的社交模式真的深得人心。</p>
 <p>简单来说，作为用户，你可以从众多实例中根据喜好选择其中一个，注册账号，然后你就可以像推特一样发嘟(类比推特的发推)，关注其他用户，查看时间线。与推特不同的一点是，如果你关注的用户注册在其他实例，那你就需要通过用户名加域名的方式来定位他。这有一点需要注意，在不同的实例中可能有多个用户有相同的用户名，所以实例的域名也是非常重要的一部分。因此，如果你想要打造个人品牌，就需要考虑防止有人通过一比一复制你的用户名、头像、介绍等信息来冒充你，也许提供 GPG 公钥是个不错的选择，貌似目前 Mastodon 没有集成成熟的解决方案来避免冒充问题。</p>
-<p>据我所知国内部分高校组建了一个自己的小联邦，这个小联邦中每个学校都是一个独立的 Mastodon 实例，每个学校的实例都由本校学生独立自治，同时加入这个高校联邦的所有实例之间又可以互相交互。这个小联邦叫 <a href="https://closed.social/" target="_blank" rel="noopener noreffer">闭社</a>，感兴趣的同学可以关注一下，搭建自己学校的实例并加入其中。</p>
+<p>据我所知国内部分高校组建了一个自己的小联邦，这个小联邦中每个学校都是一个独立的 Mastodon 实例，每个学校的实例都由本校学生独立自治，同时加入这个高校联邦的所有实例之间又可以互相交互。这个小联邦叫 <a href="https://closed.social/" target="_blank" rel="noopener noreffer" class="post-link">闭社</a>，感兴趣的同学可以关注一下，搭建自己学校的实例并加入其中。</p>
 <h2 id="fediverse">Fediverse</h2>
-<p>其实 Mastodon 并不是唯一的 Fediverse，Fediverse 这个词也不是 Mastodon 首创，早在 2008 年就有人提出来了这个概念，并构想社交和内容发布平台要满足独立托管、通过标准化协议通讯等概念。仔细想想，这些概念是不是跟 Email 很像？Email 可是在互联网发明之初就流行的协议，看起来互联网的发展过程也是轮回的，分久必合(商业公司中心化体验好)、合久必分(去中心化自由、自治)。这里我推荐阅读这篇文章: <a href="https://checkfirst.network/mastodon-the-rise-of-fediverse/" target="_blank" rel="noopener noreffer">Mastodon, the rise of the Fediverse</a>。</p>
+<p>其实 Mastodon 并不是唯一的 Fediverse，Fediverse 这个词也不是 Mastodon 首创，早在 2008 年就有人提出来了这个概念，并构想社交和内容发布平台要满足独立托管、通过标准化协议通讯等概念。仔细想想，这些概念是不是跟 Email 很像？Email 可是在互联网发明之初就流行的协议，看起来互联网的发展过程也是轮回的，分久必合(商业公司中心化体验好)、合久必分(去中心化自由、自治)。这里我推荐阅读这篇文章: <a href="https://checkfirst.network/mastodon-the-rise-of-fediverse/" target="_blank" rel="noopener noreffer" class="post-link">Mastodon, the rise of the Fediverse</a>。</p>
 <p>目前最流行的 Fediverse 当属社交领域的 Mastodon 和即时通讯领域的 Matrix。据我了解，Matrix 的技术生态更加繁荣，有众多服务端和客户端的实现，同时也可以对接 Slack、Discord、Telegram、QQ、WeChat 等众多通讯 APP，但是目前看起来非技术爱好者用的并不多，大部分用户都是开发者和技术爱好者。而 Mastodon 的客户端虽有很多，但服务端只有官方一个实现，称不上技术生态繁荣，但是用户却遍地开花，特别是普通非技术用户。这种现象需要引起思考，技术虽可以改变世界，但技术并不是唯一，更好的UI、更好的交互、更好的体验，这些才是带来产品发展的外部动力的基础。</p>
 <p>目前我的主要社交媒体还是 Twitter，正在慢慢向 Mastodon 转，主要是有很多要关注的人他们并没有在 Mastodon 宇宙安家。即时通讯方面除开熟人通讯必要的 QQ 和微信，陌生人通讯我正在逐渐放弃 Telegram，因为 Telegram 也正在变得封闭、专制、商业化，我在很多 Matrix 实例上都有匿名账户，但是我的朋友并不愿意来到 Matrix 网络，因此目前我的陌生人通讯主力是邮箱，我会对外公开我的邮箱地址，任何人都可以给我发邮件交流。</p>
 <p>除了上面提到的两个 Fediverse，还有一些其他的 Fediverse 平台并不为大众所知，覆盖了通讯、社交、图片、音乐、视频等众多领域，大家可以通过以下网站探索:</p>
 <ul>
-<li><a href="https://fediverse.party/en/fediverse/" target="_blank" rel="noopener noreffer">https://fediverse.party/en/fediverse/</a></li>
-<li><a href="https://fediverse.info/" target="_blank" rel="noopener noreffer">https://fediverse.info/</a></li>
-<li><a href="https://fedi.tips/" target="_blank" rel="noopener noreffer">https://fedi.tips/</a></li>
-<li><a href="https://joinfediverse.wiki/Main_Page" target="_blank" rel="noopener noreffer">https://joinfediverse.wiki/Main_Page</a></li>
+<li><a href="https://fediverse.party/en/fediverse/" target="_blank" rel="noopener noreffer" class="post-link">https://fediverse.party/en/fediverse/</a></li>
+<li><a href="https://fediverse.info/" target="_blank" rel="noopener noreffer" class="post-link">https://fediverse.info/</a></li>
+<li><a href="https://fedi.tips/" target="_blank" rel="noopener noreffer" class="post-link">https://fedi.tips/</a></li>
+<li><a href="https://joinfediverse.wiki/Main_Page" target="_blank" rel="noopener noreffer" class="post-link">https://joinfediverse.wiki/Main_Page</a></li>
 </ul>
-<p>对了，我还要着重提一个，Rust 语言开发的论坛 Fediverse，<a href="https://github.com/LemmyNet/lemmy" target="_blank" rel="noopener noreffer">Lemmy</a>，可以用来替代 Reddit、HackerNews，轻量好用。</p>
+<p>对了，我还要着重提一个，Rust 语言开发的论坛 Fediverse，<a href="https://github.com/LemmyNet/lemmy" target="_blank" rel="noopener noreffer" class="post-link">Lemmy</a>，可以用来替代 Reddit、HackerNews，轻量好用。</p>
 <h2 id="activitypub-协议">ActivityPub 协议</h2>
-<p>刚刚提到了 Fediverse 需要标准化协议来进行通讯，而 Mastodon 基于的协议便是 ActivityPub 协议，这个协议历史比 Mastodon 早，并且已经<a href="https://www.w3.org/TR/2018/REC-activitypub-20180123/" target="_blank" rel="noopener noreffer">被 W3C
+<p>刚刚提到了 Fediverse 需要标准化协议来进行通讯，而 Mastodon 基于的协议便是 ActivityPub 协议，这个协议历史比 Mastodon 早，并且已经<a href="https://www.w3.org/TR/2018/REC-activitypub-20180123/" target="_blank" rel="noopener noreffer" class="post-link">被 W3C
 在 2018 年推荐作为标准</a>。</p>
 <p>这个协议规范了去中心化社交网络交互细节的各方面，包括用户的交互(收发信息、关注、喜欢)，还有活动(就是内容、推文、嘟文)的发布、更新、删除、喜欢、屏蔽等等。</p>
 <p>如果各个平台都遵循相同的协议，那使用不同平台的用户就可以在同一 Fediverse 中交互，举个例子，我可以在 Mastodon 和 Pixelfed 这两个不同的平台之间进行一些简单的交互。</p>
@@ -27,16 +27,16 @@
 <p>同时我还尝试使用 Mastodon 查看 Lemmy 的用户，可以看到用户信息，发布的部分内容可以看到，有一些出入，说明这两者之间也是有不兼容的地方。</p>
 <p></p>
 <p>通过 Lemmy 的 issue 和 PR 列表我看到 Lemmy 正在做与 Mastodon 的兼容工作，这很伟大，支持！</p>
-<p>同时，一位 GitHub 的员工开发了一个有意思的东西，<a href="https://github.com/davecheney/pub" target="_blank" rel="noopener noreffer">ActivityPub to Mastodon bridge</a>。pub 的目的不是托管 ActivityPub 社区，而是旨在使拥有自己域并因此控制其身份的人能够参与 Fediverse，这意味着你无需搭建 Mastodon 就可以用自己的域名加入到 Mastodon 联邦中了，这就很方便了，轻量好用啊。</p>
+<p>同时，一位 GitHub 的员工开发了一个有意思的东西，<a href="https://github.com/davecheney/pub" target="_blank" rel="noopener noreffer" class="post-link">ActivityPub to Mastodon bridge</a>。pub 的目的不是托管 ActivityPub 社区，而是旨在使拥有自己域并因此控制其身份的人能够参与 Fediverse，这意味着你无需搭建 Mastodon 就可以用自己的域名加入到 Mastodon 联邦中了，这就很方便了，轻量好用啊。</p>
 <h2 id="mastodon-性能问题">Mastodon 性能问题</h2>
-<p>Mastodon 目前官方实现使用 Ruby 语言，Ruby 依靠 Rails 框架用来开发 Web 应用简直是不要太快捷，非常适合频繁变化的需求。但是 Ruby 本身的性能并不乐观，去年 <a href="https://shopify.engineering/porting-yjit-ruby-compiler-to-rust" target="_blank" rel="noopener noreffer">Shopify 使用 Rust 开发 YJIT</a> 顺利合入 <a href="https://github.com/ruby/ruby/blob/master/doc/yjit/yjit.md" target="_blank" rel="noopener noreffer">Ruby 上游</a>，并<a href="https://shopify.engineering/ruby-yjit-is-production-ready" target="_blank" rel="noopener noreffer">随 Ruby 3.2 版本正式发布</a>，这<a href="https://speed.yjit.org/benchmarks/bench-2023-01-05-201010" target="_blank" rel="noopener noreffer">将 Ruby 的性能提升了约 40%</a>，但是 Ruby 的性能仍无法与目前流行的 JavaScript 比肩(主要是 V8 引擎的功劳)，更不要提 Golang 和 Rust了。而我经过搜索发现，竟无 Golang 和 Rust 的服务端实现，即使有也已经停止了开发，这使 Mastodon 如何支撑即将到来的上亿用户量？如何与 Twitter 竞争？当然，目前已有的实例都没有这么多的用户量，等未来有这个性能需求的时候，自然会有商业公司出钱出力来解决这个问题。</p>
+<p>Mastodon 目前官方实现使用 Ruby 语言，Ruby 依靠 Rails 框架用来开发 Web 应用简直是不要太快捷，非常适合频繁变化的需求。但是 Ruby 本身的性能并不乐观，去年 <a href="https://shopify.engineering/porting-yjit-ruby-compiler-to-rust" target="_blank" rel="noopener noreffer" class="post-link">Shopify 使用 Rust 开发 YJIT</a> 顺利合入 <a href="https://github.com/ruby/ruby/blob/master/doc/yjit/yjit.md" target="_blank" rel="noopener noreffer" class="post-link">Ruby 上游</a>，并<a href="https://shopify.engineering/ruby-yjit-is-production-ready" target="_blank" rel="noopener noreffer" class="post-link">随 Ruby 3.2 版本正式发布</a>，这<a href="https://speed.yjit.org/benchmarks/bench-2023-01-05-201010" target="_blank" rel="noopener noreffer" class="post-link">将 Ruby 的性能提升了约 40%</a>，但是 Ruby 的性能仍无法与目前流行的 JavaScript 比肩(主要是 V8 引擎的功劳)，更不要提 Golang 和 Rust了。而我经过搜索发现，竟无 Golang 和 Rust 的服务端实现，即使有也已经停止了开发，这使 Mastodon 如何支撑即将到来的上亿用户量？如何与 Twitter 竞争？当然，目前已有的实例都没有这么多的用户量，等未来有这个性能需求的时候，自然会有商业公司出钱出力来解决这个问题。</p>
 <p>不过我倒是不希望这一天的到来，如果某一个 Mastodon 实例的用户量上千万，这其实就成了另外一个 &ldquo;Twitter&rdquo;，大量用户聚集在商业公司运营的单一或几个主流实例上，那联邦制、分布式等概念实际上也就名存实亡了。不要忘记我们逃离 Twitter 来到 Mastodon 的初心啊！</p>
-<p>不过虽然这么说，我还是希望 Mastodon 性能能够更好一点，同时我也看到了一些优化 Mastodon 性能的努力。随着 Mastodon 实例数量的增多，单个 Mastodon 实例往往需要连接众多其他实例来进行交互，这带来了巨大的网络性能压力，使得想要自行搭建 Mastodon 实例的小伙伴不得不花更多钱在服务器费用上。这极大概率会导致部分实例脱离 Fediverse，形成自己封闭的，仅有几个节点的小联邦，这应该并不是我们想要看到的。我已经看到了<a href="https://github.com/yukimochi/Activity-Relay" target="_blank" rel="noopener noreffer">有人开发了 ActivityPub relay</a> <a href="https://github.com/brodi1/activitypub-relays" target="_blank" rel="noopener noreffer">Relay 列表</a>，中继服务器与大量实例连接，聚合内容，然后提供给中小型服务器，从而使中小型服务器无需连接大量实例就可以实现相同规模的信息获取。</p>
+<p>不过虽然这么说，我还是希望 Mastodon 性能能够更好一点，同时我也看到了一些优化 Mastodon 性能的努力。随着 Mastodon 实例数量的增多，单个 Mastodon 实例往往需要连接众多其他实例来进行交互，这带来了巨大的网络性能压力，使得想要自行搭建 Mastodon 实例的小伙伴不得不花更多钱在服务器费用上。这极大概率会导致部分实例脱离 Fediverse，形成自己封闭的，仅有几个节点的小联邦，这应该并不是我们想要看到的。我已经看到了<a href="https://github.com/yukimochi/Activity-Relay" target="_blank" rel="noopener noreffer" class="post-link">有人开发了 ActivityPub relay</a> <a href="https://github.com/brodi1/activitypub-relays" target="_blank" rel="noopener noreffer" class="post-link">Relay 列表</a>，中继服务器与大量实例连接，聚合内容，然后提供给中小型服务器，从而使中小型服务器无需连接大量实例就可以实现相同规模的信息获取。</p>
 <p>国外的社交和通讯正在变天，有上天的，有摆脱大公司的。而国内因为各种法律条款的限制，一般人根本没有权力做社交和通讯，会不会就错过这一波改变呢？让我们拭目以待吧。</p>
-]]></description></item><item><title>IPFS 日用优化指南</title><link>https://zu1k.com/posts/tutorials/p2p/ipfs-easy-use/</link><pubDate>Mon, 06 Jun 2022 23:14:00 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/p2p/ipfs-easy-use/</guid><description><![CDATA[<p>这两天，V2EX 的站长 Livid <a href="https://v2ex.com/t/857404" target="_blank" rel="noopener noreffer">发布了</a> 一款基于 IPFS 和 ENS 的内容发布和订阅应用 <a href="https://planetable.xyz/" target="_blank" rel="noopener noreffer">[Planet]</a>，其想法在之前的一期 <a href="https://fyfy.fm/episode/67" target="_blank" rel="noopener noreffer">[播客访谈]</a> 中就提到过，当初就觉得很有意思。也不出我所料，Planet 一经发布就引来了众多关注，Planet 用图形化的方式使更多普通人可以尝试 IPFS 这类分布式内容发布，据说后面还会增加评论功能，这在 IPFS 网络中也算是一个不小的挑战，不知道 Planet 能将易用性做到什么水平，我会继续关注。</p>
+]]></description></item><item><title>IPFS 日用优化指南</title><link>https://zu1k.com/posts/tutorials/p2p/ipfs-easy-use/</link><pubDate>Mon, 06 Jun 2022 23:14:00 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/p2p/ipfs-easy-use/</guid><description><![CDATA[<p>这两天，V2EX 的站长 Livid <a href="https://v2ex.com/t/857404" target="_blank" rel="noopener noreffer" class="post-link">发布了</a> 一款基于 IPFS 和 ENS 的内容发布和订阅应用 <a href="https://planetable.xyz/" target="_blank" rel="noopener noreffer" class="post-link">[Planet]</a>，其想法在之前的一期 <a href="https://fyfy.fm/episode/67" target="_blank" rel="noopener noreffer" class="post-link">[播客访谈]</a> 中就提到过，当初就觉得很有意思。也不出我所料，Planet 一经发布就引来了众多关注，Planet 用图形化的方式使更多普通人可以尝试 IPFS 这类分布式内容发布，据说后面还会增加评论功能，这在 IPFS 网络中也算是一个不小的挑战，不知道 Planet 能将易用性做到什么水平，我会继续关注。</p>
 <p>我也在很早之前就了解并开始使用 IPFS 技术，在折腾的过程中也积累了一些经验，下面我将向你们分享一些使用技巧，使你的 IPFS 更加易用。</p>
 <blockquote>
-<p>完全新手朋友请先阅读我在 20年写的 <a href="../ipfs/" rel="">《IPFS 新手指北》</a> 这篇文章</p>
+<p>完全新手朋友请先阅读我在 20年写的 <a href="../ipfs/" rel="" class="post-link">《IPFS 新手指北》</a> 这篇文章</p>
 </blockquote>
 <h2 id="搭建网关">搭建网关</h2>
 <p>相比较使用公共 IPFS 网关，我更推荐自己在家中搭建，不仅能提供更优的体验，还可以避免在每台电脑安装 IPFS 的麻烦。</p>
@@ -118,7 +118,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>为获得更好的 IPFS 使用体验，推荐安装 <a href="https://chrome.google.com/webstore/detail/ipfs-companion/nibjojkomfdiaoajekhjakgkdhaomnch" target="_blank" rel="noopener noreffer">[IPFS 浏览器插件]</a>，或者使用 Brave 浏览器，可以让 IPFS 的使用体验更加原生。</p>
+</div><p>为获得更好的 IPFS 使用体验，推荐安装 <a href="https://chrome.google.com/webstore/detail/ipfs-companion/nibjojkomfdiaoajekhjakgkdhaomnch" target="_blank" rel="noopener noreffer" class="post-link">[IPFS 浏览器插件]</a>，或者使用 Brave 浏览器，可以让 IPFS 的使用体验更加原生。</p>
 <h2 id="pin-优化">Pin 优化</h2>
 <p>在发布内容后，马上通过公开的 IPFS 网关访问，通常会很慢很慢，甚至到超时都无法访问，这是由 IPFS 的寻址过程导致的。随着访问内容的用户越来越多，他们的 IPFS 节点上会缓存你内容的数据，这个时候新节点再访问同一份内容，通常就会很快。这就是 IPFS 的特性，就跟 BT 下载的原理类似，数据在网络中存在的副本越多，就越能利用 P2P 网络的性能。</p>
 <p>但是一个 IPFS 节点也不会无限期的缓存你的数据，默认配置下 GC 频率是 1 个小时一次，也就是说你的数据如果用户不访问，在一个小时后就会从他们的节点中被清理掉。为了能够让我们的数据长久的留在 IPFS 网络中，就需要用户 Pin 住你的数据，以防被 GC 掉。我的做法是利用闲置的服务器搭建 IPFS 节点用来 Pin 自己的数据，然后朋友之间互相 Pin 住，算是合作共赢。</p>
@@ -126,7 +126,7 @@
 <p>如果你使用 IPNS 或者域名的方式对外公开经常修改的内容，就需要设置定时任务来不断 Pin 住新的数据，因为 IPFS 在 Pin 一个 IPNS 的时候，只会 Pin 当前状态对应的 CID ，后面不会自己去更新。</p>
 <h3 id="remote-pinning-service">Remote Pinning Service</h3>
 <p>如果你不想一直运行本机的 IPFS 节点，但又想让别人可以访问到你发布的内容，可以考虑使用 Remote Pinning service，这是由一些中心化的服务商提供的内容 Pinning 服务，其效果与你本机 pin 相当。甚至因为他们的网络质量更好、连接的节点更多，将内容 Pin 在他们的节点上，可以更快的被分发和访问。</p>
-<p>我主要推荐两家，<a href="https://www.pinata.cloud/" target="_blank" rel="noopener noreffer">[Pinata]</a> 和 <a href="https://web3.storage/account/" target="_blank" rel="noopener noreffer">[web3.storage]</a>，具体教程可以看 <a href="https://docs.ipfs.io/how-to/work-with-pinning-services/#use-an-existing-pinning-service" target="_blank" rel="noopener noreffer">官方文档</a></p>
+<p>我主要推荐两家，<a href="https://www.pinata.cloud/" target="_blank" rel="noopener noreffer" class="post-link">[Pinata]</a> 和 <a href="https://web3.storage/account/" target="_blank" rel="noopener noreffer" class="post-link">[web3.storage]</a>，具体教程可以看 <a href="https://docs.ipfs.io/how-to/work-with-pinning-services/#use-an-existing-pinning-service" target="_blank" rel="noopener noreffer" class="post-link">官方文档</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -140,14 +140,14 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Pinata 是无门槛的，免费提供 1G 的 Pin 容量。</p>
-<p>web3.storage 免费提供 1T，但是 Pin Api 需要发邮件申请，一天以内就会有回复。<a href="https://web3.storage/docs/how-tos/pinning-services-api/" target="_blank" rel="noopener noreffer">[教程]</a></p>
+<p>web3.storage 免费提供 1T，但是 Pin Api 需要发邮件申请，一天以内就会有回复。<a href="https://web3.storage/docs/how-tos/pinning-services-api/" target="_blank" rel="noopener noreffer" class="post-link">[教程]</a></p>
 <h3 id="开放端口">开放端口</h3>
 <p>因为 IPFS 需要 P2P 通讯，所以如果你没有公网的 IPFS 节点 Pin 你的内容，就需要保证自己本机的 IPFS 节点可被访问。检查你的路由器，开启 UPnP 功能，必要时建立端口映射，开放你的 4001 端口（如果没有修改过的话）。</p>
 <p></p>
 <h2 id="资源占用优化">资源占用优化</h2>
 <p>如果你没有做任何的配置优化，只是按照常规流程下载安装运行，你会发现 IPFS 在后台会占用大量的 CPU 资源和内存，你的风扇开始狂转；维持了大量的网络连接，导致你的网络卡顿。这是因为 IPFS 的默认配置并没有针对个人小主机进行优化，如果你在一台 2 核的 Linux 服务器上运行，IPFS 甚至能吃满你所有的 CPU，网络的拥挤程度有可能使你连 ssh 登录都成了一个问题。</p>
 <p></p>
-<p>这个时候我们就需要调整配置文件中的参数来想办法降低资源占用，以使 IPFS 不影响我们的日常工作。其实 IPFS 已经提供了<a href="https://docs.ipfs.io/how-to/default-profile/" target="_blank" rel="noopener noreffer">好几个配置文件</a>，通过 <code>ipfs config profile --help</code> 可查看具体介绍。</p>
+<p>这个时候我们就需要调整配置文件中的参数来想办法降低资源占用，以使 IPFS 不影响我们的日常工作。其实 IPFS 已经提供了<a href="https://docs.ipfs.io/how-to/default-profile/" target="_blank" rel="noopener noreffer" class="post-link">好几个配置文件</a>，通过 <code>ipfs config profile --help</code> 可查看具体介绍。</p>
 <blockquote>
 <p>profile 不知道怎么翻译合适，翻译成文件不太准确，ipfs 中应用这些 profile 只是修改某些特定选项，并不是配置文件的完全改变</p>
 </blockquote>
@@ -155,7 +155,7 @@
 <p>如果你是在拥有公网 IP 的服务器上运行 IPFS，还推荐应用 <code>server</code> 配置，<code>ipfs config profile apply server</code>，这会关闭本地网络的节点发现，因为这是无意义的，这样也可以降低网络占用。</p>
 <p></p>
 <h2 id="后言">后言</h2>
-<p>20 年 11 月底，我发布了 <a href="../ipfs/" rel="">《IPFS 新手指北》</a> 这篇文章，期待 IPFS 能够迅猛发展，成为下一代 Web 基础设施。不知不觉已经过去一年半了，就目前情况来看 IPFS 虽然仍在不断发展，但还是在半死不活的状态，这一点让我非常失望。</p>
+<p>20 年 11 月底，我发布了 <a href="../ipfs/" rel="" class="post-link">《IPFS 新手指北》</a> 这篇文章，期待 IPFS 能够迅猛发展，成为下一代 Web 基础设施。不知不觉已经过去一年半了，就目前情况来看 IPFS 虽然仍在不断发展，但还是在半死不活的状态，这一点让我非常失望。</p>
 <p>但仔细一想，期待某门技术成为下一个主流本身就是不合理的。任何技术都应该是在广泛的需求之下才有可能成长为广泛应用的主流，而不是说你有某些好的特性就一定能够被广泛接受。从需求上讲，我们确实需要基于 P2P 的内容发布，也需要基于内容的寻址方式，这些都具有非常好的优点，但并不能满足我们对互联网的全部需求。我们在期望内容不可变、内容不被删除的同时，也会希望能够拥有删除或者修改某个内容的权利；我们喜欢 P2P 的去中心化内容分发方式，但不能否认任何人都希望延迟更低、速度更快；我们还会希望对内容具有更多控制权，包括细致的访问控制、更灵活的表达形式&hellip;&hellip;</p>
 <p>基于以上想法，我不认为 IPFS 就是下一代 Web，也就是都在说的 Web3。但我不否认 IPFS 有巨大的潜力，在下一代 Web 中充当非常重要的角色，只是这个角色并不是全部。而基于 P2P 的内容分发方式早就不是什么新技术，BitTorrent 和 基于 BT 技术的 BtSync、BTFS 也都非常具有竞争力，IPFS 想要与其竞争需要更加努力，使其更加的易用和平民化。</p>
 <p>我自己也已经使用 IPFS 接近两年，这两年的时间我自己的感觉是 IPFS 本身没有太大的突破性发展，而围绕其进行的各种营销和唬人活动层出不穷，文件挖矿、NFT 等等，不过这些也的确让更多人关注起 IPFS，并为 IPFS 网络贡献了大量节点和存储空间，但我总觉得怪怪的，这不是发展的长远之道啊。</p>
@@ -165,8 +165,8 @@
 <p>它是是一个旨在创建<strong>持久</strong>且<strong>分布式</strong>存储和<strong>共享</strong>文件的网络传输协议，是一种内容可寻址的对等超媒体分发协议。在IPFS网络中的<strong>全球所有</strong>节点将构成<strong>一个</strong>分布式文件系统，全球中的每一个人都可以通过IPFS网关存储和访问IPFS里面的文件。</p>
 <p>这个酷炫的项目最初由Juan Benet设计，自2014年开始由Protocol Labs在开源社区的帮助下发展，是一个<strong>完全开源</strong>的项目。</p>
 <ul>
-<li><a href="https://ipfs.io/" target="_blank" rel="noopener noreffer">IPFS官网</a></li>
-<li><a href="https://github.com/ipfs" target="_blank" rel="noopener noreffer">GitHub</a></li>
+<li><a href="https://ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS官网</a></li>
+<li><a href="https://github.com/ipfs" target="_blank" rel="noopener noreffer" class="post-link">GitHub</a></li>
 </ul>
 <h2 id="ipfs的优点">IPFS的优点</h2>
 <h3 id="与现有web比较">与现有Web比较</h3>
@@ -271,22 +271,22 @@
 <p><strong>Peer</strong>是对等节点，因为IPFS是基于P2P技术实现的，所以没有服务器客户端这一说，每个人都同时是服务器和客户端，人人为我，我为人人。</p>
 <h3 id="cid">CID</h3>
 <p><strong>内容标识符</strong>（CID）是一个用于指向IPFS中的内容的标签。它不指示内容存储在哪里，但它根据内容数据本身形成一种地址。无论它指向的内容有多大，CID都很短</p>
-<p>详细内容见：<a href="https://docs.ipfs.io/concepts/content-addressing/" target="_blank" rel="noopener noreffer">IPFS官方文档：Content addressing and CIDs</a></p>
-<p>在线的CID查看器：<a href="https://cid.ipfs.io/" target="_blank" rel="noopener noreffer">CID Inspector</a></p>
+<p>详细内容见：<a href="https://docs.ipfs.io/concepts/content-addressing/" target="_blank" rel="noopener noreffer" class="post-link">IPFS官方文档：Content addressing and CIDs</a></p>
+<p>在线的CID查看器：<a href="https://cid.ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">CID Inspector</a></p>
 <h3 id="gateway">Gateway</h3>
 <ul>
-<li>IPFS官方提供的Gateway: <a href="https://ipfs.io/" target="_blank" rel="noopener noreffer">https://ipfs.io/</a></li>
+<li>IPFS官方提供的Gateway: <a href="https://ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">https://ipfs.io/</a></li>
 <li>Cloudflare提供的IPFS Gateway服务：https://cf-ipfs.com</li>
 <li>其他公开的Gateway列表：https://ipfs.github.io/public-gateway-checker/</li>
 </ul>
-<p><a href="https://www.cloudflare.com/distributed-web-gateway/" target="_blank" rel="noopener noreffer">https://www.cloudflare.com/distributed-web-gateway/</a></p>
-<p>具体见：<a href="https://docs.ipfs.io/concepts/ipfs-gateway/" target="_blank" rel="noopener noreffer">IPFS文档：Gateway</a></p>
+<p><a href="https://www.cloudflare.com/distributed-web-gateway/" target="_blank" rel="noopener noreffer" class="post-link">https://www.cloudflare.com/distributed-web-gateway/</a></p>
+<p>具体见：<a href="https://docs.ipfs.io/concepts/ipfs-gateway/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：Gateway</a></p>
 <h3 id="ipns">IPNS</h3>
 <p>IPFS使用基于内容的寻址方式，简单说就是IPFS根据文件数据的Hash来生成CID，这个CID只与文件内容有关，这也就导致了如果我们修改这个文件的内容，这个CID也会改变。如果我们通过IPFS给别人分享文件，则每次更新内容时都需要给此人一个新链接。</p>
 <p>为了解决这个问题，星际名称系统（IPNS）通过创建一个可以更新的地址来解决这个问题。</p>
-<p>具体见：<a href="https://docs.ipfs.io/concepts/ipns/" target="_blank" rel="noopener noreffer">IPFS文档：IPNS</a></p>
+<p>具体见：<a href="https://docs.ipfs.io/concepts/ipns/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：IPNS</a></p>
 <h3 id="ipld">IPLD</h3>
-<p><a href="https://docs.ipfs.io/concepts/ipld/" target="_blank" rel="noopener noreffer">https://docs.ipfs.io/concepts/ipld/</a></p>
+<p><a href="https://docs.ipfs.io/concepts/ipld/" target="_blank" rel="noopener noreffer" class="post-link">https://docs.ipfs.io/concepts/ipld/</a></p>
 <h2 id="在ipfs部署网站">在IPFS部署网站</h2>
 <p>既然IPFS宣称能够构建新一代分布式Web，那我们便想要把自己的网站部署到IPFS上去，一起体验一下去中心化、分布式的Web3.0技术</p>
 <h3 id="将文件添加到ipfs中">将文件添加到IPFS中</h3>
@@ -334,7 +334,7 @@
 <p>在刚刚添加完成的最后，名称为<code>public</code>的那串Hash便是public目录的CID，我们现在可以通过这个CID在IPFS网关上访问我们刚刚的添加的内容。</p>
 <h4 id="本机网关访问">本机网关访问</h4>
 <p>我们先通过本机的IPFS网关来访问一下，看看有没有添加成功。注意这一步需要你本地已经开启了IPFS守护进程。</p>
-<p>访问：<a href="http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj" target="_blank" rel="noopener noreffer">http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</a></p>
+<p>访问：<a href="http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj" target="_blank" rel="noopener noreffer" class="post-link">http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</a></p>
 <p>然后浏览器会自动进行跳转，可以看到能够正常访问我们的页面</p>
 <p></p>
 <div class="details admonition note open">
@@ -385,19 +385,19 @@
 <p>IPNS不是在IPFS上创建可变地址的唯一方法，我们还可以使用<strong>DNSLink</strong>，它目前比IPNS<strong>快得多</strong>，还使用<strong>人类可读</strong>的名称。</p>
 <p>例如我想要给刚刚发布在IPFS上的网站绑定<code>ipfs.zu1k.com</code>这个域名，那我就需要创建<code>_dnslink.ipfs.zu1k.com</code>的<strong>TXT</strong>记录</p>
 <p></p>
-<p>然后任何人都可以用 <code>/ipfs/ipfs.zu1k.com</code> 来找到我的网站了，访问<a href="http://localhost:8080/ipns/ipfs.zu1k.com" target="_blank" rel="noopener noreffer">http://localhost:8080/ipns/ipfs.zu1k.com</a></p>
+<p>然后任何人都可以用 <code>/ipfs/ipfs.zu1k.com</code> 来找到我的网站了，访问<a href="http://localhost:8080/ipns/ipfs.zu1k.com" target="_blank" rel="noopener noreffer" class="post-link">http://localhost:8080/ipns/ipfs.zu1k.com</a></p>
 <p></p>
-<p>详细文档见：<a href="https://docs.ipfs.io/concepts/dnslink/#publish-using-a-subdomain" target="_blank" rel="noopener noreffer">IPFS文档：DNSLink</a></p>
+<p>详细文档见：<a href="https://docs.ipfs.io/concepts/dnslink/#publish-using-a-subdomain" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：DNSLink</a></p>
 <h3 id="更新内容">更新内容</h3>
 <p>更新内容时，只需要再添加一次，然后重新发布IPNS，如果你是使用DNSLink的方式，还需要修改DNS记录</p>
 <h2 id="底层技术">底层技术</h2>
 <h3 id="merkle有向无环图dag">Merkle有向无环图（DAG）</h3>
 <p>每个Merkle都是一个有向无环图 ，因为每个节点都通过其名称访问。每个Merkle分支都是其本地内容的哈希，它们的子节点使用它们的哈希而非完整内容来命名。因此，在创建后将不能编辑节点。这可以防止循环（假设没有哈希碰撞），因为无法将第一个创建的节点链接到最后一个节点从而创建最后一个引用。</p>
 <p>对任何Merkle来说，要创建一个新的分支或验证现有分支，通常需要在本地内容的某些组合体（例如列表的子哈希和其他字节）上使用一种哈希算法。IPFS中有多种散列算法可用。</p>
-<p>输入到散列算法中的数据的描述见 <a href="https://github.com/ipfs/go-ipfs/tree/master/merkledag" target="_blank" rel="noopener noreffer">https://github.com/ipfs/go-ipfs/tree/master/merkledag</a></p>
-<p>具体见：<a href="https://docs.ipfs.io/concepts/merkle-dag/" target="_blank" rel="noopener noreffer">IPFS文档：Merkle</a></p>
+<p>输入到散列算法中的数据的描述见 <a href="https://github.com/ipfs/go-ipfs/tree/master/merkledag" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/ipfs/go-ipfs/tree/master/merkledag</a></p>
+<p>具体见：<a href="https://docs.ipfs.io/concepts/merkle-dag/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：Merkle</a></p>
 <h3 id="分布式散列表dht">分布式散列表DHT</h3>
-<p>具体见：<a href="https://docs.ipfs.io/concepts/dht/" target="_blank" rel="noopener noreffer">IPFS文档：DHT</a></p>
+<p>具体见：<a href="https://docs.ipfs.io/concepts/dht/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：DHT</a></p>
 <h2 id="上层应用">上层应用</h2>
 <p>IPFS作为一个文件系统，本质就是用来存储文件，基于这个文件系统的一些特性，有很多上层应用涌现出来。</p>
 <p></p>
@@ -419,14 +419,14 @@
 <p>实际上，IPFS本身并不是骗局，基于IPFS产生的激励层Filecoin也不是骗局，从我的使用来看，任何人都<strong>无需</strong>特意去购买任何所谓的IPFS矿机，只需要在自己的电脑运行时，后台跑一个IPFS守护进程就可以了。不要被所谓的<strong>币</strong>冲昏了头脑。</p>
 <h2 id="参考资料">参考资料</h2>
 <ul>
-<li><a href="https://ipfs.io/" target="_blank" rel="noopener noreffer">IPFS官网</a></li>
-<li><a href="https://docs.ipfs.io/" target="_blank" rel="noopener noreffer">IPFS文档</a></li>
-<li><a href="https://blog.ipfs.io/" target="_blank" rel="noopener noreffer">IPFS博客</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E6%98%9F%E9%99%85%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener noreffer">维基百科：星际文件系统</a></li>
-<li><a href="https://io-oi.me/tech/host-your-blog-on-ipfs/" target="_blank" rel="noopener noreffer">将博客部署到星际文件系统（IPFS）</a></li>
+<li><a href="https://ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS官网</a></li>
+<li><a href="https://docs.ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档</a></li>
+<li><a href="https://blog.ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS博客</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%98%9F%E9%99%85%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener noreffer" class="post-link">维基百科：星际文件系统</a></li>
+<li><a href="https://io-oi.me/tech/host-your-blog-on-ipfs/" target="_blank" rel="noopener noreffer" class="post-link">将博客部署到星际文件系统（IPFS）</a></li>
 </ul>
 <h2 id="资源分享">资源分享</h2>
 <ul>
-<li>机械工业出版社294G原版PDF：<a href="https://ipfs.io/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c/" target="_blank" rel="noopener noreffer">/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c</a></li>
+<li>机械工业出版社294G原版PDF：<a href="https://ipfs.io/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c/" target="_blank" rel="noopener noreffer" class="post-link">/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c</a></li>
 </ul>
 ]]></description></item></channel></rss>

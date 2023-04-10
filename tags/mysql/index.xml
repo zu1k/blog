@@ -252,11 +252,11 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="区别">区别</h2>
-<p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
+<p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer" class="post-link">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
 <h3 id="concat_ws">concat_ws</h3>
-<p><a href="http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php" target="_blank" rel="noopener noreffer">http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php</a></p>
+<p><a href="http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php</a></p>
 <p></p>
 <h3 id="group_concat">group_concat</h3>
-<p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
+<p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
 <p></p>
 ]]></description></item></channel></rss>

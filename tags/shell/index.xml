@@ -390,5 +390,5 @@
 <h2 id="阅读更多内容">阅读更多内容</h2>
 <p>如果你想了解功能，通过下面的命令查看官方文档吧</p>
 <p><code>man -Len -Pless\ +/^REDIRECTION bash</code></p>
-<p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer">stack overflow</a></p>
+<p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer" class="post-link">stack overflow</a></p>
 ]]></description></item></channel></rss>

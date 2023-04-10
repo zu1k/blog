@@ -86,7 +86,7 @@
 </div>
 </div><p>然后需要获取到多个IP，直接执行 <code>dhclient</code> 即可</p>
 <h3 id="进行联网认证">进行联网认证</h3>
-<p>我们学校用的是深澜的认证系统，对其认证流程分析后，写了一个小工具:<a href="/posts/tutorials/campus-network-speed-overlay/sdu-srun.zip" rel="">多账号登录认证工具</a></p>
+<p>我们学校用的是深澜的认证系统，对其认证流程分析后，写了一个小工具:<a href="/posts/tutorials/campus-network-speed-overlay/sdu-srun.zip" rel="" class="post-link">多账号登录认证工具</a></p>
 <div class="details admonition info open">
         <div class="details-summary admonition-title">
             <i class="icon icon-info-circled"></i>信息<i class="details-icon icon-angle-circled-right"></i>
@@ -94,7 +94,7 @@
         <div class="details-content">
             <div class="admonition-content"><p>2021年11月4日 更新</p>
 <p>用Rust写了一个新的登录工具，更轻量更好用</p>
-<p><a href="https://github.com/zu1k/sdusrun" target="_blank" rel="noopener noreffer">https://github.com/zu1k/sdusrun</a></p>
+<p><a href="https://github.com/zu1k/sdusrun" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/sdusrun</a></p>
 </div>
         </div>
     </div>
@@ -308,7 +308,7 @@
             <i class="icon icon-lightbulb"></i>技巧<i class="details-icon icon-angle-circled-right"></i>
         </div>
         <div class="details-content">
-            <div class="admonition-content">mwan3代码在：<a href="https://github.com/openwrt/packages/tree/master/net/mwan3" target="_blank" rel="noopener noreffer">https://github.com/openwrt/packages/tree/master/net/mwan3</a></div>
+            <div class="admonition-content">mwan3代码在：<a href="https://github.com/openwrt/packages/tree/master/net/mwan3" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/openwrt/packages/tree/master/net/mwan3</a></div>
         </div>
     </div>
 <h2 id="爱快分流很强大">爱快，分流很强大</h2>
@@ -557,7 +557,7 @@
 </span></span><span class="line"><span class="cl">!sh
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer">https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html</a></p>
+</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html</a></p>
 <h2 id="suid在脚本中失效">SUID在脚本中失效</h2>
 <p>假如user1用 <code>chmod 4777 /home/user1/script.sh</code> 命令给<code>script.sh</code>脚本设置SUID位，登录user2后执行这个脚本提示没有权限</p>
 <p>这是因为SUID位只对编译过的可执行程序起作用，sh脚本的实际执行程序是sh或者bash之类，如果它们在执行的时候并不会检查脚本文件的SUID位，那就不会起作用了</p>
@@ -954,7 +954,7 @@
 <h2 id="阅读更多内容">阅读更多内容</h2>
 <p>如果你想了解功能，通过下面的命令查看官方文档吧</p>
 <p><code>man -Len -Pless\ +/^REDIRECTION bash</code></p>
-<p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer">stack overflow</a></p>
+<p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer" class="post-link">stack overflow</a></p>
 ]]></description></item><item><title>通过Sendmail服务发送邮件</title><link>https://zu1k.com/posts/coding/send-mail-via-endmail-service/</link><pubDate>Mon, 03 Dec 2018 17:59:48 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/send-mail-via-endmail-service/</guid><description><![CDATA[<p>通过Sendmail服务发送邮件</p>
 <p>系统centos7</p>
 <p>需要开启25端口</p>

@@ -680,4 +680,4 @@ D=0xf6b42726
 </div><p>脚本使用时第一个命令行参数是一个服务端加密一个固定长度数据的md5，第二个参数是固定的长度
 例如已知服务端加密一个15字符的md5：test.py 571580b26c65f306376d4f64e53cb5c7 15</p>
 <h4 id="参考文章">参考文章</h4>
-<p><a href="https://www.cnblogs.com/p00mj/p/6288337.html" target="_blank" rel="noopener noreffer">MD5的Hash长度扩展攻击</a></p>]]></description></item></channel></rss>
+<p><a href="https://www.cnblogs.com/p00mj/p/6288337.html" target="_blank" rel="noopener noreffer" class="post-link">MD5的Hash长度扩展攻击</a></p>]]></description></item></channel></rss>

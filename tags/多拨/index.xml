@@ -86,7 +86,7 @@
 </div>
 </div><p>然后需要获取到多个IP，直接执行 <code>dhclient</code> 即可</p>
 <h3 id="进行联网认证">进行联网认证</h3>
-<p>我们学校用的是深澜的认证系统，对其认证流程分析后，写了一个小工具:<a href="/posts/tutorials/campus-network-speed-overlay/sdu-srun.zip" rel="">多账号登录认证工具</a></p>
+<p>我们学校用的是深澜的认证系统，对其认证流程分析后，写了一个小工具:<a href="/posts/tutorials/campus-network-speed-overlay/sdu-srun.zip" rel="" class="post-link">多账号登录认证工具</a></p>
 <div class="details admonition info open">
         <div class="details-summary admonition-title">
             <i class="icon icon-info-circled"></i>信息<i class="details-icon icon-angle-circled-right"></i>
@@ -94,7 +94,7 @@
         <div class="details-content">
             <div class="admonition-content"><p>2021年11月4日 更新</p>
 <p>用Rust写了一个新的登录工具，更轻量更好用</p>
-<p><a href="https://github.com/zu1k/sdusrun" target="_blank" rel="noopener noreffer">https://github.com/zu1k/sdusrun</a></p>
+<p><a href="https://github.com/zu1k/sdusrun" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/sdusrun</a></p>
 </div>
         </div>
     </div>
@@ -308,7 +308,7 @@
             <i class="icon icon-lightbulb"></i>技巧<i class="details-icon icon-angle-circled-right"></i>
         </div>
         <div class="details-content">
-            <div class="admonition-content">mwan3代码在：<a href="https://github.com/openwrt/packages/tree/master/net/mwan3" target="_blank" rel="noopener noreffer">https://github.com/openwrt/packages/tree/master/net/mwan3</a></div>
+            <div class="admonition-content">mwan3代码在：<a href="https://github.com/openwrt/packages/tree/master/net/mwan3" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/openwrt/packages/tree/master/net/mwan3</a></div>
         </div>
     </div>
 <h2 id="爱快分流很强大">爱快，分流很强大</h2>

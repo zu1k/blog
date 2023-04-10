@@ -70,5 +70,5 @@
 <p>因此，正常情况下tor客户端与洋葱服务通讯是经过6次中转的，包括客户端连接会合节点的3次和服务端连接会合节点的3次</p>
 <p>如果tor客户端访问的服务不是洋葱服务，那通讯过程就不是上面那个流程了，也只有3次中转了</p>
 <h2 id="参考资料">参考资料</h2>
-<p><a href="https://community.torproject.org/onion-services/overview/" target="_blank" rel="noopener noreffer">https://community.torproject.org/onion-services/overview/</a></p>
+<p><a href="https://community.torproject.org/onion-services/overview/" target="_blank" rel="noopener noreffer" class="post-link">https://community.torproject.org/onion-services/overview/</a></p>
 ]]></description></item></channel></rss>

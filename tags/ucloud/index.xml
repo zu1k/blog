@@ -17,8 +17,8 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <h2 id="globalssh">GlobalSSH</h2>
 <p>今天发现了一个免费的加速服务，非常方便，推荐给需要的人</p>
 <p>这就是 UCloud 免费提供的 GlobalSSH 加速服务</p>
-<p>官网链接： <a href="https://console.ucloud.cn/upathx/globalssh" target="_blank" rel="noopener noreffer">https://console.ucloud.cn/upathx/globalssh</a></p>
-<p>官方文档： <a href="https://docs.ucloud.cn/pathx/globalssh" target="_blank" rel="noopener noreffer">https://docs.ucloud.cn/pathx/globalssh</a></p>
+<p>官网链接： <a href="https://console.ucloud.cn/upathx/globalssh" target="_blank" rel="noopener noreffer" class="post-link">https://console.ucloud.cn/upathx/globalssh</a></p>
+<p>官方文档： <a href="https://docs.ucloud.cn/pathx/globalssh" target="_blank" rel="noopener noreffer" class="post-link">https://docs.ucloud.cn/pathx/globalssh</a></p>
 <p>这项服务目前是免费的，<del>也不需要进行实名认证</del> 现在需要实名认证才能用了，可以说是非常良心了，经过我的试用，访问速度和稳定性非常不错</p>
 <p>支持ssh和rdp远程桌面，猜测有一些其他的服务可以加速，因为是针对端口加速的，但是如果滥用的话可能被封禁</p>
 <p>在创建的时候只需要输入需要加速的国外服务器的ip和服务端口号，选择一个离服务器近的接入点</p>
@@ -33,7 +33,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </ol>
 <h2 id="妙用">妙用</h2>
 <p>众所周知，github在国内的访问速度很慢，有时候clone一个库不得不忍受十几k几十k每秒的速度</p>
-<p>而git是可以用ssh协议的，所以我们只需要从 <a href="https://api.github.com/meta" target="_blank" rel="noopener noreffer">https://api.github.com/meta</a> 找到github使用的ip，通过GlobalSSH加速22端口，然后将自己的域名解析到加速的ip，最后使用自己的域名clone就行了</p>
+<p>而git是可以用ssh协议的，所以我们只需要从 <a href="https://api.github.com/meta" target="_blank" rel="noopener noreffer" class="post-link">https://api.github.com/meta</a> 找到github使用的ip，通过GlobalSSH加速22端口，然后将自己的域名解析到加速的ip，最后使用自己的域名clone就行了</p>
 <p>经过我的尝试效果还不错，可以跑到10Mbps</p>
 <p>我用的域名为 <code>githubssh.xyz</code> ，大家可以拿去用，使用方法如下：</p>
 <div class="highlight"><div class="chroma">
@@ -53,6 +53,6 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>为了能够自动更新ip，我写了一个程序，每天会检查github新的ip，创建新的globalssh，然后自动解析到域名githubssh.xyz上，由cloudflare进行DNS层面的负载均衡</p>
-<p>开源地址为： <a href="https://github.com/zu1k/globalssh4github" target="_blank" rel="noopener noreffer">https://github.com/zu1k/globalssh4github</a></p>
-<p>同时为了方便，改了一个插件： <a href="https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo" target="_blank" rel="noopener noreffer">https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo</a></p>
+<p>开源地址为： <a href="https://github.com/zu1k/globalssh4github" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/globalssh4github</a></p>
+<p>同时为了方便，改了一个插件： <a href="https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo" target="_blank" rel="noopener noreffer" class="post-link">https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo</a></p>
 ]]></description></item></channel></rss>

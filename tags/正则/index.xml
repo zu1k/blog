@@ -194,6 +194,6 @@
 <li>IP地址：<strong>((?:(?:25[0-5] | 2[0-4]\\d | [01]?\\d?\\d)\\.){3}(?:25[0-5] | 2[0-4]\\d | [01]?\\d?\\d)) </strong></li></ul>
 </div>-->
 <h2 id="正则表达式学习网站">正则表达式学习网站</h2>
-<p><a href="http://tool.chinaz.com/regex/" target="_blank" rel="noopener noreffer">正则表达式在线测试-站长工具</a>
-<a href="https://c.runoob.com/front-end/854" target="_blank" rel="noopener noreffer">正则表达式在线测试-菜鸟工具</a>
-<a href="http://www.runoob.com/regexp/regexp-syntax.html" target="_blank" rel="noopener noreffer">正则表达式教程-菜鸟教程</a></p>]]></description></item></channel></rss>
+<p><a href="http://tool.chinaz.com/regex/" target="_blank" rel="noopener noreffer" class="post-link">正则表达式在线测试-站长工具</a>
+<a href="https://c.runoob.com/front-end/854" target="_blank" rel="noopener noreffer" class="post-link">正则表达式在线测试-菜鸟工具</a>
+<a href="http://www.runoob.com/regexp/regexp-syntax.html" target="_blank" rel="noopener noreffer" class="post-link">正则表达式教程-菜鸟教程</a></p>]]></description></item></channel></rss>

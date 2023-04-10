@@ -1035,9 +1035,9 @@
 <p>在上网搜索之后，找到了一个替代方案，那就是苏卡卡大佬的 DisqusJS，大家可以根据教程对自己博客的主题进行修改</p>
 <p>参考链接：</p>
 <ul>
-<li><a href="https://blog.skk.moe/post/disqusjs/" target="_blank" rel="noopener noreffer">https://blog.skk.moe/post/disqusjs/</a></li>
-<li><a href="https://disqusjs.skk.moe/" target="_blank" rel="noopener noreffer">https://disqusjs.skk.moe/</a></li>
-<li><a href="https://github.com/SukkaW/DisqusJS" target="_blank" rel="noopener noreffer">https://github.com/SukkaW/DisqusJS</a></li>
+<li><a href="https://blog.skk.moe/post/disqusjs/" target="_blank" rel="noopener noreffer" class="post-link">https://blog.skk.moe/post/disqusjs/</a></li>
+<li><a href="https://disqusjs.skk.moe/" target="_blank" rel="noopener noreffer" class="post-link">https://disqusjs.skk.moe/</a></li>
+<li><a href="https://github.com/SukkaW/DisqusJS" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/SukkaW/DisqusJS</a></li>
 </ul>
 <p>对于使用的 Disqus API 反代，我自己测试发现苏卡卡大佬提供的速度不太行，不知道是什么原因，所以推荐自己进行搭建，我是用的是 zeit 进行搭建，感觉还不错</p>
 <blockquote>
@@ -1105,7 +1105,7 @@
 </div>
 </div><h3 id="评论懒加载">评论懒加载</h3>
 <p>对于评论区，很多情况下用户根本不会划到页面底部（文章写得太烂没人看得下去）。</p>
-<p>所以我这里对 disqus 的加载使用懒加载技术，参考 <a href="https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/" target="_blank" rel="noopener noreffer">https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/</a></p>
+<p>所以我这里对 disqus 的加载使用懒加载技术，参考 <a href="https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/" target="_blank" rel="noopener noreffer" class="post-link">https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/</a></p>
 <p>我使用的是 disqusJS, 下面给出加载的 js 代码</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1196,5 +1196,5 @@ Due to that, we cannot deploy the commit e80751b.</p>
 <p>You can try again later or upgrade your plan.</p>
 </blockquote>
 <h2 id="辅助优化">辅助优化</h2>
-<p>使用谷歌提供的 <a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="noopener noreffer">Pagespeed Insights</a> 工具分析网页加载并根据建议进行优化</p>
+<p>使用谷歌提供的 <a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="noopener noreffer" class="post-link">Pagespeed Insights</a> 工具分析网页加载并根据建议进行优化</p>
 ]]></description></item></channel></rss>

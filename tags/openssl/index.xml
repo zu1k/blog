@@ -4,12 +4,12 @@
 <h2 id="准备工作">准备工作</h2>
 <h3 id="下载openssl代码">下载openssl代码</h3>
 <p><code>git clone https://github.com/openssl/openssl.git</code></p>
-<p>或者从官网 <a href="https://www.openssl.org/source/" target="_blank" rel="noopener noreffer">https://www.openssl.org/source/</a> 下载源代码</p>
+<p>或者从官网 <a href="https://www.openssl.org/source/" target="_blank" rel="noopener noreffer" class="post-link">https://www.openssl.org/source/</a> 下载源代码</p>
 <p>我使用的是openssl 1.1.1</p>
 <h3 id="安装perl环境这里使用的是activeperl">安装perl环境，这里使用的是ActivePerl</h3>
-<p><a href="https://www.activestate.com/products/perl/" target="_blank" rel="noopener noreffer">https://www.activestate.com/products/perl/</a></p>
+<p><a href="https://www.activestate.com/products/perl/" target="_blank" rel="noopener noreffer" class="post-link">https://www.activestate.com/products/perl/</a></p>
 <h3 id="安装nasm汇编器">安装NASM汇编器</h3>
-<p><a href="https://www.nasm.us/" target="_blank" rel="noopener noreffer">https://www.nasm.us/</a></p>
+<p><a href="https://www.nasm.us/" target="_blank" rel="noopener noreffer" class="post-link">https://www.nasm.us/</a></p>
 <h3 id="配置环境变量">配置环境变量</h3>
 <p>将刚刚安装的nasm和perl的bin目录加入PATH</p>
 <p></p>

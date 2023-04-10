@@ -72,7 +72,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
-<p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
+<p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer" class="post-link">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer" class="post-link">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
 </blockquote>
 <h3 id="解析与生成">解析与生成</h3>
 <p>在拿到抽象语法树后，顶层便是 <code>Instruction</code>，根据思路我们应该遍历其所有的成员，分析成员的类型并根据相关信息生成代码。</p>

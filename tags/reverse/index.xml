@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>逆向 - 标签 - zu1k</title><link>https://zu1k.com/tags/reverse/</link><description>逆向工程、逆向教程、逆向成果、软件破解、算法分析</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zu1k.com/tags/reverse/" rel="self" type="application/rss+xml"/><item><title>Golang逆向资料</title><link>https://zu1k.com/posts/security/reverse/golang-reverse/</link><pubDate>Mon, 05 Oct 2020 20:11:24 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/reverse/golang-reverse/</guid><description><![CDATA[<p>前段时间从逆向xray开始入门Golang逆向，打算深入学习一下Golang逆向方法，这几天看了很多相关的文章，原本想要自己总结一文，但无奈大佬们的总结太全面了，我就直接扔链接吧</p>
 <h2 id="go二进制文件逆向分析从基础到进阶">Go二进制文件逆向分析从基础到进阶</h2>
-<p>J!4Yu大佬的系列文章太全面了，他写的<a href="https://github.com/0xjiayu/go_parser" target="_blank" rel="noopener noreffer">go_parser</a>相当好用</p>
+<p>J!4Yu大佬的系列文章太全面了，他写的<a href="https://github.com/0xjiayu/go_parser" target="_blank" rel="noopener noreffer" class="post-link">go_parser</a>相当好用</p>
 <ul>
-<li><a href="https://www.anquanke.com/post/id/214940" target="_blank" rel="noopener noreffer">综述</a></li>
-<li><a href="https://www.anquanke.com/post/id/215419" target="_blank" rel="noopener noreffer">MetaInfo、函数符号和源码文件路径列表</a></li>
-<li><a href="https://www.anquanke.com/post/id/215820" target="_blank" rel="noopener noreffer">数据类型</a></li>
-<li><a href="https://www.anquanke.com/post/id/218377" target="_blank" rel="noopener noreffer">itab与strings</a></li>
-<li><a href="https://www.anquanke.com/post/id/218674" target="_blank" rel="noopener noreffer">Tips与实战案例</a></li>
+<li><a href="https://www.anquanke.com/post/id/214940" target="_blank" rel="noopener noreffer" class="post-link">综述</a></li>
+<li><a href="https://www.anquanke.com/post/id/215419" target="_blank" rel="noopener noreffer" class="post-link">MetaInfo、函数符号和源码文件路径列表</a></li>
+<li><a href="https://www.anquanke.com/post/id/215820" target="_blank" rel="noopener noreffer" class="post-link">数据类型</a></li>
+<li><a href="https://www.anquanke.com/post/id/218377" target="_blank" rel="noopener noreffer" class="post-link">itab与strings</a></li>
+<li><a href="https://www.anquanke.com/post/id/218674" target="_blank" rel="noopener noreffer" class="post-link">Tips与实战案例</a></li>
 </ul>
 <h2 id="英文文章">英文文章</h2>
 <ul>
-<li><a href="https://rednaga.io/2016/09/21/reversing_go_binaries_like_a_pro/" target="_blank" rel="noopener noreffer">Reversing GO binaries like a pro</a></li>
-<li><a href="https://github.com/strazzere/golang_loader_assist/blob/master/Bsides-GO-Forth-And-Reverse.pdf" target="_blank" rel="noopener noreffer">Bsides-GO-Forth-And-Reverse</a></li>
-<li><a href="http://home.in.tum.de/~engelke/pubs/1709-ma.pdf" target="_blank" rel="noopener noreffer">Reconstructing Program Semantics from Go binaries</a></li>
-<li><a href="https://www.pnfsoftware.com/blog/analyzing-golang-executables/" target="_blank" rel="noopener noreffer">JEB Analyzing Golang Executables</a></li>
-<li><a href="https://dr-knz.net/go-calling-convention-x86-64.html" target="_blank" rel="noopener noreffer">The Go low-level calling convention on x86-64</a></li>
+<li><a href="https://rednaga.io/2016/09/21/reversing_go_binaries_like_a_pro/" target="_blank" rel="noopener noreffer" class="post-link">Reversing GO binaries like a pro</a></li>
+<li><a href="https://github.com/strazzere/golang_loader_assist/blob/master/Bsides-GO-Forth-And-Reverse.pdf" target="_blank" rel="noopener noreffer" class="post-link">Bsides-GO-Forth-And-Reverse</a></li>
+<li><a href="http://home.in.tum.de/~engelke/pubs/1709-ma.pdf" target="_blank" rel="noopener noreffer" class="post-link">Reconstructing Program Semantics from Go binaries</a></li>
+<li><a href="https://www.pnfsoftware.com/blog/analyzing-golang-executables/" target="_blank" rel="noopener noreffer" class="post-link">JEB Analyzing Golang Executables</a></li>
+<li><a href="https://dr-knz.net/go-calling-convention-x86-64.html" target="_blank" rel="noopener noreffer" class="post-link">The Go low-level calling convention on x86-64</a></li>
 </ul>
 <h2 id="操作文章和总结">操作文章和总结</h2>
 <ul>
-<li><a href="https://www.anquanke.com/post/id/85694" target="_blank" rel="noopener noreffer">手把手教你如何专业地逆向GO二进制程序</a></li>
-<li><a href="https://bbs.pediy.com/thread-247232.htm" target="_blank" rel="noopener noreffer">inctf(ultimateGo)</a></li>
-<li><a href="https://www.freebuf.com/articles/others-articles/176803.html" target="_blank" rel="noopener noreffer">Go语言逆向去符号信息还原</a></li>
-<li><a href="https://www.anquanke.com/post/id/170332" target="_blank" rel="noopener noreffer">无符号Golang程序逆向方法解析</a></li>
-<li><a href="https://www.cnxct.com/why-golang-elf-binary-file-is-large-than-c/" target="_blank" rel="noopener noreffer">golang语言编译的二进制可执行文件为什么比 C 语言大</a></li>
-<li><a href="http://blog.wuwenxiang.net/Go-Questions" target="_blank" rel="noopener noreffer">Go-逆向学习问题总结</a></li>
+<li><a href="https://www.anquanke.com/post/id/85694" target="_blank" rel="noopener noreffer" class="post-link">手把手教你如何专业地逆向GO二进制程序</a></li>
+<li><a href="https://bbs.pediy.com/thread-247232.htm" target="_blank" rel="noopener noreffer" class="post-link">inctf(ultimateGo)</a></li>
+<li><a href="https://www.freebuf.com/articles/others-articles/176803.html" target="_blank" rel="noopener noreffer" class="post-link">Go语言逆向去符号信息还原</a></li>
+<li><a href="https://www.anquanke.com/post/id/170332" target="_blank" rel="noopener noreffer" class="post-link">无符号Golang程序逆向方法解析</a></li>
+<li><a href="https://www.cnxct.com/why-golang-elf-binary-file-is-large-than-c/" target="_blank" rel="noopener noreffer" class="post-link">golang语言编译的二进制可执行文件为什么比 C 语言大</a></li>
+<li><a href="http://blog.wuwenxiang.net/Go-Questions" target="_blank" rel="noopener noreffer" class="post-link">Go-逆向学习问题总结</a></li>
 </ul>
 <h2 id="工具和插件">工具和插件</h2>
 <ul>
-<li><a href="https://github.com/strazzere/golang_loader_assist" target="_blank" rel="noopener noreffer">https://github.com/strazzere/golang_loader_assist</a></li>
-<li><a href="https://github.com/sibears/IDAGolangHelper" target="_blank" rel="noopener noreffer">https://github.com/sibears/IDAGolangHelper</a></li>
-<li><a href="https://github.com/0xjiayu/go_parser" target="_blank" rel="noopener noreffer">https://github.com/0xjiayu/go_parser</a></li>
-<li><a href="https://github.com/CarveSystems/gostringsr2" target="_blank" rel="noopener noreffer">https://github.com/CarveSystems/gostringsr2</a></li>
-<li><a href="https://github.com/JacobPimental/r2-gohelper" target="_blank" rel="noopener noreffer">https://github.com/JacobPimental/r2-gohelper</a></li>
-<li><a href="https://github.com/sysopfb/GoMang" target="_blank" rel="noopener noreffer">https://github.com/sysopfb/GoMang</a></li>
-<li><a href="https://github.com/pnfsoftware/jeb-golang-analyzer" target="_blank" rel="noopener noreffer">https://github.com/pnfsoftware/jeb-golang-analyzer</a></li>
-<li><a href="https://gitlab.com/zaytsevgu/goutils" target="_blank" rel="noopener noreffer">https://gitlab.com/zaytsevgu/goutils</a></li>
-<li><a href="https://gitlab.com/zaytsevgu/GoUtils2.0" target="_blank" rel="noopener noreffer">https://gitlab.com/zaytsevgu/GoUtils2.0</a></li>
+<li><a href="https://github.com/strazzere/golang_loader_assist" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/strazzere/golang_loader_assist</a></li>
+<li><a href="https://github.com/sibears/IDAGolangHelper" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/sibears/IDAGolangHelper</a></li>
+<li><a href="https://github.com/0xjiayu/go_parser" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/0xjiayu/go_parser</a></li>
+<li><a href="https://github.com/CarveSystems/gostringsr2" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/CarveSystems/gostringsr2</a></li>
+<li><a href="https://github.com/JacobPimental/r2-gohelper" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/JacobPimental/r2-gohelper</a></li>
+<li><a href="https://github.com/sysopfb/GoMang" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/sysopfb/GoMang</a></li>
+<li><a href="https://github.com/pnfsoftware/jeb-golang-analyzer" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/pnfsoftware/jeb-golang-analyzer</a></li>
+<li><a href="https://gitlab.com/zaytsevgu/goutils" target="_blank" rel="noopener noreffer" class="post-link">https://gitlab.com/zaytsevgu/goutils</a></li>
+<li><a href="https://gitlab.com/zaytsevgu/GoUtils2.0" target="_blank" rel="noopener noreffer" class="post-link">https://gitlab.com/zaytsevgu/GoUtils2.0</a></li>
 </ul>
 ]]></description></item><item><title>Golang逆向思考</title><link>https://zu1k.com/posts/security/reverse/golang-reverse-thinking/</link><pubDate>Sat, 20 Jun 2020 17:48:53 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/reverse/golang-reverse-thinking/</guid><description><![CDATA[<p>在前段时间对xray进行逆向过程中，发现golang编译的程序会有巨多函数，不能说都是多余的，但是大部分函数的确不是用户编写的代码生成的，而是golang运行时和各种库所需要的东西</p>
 <p>同时，因为去除了符号表，这些大量的非实际业务代码会对我们逆向工作造成极大困难，如果能够利用一些自动化工具重建符号表或者重新命名，就可以极大的便利我们逆向</p>
 <h2 id="golang特殊段">golang特殊段</h2>
-<p>在本次逆向的过程中，我遇到了上述的问题，在网上搜索发现了一个ida插件， <a href="https://github.com/sibears/IDAGolangHelper.git" target="_blank" rel="noopener noreffer">IDAGolangHelper</a></p>
+<p>在本次逆向的过程中，我遇到了上述的问题，在网上搜索发现了一个ida插件， <a href="https://github.com/sibears/IDAGolangHelper.git" target="_blank" rel="noopener noreffer" class="post-link">IDAGolangHelper</a></p>
 <p>这个插件的作者对golang编译器有深入的研究，他发现golang编译器在linux平台下交叉编译windows平台下运行的程序时，会生成一个特殊的段<code>.gopclntab</code>，在这个段中会保存一份特殊的符号表，作者利用这个段的信息对符号表进行了重建，我在使用过程中发现效果不错</p>
 <p>但是该方法的使用是由限制条件的，如果没有这个段的信息就完全无法使用这个工具了</p>
 <h2 id="基于同源性">基于同源性</h2>
@@ -223,7 +223,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="2020年8月27日-补充">2020年8月27日 补充</h2>
-<p>xray 官方在 1.3.0 版本中更换了授权验证机制，所以破解仅支持到 1.2.0 版本，本文使用代码现在开源： <a href="https://github.com/zu1k/xray-crack" target="_blank" rel="noopener noreffer">https://github.com/zu1k/xray-crack</a></p>
+<p>xray 官方在 1.3.0 版本中更换了授权验证机制，所以破解仅支持到 1.2.0 版本，本文使用代码现在开源： <a href="https://github.com/zu1k/xray-crack" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/xray-crack</a></p>
 <h2 id="2020年9月30日-补充">2020年9月30日 补充</h2>
 <p>前几天有大佬私发我一个 License，我就又对证书算法研究了一下</p>
 <p>相关代码也已经更新到 github 了</p>
@@ -317,7 +317,7 @@
 <p>新版本因为换用了Golang 1.14，是go的版本差异导致的patch问题（汇编不同了），目前完成了amd64平台的自动patch，其他的平台等大佬PR</p>
 <p></p>
 <h2 id="2020年11月11日-补充">2020年11月11日 补充</h2>
-<p>感谢 <a href="https://github.com/nszy007" target="_blank" rel="noopener noreffer">@nszy007</a> 提供<a href="https://github.com/zu1k/comment/issues/4#issuecomment-725222928" target="_blank" rel="noopener noreffer">剩余平台的patch</a></p>
+<p>感谢 <a href="https://github.com/nszy007" target="_blank" rel="noopener noreffer" class="post-link">@nszy007</a> 提供<a href="https://github.com/zu1k/comment/issues/4#issuecomment-725222928" target="_blank" rel="noopener noreffer" class="post-link">剩余平台的patch</a></p>
 <h2 id="2020年11月11日-下午16点-补充">2020年11月11日 下午16点 补充</h2>
 <p>收到 Chaitin 人员的要求，已删除相关源代码</p>
 <h2 id="2020年11月18日-补充">2020年11月18日 补充</h2>

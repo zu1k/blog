@@ -5,7 +5,7 @@
 <p></p>
 <h2 id="教程">教程</h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
-<p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer">[AFF 链接]</a>.</p>
+<p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[AFF 链接]</a>.</p>
 <p>你可以通过 <code>ip a</code> 命令查看网络接口的地址，从而获取你的 IPv6 子网信息：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -154,7 +154,7 @@
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4:b598:409d:b946:17c
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
+</div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
 <h2 id="碎碎念">碎碎念</h2>
 <!-- ### Proxypool 项目
 
@@ -174,8 +174,8 @@
 <li>创建一个 TUN 设备，配置这个 TUN 设备的网段为 IPv6 子网，然后将 TUN 设备和真实网络设备创建网桥。</li>
 </ol>
 <p>通过 TUN 向系统网络栈注入源 IP 为网段下随机的 IPv6 地址，伪造有众多 host 的假象。</p>
-<p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
-<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
+<p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="" class="post-link">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="" class="post-link">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
+<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
 <p>幸亏后面搜资料发现了本文方便的方法，才避免了我陷入这些迷途。反思一下，即自己的知识不够，对 Linux 内核及其提供的众多功能了解不够深入，导致人家原本就有的功能自己根本不知道，所以想不出合适的方案。</p>
 <h3 id="waf">WAF</h3>
 <p>我也不是非常了解，现在的 WAF 是不是就是单纯根据 IP 来进行限流限速 ？如果真是这样，那利用这庞大的 IPv6 资源岂不是轻松绕过封禁。</p>
@@ -184,7 +184,7 @@
 ]]></description></item><item><title>给docker里的每一个容器一个独立的ipv6地址</title><link>https://zu1k.com/posts/coding/set-ipv6-for-every-docker-container/</link><pubDate>Sat, 31 Aug 2019 14:39:03 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-ipv6-for-every-docker-container/</guid><description><![CDATA[<p>ipv6不断普及，ipv6地址多的数不胜数，机房给单台机器分配的ipv6段达到了可怕的64位长度的子网主机号。</p>
 <p>那我不禁在想，能不能给docker下的每个容器独立的ipv6地址，这样就不需要映射端口号了。</p>
 <p>所以就有了以下实践：</p>
-<p>首先，给docker engine开启ipv6支持, 参考： <a href="https://docs.docker.com/config/daemon/ipv6/" target="_blank" rel="noopener noreffer">https://docs.docker.com/config/daemon/ipv6/</a></p>
+<p>首先，给docker engine开启ipv6支持, 参考： <a href="https://docs.docker.com/config/daemon/ipv6/" target="_blank" rel="noopener noreffer" class="post-link">https://docs.docker.com/config/daemon/ipv6/</a></p>
 <p>配置/etc/docker/daemon.json文件如下。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

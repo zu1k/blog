@@ -3,7 +3,7 @@
 <p>所以想办法屏蔽这些ip，准确的说是一整个国家的ip,或者说是一堆ip</p>
 <h2 id="使用iptables添加规则">使用iptables添加规则</h2>
 <p>方法如下：
-1.下载一个国家的ip段，网址：<a href="http://www.ipdeny.com/ipblocks/" target="_blank" rel="noopener noreffer">http://www.ipdeny.com/ipblocks/</a></p>
+1.下载一个国家的ip段，网址：<a href="http://www.ipdeny.com/ipblocks/" target="_blank" rel="noopener noreffer" class="post-link">http://www.ipdeny.com/ipblocks/</a></p>
 <p><code>wget http://www.ipdeny.com/ipblocks/data/countries/ir.zone</code></p>
 <p>2.使用脚本批量添加iptables规则</p>
 <div class="highlight"><div class="chroma">
@@ -158,5 +158,5 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="参考文章">参考文章：</h2>
-<p><a href="https://www.jb51.net/LINUXjishu/339309.html" target="_blank" rel="noopener noreffer">在Linux下实现批量屏蔽IP地址的方法</a></p>
+<p><a href="https://www.jb51.net/LINUXjishu/339309.html" target="_blank" rel="noopener noreffer" class="post-link">在Linux下实现批量屏蔽IP地址的方法</a></p>
 ]]></description></item></channel></rss>

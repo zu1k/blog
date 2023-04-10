@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>教程 - 分类 - zu1k</title><link>https://zu1k.com/categories/tutorial/</link><description>我不想写教程，但是这个栏目确实是教程</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zu1k.com/categories/tutorial/" rel="self" type="application/rss+xml"/><item><title>IPFS 日用优化指南</title><link>https://zu1k.com/posts/tutorials/p2p/ipfs-easy-use/</link><pubDate>Mon, 06 Jun 2022 23:14:00 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/p2p/ipfs-easy-use/</guid><description><![CDATA[<p>这两天，V2EX 的站长 Livid <a href="https://v2ex.com/t/857404" target="_blank" rel="noopener noreffer">发布了</a> 一款基于 IPFS 和 ENS 的内容发布和订阅应用 <a href="https://planetable.xyz/" target="_blank" rel="noopener noreffer">[Planet]</a>，其想法在之前的一期 <a href="https://fyfy.fm/episode/67" target="_blank" rel="noopener noreffer">[播客访谈]</a> 中就提到过，当初就觉得很有意思。也不出我所料，Planet 一经发布就引来了众多关注，Planet 用图形化的方式使更多普通人可以尝试 IPFS 这类分布式内容发布，据说后面还会增加评论功能，这在 IPFS 网络中也算是一个不小的挑战，不知道 Planet 能将易用性做到什么水平，我会继续关注。</p>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>教程 - 分类 - zu1k</title><link>https://zu1k.com/categories/tutorial/</link><description>我不想写教程，但是这个栏目确实是教程</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zu1k.com/categories/tutorial/" rel="self" type="application/rss+xml"/><item><title>IPFS 日用优化指南</title><link>https://zu1k.com/posts/tutorials/p2p/ipfs-easy-use/</link><pubDate>Mon, 06 Jun 2022 23:14:00 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/p2p/ipfs-easy-use/</guid><description><![CDATA[<p>这两天，V2EX 的站长 Livid <a href="https://v2ex.com/t/857404" target="_blank" rel="noopener noreffer" class="post-link">发布了</a> 一款基于 IPFS 和 ENS 的内容发布和订阅应用 <a href="https://planetable.xyz/" target="_blank" rel="noopener noreffer" class="post-link">[Planet]</a>，其想法在之前的一期 <a href="https://fyfy.fm/episode/67" target="_blank" rel="noopener noreffer" class="post-link">[播客访谈]</a> 中就提到过，当初就觉得很有意思。也不出我所料，Planet 一经发布就引来了众多关注，Planet 用图形化的方式使更多普通人可以尝试 IPFS 这类分布式内容发布，据说后面还会增加评论功能，这在 IPFS 网络中也算是一个不小的挑战，不知道 Planet 能将易用性做到什么水平，我会继续关注。</p>
 <p>我也在很早之前就了解并开始使用 IPFS 技术，在折腾的过程中也积累了一些经验，下面我将向你们分享一些使用技巧，使你的 IPFS 更加易用。</p>
 <blockquote>
-<p>完全新手朋友请先阅读我在 20年写的 <a href="../ipfs/" rel="">《IPFS 新手指北》</a> 这篇文章</p>
+<p>完全新手朋友请先阅读我在 20年写的 <a href="../ipfs/" rel="" class="post-link">《IPFS 新手指北》</a> 这篇文章</p>
 </blockquote>
 <h2 id="搭建网关">搭建网关</h2>
 <p>相比较使用公共 IPFS 网关，我更推荐自己在家中搭建，不仅能提供更优的体验，还可以避免在每台电脑安装 IPFS 的麻烦。</p>
@@ -83,7 +83,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>为获得更好的 IPFS 使用体验，推荐安装 <a href="https://chrome.google.com/webstore/detail/ipfs-companion/nibjojkomfdiaoajekhjakgkdhaomnch" target="_blank" rel="noopener noreffer">[IPFS 浏览器插件]</a>，或者使用 Brave 浏览器，可以让 IPFS 的使用体验更加原生。</p>
+</div><p>为获得更好的 IPFS 使用体验，推荐安装 <a href="https://chrome.google.com/webstore/detail/ipfs-companion/nibjojkomfdiaoajekhjakgkdhaomnch" target="_blank" rel="noopener noreffer" class="post-link">[IPFS 浏览器插件]</a>，或者使用 Brave 浏览器，可以让 IPFS 的使用体验更加原生。</p>
 <h2 id="pin-优化">Pin 优化</h2>
 <p>在发布内容后，马上通过公开的 IPFS 网关访问，通常会很慢很慢，甚至到超时都无法访问，这是由 IPFS 的寻址过程导致的。随着访问内容的用户越来越多，他们的 IPFS 节点上会缓存你内容的数据，这个时候新节点再访问同一份内容，通常就会很快。这就是 IPFS 的特性，就跟 BT 下载的原理类似，数据在网络中存在的副本越多，就越能利用 P2P 网络的性能。</p>
 <p>但是一个 IPFS 节点也不会无限期的缓存你的数据，默认配置下 GC 频率是 1 个小时一次，也就是说你的数据如果用户不访问，在一个小时后就会从他们的节点中被清理掉。为了能够让我们的数据长久的留在 IPFS 网络中，就需要用户 Pin 住你的数据，以防被 GC 掉。我的做法是利用闲置的服务器搭建 IPFS 节点用来 Pin 自己的数据，然后朋友之间互相 Pin 住，算是合作共赢。</p>
@@ -91,7 +91,7 @@
 <p>如果你使用 IPNS 或者域名的方式对外公开经常修改的内容，就需要设置定时任务来不断 Pin 住新的数据，因为 IPFS 在 Pin 一个 IPNS 的时候，只会 Pin 当前状态对应的 CID ，后面不会自己去更新。</p>
 <h3 id="remote-pinning-service">Remote Pinning Service</h3>
 <p>如果你不想一直运行本机的 IPFS 节点，但又想让别人可以访问到你发布的内容，可以考虑使用 Remote Pinning service，这是由一些中心化的服务商提供的内容 Pinning 服务，其效果与你本机 pin 相当。甚至因为他们的网络质量更好、连接的节点更多，将内容 Pin 在他们的节点上，可以更快的被分发和访问。</p>
-<p>我主要推荐两家，<a href="https://www.pinata.cloud/" target="_blank" rel="noopener noreffer">[Pinata]</a> 和 <a href="https://web3.storage/account/" target="_blank" rel="noopener noreffer">[web3.storage]</a>，具体教程可以看 <a href="https://docs.ipfs.io/how-to/work-with-pinning-services/#use-an-existing-pinning-service" target="_blank" rel="noopener noreffer">官方文档</a></p>
+<p>我主要推荐两家，<a href="https://www.pinata.cloud/" target="_blank" rel="noopener noreffer" class="post-link">[Pinata]</a> 和 <a href="https://web3.storage/account/" target="_blank" rel="noopener noreffer" class="post-link">[web3.storage]</a>，具体教程可以看 <a href="https://docs.ipfs.io/how-to/work-with-pinning-services/#use-an-existing-pinning-service" target="_blank" rel="noopener noreffer" class="post-link">官方文档</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -105,14 +105,14 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Pinata 是无门槛的，免费提供 1G 的 Pin 容量。</p>
-<p>web3.storage 免费提供 1T，但是 Pin Api 需要发邮件申请，一天以内就会有回复。<a href="https://web3.storage/docs/how-tos/pinning-services-api/" target="_blank" rel="noopener noreffer">[教程]</a></p>
+<p>web3.storage 免费提供 1T，但是 Pin Api 需要发邮件申请，一天以内就会有回复。<a href="https://web3.storage/docs/how-tos/pinning-services-api/" target="_blank" rel="noopener noreffer" class="post-link">[教程]</a></p>
 <h3 id="开放端口">开放端口</h3>
 <p>因为 IPFS 需要 P2P 通讯，所以如果你没有公网的 IPFS 节点 Pin 你的内容，就需要保证自己本机的 IPFS 节点可被访问。检查你的路由器，开启 UPnP 功能，必要时建立端口映射，开放你的 4001 端口（如果没有修改过的话）。</p>
 <p></p>
 <h2 id="资源占用优化">资源占用优化</h2>
 <p>如果你没有做任何的配置优化，只是按照常规流程下载安装运行，你会发现 IPFS 在后台会占用大量的 CPU 资源和内存，你的风扇开始狂转；维持了大量的网络连接，导致你的网络卡顿。这是因为 IPFS 的默认配置并没有针对个人小主机进行优化，如果你在一台 2 核的 Linux 服务器上运行，IPFS 甚至能吃满你所有的 CPU，网络的拥挤程度有可能使你连 ssh 登录都成了一个问题。</p>
 <p></p>
-<p>这个时候我们就需要调整配置文件中的参数来想办法降低资源占用，以使 IPFS 不影响我们的日常工作。其实 IPFS 已经提供了<a href="https://docs.ipfs.io/how-to/default-profile/" target="_blank" rel="noopener noreffer">好几个配置文件</a>，通过 <code>ipfs config profile --help</code> 可查看具体介绍。</p>
+<p>这个时候我们就需要调整配置文件中的参数来想办法降低资源占用，以使 IPFS 不影响我们的日常工作。其实 IPFS 已经提供了<a href="https://docs.ipfs.io/how-to/default-profile/" target="_blank" rel="noopener noreffer" class="post-link">好几个配置文件</a>，通过 <code>ipfs config profile --help</code> 可查看具体介绍。</p>
 <blockquote>
 <p>profile 不知道怎么翻译合适，翻译成文件不太准确，ipfs 中应用这些 profile 只是修改某些特定选项，并不是配置文件的完全改变</p>
 </blockquote>
@@ -120,7 +120,7 @@
 <p>如果你是在拥有公网 IP 的服务器上运行 IPFS，还推荐应用 <code>server</code> 配置，<code>ipfs config profile apply server</code>，这会关闭本地网络的节点发现，因为这是无意义的，这样也可以降低网络占用。</p>
 <p></p>
 <h2 id="后言">后言</h2>
-<p>20 年 11 月底，我发布了 <a href="../ipfs/" rel="">《IPFS 新手指北》</a> 这篇文章，期待 IPFS 能够迅猛发展，成为下一代 Web 基础设施。不知不觉已经过去一年半了，就目前情况来看 IPFS 虽然仍在不断发展，但还是在半死不活的状态，这一点让我非常失望。</p>
+<p>20 年 11 月底，我发布了 <a href="../ipfs/" rel="" class="post-link">《IPFS 新手指北》</a> 这篇文章，期待 IPFS 能够迅猛发展，成为下一代 Web 基础设施。不知不觉已经过去一年半了，就目前情况来看 IPFS 虽然仍在不断发展，但还是在半死不活的状态，这一点让我非常失望。</p>
 <p>但仔细一想，期待某门技术成为下一个主流本身就是不合理的。任何技术都应该是在广泛的需求之下才有可能成长为广泛应用的主流，而不是说你有某些好的特性就一定能够被广泛接受。从需求上讲，我们确实需要基于 P2P 的内容发布，也需要基于内容的寻址方式，这些都具有非常好的优点，但并不能满足我们对互联网的全部需求。我们在期望内容不可变、内容不被删除的同时，也会希望能够拥有删除或者修改某个内容的权利；我们喜欢 P2P 的去中心化内容分发方式，但不能否认任何人都希望延迟更低、速度更快；我们还会希望对内容具有更多控制权，包括细致的访问控制、更灵活的表达形式&hellip;&hellip;</p>
 <p>基于以上想法，我不认为 IPFS 就是下一代 Web，也就是都在说的 Web3。但我不否认 IPFS 有巨大的潜力，在下一代 Web 中充当非常重要的角色，只是这个角色并不是全部。而基于 P2P 的内容分发方式早就不是什么新技术，BitTorrent 和 基于 BT 技术的 BtSync、BTFS 也都非常具有竞争力，IPFS 想要与其竞争需要更加努力，使其更加的易用和平民化。</p>
 <p>我自己也已经使用 IPFS 接近两年，这两年的时间我自己的感觉是 IPFS 本身没有太大的突破性发展，而围绕其进行的各种营销和唬人活动层出不穷，文件挖矿、NFT 等等，不过这些也的确让更多人关注起 IPFS，并为 IPFS 网络贡献了大量节点和存储空间，但我总觉得怪怪的，这不是发展的长远之道啊。</p>
@@ -132,7 +132,7 @@
 <p></p>
 <h2 id="教程">教程</h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
-<p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer">[AFF 链接]</a>.</p>
+<p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[AFF 链接]</a>.</p>
 <p>你可以通过 <code>ip a</code> 命令查看网络接口的地址，从而获取你的 IPv6 子网信息：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -281,7 +281,7 @@
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4:b598:409d:b946:17c
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
+</div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
 <h2 id="碎碎念">碎碎念</h2>
 <!-- ### Proxypool 项目
 
@@ -301,8 +301,8 @@
 <li>创建一个 TUN 设备，配置这个 TUN 设备的网段为 IPv6 子网，然后将 TUN 设备和真实网络设备创建网桥。</li>
 </ol>
 <p>通过 TUN 向系统网络栈注入源 IP 为网段下随机的 IPv6 地址，伪造有众多 host 的假象。</p>
-<p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
-<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
+<p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="" class="post-link">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="" class="post-link">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
+<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
 <p>幸亏后面搜资料发现了本文方便的方法，才避免了我陷入这些迷途。反思一下，即自己的知识不够，对 Linux 内核及其提供的众多功能了解不够深入，导致人家原本就有的功能自己根本不知道，所以想不出合适的方案。</p>
 <h3 id="waf">WAF</h3>
 <p>我也不是非常了解，现在的 WAF 是不是就是单纯根据 IP 来进行限流限速 ？如果真是这样，那利用这庞大的 IPv6 资源岂不是轻松绕过封禁。</p>
@@ -396,7 +396,7 @@
 </div>
 </div><p>然后需要获取到多个IP，直接执行 <code>dhclient</code> 即可</p>
 <h3 id="进行联网认证">进行联网认证</h3>
-<p>我们学校用的是深澜的认证系统，对其认证流程分析后，写了一个小工具:<a href="/posts/tutorials/campus-network-speed-overlay/sdu-srun.zip" rel="">多账号登录认证工具</a></p>
+<p>我们学校用的是深澜的认证系统，对其认证流程分析后，写了一个小工具:<a href="/posts/tutorials/campus-network-speed-overlay/sdu-srun.zip" rel="" class="post-link">多账号登录认证工具</a></p>
 <div class="details admonition info open">
         <div class="details-summary admonition-title">
             <i class="icon icon-info-circled"></i>信息<i class="details-icon icon-angle-circled-right"></i>
@@ -404,7 +404,7 @@
         <div class="details-content">
             <div class="admonition-content"><p>2021年11月4日 更新</p>
 <p>用Rust写了一个新的登录工具，更轻量更好用</p>
-<p><a href="https://github.com/zu1k/sdusrun" target="_blank" rel="noopener noreffer">https://github.com/zu1k/sdusrun</a></p>
+<p><a href="https://github.com/zu1k/sdusrun" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/sdusrun</a></p>
 </div>
         </div>
     </div>
@@ -618,7 +618,7 @@
             <i class="icon icon-lightbulb"></i>技巧<i class="details-icon icon-angle-circled-right"></i>
         </div>
         <div class="details-content">
-            <div class="admonition-content">mwan3代码在：<a href="https://github.com/openwrt/packages/tree/master/net/mwan3" target="_blank" rel="noopener noreffer">https://github.com/openwrt/packages/tree/master/net/mwan3</a></div>
+            <div class="admonition-content">mwan3代码在：<a href="https://github.com/openwrt/packages/tree/master/net/mwan3" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/openwrt/packages/tree/master/net/mwan3</a></div>
         </div>
     </div>
 <h2 id="爱快分流很强大">爱快，分流很强大</h2>
@@ -641,8 +641,8 @@
 <p>它是是一个旨在创建<strong>持久</strong>且<strong>分布式</strong>存储和<strong>共享</strong>文件的网络传输协议，是一种内容可寻址的对等超媒体分发协议。在IPFS网络中的<strong>全球所有</strong>节点将构成<strong>一个</strong>分布式文件系统，全球中的每一个人都可以通过IPFS网关存储和访问IPFS里面的文件。</p>
 <p>这个酷炫的项目最初由Juan Benet设计，自2014年开始由Protocol Labs在开源社区的帮助下发展，是一个<strong>完全开源</strong>的项目。</p>
 <ul>
-<li><a href="https://ipfs.io/" target="_blank" rel="noopener noreffer">IPFS官网</a></li>
-<li><a href="https://github.com/ipfs" target="_blank" rel="noopener noreffer">GitHub</a></li>
+<li><a href="https://ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS官网</a></li>
+<li><a href="https://github.com/ipfs" target="_blank" rel="noopener noreffer" class="post-link">GitHub</a></li>
 </ul>
 <h2 id="ipfs的优点">IPFS的优点</h2>
 <h3 id="与现有web比较">与现有Web比较</h3>
@@ -747,22 +747,22 @@
 <p><strong>Peer</strong>是对等节点，因为IPFS是基于P2P技术实现的，所以没有服务器客户端这一说，每个人都同时是服务器和客户端，人人为我，我为人人。</p>
 <h3 id="cid">CID</h3>
 <p><strong>内容标识符</strong>（CID）是一个用于指向IPFS中的内容的标签。它不指示内容存储在哪里，但它根据内容数据本身形成一种地址。无论它指向的内容有多大，CID都很短</p>
-<p>详细内容见：<a href="https://docs.ipfs.io/concepts/content-addressing/" target="_blank" rel="noopener noreffer">IPFS官方文档：Content addressing and CIDs</a></p>
-<p>在线的CID查看器：<a href="https://cid.ipfs.io/" target="_blank" rel="noopener noreffer">CID Inspector</a></p>
+<p>详细内容见：<a href="https://docs.ipfs.io/concepts/content-addressing/" target="_blank" rel="noopener noreffer" class="post-link">IPFS官方文档：Content addressing and CIDs</a></p>
+<p>在线的CID查看器：<a href="https://cid.ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">CID Inspector</a></p>
 <h3 id="gateway">Gateway</h3>
 <ul>
-<li>IPFS官方提供的Gateway: <a href="https://ipfs.io/" target="_blank" rel="noopener noreffer">https://ipfs.io/</a></li>
+<li>IPFS官方提供的Gateway: <a href="https://ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">https://ipfs.io/</a></li>
 <li>Cloudflare提供的IPFS Gateway服务：https://cf-ipfs.com</li>
 <li>其他公开的Gateway列表：https://ipfs.github.io/public-gateway-checker/</li>
 </ul>
-<p><a href="https://www.cloudflare.com/distributed-web-gateway/" target="_blank" rel="noopener noreffer">https://www.cloudflare.com/distributed-web-gateway/</a></p>
-<p>具体见：<a href="https://docs.ipfs.io/concepts/ipfs-gateway/" target="_blank" rel="noopener noreffer">IPFS文档：Gateway</a></p>
+<p><a href="https://www.cloudflare.com/distributed-web-gateway/" target="_blank" rel="noopener noreffer" class="post-link">https://www.cloudflare.com/distributed-web-gateway/</a></p>
+<p>具体见：<a href="https://docs.ipfs.io/concepts/ipfs-gateway/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：Gateway</a></p>
 <h3 id="ipns">IPNS</h3>
 <p>IPFS使用基于内容的寻址方式，简单说就是IPFS根据文件数据的Hash来生成CID，这个CID只与文件内容有关，这也就导致了如果我们修改这个文件的内容，这个CID也会改变。如果我们通过IPFS给别人分享文件，则每次更新内容时都需要给此人一个新链接。</p>
 <p>为了解决这个问题，星际名称系统（IPNS）通过创建一个可以更新的地址来解决这个问题。</p>
-<p>具体见：<a href="https://docs.ipfs.io/concepts/ipns/" target="_blank" rel="noopener noreffer">IPFS文档：IPNS</a></p>
+<p>具体见：<a href="https://docs.ipfs.io/concepts/ipns/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：IPNS</a></p>
 <h3 id="ipld">IPLD</h3>
-<p><a href="https://docs.ipfs.io/concepts/ipld/" target="_blank" rel="noopener noreffer">https://docs.ipfs.io/concepts/ipld/</a></p>
+<p><a href="https://docs.ipfs.io/concepts/ipld/" target="_blank" rel="noopener noreffer" class="post-link">https://docs.ipfs.io/concepts/ipld/</a></p>
 <h2 id="在ipfs部署网站">在IPFS部署网站</h2>
 <p>既然IPFS宣称能够构建新一代分布式Web，那我们便想要把自己的网站部署到IPFS上去，一起体验一下去中心化、分布式的Web3.0技术</p>
 <h3 id="将文件添加到ipfs中">将文件添加到IPFS中</h3>
@@ -810,7 +810,7 @@
 <p>在刚刚添加完成的最后，名称为<code>public</code>的那串Hash便是public目录的CID，我们现在可以通过这个CID在IPFS网关上访问我们刚刚的添加的内容。</p>
 <h4 id="本机网关访问">本机网关访问</h4>
 <p>我们先通过本机的IPFS网关来访问一下，看看有没有添加成功。注意这一步需要你本地已经开启了IPFS守护进程。</p>
-<p>访问：<a href="http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj" target="_blank" rel="noopener noreffer">http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</a></p>
+<p>访问：<a href="http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj" target="_blank" rel="noopener noreffer" class="post-link">http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</a></p>
 <p>然后浏览器会自动进行跳转，可以看到能够正常访问我们的页面</p>
 <p></p>
 <div class="details admonition note open">
@@ -861,19 +861,19 @@
 <p>IPNS不是在IPFS上创建可变地址的唯一方法，我们还可以使用<strong>DNSLink</strong>，它目前比IPNS<strong>快得多</strong>，还使用<strong>人类可读</strong>的名称。</p>
 <p>例如我想要给刚刚发布在IPFS上的网站绑定<code>ipfs.zu1k.com</code>这个域名，那我就需要创建<code>_dnslink.ipfs.zu1k.com</code>的<strong>TXT</strong>记录</p>
 <p></p>
-<p>然后任何人都可以用 <code>/ipfs/ipfs.zu1k.com</code> 来找到我的网站了，访问<a href="http://localhost:8080/ipns/ipfs.zu1k.com" target="_blank" rel="noopener noreffer">http://localhost:8080/ipns/ipfs.zu1k.com</a></p>
+<p>然后任何人都可以用 <code>/ipfs/ipfs.zu1k.com</code> 来找到我的网站了，访问<a href="http://localhost:8080/ipns/ipfs.zu1k.com" target="_blank" rel="noopener noreffer" class="post-link">http://localhost:8080/ipns/ipfs.zu1k.com</a></p>
 <p></p>
-<p>详细文档见：<a href="https://docs.ipfs.io/concepts/dnslink/#publish-using-a-subdomain" target="_blank" rel="noopener noreffer">IPFS文档：DNSLink</a></p>
+<p>详细文档见：<a href="https://docs.ipfs.io/concepts/dnslink/#publish-using-a-subdomain" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：DNSLink</a></p>
 <h3 id="更新内容">更新内容</h3>
 <p>更新内容时，只需要再添加一次，然后重新发布IPNS，如果你是使用DNSLink的方式，还需要修改DNS记录</p>
 <h2 id="底层技术">底层技术</h2>
 <h3 id="merkle有向无环图dag">Merkle有向无环图（DAG）</h3>
 <p>每个Merkle都是一个有向无环图 ，因为每个节点都通过其名称访问。每个Merkle分支都是其本地内容的哈希，它们的子节点使用它们的哈希而非完整内容来命名。因此，在创建后将不能编辑节点。这可以防止循环（假设没有哈希碰撞），因为无法将第一个创建的节点链接到最后一个节点从而创建最后一个引用。</p>
 <p>对任何Merkle来说，要创建一个新的分支或验证现有分支，通常需要在本地内容的某些组合体（例如列表的子哈希和其他字节）上使用一种哈希算法。IPFS中有多种散列算法可用。</p>
-<p>输入到散列算法中的数据的描述见 <a href="https://github.com/ipfs/go-ipfs/tree/master/merkledag" target="_blank" rel="noopener noreffer">https://github.com/ipfs/go-ipfs/tree/master/merkledag</a></p>
-<p>具体见：<a href="https://docs.ipfs.io/concepts/merkle-dag/" target="_blank" rel="noopener noreffer">IPFS文档：Merkle</a></p>
+<p>输入到散列算法中的数据的描述见 <a href="https://github.com/ipfs/go-ipfs/tree/master/merkledag" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/ipfs/go-ipfs/tree/master/merkledag</a></p>
+<p>具体见：<a href="https://docs.ipfs.io/concepts/merkle-dag/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：Merkle</a></p>
 <h3 id="分布式散列表dht">分布式散列表DHT</h3>
-<p>具体见：<a href="https://docs.ipfs.io/concepts/dht/" target="_blank" rel="noopener noreffer">IPFS文档：DHT</a></p>
+<p>具体见：<a href="https://docs.ipfs.io/concepts/dht/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：DHT</a></p>
 <h2 id="上层应用">上层应用</h2>
 <p>IPFS作为一个文件系统，本质就是用来存储文件，基于这个文件系统的一些特性，有很多上层应用涌现出来。</p>
 <p></p>
@@ -895,14 +895,14 @@
 <p>实际上，IPFS本身并不是骗局，基于IPFS产生的激励层Filecoin也不是骗局，从我的使用来看，任何人都<strong>无需</strong>特意去购买任何所谓的IPFS矿机，只需要在自己的电脑运行时，后台跑一个IPFS守护进程就可以了。不要被所谓的<strong>币</strong>冲昏了头脑。</p>
 <h2 id="参考资料">参考资料</h2>
 <ul>
-<li><a href="https://ipfs.io/" target="_blank" rel="noopener noreffer">IPFS官网</a></li>
-<li><a href="https://docs.ipfs.io/" target="_blank" rel="noopener noreffer">IPFS文档</a></li>
-<li><a href="https://blog.ipfs.io/" target="_blank" rel="noopener noreffer">IPFS博客</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E6%98%9F%E9%99%85%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener noreffer">维基百科：星际文件系统</a></li>
-<li><a href="https://io-oi.me/tech/host-your-blog-on-ipfs/" target="_blank" rel="noopener noreffer">将博客部署到星际文件系统（IPFS）</a></li>
+<li><a href="https://ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS官网</a></li>
+<li><a href="https://docs.ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档</a></li>
+<li><a href="https://blog.ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS博客</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%98%9F%E9%99%85%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener noreffer" class="post-link">维基百科：星际文件系统</a></li>
+<li><a href="https://io-oi.me/tech/host-your-blog-on-ipfs/" target="_blank" rel="noopener noreffer" class="post-link">将博客部署到星际文件系统（IPFS）</a></li>
 </ul>
 <h2 id="资源分享">资源分享</h2>
 <ul>
-<li>机械工业出版社294G原版PDF：<a href="https://ipfs.io/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c/" target="_blank" rel="noopener noreffer">/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c</a></li>
+<li>机械工业出版社294G原版PDF：<a href="https://ipfs.io/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c/" target="_blank" rel="noopener noreffer" class="post-link">/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c</a></li>
 </ul>
 ]]></description></item></channel></rss>

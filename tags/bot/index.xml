@@ -369,7 +369,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <li>deleteallmessage - 删除48小时内所有消息</li>
 </ul>
 <h2 id="开源">开源</h2>
-<p>开源地址： <a href="https://github.com/zu1k/tg-keyword-reply-bot" target="_blank" rel="noopener noreffer">https://github.com/zu1k/tg-keyword-reply-bot</a></p>
+<p>开源地址： <a href="https://github.com/zu1k/tg-keyword-reply-bot" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/tg-keyword-reply-bot</a></p>
 <!-- ## 赞助
 
 > 这里要特别感谢 聪聪，是他赞助了服务器费用。  

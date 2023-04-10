@@ -98,7 +98,7 @@
 </span></span><span class="line"><span class="cl">!sh
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer">https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html</a></p>
+</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html</a></p>
 <h2 id="suid在脚本中失效">SUID在脚本中失效</h2>
 <p>假如user1用 <code>chmod 4777 /home/user1/script.sh</code> 命令给<code>script.sh</code>脚本设置SUID位，登录user2后执行这个脚本提示没有权限</p>
 <p>这是因为SUID位只对编译过的可执行程序起作用，sh脚本的实际执行程序是sh或者bash之类，如果它们在执行的时候并不会检查脚本文件的SUID位，那就不会起作用了</p>

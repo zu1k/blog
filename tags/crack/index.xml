@@ -167,7 +167,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="2020年8月27日-补充">2020年8月27日 补充</h2>
-<p>xray 官方在 1.3.0 版本中更换了授权验证机制，所以破解仅支持到 1.2.0 版本，本文使用代码现在开源： <a href="https://github.com/zu1k/xray-crack" target="_blank" rel="noopener noreffer">https://github.com/zu1k/xray-crack</a></p>
+<p>xray 官方在 1.3.0 版本中更换了授权验证机制，所以破解仅支持到 1.2.0 版本，本文使用代码现在开源： <a href="https://github.com/zu1k/xray-crack" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/xray-crack</a></p>
 <h2 id="2020年9月30日-补充">2020年9月30日 补充</h2>
 <p>前几天有大佬私发我一个 License，我就又对证书算法研究了一下</p>
 <p>相关代码也已经更新到 github 了</p>
@@ -261,7 +261,7 @@
 <p>新版本因为换用了Golang 1.14，是go的版本差异导致的patch问题（汇编不同了），目前完成了amd64平台的自动patch，其他的平台等大佬PR</p>
 <p></p>
 <h2 id="2020年11月11日-补充">2020年11月11日 补充</h2>
-<p>感谢 <a href="https://github.com/nszy007" target="_blank" rel="noopener noreffer">@nszy007</a> 提供<a href="https://github.com/zu1k/comment/issues/4#issuecomment-725222928" target="_blank" rel="noopener noreffer">剩余平台的patch</a></p>
+<p>感谢 <a href="https://github.com/nszy007" target="_blank" rel="noopener noreffer" class="post-link">@nszy007</a> 提供<a href="https://github.com/zu1k/comment/issues/4#issuecomment-725222928" target="_blank" rel="noopener noreffer" class="post-link">剩余平台的patch</a></p>
 <h2 id="2020年11月11日-下午16点-补充">2020年11月11日 下午16点 补充</h2>
 <p>收到 Chaitin 人员的要求，已删除相关源代码</p>
 <h2 id="2020年11月18日-补充">2020年11月18日 补充</h2>

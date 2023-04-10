@@ -72,7 +72,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
-<p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
+<p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer" class="post-link">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer" class="post-link">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
 </blockquote>
 <h3 id="解析与生成">解析与生成</h3>
 <p>在拿到抽象语法树后，顶层便是 <code>Instruction</code>，根据思路我们应该遍历其所有的成员，分析成员的类型并根据相关信息生成代码。</p>
@@ -308,16 +308,16 @@
 <h3 id="网络栈实现">网络栈实现</h3>
 <ul>
 <li>
-<p>如果使用 <strong>C</strong> 语言，<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="noopener noreffer"><strong>lwIP</strong></a> 是一个非常不错的选择，由瑞典计算机科学研究所科学院开源，这是一个轻量级的 TCP/IP 栈实现，在占用超少内存的情况下，实现了完整的 TCP，被广泛应用到嵌入式设备中，稳定性有保证。同时，lwIP 有很多其他语言的绑定，包括 go 和 rust，这使我们在使用其他语言开发时也可以选择 lwIP 作为用户态网络栈实现。</p>
+<p>如果使用 <strong>C</strong> 语言，<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="noopener noreffer" class="post-link"><strong>lwIP</strong></a> 是一个非常不错的选择，由瑞典计算机科学研究所科学院开源，这是一个轻量级的 TCP/IP 栈实现，在占用超少内存的情况下，实现了完整的 TCP，被广泛应用到嵌入式设备中，稳定性有保证。同时，lwIP 有很多其他语言的绑定，包括 go 和 rust，这使我们在使用其他语言开发时也可以选择 lwIP 作为用户态网络栈实现。</p>
 </li>
 <li>
-<p>如果选择使用 <strong>Go</strong> 语言开发 TUN 的用户态程序(其实这也是大多数人的选择)，可以选择 Google 开源的 <a href="https://github.com/google/gvisor/tree/master/pkg/tcpip" target="_blank" rel="noopener noreffer"><strong>gVisor</strong></a> 中的实现，gVisor项目目的是为容器提供自己的应用程序内核，其中 tcpip 的实现有 Google 背书，质量有保证。</p>
+<p>如果选择使用 <strong>Go</strong> 语言开发 TUN 的用户态程序(其实这也是大多数人的选择)，可以选择 Google 开源的 <a href="https://github.com/google/gvisor/tree/master/pkg/tcpip" target="_blank" rel="noopener noreffer" class="post-link"><strong>gVisor</strong></a> 中的实现，gVisor项目目的是为容器提供自己的应用程序内核，其中 tcpip 的实现有 Google 背书，质量有保证。</p>
 </li>
 <li>
-<p>如果选择使用 <strong>Rust</strong> 进行开发，我们的选择就会困难一点，并没有一个饱经风霜、经过时间检验的实现，在广泛对比之后我推荐 <a href="https://github.com/smoltcp-rs/smoltcp" target="_blank" rel="noopener noreffer"><strong>smoltcp</strong></a>，这是为裸机实时系统开发的独立的、事件驱动的 TCP/IP 栈，其设计目标是简单和健壮，应该可以信任吧。</p>
+<p>如果选择使用 <strong>Rust</strong> 进行开发，我们的选择就会困难一点，并没有一个饱经风霜、经过时间检验的实现，在广泛对比之后我推荐 <a href="https://github.com/smoltcp-rs/smoltcp" target="_blank" rel="noopener noreffer" class="post-link"><strong>smoltcp</strong></a>，这是为裸机实时系统开发的独立的、事件驱动的 TCP/IP 栈，其设计目标是简单和健壮，应该可以信任吧。</p>
 </li>
 <li>
-<p>当然，我觉得还有一个可以期待的实现，就是 Google 为 Fuchsia 操作系统开发的 <a href="https://cs.opensource.google/fuchsia/fuchsia/&#43;/master:src/connectivity/network/netstack3/" target="_blank" rel="noopener noreffer"><strong>Netstack3</strong></a>，之前是由 Go 实现的，不过现在 Google 用 Rust 重新实现了一个新的，谷歌背书，可以期待。</p>
+<p>当然，我觉得还有一个可以期待的实现，就是 Google 为 Fuchsia 操作系统开发的 <a href="https://cs.opensource.google/fuchsia/fuchsia/&#43;/master:src/connectivity/network/netstack3/" target="_blank" rel="noopener noreffer" class="post-link"><strong>Netstack3</strong></a>，之前是由 Go 实现的，不过现在 Google 用 Rust 重新实现了一个新的，谷歌背书，可以期待。</p>
 </li>
 </ul>
 <h3 id="使用流程">使用流程</h3>
@@ -326,7 +326,7 @@
 <p>从原理上来讲，用户态网络栈就是要不断通过协议解析，从 IPv4 数据包中不断解析出 TCP 流中的载荷数据；将传输层载荷通过不断的协议封装，拿到最终的 IPv4 数据包。</p>
 <p><strong>从 TUN 往外读</strong></p>
 <p>从 TUN 设备所对应的句柄中读出了一段字节序列，便是需要处理的IP数据包，一般是 IPv4 协议，不过还是需要先根据字节序列的第一个字节进行判断。</p>
-<p>如果判断为 IPv4 包，就将整个字节序列扔到 IPv4 的 Packet Parser 实现中，还原出 IPv4 数据包结构。根据 IPv4 Header 中的 protocol 字段，判断 payload 应该使用哪个上层协议解析。<a href="https://datatracker.ietf.org/doc/html/rfc791#page-11" target="_blank" rel="noopener noreffer">rfc791</a></p>
+<p>如果判断为 IPv4 包，就将整个字节序列扔到 IPv4 的 Packet Parser 实现中，还原出 IPv4 数据包结构。根据 IPv4 Header 中的 protocol 字段，判断 payload 应该使用哪个上层协议解析。<a href="https://datatracker.ietf.org/doc/html/rfc791#page-11" target="_blank" rel="noopener noreffer" class="post-link">rfc791</a></p>
 <p>一般仅需要处理 ICMP、TCP、UDP 这三种协议，拿 TCP 为例，只需要将 IPv4 的 payload 扔到 TCP 的 Parser 中，即可取出我们想要的传输层载荷。（实际情况当然没有说的这么简单）</p>
 <p><strong>向 TUN 写数据</strong></p>
 <p>写的过程其实就是读的过程反过来，拿到的是某个传输层协议的 payload，就拿UDP为例，根据该数据报的元信息，构建出完整的 UDP Header，然后将 payload 内容拼接进去。</p>
@@ -402,23 +402,23 @@
 <p>物理网卡会有 <strong>DMA</strong> 功能，在启用 DMA 时网卡和网络栈(内存中的缓冲区)的通讯由 DMA 控制器管理，因此性能更高延迟也更低。</p>
 <h3 id="如何创建-tun-设备">如何创建 TUN 设备</h3>
 <p>在Linux下一切皆文件，<code>/dev/net/tun</code> 是特殊的字符(char)设备文件，通过打开这个文件获得一个文件句柄，然后通过 <code>ioctl()</code> 系统调用对其进行配置。在这里可以选择打开TUN设备还是TAP设备，可以设置设备名称。</p>
-<p>详见：<a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html#network-device-allocation" target="_blank" rel="noopener noreffer">Network device allocation</a></p>
+<p>详见：<a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html#network-device-allocation" target="_blank" rel="noopener noreffer" class="post-link">Network device allocation</a></p>
 <h3 id="与-bpf-的关系">与 BPF 的关系</h3>
 <p>BPF 是一种高级数据包过滤器，可以附加到现有的网络接口，但其本身不提供虚拟网络接口。 TUN/TAP 驱动程序提供虚拟网络接口，可以将 BPF 附加到该接口。</p>
 <h2 id="扩展阅读">扩展阅读</h2>
 <ul>
-<li><a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html" target="_blank" rel="noopener noreffer">https://www.kernel.org/doc/html/latest/networking/tuntap.html</a></li>
-<li><a href="https://github.com/xjasonlyu/tun2socks" target="_blank" rel="noopener noreffer">https://github.com/xjasonlyu/tun2socks</a></li>
-<li><a href="https://github.com/eycorsican/go-tun2socks" target="_blank" rel="noopener noreffer">https://github.com/eycorsican/go-tun2socks</a></li>
-<li><a href="https://github.com/gfreezy/seeker" target="_blank" rel="noopener noreffer">https://github.com/gfreezy/seeker</a></li>
-<li><a href="https://github.com/shadowsocks/shadowsocks-rust" target="_blank" rel="noopener noreffer">https://github.com/shadowsocks/shadowsocks-rust</a></li>
-<li><a href="https://www.wintun.net/" target="_blank" rel="noopener noreffer">https://www.wintun.net/</a></li>
+<li><a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.kernel.org/doc/html/latest/networking/tuntap.html</a></li>
+<li><a href="https://github.com/xjasonlyu/tun2socks" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/xjasonlyu/tun2socks</a></li>
+<li><a href="https://github.com/eycorsican/go-tun2socks" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/eycorsican/go-tun2socks</a></li>
+<li><a href="https://github.com/gfreezy/seeker" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/gfreezy/seeker</a></li>
+<li><a href="https://github.com/shadowsocks/shadowsocks-rust" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/shadowsocks/shadowsocks-rust</a></li>
+<li><a href="https://www.wintun.net/" target="_blank" rel="noopener noreffer" class="post-link">https://www.wintun.net/</a></li>
 </ul>
 ]]></description></item><item><title>将博客部署到CF Workers Site</title><link>https://zu1k.com/posts/coding/deploy-blog-to-cf-workers-site/</link><pubDate>Wed, 25 Nov 2020 12:06:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/deploy-blog-to-cf-workers-site/</guid><description><![CDATA[<p>前几天Cloudflare将Workers KV增加了免费额度，还不得搞起来？</p>
 <p>利用Workers KV存储网页内容，通过Workers将内容返回给用户，就等于将自己的网站直接部署到CF成千上万的边缘节点当中，全球访问速度和TTFB都应该不错</p>
-<p><a href="https://blog.cloudflare.com/workers-sites/" target="_blank" rel="noopener noreffer">https://blog.cloudflare.com/workers-sites/</a></p>
+<p><a href="https://blog.cloudflare.com/workers-sites/" target="_blank" rel="noopener noreffer" class="post-link">https://blog.cloudflare.com/workers-sites/</a></p>
 <h2 id="安装wrangler">安装Wrangler</h2>
-<p><a href="https://developers.cloudflare.com/workers/cli-wrangler/install-update" target="_blank" rel="noopener noreffer">官方文档</a></p>
+<p><a href="https://developers.cloudflare.com/workers/cli-wrangler/install-update" target="_blank" rel="noopener noreffer" class="post-link">官方文档</a></p>
 <p>Wrangler有两种安装方式，通过NPM或者Cargo安装都可以，任选其一即可</p>
 <p>准备好NodeJS和NPM环境，然后执行下面命令，NPM方式是下载预编译好的二进制程序，安装速度比较快</p>
 <div class="highlight"><div class="chroma">
@@ -523,7 +523,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="使用github-actions持续集成">使用Github Actions持续集成</h2>
-<p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer">Wrangler GitHub Action</a>，可以直接用Github Actions将博客内容部署到CF Workers Site</p>
+<p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用Github Actions将博客内容部署到CF Workers Site</p>
 <h3 id="添加认证信息">添加认证信息</h3>
 <p>在github仓库设置一个secret，名字为<code>CF_API_TOKEN</code>，值为Wrangler的token</p>
 <p></p>
@@ -604,12 +604,12 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">apiToken</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.CF_API_TOKEN }}</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div>]]></description></item><item><title>Nali IP地理信息和CDN服务商查询</title><link>https://zu1k.com/posts/coding/nali-golang/</link><pubDate>Fri, 17 Jul 2020 13:39:47 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/nali-golang/</guid><description><![CDATA[<p><a href="https://github.com/zu1k/nali" target="_blank" rel="noopener noreffer">Nali</a></p>
+</div>]]></description></item><item><title>Nali IP地理信息和CDN服务商查询</title><link>https://zu1k.com/posts/coding/nali-golang/</link><pubDate>Fri, 17 Jul 2020 13:39:47 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/nali-golang/</guid><description><![CDATA[<p><a href="https://github.com/zu1k/nali" target="_blank" rel="noopener noreffer" class="post-link">Nali</a></p>
 <blockquote>
 <p>一个查询IP地理信息和CDN提供商的离线终端工具</p>
 </blockquote>
 <h2 id="来源">来源</h2>
-<p>该工具受 <a href="https://github.com/meteoral/Nali" target="_blank" rel="noopener noreffer">Nali C版本</a> 和 <a href="https://github.com/SukkaW/nali-cli" target="_blank" rel="noopener noreffer">nali-cli js版本</a> 的启发.</p>
+<p>该工具受 <a href="https://github.com/meteoral/Nali" target="_blank" rel="noopener noreffer" class="post-link">Nali C版本</a> 和 <a href="https://github.com/SukkaW/nali-cli" target="_blank" rel="noopener noreffer" class="post-link">nali-cli js版本</a> 的启发.</p>
 <p>我想要在终端对IP地理信息和CDN服务提供商进行查询，发现了Nali这个工具，Nali与哪里谐音，非常适合这类工具</p>
 <p>经过简单的使用，我发现最初的C语言版本功能缺失，而苏卡卡大佬的js版本包实在大的恐怖、而支持的平台非常有限，所以我用golang重写了这个工具，在原有功能的基础上增加了对IPv6的支持，并且增加了Geoip2数据库</p>
 <h2 id="功能">功能</h2>
@@ -637,7 +637,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="下载预编译的可执行程序">下载预编译的可执行程序</h3>
-<p>可以从Release页面下载预编译好的可执行程序: <a href="https://github.com/zu1k/nali/releases" target="_blank" rel="noopener noreffer">Release</a></p>
+<p>可以从Release页面下载预编译好的可执行程序: <a href="https://github.com/zu1k/nali/releases" target="_blank" rel="noopener noreffer" class="post-link">Release</a></p>
 <p>你需要选择适合你系统和硬件架构的版本下载，解压后可直接运行</p>
 <h3 id="使用-docker-版本">使用 Docker 版本</h3>
 <div class="highlight"><div class="chroma">
@@ -995,17 +995,17 @@
 </div>
 </div><h2 id="感谢列表">感谢列表</h2>
 <ul>
-<li><a href="http://www.cz88.net/fox/ipdat.shtml" target="_blank" rel="noopener noreffer">纯真QQIP离线数据库</a></li>
-<li><a href="https://qqwry.mirror.noc.one/" target="_blank" rel="noopener noreffer">qqwry mirror</a></li>
-<li><a href="https://github.com/yinheli/qqwry" target="_blank" rel="noopener noreffer">qqwry纯真数据库解析</a></li>
-<li><a href="https://ip.zxinc.org/ipquery/" target="_blank" rel="noopener noreffer">ZX公网ipv6数据库</a></li>
-<li><a href="https://www.maxmind.com/en/geoip2-precision-city-service" target="_blank" rel="noopener noreffer">Geoip2 city数据库</a></li>
-<li><a href="https://github.com/oschwald/geoip2-golang" target="_blank" rel="noopener noreffer">geoip2-golang解析器</a></li>
-<li><a href="https://github.com/SukkaLab/cdn" target="_blank" rel="noopener noreffer">CDN provider数据库</a></li>
-<li><a href="https://www.ipip.net/product/ip.html" target="_blank" rel="noopener noreffer">IPIP数据库</a></li>
-<li><a href="https://github.com/ipipdotnet/ipdb-go" target="_blank" rel="noopener noreffer">IPIP数据库解析</a></li>
-<li><a href="https://github.com/spf13/cobra" target="_blank" rel="noopener noreffer">Cobra CLI库</a></li>
-<li><a href="https://github.com/SukkaW/nali-cli" target="_blank" rel="noopener noreffer">Nali-cli</a></li>
+<li><a href="http://www.cz88.net/fox/ipdat.shtml" target="_blank" rel="noopener noreffer" class="post-link">纯真QQIP离线数据库</a></li>
+<li><a href="https://qqwry.mirror.noc.one/" target="_blank" rel="noopener noreffer" class="post-link">qqwry mirror</a></li>
+<li><a href="https://github.com/yinheli/qqwry" target="_blank" rel="noopener noreffer" class="post-link">qqwry纯真数据库解析</a></li>
+<li><a href="https://ip.zxinc.org/ipquery/" target="_blank" rel="noopener noreffer" class="post-link">ZX公网ipv6数据库</a></li>
+<li><a href="https://www.maxmind.com/en/geoip2-precision-city-service" target="_blank" rel="noopener noreffer" class="post-link">Geoip2 city数据库</a></li>
+<li><a href="https://github.com/oschwald/geoip2-golang" target="_blank" rel="noopener noreffer" class="post-link">geoip2-golang解析器</a></li>
+<li><a href="https://github.com/SukkaLab/cdn" target="_blank" rel="noopener noreffer" class="post-link">CDN provider数据库</a></li>
+<li><a href="https://www.ipip.net/product/ip.html" target="_blank" rel="noopener noreffer" class="post-link">IPIP数据库</a></li>
+<li><a href="https://github.com/ipipdotnet/ipdb-go" target="_blank" rel="noopener noreffer" class="post-link">IPIP数据库解析</a></li>
+<li><a href="https://github.com/spf13/cobra" target="_blank" rel="noopener noreffer" class="post-link">Cobra CLI库</a></li>
+<li><a href="https://github.com/SukkaW/nali-cli" target="_blank" rel="noopener noreffer" class="post-link">Nali-cli</a></li>
 </ul>
 <h2 id="开源证书">开源证书</h2>
 <p>MIT</p>
@@ -1613,8 +1613,8 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <h2 id="globalssh">GlobalSSH</h2>
 <p>今天发现了一个免费的加速服务，非常方便，推荐给需要的人</p>
 <p>这就是 UCloud 免费提供的 GlobalSSH 加速服务</p>
-<p>官网链接： <a href="https://console.ucloud.cn/upathx/globalssh" target="_blank" rel="noopener noreffer">https://console.ucloud.cn/upathx/globalssh</a></p>
-<p>官方文档： <a href="https://docs.ucloud.cn/pathx/globalssh" target="_blank" rel="noopener noreffer">https://docs.ucloud.cn/pathx/globalssh</a></p>
+<p>官网链接： <a href="https://console.ucloud.cn/upathx/globalssh" target="_blank" rel="noopener noreffer" class="post-link">https://console.ucloud.cn/upathx/globalssh</a></p>
+<p>官方文档： <a href="https://docs.ucloud.cn/pathx/globalssh" target="_blank" rel="noopener noreffer" class="post-link">https://docs.ucloud.cn/pathx/globalssh</a></p>
 <p>这项服务目前是免费的，<del>也不需要进行实名认证</del> 现在需要实名认证才能用了，可以说是非常良心了，经过我的试用，访问速度和稳定性非常不错</p>
 <p>支持ssh和rdp远程桌面，猜测有一些其他的服务可以加速，因为是针对端口加速的，但是如果滥用的话可能被封禁</p>
 <p>在创建的时候只需要输入需要加速的国外服务器的ip和服务端口号，选择一个离服务器近的接入点</p>
@@ -1629,7 +1629,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </ol>
 <h2 id="妙用">妙用</h2>
 <p>众所周知，github在国内的访问速度很慢，有时候clone一个库不得不忍受十几k几十k每秒的速度</p>
-<p>而git是可以用ssh协议的，所以我们只需要从 <a href="https://api.github.com/meta" target="_blank" rel="noopener noreffer">https://api.github.com/meta</a> 找到github使用的ip，通过GlobalSSH加速22端口，然后将自己的域名解析到加速的ip，最后使用自己的域名clone就行了</p>
+<p>而git是可以用ssh协议的，所以我们只需要从 <a href="https://api.github.com/meta" target="_blank" rel="noopener noreffer" class="post-link">https://api.github.com/meta</a> 找到github使用的ip，通过GlobalSSH加速22端口，然后将自己的域名解析到加速的ip，最后使用自己的域名clone就行了</p>
 <p>经过我的尝试效果还不错，可以跑到10Mbps</p>
 <p>我用的域名为 <code>githubssh.xyz</code> ，大家可以拿去用，使用方法如下：</p>
 <div class="highlight"><div class="chroma">
@@ -1649,8 +1649,8 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>为了能够自动更新ip，我写了一个程序，每天会检查github新的ip，创建新的globalssh，然后自动解析到域名githubssh.xyz上，由cloudflare进行DNS层面的负载均衡</p>
-<p>开源地址为： <a href="https://github.com/zu1k/globalssh4github" target="_blank" rel="noopener noreffer">https://github.com/zu1k/globalssh4github</a></p>
-<p>同时为了方便，改了一个插件： <a href="https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo" target="_blank" rel="noopener noreffer">https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo</a></p>
+<p>开源地址为： <a href="https://github.com/zu1k/globalssh4github" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/globalssh4github</a></p>
+<p>同时为了方便，改了一个插件： <a href="https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo" target="_blank" rel="noopener noreffer" class="post-link">https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo</a></p>
 ]]></description></item><item><title>学习Linux中的SUID机制</title><link>https://zu1k.com/posts/linux/linux-suid/</link><pubDate>Mon, 30 Mar 2020 11:36:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-suid/</guid><description><![CDATA[<h2 id="什么是suid">什么是SUID</h2>
 <p>SUID简称位，英文全称是Set owner User ID up on execution，它是一种特殊的文件权限，能够让用户(如Bob)用其他用户(如root用户)的权限运行一个程序，而不需要用sudo进行临时提权</p>
 <p>同一类的还有SGID，就不详细说了，原理与SUID一样，就以SUID为例</p>
@@ -1751,7 +1751,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">!sh
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer">https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html</a></p>
+</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html</a></p>
 <h2 id="suid在脚本中失效">SUID在脚本中失效</h2>
 <p>假如user1用 <code>chmod 4777 /home/user1/script.sh</code> 命令给<code>script.sh</code>脚本设置SUID位，登录user2后执行这个脚本提示没有权限</p>
 <p>这是因为SUID位只对编译过的可执行程序起作用，sh脚本的实际执行程序是sh或者bash之类，如果它们在执行的时候并不会检查脚本文件的SUID位，那就不会起作用了</p>
@@ -2200,7 +2200,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <h2 id="阅读更多内容">阅读更多内容</h2>
 <p>如果你想了解功能，通过下面的命令查看官方文档吧</p>
 <p><code>man -Len -Pless\ +/^REDIRECTION bash</code></p>
-<p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer">stack overflow</a></p>
+<p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer" class="post-link">stack overflow</a></p>
 ]]></description></item><item><title>MySQL中几个concat的用法与区别</title><link>https://zu1k.com/posts/security/web-security/mysql-concat-concat-ws-group-concat/</link><pubDate>Sun, 22 Mar 2020 18:23:34 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/mysql-concat-concat-ws-group-concat/</guid><description><![CDATA[<h2 id="讲解与示例">讲解与示例</h2>
 <h3 id="concatstr1-str2-">CONCAT(str1, str2, &hellip;)</h3>
 <ol>
@@ -2455,12 +2455,12 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="区别">区别</h2>
-<p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
+<p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer" class="post-link">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
 <h3 id="concat_ws">concat_ws</h3>
-<p><a href="http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php" target="_blank" rel="noopener noreffer">http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php</a></p>
+<p><a href="http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php</a></p>
 <p></p>
 <h3 id="group_concat">group_concat</h3>
-<p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
+<p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
 <p></p>
 ]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>很多同学和我一样也在用Hexo搭建自己的博客，通常最后发布的操作是 <code>hexo g</code> 生成静态网页，然后 <code>hexo d</code> 将public目录推送到github、coding、gitee等平台。</p>
@@ -2980,9 +2980,9 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>在上网搜索之后，找到了一个替代方案，那就是苏卡卡大佬的 DisqusJS，大家可以根据教程对自己博客的主题进行修改</p>
 <p>参考链接：</p>
 <ul>
-<li><a href="https://blog.skk.moe/post/disqusjs/" target="_blank" rel="noopener noreffer">https://blog.skk.moe/post/disqusjs/</a></li>
-<li><a href="https://disqusjs.skk.moe/" target="_blank" rel="noopener noreffer">https://disqusjs.skk.moe/</a></li>
-<li><a href="https://github.com/SukkaW/DisqusJS" target="_blank" rel="noopener noreffer">https://github.com/SukkaW/DisqusJS</a></li>
+<li><a href="https://blog.skk.moe/post/disqusjs/" target="_blank" rel="noopener noreffer" class="post-link">https://blog.skk.moe/post/disqusjs/</a></li>
+<li><a href="https://disqusjs.skk.moe/" target="_blank" rel="noopener noreffer" class="post-link">https://disqusjs.skk.moe/</a></li>
+<li><a href="https://github.com/SukkaW/DisqusJS" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/SukkaW/DisqusJS</a></li>
 </ul>
 <p>对于使用的 Disqus API 反代，我自己测试发现苏卡卡大佬提供的速度不太行，不知道是什么原因，所以推荐自己进行搭建，我是用的是 zeit 进行搭建，感觉还不错</p>
 <blockquote>
@@ -3050,7 +3050,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </div>
 </div><h3 id="评论懒加载">评论懒加载</h3>
 <p>对于评论区，很多情况下用户根本不会划到页面底部（文章写得太烂没人看得下去）。</p>
-<p>所以我这里对 disqus 的加载使用懒加载技术，参考 <a href="https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/" target="_blank" rel="noopener noreffer">https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/</a></p>
+<p>所以我这里对 disqus 的加载使用懒加载技术，参考 <a href="https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/" target="_blank" rel="noopener noreffer" class="post-link">https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/</a></p>
 <p>我使用的是 disqusJS, 下面给出加载的 js 代码</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3141,7 +3141,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 <p>You can try again later or upgrade your plan.</p>
 </blockquote>
 <h2 id="辅助优化">辅助优化</h2>
-<p>使用谷歌提供的 <a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="noopener noreffer">Pagespeed Insights</a> 工具分析网页加载并根据建议进行优化</p>
+<p>使用谷歌提供的 <a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="noopener noreffer" class="post-link">Pagespeed Insights</a> 工具分析网页加载并根据建议进行优化</p>
 ]]></description></item><item><title>使用iptables将ubuntu配置为路由器</title><link>https://zu1k.com/posts/linux/ubuntu-iptables-nat/</link><pubDate>Wed, 18 Mar 2020 13:15:40 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/ubuntu-iptables-nat/</guid><description><![CDATA[<h2 id="实验环境">实验环境</h2>
 <blockquote>
 <p>使用 vmware 分别创建win7和ubuntu两个虚拟机</p>
@@ -3212,12 +3212,12 @@ Due to that, we cannot deploy the commit e80751b.</p>
 <h2 id="准备工作">准备工作</h2>
 <h3 id="下载openssl代码">下载openssl代码</h3>
 <p><code>git clone https://github.com/openssl/openssl.git</code></p>
-<p>或者从官网 <a href="https://www.openssl.org/source/" target="_blank" rel="noopener noreffer">https://www.openssl.org/source/</a> 下载源代码</p>
+<p>或者从官网 <a href="https://www.openssl.org/source/" target="_blank" rel="noopener noreffer" class="post-link">https://www.openssl.org/source/</a> 下载源代码</p>
 <p>我使用的是openssl 1.1.1</p>
 <h3 id="安装perl环境这里使用的是activeperl">安装perl环境，这里使用的是ActivePerl</h3>
-<p><a href="https://www.activestate.com/products/perl/" target="_blank" rel="noopener noreffer">https://www.activestate.com/products/perl/</a></p>
+<p><a href="https://www.activestate.com/products/perl/" target="_blank" rel="noopener noreffer" class="post-link">https://www.activestate.com/products/perl/</a></p>
 <h3 id="安装nasm汇编器">安装NASM汇编器</h3>
-<p><a href="https://www.nasm.us/" target="_blank" rel="noopener noreffer">https://www.nasm.us/</a></p>
+<p><a href="https://www.nasm.us/" target="_blank" rel="noopener noreffer" class="post-link">https://www.nasm.us/</a></p>
 <h3 id="配置环境变量">配置环境变量</h3>
 <p>将刚刚安装的nasm和perl的bin目录加入PATH</p>
 <p></p>
@@ -3457,8 +3457,8 @@ Due to that, we cannot deploy the commit e80751b.</p>
 <h2 id="依赖">依赖</h2>
 <p>编译gcc需要gmp、mpfr和mpc，还需要预先有一个已经能用的gcc</p>
 <h3 id="首先安装gmp">首先安装gmp</h3>
-<p>从 <a href="http://ftp.gnu.org/gnu/gmp/" target="_blank" rel="noopener noreffer">http://ftp.gnu.org/gnu/gmp/</a> 下载一个符合要求的稳定版本的gmp的源码<br>
-这里我下载的是 <a href="http://ftp.gnu.org/gnu/gmp/gmp-5.0.1.tar.bz2" target="_blank" rel="noopener noreffer">http://ftp.gnu.org/gnu/gmp/gmp-5.0.1.tar.bz2</a></p>
+<p>从 <a href="http://ftp.gnu.org/gnu/gmp/" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/gmp/</a> 下载一个符合要求的稳定版本的gmp的源码<br>
+这里我下载的是 <a href="http://ftp.gnu.org/gnu/gmp/gmp-5.0.1.tar.bz2" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/gmp/gmp-5.0.1.tar.bz2</a></p>
 <p>解压后从源码编译安装</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3477,8 +3477,8 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="安装mpfr">安装mpfr</h3>
-<p>从 <a href="http://ftp.gnu.org/gnu/mpfr/" target="_blank" rel="noopener noreffer">http://ftp.gnu.org/gnu/mpfr/</a> 下载一个稳定版本<br>
-我选择的是 <a href="http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.4.tar.bz2" target="_blank" rel="noopener noreffer">http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.4.tar.bz2</a></p>
+<p>从 <a href="http://ftp.gnu.org/gnu/mpfr/" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/mpfr/</a> 下载一个稳定版本<br>
+我选择的是 <a href="http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.4.tar.bz2" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.4.tar.bz2</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -3500,7 +3500,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="安装mpc">安装mpc</h3>
-<p>从 <a href="http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz" target="_blank" rel="noopener noreffer">http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz</a> 下载<br>
+<p>从 <a href="http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz</a> 下载<br>
 我选择的是http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
