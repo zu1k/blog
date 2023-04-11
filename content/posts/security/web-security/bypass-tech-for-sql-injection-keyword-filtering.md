@@ -1,5 +1,5 @@
 ---
-title: sql注入针对关键字过滤的绕过技巧
+title: SQL注入针对关键字过滤的绕过技巧
 date: 2018-10-14 18:07:45+0800
 tags:
 - web-security
@@ -9,22 +9,22 @@ categories:
 - web-security
 keywords:
 - ctf
-- sql
+- SQL
 - bypass
-- sql injection
-- sql注入
+- SQL injection
+- SQL注入
 - 关键词屏蔽
-- sql屏蔽
+- SQL屏蔽
 - 语法新特性
-- sql注入绕过
+- SQL注入绕过
 - tables语句
 - values语句
 ---
 
-在sql注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。
+在SQL注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。
 <!--more-->
 
-> 2020.08.08更新：增加利用MySQL8.0语法新特性绕过方法，增加sql注入过滤和检测的几种思路和绕过方法
+> 2020.08.08更新：增加利用MySQL8.0语法新特性绕过方法，增加SQL注入过滤和检测的几种思路和绕过方法
 
 ## 过滤空格
 
@@ -73,14 +73,14 @@ select(user())from dual where(1=1)and(2=2)
 
 ### 使用**16进制**绕过
 
-会使用到引号的地方一般是在最后的where子句中。如下面的一条sql语句，这条语句就是一个简单的用来查选得到users表中所有字段的一条语句：
+会使用到引号的地方一般是在最后的where子句中。如下面的一条SQL语句，这条语句就是一个简单的用来查选得到users表中所有字段的一条语句：
 
 ```sql
 select column_name  from information_schema.tables where table_name="users"
 ```
 
 这个时候如果引号被过滤了，那么上面的`where`子句就无法使用了。那么遇到这样的问题就要使用十六进制来处理这个问题了。
-`users`的十六进制的字符串是`7573657273`。那么最后的sql语句就变为了：
+`users`的十六进制的字符串是`7573657273`。那么最后的SQL语句就变为了：
 
 ```sql
 select column_name  from information_schema.tables where table_name=0x7573657273
@@ -144,7 +144,7 @@ greatest()、least（）：（前者返回最大值，后者返回最小值）
 
 同样是在使用盲注的时候，在使用二分查找的时候需要使用到比较操作符来进行查找。如果无法使用比较操作符，那么就需要使用到greatest来进行绕过了
 
-最常见的一个盲注的sql语句：
+最常见的一个盲注的SQL语句：
 
 ```sql
 select * from users where id=1 and ascii(substr(database(),0,1))>64
@@ -152,7 +152,7 @@ select * from users where id=1 and ascii(substr(database(),0,1))>64
 
 此时如果比较操作符被过滤，上面的盲注语句则无法使用,那么就可以使用greatest来代替比较操作符了。greatest(n1,n2,n3,...)函数返回输入参数(n1,n2,n3,...)的最大值
 
-那么上面的这条sql语句可以使用greatest变为如下的子句:
+那么上面的这条SQL语句可以使用greatest变为如下的子句:
 
 ```sql
 select * from users where id=1 and greatest(ascii(substr(database(),0,1)),64)=64
@@ -214,7 +214,7 @@ or ‘swords’ =‘sw’ +’ ords’ ；EXEC(‘IN’ +’ SERT INTO ‘+’ �
 
 ### 使用语法新特性绕过屏蔽select
 
-在MySQL 8.0.19版本后，mysql推出了一些新特性，使我们可以不使用select就能够取数据
+在MySQL 8.0.19版本后，MySQL推出了一些新特性，使我们可以不使用select就能够取数据
 
 #### TABLE 语句
 
@@ -327,7 +327,7 @@ if (is_array(self::$config['dfunction'])) {
 }
 ```
 
-这段代码首先将sql语句除了`a-z``0-9`和几个有限的字符外的其他所有字符替换为空，然后对其进行匹配，如果能够匹配到类似`unionall`、`(select`这样的获取数据所要用到的代码，就拒绝执行
+这段代码首先将SQL语句除了`a-z``0-9`和几个有限的字符外的其他所有字符替换为空，然后对其进行匹配，如果能够匹配到类似`unionall`、`(select`这样的获取数据所要用到的代码，就拒绝执行
 
 但是即便是这样也还可以绕过，比如同表注入就不需要用到子查询
 
@@ -352,8 +352,8 @@ handler user read first;
 
 ### 语义分析
 
-这是最高级的方式，模仿mysql对sql的分析，waf对用户的输入进行语法语义分析，如果符合mysql的语法，就判断为sql注入从而阻断
+这是最高级的方式，模仿MySQL对SQL的分析，waf对用户的输入进行语法语义分析，如果符合MySQL的语法，就判断为SQL注入从而阻断
 
 这种防护的绕过思路就是找特殊的语法，这些特殊语法waf可能没有覆盖全面，从而导致waf语义分析失败，从而进行绕过
 
-例如我们上面说的mysql8的tables和values语句就是比较新的语法，有很多waf还米有覆盖到
+例如我们上面说的MySQL8的tables和values语句就是比较新的语法，有很多waf还米有覆盖到

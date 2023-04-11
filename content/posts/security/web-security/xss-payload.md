@@ -1,5 +1,5 @@
 ---
-title: xss payload
+title: XSS payload
 date: 2018-10-14 18:11:03
 tags:
 - XSS
@@ -9,7 +9,7 @@ categories:
 - web-security
 ---
 
-总结了常用的xss payload
+总结了常用的XSS payload
 <!--more-->
 
 1.普通的XSS JavaScript注入

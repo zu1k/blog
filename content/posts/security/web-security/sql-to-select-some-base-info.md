@@ -1,8 +1,8 @@
 ---
-title: 查询重要数据的sql语句
+title: 查询重要数据的SQL语句
 date: 2018-10-14 18:13:10
 tags:
-  - sql
+  - SQL
 ---
 
 

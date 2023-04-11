@@ -1,8 +1,8 @@
 ---
 title: MySQL中几个concat的用法与区别
 tags:
-  - mysql
-  - sql
+  - MySQL
+  - SQL
   - coding
 categories:
   - coding

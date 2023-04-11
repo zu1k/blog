@@ -3,7 +3,6 @@ title: Telegram关键词自动回复机器人
 date: 2019-11-26 19:03:35
 tags: 
     - telegram
-    - bot
     - coding
 categories:
     - coding
