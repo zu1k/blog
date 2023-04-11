@@ -197,7 +197,7 @@ https://github.com/zu1k/good-mitm
 
 Srun 深澜认证登录，超轻量、多平台，支持多拨、自动探测IP、指定网卡
 
-该项目源于我校网速限速，我不得不考虑进行多拨，从而需要一个轻量、好用、支持多拨的深澜登录认证工具。通过逆向深澜的 Web 端登录认证代码，我使用 Golang 实现了一个版本，后来为了能够在存储拮据的路由器中使用，我使用 Rust 重写了该版本，并通过一系列措施尽可能的减小可执行程序的大小。在此过程中，我修改了 Rust 编译器的[编译和链接参数](https://github.com/zu1k/srun/blob/eab5c7b3f256ef0515f076118b701b9500b0c066/Cargo.toml#L15-L20)，分析了使用的 Rust 库在可执行文件中占用的大小，使用 `getopts` 替换了 `clap`，使用 `ureq` 替换了 `reqwest`，并根据实际使用场景关闭了 TLS 支持。为了能够使 `ureq` 支持网卡绑定，我通过 `socket2` 库扩展了 `ureq` 并向上游发起 [PR](https://github.com/algesten/ureq/pulls?q=is%3Apr+author%3Azu1k)。
+该项目源于我校网速限速，我不得不考虑进行多拨，从而需要一个轻量、好用、支持多拨的深澜登录认证工具。通过逆向深澜的 Web 端登录认证代码，我使用 Golang 实现了一个版本，后来为了能够在存储拮据的路由器中使用，我使用 Rust 重写了该版本，并通过一系列措施尽可能的减小可执行程序的大小，最终可执行文件仅 209 KB。在此过程中，我修改了 Rust 编译器的[编译和链接参数](https://github.com/zu1k/srun/blob/eab5c7b3f256ef0515f076118b701b9500b0c066/Cargo.toml#L15-L20)，分析了使用的 Rust 库在可执行文件中占用的大小，使用 `getopts` 替换了 `clap`，使用 `ureq` 替换了 `reqwest`，并根据实际使用场景关闭了 TLS 支持。为了能够使 `ureq` 支持网卡绑定，我通过 `socket2` 库扩展了 `ureq` 并向上游发起 [PR](https://github.com/algesten/ureq/pulls?q=is%3Apr+author%3Azu1k)。
 
 https://github.com/zu1k/srun
 
