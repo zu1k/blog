@@ -4,6 +4,10 @@ date: 2021-04-11 17:11:00+0800
 description: "校园网被限速了，受不了垃圾网速，动手搞了单线多拨网速叠加"
 tags:
 - Linux
+- iptables
+- macvlan
+- OpenWrt
+- iKuai
 - 多拨
 categories:
 - tutorial
@@ -11,10 +15,9 @@ keywords:
 - 多拨
 - 校园网
 - 带宽叠加
-- openwrt
-- lede
+- OpenWrt
 - macvlan
-- ikuai
+- iKuai
 - 爱快
 - 分流
 - 负载均衡
@@ -205,7 +208,7 @@ ip rule add from <vmac1-ip> table vmac1
 
 #### 用作路由器
 
-如果这台linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 `192.168/16`
+如果这台Linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 `192.168/16`
 
 ```shell
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0

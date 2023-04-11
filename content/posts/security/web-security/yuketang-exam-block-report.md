@@ -2,7 +2,6 @@
 title: 屏蔽雨课堂在线考试异常上报
 tags:
   - coding
-  - exam
   - 雨课堂
 categories:
   - coding

@@ -1,8 +1,9 @@
 ---
 title: 使用GlobalSSH服务加速境外服务器ssh访问
 tags:
-- ucloud
-- ssh
+- SSH
+- UCloud
+- proxy
 categories:
 - coding
 date: 2020-04-12 16:37:56

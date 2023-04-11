@@ -5,7 +5,11 @@ description: "哪个小伙子不想要一个拥有 1844 6744 0737 0955 1616 个 
 summary: "哪个小伙子不想要一个拥有 1844 6744 0737 0955 1616 个 IP 的代理池？本文中我将介绍一种充分利用 IPv6 资源来构建代理池的方法"
 tags:
 - proxy
-- IPV6
+- IPv6
+- Linux
+- NDP
+- ip_nonlocal_bind
+- Vultr
 categories:
 - tutorial
 keywords:
@@ -16,7 +20,7 @@ keywords:
 - IPv6 Subnet
 - freebind
 - ip_nonlocal_bind
-- ndp
+- NDP
 ---
 
 ## 前言
@@ -162,7 +166,7 @@ $ while true; do curl -x http://127.0.0.1:51080 ipv6.ip.sb; done
 
 因为前面稍微了解过 TUN (可以看我之前写的文章[[使用 TUN 的模式]](../../coding/tun-mode/))，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 [[给每一个 Docker 容器一个独立的 IP]](../../coding/set-ipv6-for-every-docker-container/)，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。
 
-通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，[[因为要处理 NDP 协议]](https://serverfault.com/questions/949945/ipv6-on-linux-tun-tap-ndp-not-working)，具体后面的细节我也没有深入研究。
+通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，[[因为要处理 NDP 协议]](https://serverfault.com/questions/949945/ipv6-on-Linux-tun-tap-ndp-not-working)，具体后面的细节我也没有深入研究。
 
 幸亏后面搜资料发现了本文方便的方法，才避免了我陷入这些迷途。反思一下，即自己的知识不够，对 Linux 内核及其提供的众多功能了解不够深入，导致人家原本就有的功能自己根本不知道，所以想不出合适的方案。
 

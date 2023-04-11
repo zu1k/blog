@@ -1,14 +1,14 @@
 ---
 title: Linux添加swap
 tags:
-  - linux
-  - swap
+  - Linux
+  - Swap
 categories:
   - coding
 date: 2020-04-12 20:38:26
 ---
 
-给 linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下
+给 Linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下
 
 ## 查看当前swap
 

@@ -1,5 +1,5 @@
 ---
-title: 使用Github Actions对Hexo博客自动部署
+title: 使用GitHub Actions对Hexo博客自动部署
 tags:
 - GitHub
 - CI/CD
