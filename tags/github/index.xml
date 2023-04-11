@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>github - 标签 - zu1k</title><link>https://zu1k.com/tags/github/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 28 Nov 2020 15:07:17 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/github/" rel="self" type="application/rss+xml"/><item><title>不讲武德！来骗Follow</title><link>https://zu1k.com/posts/events/cheat-for-follow/</link><pubDate>Sat, 28 Nov 2020 15:07:17 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/cheat-for-follow/</guid><description><![CDATA[<p>下午，还是习惯性的打开GitHub，发现有个没有头像的人Follow我</p>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>GitHub - 标签 - zu1k</title><link>https://zu1k.com/tags/github/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 28 Nov 2020 15:07:17 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/github/" rel="self" type="application/rss+xml"/><item><title>不讲武德！来骗Follow</title><link>https://zu1k.com/posts/events/cheat-for-follow/</link><pubDate>Sat, 28 Nov 2020 15:07:17 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/cheat-for-follow/</guid><description><![CDATA[<p>下午，还是习惯性的打开GitHub，发现有个没有头像的人Follow我</p>
 <p></p>
 <p>通常出于礼貌，我会查看对方的个人页和他的仓库，如果感觉不错便会回Follow他</p>
-<p>当我打开他的Github个人profile页面，令我惊讶的是他总共follow了<strong>59.3k</strong>人，而他的followers人数又七百多人</p>
+<p>当我打开他的GitHub个人profile页面，令我惊讶的是他总共follow了<strong>59.3k</strong>人，而他的followers人数又七百多人</p>
 <p></p>
 <p>他只Pin了一个仓库，有70多个star，按理说无法吸引如此多数量的followers，这激起了我的好奇，难不成有什么好的内容没有Pin出来？</p>
 <p></p>
@@ -19,7 +19,7 @@
 <blockquote>
 <p>感兴趣的同学看这里：https://github.com/Lisprez</p>
 </blockquote>
-]]></description></item><item><title>给git设置代理</title><link>https://zu1k.com/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
+]]></description></item><item><title>给 git 设置代理</title><link>https://zu1k.com/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，GitHub 的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
 <p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议</p>
 <p>而我们平时使用github一般使用两种协议，一种是http协议，另一种是ssh协议，针对这两种协议有两种不同的代理设置办法</p>
 <h2 id="http协议">http协议</h2>
@@ -59,7 +59,7 @@
 </span></span><span class="line"><span class="cl">ProxyCommand nc -X <span class="m">5</span> -x 127.0.0.1:1080 %h %p
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>这里使用的是nc命令，linux需要安装netcat(一般自带了)，windows需要单独下载</p>
+</div><p>这里使用的是nc命令，Linux需要安装netcat(一般自带了)，windows需要单独下载</p>
 <p>windows如果安装了<code>mingw</code>也可以使用<code>connect</code>命令来替代<code>nc</code>命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -71,14 +71,14 @@
 </span></span><span class="line"><span class="cl">ProxyCommand connect -S 127.0.0.1:1080 %h %p
 </span></span></code></pre></td></tr></table>
 </div>
-</div>]]></description></item><item><title>Github等大面积https劫持</title><link>https://zu1k.com/posts/events/mitm-https-hijack-github/</link><pubDate>Fri, 27 Mar 2020 08:47:11 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/mitm-https-hijack-github/</guid><description><![CDATA[<p>昨天下午两点多，突然在一个站长群里听到有人说 Github Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子</p>
+</div>]]></description></item><item><title>GitHub等大面积https劫持</title><link>https://zu1k.com/posts/events/mitm-https-hijack-github/</link><pubDate>Fri, 27 Mar 2020 08:47:11 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/mitm-https-hijack-github/</guid><description><![CDATA[<p>昨天下午两点多，突然在一个站长群里听到有人说 GitHub Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子</p>
 <p>当天晚上再次刷V2EX的时候发现部分cloudflare的IP和京东主站部分IP也出现相似的劫持事件</p>
-<p>今天早晨8点左右，在V2EX上发现有人讨论 Github 主站出现相同的https劫持，不经过代理访问发现证书的确异常</p>
+<p>今天早晨8点左右，在V2EX上发现有人讨论 GitHub 主站出现相同的https劫持，不经过代理访问发现证书的确异常</p>
 <p></p>
 <p>查看证书详情</p>
 <p></p>
 <p></p>
-<h2 id="检查github证书">检查Github证书</h2>
+<h2 id="检查github证书">检查GitHub证书</h2>
 <p>这里我通过北京和香港两台阿里云主机，使用openssl提供的方法查看证书详细内容</p>
 <p>命令为: <code>openssl s_client -showcerts -connect github.com:443 &lt; /dev/null</code></p>
 <h3 id="北京阿里云">北京阿里云</h3>
@@ -510,14 +510,14 @@
 <p>所以如果我们信任了浏览器给出的警告，就会导致我们的信息包括github用户名、邮箱、密码、token和私有库泄露</p>
 <h2 id="如何防范">如何防范</h2>
 <p>作为站长，首先可以确定的是，并没有什么用户无痛(无需用户进行任何操作和设置)的办法来绕过这类针对性的MITM攻击，如果需要保护用户的隐私，建议开启域名的HSTS策略，这样浏览器检查到证书错误时的警告页面上就不会显示 <code>忽略警告</code> 相关按钮，防止不懂的用户忽略安全警告进行访问，避免隐私数据泄露</p>
-<p>当然，像昨天那种针对 Github Pages 的攻击只会导致用户无法访问，并不会带来隐私泄露，因为github pages是提供静态网页托管，根本不需要用户输入隐私数据</p>
+<p>当然，像昨天那种针对 GitHub Pages 的攻击只会导致用户无法访问，并不会带来隐私泄露，因为github pages是提供静态网页托管，根本不需要用户输入隐私数据</p>
 <p>作为访客，因为这种中间人攻击肯定发生在路由路径的某一个节点处，所以我们可以使用代理绕过这个恶意节点，这应该是目前最简单最好用的方法了</p>
 <p>同时，当我们在浏览器中发现此类警告，除非是对证书内容充分信任(如自己为了调试而签发的证书)，否则不要忽视任何此类的警告而强行访问，否则隐私信息泄露在所难免</p>
 <blockquote>
 <p>因为我自己访问国外网站一直是使用代理，所以本次事件对我的影响几乎等于零
 因为不受影响，所以也很难在第一时间发现这类事件，后续需要准备一个监控系统了</p>
 </blockquote>
-]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>使用GitHub Actions对Hexo博客自动部署</title><link>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>很多同学和我一样也在用Hexo搭建自己的博客，通常最后发布的操作是 <code>hexo g</code> 生成静态网页，然后 <code>hexo d</code> 将public目录推送到github、coding、gitee等平台。</p>
 <p>但是很多时候我们都想偷个懒，只管写博客，写完后将git 一 push，后面的生成部署工作让程序自动完成，github actions为我们提供了这个便利。</p>
 <h2 id="操作">操作</h2>
@@ -703,9 +703,9 @@
 </div><blockquote>
 <p>在github actions将page专用分支更新后，zeit\netlify\github pages三个平台都会自动将最新的内容部署上，这样我就只需要关注博客内容，后续操作都不需要管了</p>
 </blockquote>
-]]></description></item><item><title>加快Github Pages国内访问速度</title><link>https://zu1k.com/posts/coding/speedup-github-page/</link><pubDate>Thu, 19 Mar 2020 17:17:53 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/speedup-github-page/</guid><description><![CDATA[<h2 id="前言">前言</h2>
-<p>相信不少小伙伴都在使用 Github Pages 提供的免费静态网站托管来搭建自己的博客，但是因为墙的存在和特殊国情，使用 Github Pages 搭建的网站速度普遍不快，因此很多小伙伴只能转战国内付费的服务器和 CDN。</p>
-<p>正巧我也在使用 Github Pages 搭建自己的静态博客，正好来说一下我的优化方法。</p>
+]]></description></item><item><title>加快GitHub Pages国内访问速度</title><link>https://zu1k.com/posts/coding/speedup-github-page/</link><pubDate>Thu, 19 Mar 2020 17:17:53 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/speedup-github-page/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+<p>相信不少小伙伴都在使用 GitHub Pages 提供的免费静态网站托管来搭建自己的博客，但是因为墙的存在和特殊国情，使用 GitHub Pages 搭建的网站速度普遍不快，因此很多小伙伴只能转战国内付费的服务器和 CDN。</p>
+<p>正巧我也在使用 GitHub Pages 搭建自己的静态博客，正好来说一下我的优化方法。</p>
 <h2 id="压缩">压缩</h2>
 <p>默认情况下，如果我们查看 Hexo 生成的静态网页源代码，会发现存在大量的空格、空行、注释等无用内容。同样的，如果使用的 hexo 主题没有进行优化，大量的 css 和 js 文件也存在这样的垃圾内容。</p>
 <p>如果你在一些大型网站右键查看网页源代码，你会发现他们的 html\js\css 是经过压缩处理的，没有多余的换行和注释，这势必会节省带宽流量和传输时间，提升用户体验。</p>
@@ -721,7 +721,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install gulp -g
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>为了 Github Action 或其他 CI\CD 平台也能够进行安装，这里推荐</p>
+</div><p>为了 GitHub Action 或其他 CI\CD 平台也能够进行安装，这里推荐</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -917,17 +917,17 @@
 <p>在使用 <code>hexo g</code> 生成静态网站后， 运行 <code>gulp</code> 进行压缩</p>
 <h2 id="使用-cdn">使用 CDN</h2>
 <p>如果你查看博客的网络请求内容，你会发现在 html 加载之后，还有一堆小文件等待加载，而这些 css\js\图片文件的加载占据了大部分的网页打开时间。</p>
-<p>因为 Github Pages 的延迟巨大，速度极慢，我们更有必要使用国内的 CDN 对这些资源进行分发。</p>
+<p>因为 GitHub Pages 的延迟巨大，速度极慢，我们更有必要使用国内的 CDN 对这些资源进行分发。</p>
 <p>不想使用国内付费的 CDN 服务，我尝试过使用 CloudFlare 进行加速（实质减速）效果不佳，后来发现了 jsDelivr。</p>
 <p>jsDelivr 是一家开源免费 CDN，主要是对 npm 包进行 CDN 分发</p>
-<p>绝妙的是它还能对 Github 和 Wordpress 进行 CDN 分发</p>
-<p>我们可以借助 jsDelivr 的 Github 资源分发 服务来对我们博客中的 css\js\小图片进行加速</p>
+<p>绝妙的是它还能对 GitHub 和 Wordpress 进行 CDN 分发</p>
+<p>我们可以借助 jsDelivr 的 GitHub 资源分发 服务来对我们博客中的 css\js\小图片进行加速</p>
 <blockquote>
 <p>这是我目前找到的唯一一家在国内有节点并且不需要备案的 CDN 分发服务</p>
 </blockquote>
 <p>这里我就以我使用的主题为例，分享一下我如何使用 jsDelivr 进行 CDN 分发</p>
 <h3 id="链接格式">链接格式</h3>
-<p>jsDelivr 针对 Github 资源有众多 URL 格式</p>
+<p>jsDelivr 针对 GitHub 资源有众多 URL 格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1187,7 +1187,7 @@
 </div>
 </div><h2 id="终极大招">终极大招</h2>
 <p>如果经过上面的优化，你还对博客的加载速度不满意，那一定是 github pages 服务器在美国的原因，200+ms 的延迟导致首字节返回时间不短</p>
-<p>其实支持通过 Github 仓库代码进行构建，部署为静态网站的平台不值 github pages 一家，我使用过的比较好的是 <code>zeit.co</code> ， 国内访问走的是台湾的 gcp 节点，延迟低速度快，推荐</p>
+<p>其实支持通过 GitHub 仓库代码进行构建，部署为静态网站的平台不值 github pages 一家，我使用过的比较好的是 <code>zeit.co</code> ， 国内访问走的是台湾的 gcp 节点，延迟低速度快，推荐</p>
 <p>具体使用方法非常简单，自行摸索吧</p>
 <blockquote>
 <p>更新: 刚知道，如果更新太快的话，zeit 会暂停构建部署的</p>

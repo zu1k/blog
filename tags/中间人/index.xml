@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>中间人 - 标签 - zu1k</title><link>https://zu1k.com/tags/%E4%B8%AD%E9%97%B4%E4%BA%BA/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 27 Mar 2020 08:47:11 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/%E4%B8%AD%E9%97%B4%E4%BA%BA/" rel="self" type="application/rss+xml"/><item><title>Github等大面积https劫持</title><link>https://zu1k.com/posts/events/mitm-https-hijack-github/</link><pubDate>Fri, 27 Mar 2020 08:47:11 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/mitm-https-hijack-github/</guid><description><![CDATA[<p>昨天下午两点多，突然在一个站长群里听到有人说 Github Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子</p>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>中间人 - 标签 - zu1k</title><link>https://zu1k.com/tags/%E4%B8%AD%E9%97%B4%E4%BA%BA/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 27 Mar 2020 08:47:11 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/%E4%B8%AD%E9%97%B4%E4%BA%BA/" rel="self" type="application/rss+xml"/><item><title>GitHub等大面积https劫持</title><link>https://zu1k.com/posts/events/mitm-https-hijack-github/</link><pubDate>Fri, 27 Mar 2020 08:47:11 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/mitm-https-hijack-github/</guid><description><![CDATA[<p>昨天下午两点多，突然在一个站长群里听到有人说 GitHub Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子</p>
 <p>当天晚上再次刷V2EX的时候发现部分cloudflare的IP和京东主站部分IP也出现相似的劫持事件</p>
-<p>今天早晨8点左右，在V2EX上发现有人讨论 Github 主站出现相同的https劫持，不经过代理访问发现证书的确异常</p>
+<p>今天早晨8点左右，在V2EX上发现有人讨论 GitHub 主站出现相同的https劫持，不经过代理访问发现证书的确异常</p>
 <p></p>
 <p>查看证书详情</p>
 <p></p>
 <p></p>
-<h2 id="检查github证书">检查Github证书</h2>
+<h2 id="检查github证书">检查GitHub证书</h2>
 <p>这里我通过北京和香港两台阿里云主机，使用openssl提供的方法查看证书详细内容</p>
 <p>命令为: <code>openssl s_client -showcerts -connect github.com:443 &lt; /dev/null</code></p>
 <h3 id="北京阿里云">北京阿里云</h3>
@@ -437,7 +437,7 @@
 <p>所以如果我们信任了浏览器给出的警告，就会导致我们的信息包括github用户名、邮箱、密码、token和私有库泄露</p>
 <h2 id="如何防范">如何防范</h2>
 <p>作为站长，首先可以确定的是，并没有什么用户无痛(无需用户进行任何操作和设置)的办法来绕过这类针对性的MITM攻击，如果需要保护用户的隐私，建议开启域名的HSTS策略，这样浏览器检查到证书错误时的警告页面上就不会显示 <code>忽略警告</code> 相关按钮，防止不懂的用户忽略安全警告进行访问，避免隐私数据泄露</p>
-<p>当然，像昨天那种针对 Github Pages 的攻击只会导致用户无法访问，并不会带来隐私泄露，因为github pages是提供静态网页托管，根本不需要用户输入隐私数据</p>
+<p>当然，像昨天那种针对 GitHub Pages 的攻击只会导致用户无法访问，并不会带来隐私泄露，因为github pages是提供静态网页托管，根本不需要用户输入隐私数据</p>
 <p>作为访客，因为这种中间人攻击肯定发生在路由路径的某一个节点处，所以我们可以使用代理绕过这个恶意节点，这应该是目前最简单最好用的方法了</p>
 <p>同时，当我们在浏览器中发现此类警告，除非是对证书内容充分信任(如自己为了调试而签发的证书)，否则不要忽视任何此类的警告而强行访问，否则隐私信息泄露在所难免</p>
 <blockquote>

@@ -175,7 +175,7 @@
 </ol>
 <p>通过 TUN 向系统网络栈注入源 IP 为网段下随机的 IPv6 地址，伪造有众多 host 的假象。</p>
 <p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="" class="post-link">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="" class="post-link">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
-<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
+<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-Linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
 <p>幸亏后面搜资料发现了本文方便的方法，才避免了我陷入这些迷途。反思一下，即自己的知识不够，对 Linux 内核及其提供的众多功能了解不够深入，导致人家原本就有的功能自己根本不知道，所以想不出合适的方案。</p>
 <h3 id="waf">WAF</h3>
 <p>我也不是非常了解，现在的 WAF 是不是就是单纯根据 IP 来进行限流限速 ？如果真是这样，那利用这庞大的 IPv6 资源岂不是轻松绕过封禁。</p>
@@ -307,7 +307,64 @@
 <li><a href="https://github.com/shadowsocks/shadowsocks-rust" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/shadowsocks/shadowsocks-rust</a></li>
 <li><a href="https://www.wintun.net/" target="_blank" rel="noopener noreffer" class="post-link">https://www.wintun.net/</a></li>
 </ul>
-]]></description></item><item><title>给git设置代理</title><link>https://zu1k.com/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
+]]></description></item><item><title>使用GlobalSSH服务加速境外服务器ssh访问</title><link>https://zu1k.com/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/</link><pubDate>Sun, 12 Apr 2020 16:37:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/</guid><description><![CDATA[<blockquote>
+<h3 id="ucloud已经对加速ip进行限制本文中的方法即时失效">UCloud已经对加速IP进行限制，本文中的方法即时失效</h3>
+<p>通知内容如下：<br>
+尊敬的UCloud用户，您好！<br>
+GlobalSSH产品即日起将暂时限制服务器IP地址范围，<br>
+仅允许添加UCloud平台上的IP地址，已创建的资源仍然可继续使用。 <br>
+GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
+</blockquote>
+<p>由于众所周知的原因，很多国外的服务器在国内的访问效果很差，特别是国内比较热门的廉价服务器例如 Vultr 就经常被墙直接无法访问</p>
+<p>通常情况下我会使用ssr等代理服务进行中转，在我经常使用的 MobaXterm 中设置起来也非常方便</p>
+<p></p>
+<p>但是这种方法有两大劣势：</p>
+<ol>
+<li>如果科学上网服务器不稳定经常断流就会导致ssh连接断开</li>
+<li>部分客户端不支持设置http或者socks代理</li>
+</ol>
+<h2 id="globalssh">GlobalSSH</h2>
+<p>今天发现了一个免费的加速服务，非常方便，推荐给需要的人</p>
+<p>这就是 UCloud 免费提供的 GlobalSSH 加速服务</p>
+<p>官网链接： <a href="https://console.ucloud.cn/upathx/globalssh" target="_blank" rel="noopener noreffer" class="post-link">https://console.ucloud.cn/upathx/globalssh</a></p>
+<p>官方文档： <a href="https://docs.ucloud.cn/pathx/globalssh" target="_blank" rel="noopener noreffer" class="post-link">https://docs.ucloud.cn/pathx/globalssh</a></p>
+<p>这项服务目前是免费的，<del>也不需要进行实名认证</del> 现在需要实名认证才能用了，可以说是非常良心了，经过我的试用，访问速度和稳定性非常不错</p>
+<p>支持ssh和rdp远程桌面，猜测有一些其他的服务可以加速，因为是针对端口加速的，但是如果滥用的话可能被封禁</p>
+<p>在创建的时候只需要输入需要加速的国外服务器的ip和服务端口号，选择一个离服务器近的接入点</p>
+<p></p>
+<p>创建之后会提供一个域名，可以将自己的域名CNAME解析到提供的域名上方便记忆，UCLOUD可以准确识别到是访问哪一台服务器</p>
+<p>在我们使用的客户端上只需要用提供的加速域名和原服务端口号就可以了</p>
+<h2 id="注意事项">注意事项</h2>
+<ol>
+<li>自产品实例创建之日起，7日内单个实例累计出向流量小于2MB，加速功能将被停用，所以一开始先多用点吧</li>
+<li>每个源IP只能加速一个端口</li>
+<li>加速流量上限官方未注明，滥用的话会被封</li>
+</ol>
+<h2 id="妙用">妙用</h2>
+<p>众所周知，github在国内的访问速度很慢，有时候clone一个库不得不忍受十几k几十k每秒的速度</p>
+<p>而git是可以用ssh协议的，所以我们只需要从 <a href="https://api.github.com/meta" target="_blank" rel="noopener noreffer" class="post-link">https://api.github.com/meta</a> 找到github使用的ip，通过GlobalSSH加速22端口，然后将自己的域名解析到加速的ip，最后使用自己的域名clone就行了</p>
+<p>经过我的尝试效果还不错，可以跑到10Mbps</p>
+<p>我用的域名为 <code>githubssh.xyz</code> ，大家可以拿去用，使用方法如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">原命令
+</span></span><span class="line"><span class="cl">git clone git@github.com:moby/moby.git
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">替换后
+</span></span><span class="line"><span class="cl">git clone git@githubssh.xyz:moby/moby.git
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>为了能够自动更新ip，我写了一个程序，每天会检查github新的ip，创建新的globalssh，然后自动解析到域名githubssh.xyz上，由cloudflare进行DNS层面的负载均衡</p>
+<p>开源地址为： <a href="https://github.com/zu1k/globalssh4github" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/globalssh4github</a></p>
+<p>同时为了方便，改了一个插件： <a href="https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo" target="_blank" rel="noopener noreffer" class="post-link">https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo</a></p>
+]]></description></item><item><title>给 git 设置代理</title><link>https://zu1k.com/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，GitHub 的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
 <p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议</p>
 <p>而我们平时使用github一般使用两种协议，一种是http协议，另一种是ssh协议，针对这两种协议有两种不同的代理设置办法</p>
 <h2 id="http协议">http协议</h2>
@@ -347,7 +404,7 @@
 </span></span><span class="line"><span class="cl">ProxyCommand nc -X <span class="m">5</span> -x 127.0.0.1:1080 %h %p
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>这里使用的是nc命令，linux需要安装netcat(一般自带了)，windows需要单独下载</p>
+</div><p>这里使用的是nc命令，Linux需要安装netcat(一般自带了)，windows需要单独下载</p>
 <p>windows如果安装了<code>mingw</code>也可以使用<code>connect</code>命令来替代<code>nc</code>命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

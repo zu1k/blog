@@ -175,7 +175,7 @@
 </ol>
 <p>通过 TUN 向系统网络栈注入源 IP 为网段下随机的 IPv6 地址，伪造有众多 host 的假象。</p>
 <p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="" class="post-link">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="" class="post-link">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
-<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
+<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-Linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
 <p>幸亏后面搜资料发现了本文方便的方法，才避免了我陷入这些迷途。反思一下，即自己的知识不够，对 Linux 内核及其提供的众多功能了解不够深入，导致人家原本就有的功能自己根本不知道，所以想不出合适的方案。</p>
 <h3 id="waf">WAF</h3>
 <p>我也不是非常了解，现在的 WAF 是不是就是单纯根据 IP 来进行限流限速 ？如果真是这样，那利用这庞大的 IPv6 资源岂不是轻松绕过封禁。</p>

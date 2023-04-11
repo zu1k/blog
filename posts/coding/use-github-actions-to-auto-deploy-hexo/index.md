@@ -1,4 +1,4 @@
-# 使用Github Actions对Hexo博客自动部署
+# 使用GitHub Actions对Hexo博客自动部署
 
 
 ## 前言

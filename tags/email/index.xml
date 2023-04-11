@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>EMail - 标签 - zu1k</title><link>https://zu1k.com/tags/email/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 27 Nov 2019 23:22:22 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/email/" rel="self" type="application/rss+xml"/><item><title>了解邮件列表</title><link>https://zu1k.com/posts/learn/maillist/</link><pubDate>Wed, 27 Nov 2019 23:22:22 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/maillist/</guid><description><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Email - 标签 - zu1k</title><link>https://zu1k.com/tags/email/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 27 Nov 2019 23:22:22 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/email/" rel="self" type="application/rss+xml"/><item><title>了解邮件列表</title><link>https://zu1k.com/posts/learn/maillist/</link><pubDate>Wed, 27 Nov 2019 23:22:22 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/maillist/</guid><description><![CDATA[<blockquote>
 <p>之前经常听说或者在新闻里见到邮件列表这个词，知道很多大佬，特别是计算机大佬、某某编程语言之父、某某操作系统之父等一堆大佬都在用邮件列表，就感到十分好奇。近期我特意上网搜索相关资料，亲身实践邮件列表的使用</p>
 </blockquote>
 <h2 id="什么是邮件列表">什么是邮件列表</h2>
@@ -28,7 +28,7 @@
 <p>其实很多地方会用到邮件列表，特别是在计算机领域，很多大佬喜欢用。他们认为网页论坛内容杂乱，无法进行深入、高效的交流，内容往往缺乏思考和谨慎。邮件就恰恰相反，发邮件时我们往往会进行慎重思考，深思熟虑之后写一长篇文章，这样最有利于交流</p>
 <p>QQ邮箱中会看到群邮件功能，这其实就是一个讨论型的邮件列表功能。但这一功能实际上只有极少一部分人充分利用了起来，绝大多数群并没有有效的利用。这个功能现大多沦为广告和病毒木马多发地，真是令人惋惜</p>
 <p>Debian、维基百科等大型组织大都自己搭建邮件列表服务，而大部分中小组织都时直接使用Google Group提供的服务，Google Group应该拥有最多的邮件列表</p>
-<p>现在Github仓库的Issue功能也与邮件列表差不多了，watching该仓库的人可以收到对应的邮件，也可以通过邮件进行回复</p>
+<p>现在GitHub仓库的Issue功能也与邮件列表差不多了，watching该仓库的人可以收到对应的邮件，也可以通过邮件进行回复</p>
 <h2 id="如何使用邮件列表">如何使用邮件列表</h2>
 <p>接下来我们实践如何加入一个邮件列表、在邮件列表中发起讨论、参与邮件列表中已经发起的讨论、退出邮件列表等常用操作</p>
 <h3 id="加入邮件列表">加入邮件列表</h3>
@@ -252,7 +252,7 @@
 <li>使用PHP接口做测试的好处是可以随意指定发送方的邮件地址，即mail函数的最后一个参数。</li>
 </ul>
 <p>即使系统的hostname未设置也可以正常发送出邮件。</p>
-<h3 id="使用linux的mail命令发送邮件">使用linux的mail命令发送邮件</h3>
+<h3 id="使用linux的mail命令发送邮件">使用Linux的mail命令发送邮件</h3>
 <p>mail命令就没有使用自定义的邮件发送地址，而是使用HOSTNAME。</p>
 <p>安装系统时由于没有对hostname做特别设置，HOSTNAME的值是默认的 localhost.localdomain</p>
 <p>这样的邮件域名会被大多数邮箱如163，QQ拒收。</p>

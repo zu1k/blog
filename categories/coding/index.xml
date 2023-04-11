@@ -522,8 +522,8 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wrangler publish
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="使用github-actions持续集成">使用Github Actions持续集成</h2>
-<p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用Github Actions将博客内容部署到CF Workers Site</p>
+</div><h2 id="使用github-actions持续集成">使用GitHub Actions持续集成</h2>
+<p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用GitHub Actions将博客内容部署到CF Workers Site</p>
 <h3 id="添加认证信息">添加认证信息</h3>
 <p>在github仓库设置一个secret，名字为<code>CF_API_TOKEN</code>，值为Wrangler的token</p>
 <p></p>
@@ -1463,7 +1463,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>可能是360也发现这个dos了，过了不到一个周便修复了，增加了评论速率的限制</p>
-]]></description></item><item><title>Linux添加swap</title><link>https://zu1k.com/posts/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-add-swap/</guid><description><![CDATA[<p>给 linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
+]]></description></item><item><title>Linux添加swap</title><link>https://zu1k.com/posts/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-add-swap/</guid><description><![CDATA[<p>给 Linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
 <h2 id="查看当前swap">查看当前swap</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1651,7 +1651,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </div><p>为了能够自动更新ip，我写了一个程序，每天会检查github新的ip，创建新的globalssh，然后自动解析到域名githubssh.xyz上，由cloudflare进行DNS层面的负载均衡</p>
 <p>开源地址为： <a href="https://github.com/zu1k/globalssh4github" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/globalssh4github</a></p>
 <p>同时为了方便，改了一个插件： <a href="https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo" target="_blank" rel="noopener noreffer" class="post-link">https://chrome.google.com/webstore/detail/github%E5%8A%A0%E9%80%9F/kejahdakjmkfddgnifodfnpcklckjjpo</a></p>
-]]></description></item><item><title>学习Linux中的SUID机制</title><link>https://zu1k.com/posts/linux/linux-suid/</link><pubDate>Mon, 30 Mar 2020 11:36:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-suid/</guid><description><![CDATA[<h2 id="什么是suid">什么是SUID</h2>
+]]></description></item><item><title>学习Linux中的SUID机制</title><link>https://zu1k.com/posts/linux/linux-suid/</link><pubDate>Mon, 30 Mar 2020 11:36:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-suid/</guid><description><![CDATA[<h2 id="什么是-suid">什么是 SUID</h2>
 <p>SUID简称位，英文全称是Set owner User ID up on execution，它是一种特殊的文件权限，能够让用户(如Bob)用其他用户(如root用户)的权限运行一个程序，而不需要用sudo进行临时提权</p>
 <p>同一类的还有SGID，就不详细说了，原理与SUID一样，就以SUID为例</p>
 <p>在一个程序执行的时候会有三个ID状态，在深入学习SUID之前必须能够区分下面三种ID：</p>
@@ -1751,12 +1751,12 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">!sh
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html</a></p>
+</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/Linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.leavesongs.com/PENETRATION/Linux-suid-privilege-escalation.html</a></p>
 <h2 id="suid在脚本中失效">SUID在脚本中失效</h2>
 <p>假如user1用 <code>chmod 4777 /home/user1/script.sh</code> 命令给<code>script.sh</code>脚本设置SUID位，登录user2后执行这个脚本提示没有权限</p>
 <p>这是因为SUID位只对编译过的可执行程序起作用，sh脚本的实际执行程序是sh或者bash之类，如果它们在执行的时候并不会检查脚本文件的SUID位，那就不会起作用了</p>
 <p>Perl执行器会检查perl脚本的suid位，所以可以给pl脚本设置suid位</p>
-]]></description></item><item><title>给git设置代理</title><link>https://zu1k.com/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
+]]></description></item><item><title>给 git 设置代理</title><link>https://zu1k.com/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，GitHub 的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
 <p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议</p>
 <p>而我们平时使用github一般使用两种协议，一种是http协议，另一种是ssh协议，针对这两种协议有两种不同的代理设置办法</p>
 <h2 id="http协议">http协议</h2>
@@ -1796,7 +1796,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">ProxyCommand nc -X <span class="m">5</span> -x 127.0.0.1:1080 %h %p
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>这里使用的是nc命令，linux需要安装netcat(一般自带了)，windows需要单独下载</p>
+</div><p>这里使用的是nc命令，Linux需要安装netcat(一般自带了)，windows需要单独下载</p>
 <p>windows如果安装了<code>mingw</code>也可以使用<code>connect</code>命令来替代<code>nc</code>命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1808,9 +1808,9 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">ProxyCommand connect -S 127.0.0.1:1080 %h %p
 </span></span></code></pre></td></tr></table>
 </div>
-</div>]]></description></item><item><title>Linux Shell中的重定向</title><link>https://zu1k.com/posts/linux/redirect-in-shell/</link><pubDate>Tue, 24 Mar 2020 15:50:07 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/redirect-in-shell/</guid><description><![CDATA[<p>经常会看到别人的shell脚本后面有一个 <code>2&gt;&amp;1</code> ，一直没去深究，今天这个话题就以这个为出发点进行展开，学习一下linux shell中重定向的话题。</p>
+</div>]]></description></item><item><title>Linux Shell中的重定向</title><link>https://zu1k.com/posts/linux/redirect-in-shell/</link><pubDate>Tue, 24 Mar 2020 15:50:07 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/redirect-in-shell/</guid><description><![CDATA[<p>经常会看到别人的shell脚本后面有一个 <code>2&gt;&amp;1</code> ，一直没去深究，今天这个话题就以这个为出发点进行展开，学习一下Linux shell中重定向的话题。</p>
 <h2 id="特殊的东西">特殊的东西</h2>
-<p>先来看一点linux中特殊的东西，为后面的内容打下基础</p>
+<p>先来看一点Linux中特殊的东西，为后面的内容打下基础</p>
 <h3 id="特殊的文件">特殊的文件</h3>
 <ul>
 <li><code>/dev/null</code> 空，可以将垃圾内容导入其中，就会消失</li>
@@ -2462,7 +2462,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <h3 id="group_concat">group_concat</h3>
 <p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
 <p></p>
-]]></description></item><item><title>使用Github Actions对Hexo博客自动部署</title><link>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>使用GitHub Actions对Hexo博客自动部署</title><link>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
 <p>很多同学和我一样也在用Hexo搭建自己的博客，通常最后发布的操作是 <code>hexo g</code> 生成静态网页，然后 <code>hexo d</code> 将public目录推送到github、coding、gitee等平台。</p>
 <p>但是很多时候我们都想偷个懒，只管写博客，写完后将git 一 push，后面的生成部署工作让程序自动完成，github actions为我们提供了这个便利。</p>
 <h2 id="操作">操作</h2>
@@ -2648,9 +2648,9 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </div><blockquote>
 <p>在github actions将page专用分支更新后，zeit\netlify\github pages三个平台都会自动将最新的内容部署上，这样我就只需要关注博客内容，后续操作都不需要管了</p>
 </blockquote>
-]]></description></item><item><title>加快Github Pages国内访问速度</title><link>https://zu1k.com/posts/coding/speedup-github-page/</link><pubDate>Thu, 19 Mar 2020 17:17:53 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/speedup-github-page/</guid><description><![CDATA[<h2 id="前言">前言</h2>
-<p>相信不少小伙伴都在使用 Github Pages 提供的免费静态网站托管来搭建自己的博客，但是因为墙的存在和特殊国情，使用 Github Pages 搭建的网站速度普遍不快，因此很多小伙伴只能转战国内付费的服务器和 CDN。</p>
-<p>正巧我也在使用 Github Pages 搭建自己的静态博客，正好来说一下我的优化方法。</p>
+]]></description></item><item><title>加快GitHub Pages国内访问速度</title><link>https://zu1k.com/posts/coding/speedup-github-page/</link><pubDate>Thu, 19 Mar 2020 17:17:53 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/speedup-github-page/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+<p>相信不少小伙伴都在使用 GitHub Pages 提供的免费静态网站托管来搭建自己的博客，但是因为墙的存在和特殊国情，使用 GitHub Pages 搭建的网站速度普遍不快，因此很多小伙伴只能转战国内付费的服务器和 CDN。</p>
+<p>正巧我也在使用 GitHub Pages 搭建自己的静态博客，正好来说一下我的优化方法。</p>
 <h2 id="压缩">压缩</h2>
 <p>默认情况下，如果我们查看 Hexo 生成的静态网页源代码，会发现存在大量的空格、空行、注释等无用内容。同样的，如果使用的 hexo 主题没有进行优化，大量的 css 和 js 文件也存在这样的垃圾内容。</p>
 <p>如果你在一些大型网站右键查看网页源代码，你会发现他们的 html\js\css 是经过压缩处理的，没有多余的换行和注释，这势必会节省带宽流量和传输时间，提升用户体验。</p>
@@ -2666,7 +2666,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install gulp -g
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>为了 Github Action 或其他 CI\CD 平台也能够进行安装，这里推荐</p>
+</div><p>为了 GitHub Action 或其他 CI\CD 平台也能够进行安装，这里推荐</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -2862,17 +2862,17 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>在使用 <code>hexo g</code> 生成静态网站后， 运行 <code>gulp</code> 进行压缩</p>
 <h2 id="使用-cdn">使用 CDN</h2>
 <p>如果你查看博客的网络请求内容，你会发现在 html 加载之后，还有一堆小文件等待加载，而这些 css\js\图片文件的加载占据了大部分的网页打开时间。</p>
-<p>因为 Github Pages 的延迟巨大，速度极慢，我们更有必要使用国内的 CDN 对这些资源进行分发。</p>
+<p>因为 GitHub Pages 的延迟巨大，速度极慢，我们更有必要使用国内的 CDN 对这些资源进行分发。</p>
 <p>不想使用国内付费的 CDN 服务，我尝试过使用 CloudFlare 进行加速（实质减速）效果不佳，后来发现了 jsDelivr。</p>
 <p>jsDelivr 是一家开源免费 CDN，主要是对 npm 包进行 CDN 分发</p>
-<p>绝妙的是它还能对 Github 和 Wordpress 进行 CDN 分发</p>
-<p>我们可以借助 jsDelivr 的 Github 资源分发 服务来对我们博客中的 css\js\小图片进行加速</p>
+<p>绝妙的是它还能对 GitHub 和 Wordpress 进行 CDN 分发</p>
+<p>我们可以借助 jsDelivr 的 GitHub 资源分发 服务来对我们博客中的 css\js\小图片进行加速</p>
 <blockquote>
 <p>这是我目前找到的唯一一家在国内有节点并且不需要备案的 CDN 分发服务</p>
 </blockquote>
 <p>这里我就以我使用的主题为例，分享一下我如何使用 jsDelivr 进行 CDN 分发</p>
 <h3 id="链接格式">链接格式</h3>
-<p>jsDelivr 针对 Github 资源有众多 URL 格式</p>
+<p>jsDelivr 针对 GitHub 资源有众多 URL 格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -3132,7 +3132,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </div>
 </div><h2 id="终极大招">终极大招</h2>
 <p>如果经过上面的优化，你还对博客的加载速度不满意，那一定是 github pages 服务器在美国的原因，200+ms 的延迟导致首字节返回时间不短</p>
-<p>其实支持通过 Github 仓库代码进行构建，部署为静态网站的平台不值 github pages 一家，我使用过的比较好的是 <code>zeit.co</code> ， 国内访问走的是台湾的 gcp 节点，延迟低速度快，推荐</p>
+<p>其实支持通过 GitHub 仓库代码进行构建，部署为静态网站的平台不值 github pages 一家，我使用过的比较好的是 <code>zeit.co</code> ， 国内访问走的是台湾的 gcp 节点，延迟低速度快，推荐</p>
 <p>具体使用方法非常简单，自行摸索吧</p>
 <blockquote>
 <p>更新: 刚知道，如果更新太快的话，zeit 会暂停构建部署的</p>

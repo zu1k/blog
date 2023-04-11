@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>suid - 标签 - zu1k</title><link>https://zu1k.com/tags/suid/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 30 Mar 2020 11:36:25 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/suid/" rel="self" type="application/rss+xml"/><item><title>学习Linux中的SUID机制</title><link>https://zu1k.com/posts/linux/linux-suid/</link><pubDate>Mon, 30 Mar 2020 11:36:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-suid/</guid><description><![CDATA[<h2 id="什么是suid">什么是SUID</h2>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/css" href="/css/rss.css"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>SUID - 标签 - zu1k</title><link>https://zu1k.com/tags/suid/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 30 Mar 2020 11:36:25 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/suid/" rel="self" type="application/rss+xml"/><item><title>学习Linux中的SUID机制</title><link>https://zu1k.com/posts/linux/linux-suid/</link><pubDate>Mon, 30 Mar 2020 11:36:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-suid/</guid><description><![CDATA[<h2 id="什么是-suid">什么是 SUID</h2>
 <p>SUID简称位，英文全称是Set owner User ID up on execution，它是一种特殊的文件权限，能够让用户(如Bob)用其他用户(如root用户)的权限运行一个程序，而不需要用sudo进行临时提权</p>
 <p>同一类的还有SGID，就不详细说了，原理与SUID一样，就以SUID为例</p>
 <p>在一个程序执行的时候会有三个ID状态，在深入学习SUID之前必须能够区分下面三种ID：</p>
@@ -98,7 +98,7 @@
 </span></span><span class="line"><span class="cl">!sh
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html</a></p>
+</div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/Linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.leavesongs.com/PENETRATION/Linux-suid-privilege-escalation.html</a></p>
 <h2 id="suid在脚本中失效">SUID在脚本中失效</h2>
 <p>假如user1用 <code>chmod 4777 /home/user1/script.sh</code> 命令给<code>script.sh</code>脚本设置SUID位，登录user2后执行这个脚本提示没有权限</p>
 <p>这是因为SUID位只对编译过的可执行程序起作用，sh脚本的实际执行程序是sh或者bash之类，如果它们在执行的时候并不会检查脚本文件的SUID位，那就不会起作用了</p>

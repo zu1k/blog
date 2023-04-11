@@ -106,8 +106,8 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wrangler publish
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="使用github-actions持续集成">使用Github Actions持续集成</h2>
-<p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用Github Actions将博客内容部署到CF Workers Site</p>
+</div><h2 id="使用github-actions持续集成">使用GitHub Actions持续集成</h2>
+<p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用GitHub Actions将博客内容部署到CF Workers Site</p>
 <h3 id="添加认证信息">添加认证信息</h3>
 <p>在github仓库设置一个secret，名字为<code>CF_API_TOKEN</code>，值为Wrangler的token</p>
 <p></p>

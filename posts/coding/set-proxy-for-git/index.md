@@ -1,7 +1,7 @@
-# 给git设置代理
+# 给 git 设置代理
 
 
-近期，Github的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理
+近期，GitHub 的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理
 
 Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议
 
@@ -36,7 +36,7 @@ Host github.com
 ProxyCommand nc -X 5 -x 127.0.0.1:1080 %h %p
 ```
 
-这里使用的是nc命令，linux需要安装netcat(一般自带了)，windows需要单独下载
+这里使用的是nc命令，Linux需要安装netcat(一般自带了)，windows需要单独下载
 
 windows如果安装了`mingw`也可以使用`connect`命令来替代`nc`命令
 

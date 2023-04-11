@@ -88,9 +88,9 @@ wrangler preview --watch
 wrangler publish
 ```
 
-## 使用Github Actions持续集成
+## 使用GitHub Actions持续集成
 
-Cloudflare提供了官方的[Wrangler GitHub Action](https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler)，可以直接用Github Actions将博客内容部署到CF Workers Site
+Cloudflare提供了官方的[Wrangler GitHub Action](https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler)，可以直接用GitHub Actions将博客内容部署到CF Workers Site
 
 ### 添加认证信息
 

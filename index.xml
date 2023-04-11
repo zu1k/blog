@@ -337,7 +337,7 @@
 </ol>
 <p>通过 TUN 向系统网络栈注入源 IP 为网段下随机的 IPv6 地址，伪造有众多 host 的假象。</p>
 <p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="" class="post-link">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="" class="post-link">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
-<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
+<p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-Linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
 <p>幸亏后面搜资料发现了本文方便的方法，才避免了我陷入这些迷途。反思一下，即自己的知识不够，对 Linux 内核及其提供的众多功能了解不够深入，导致人家原本就有的功能自己根本不知道，所以想不出合适的方案。</p>
 <h3 id="waf">WAF</h3>
 <p>我也不是非常了解，现在的 WAF 是不是就是单纯根据 IP 来进行限流限速 ？如果真是这样，那利用这庞大的 IPv6 资源岂不是轻松绕过封禁。</p>
@@ -825,7 +825,7 @@
 <p>20年因为某些机缘巧合了解到Rust并且开始想要学习，但尝试了好几次都没有坚持下去，再加上那段时间我对Go情有独钟，这个事就一拖再拖。</p>
 <p>今年2月份Rust基金会成立，看到了相关新闻，Mozilla、AWS、Google、微软、华为等顶级企业或组织是其第一批成员，这坚定了我使用rust的信念。事实证明我的决定没问题，连挑剔的Linus都接受了Rust对内核开发的涉足，这是cpp都没有的待遇。</p>
 <p>刚看了一下我的仓库列表，今年在9个项目中主力使用Rust开发，根据wakatime统计的数据，写rust时长接近200小时，总行数超过4w行(只计算了增加的行数，没有计算删除的行数)。</p>
-<p>Rust已经成为我最喜欢的编程语言了，这是事实，虽然一次性小脚本我还是会用py，需要并发的临时小工具我还是会用go，和同学合作我还是会用java，但是我新开启的项目已经首选rust了。Rust的性能和表达能力都很优秀，就业岗位暂时不是很多意味着还没有很卷，大企业和linux对rust的关注代表着它的前途，希望身边还没有开始Rust的同学马上开始行动。（我就是Rust吹，宣传小能手，身边3个同学开始动身学习rust了）</p>
+<p>Rust已经成为我最喜欢的编程语言了，这是事实，虽然一次性小脚本我还是会用py，需要并发的临时小工具我还是会用go，和同学合作我还是会用java，但是我新开启的项目已经首选rust了。Rust的性能和表达能力都很优秀，就业岗位暂时不是很多意味着还没有很卷，大企业和Linux对rust的关注代表着它的前途，希望身边还没有开始Rust的同学马上开始行动。（我就是Rust吹，宣传小能手，身边3个同学开始动身学习rust了）</p>
 <h3 id="参与开源项目">参与开源项目</h3>
 <p>参加了今年的“开源软件供应链点亮计划”，体验不错。项目用的go，需求比较简单，主要代码一两个晚上搞定，然后根据社区导师的建议小修小补。感谢社区导师@xuanwo, 给我提供了不少帮助。推荐学弟学妹们参加这个活动，有钱！中等难度项目9000块，赚的非常轻松。</p>
 <p>在某群看到了SOFAStack社区发布的小任务，就给他们的Layotto项目做了两个PR，顺便学习了wasm相关知识，特别是使用wasm写插件系统时，能力引入(导入表)和变长参数传递相关内容有了更加深入的了解。拿到了证书和马克杯，感谢。</p>
@@ -1471,7 +1471,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="用作路由器">用作路由器</h4>
-<p>如果这台linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 <code>192.168/16</code></p>
+<p>如果这台Linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 <code>192.168/16</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1855,7 +1855,7 @@
 ]]></description></item><item><title>不讲武德！来骗Follow</title><link>https://zu1k.com/posts/events/cheat-for-follow/</link><pubDate>Sat, 28 Nov 2020 15:07:17 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/cheat-for-follow/</guid><description><![CDATA[<p>下午，还是习惯性的打开GitHub，发现有个没有头像的人Follow我</p>
 <p></p>
 <p>通常出于礼貌，我会查看对方的个人页和他的仓库，如果感觉不错便会回Follow他</p>
-<p>当我打开他的Github个人profile页面，令我惊讶的是他总共follow了<strong>59.3k</strong>人，而他的followers人数又七百多人</p>
+<p>当我打开他的GitHub个人profile页面，令我惊讶的是他总共follow了<strong>59.3k</strong>人，而他的followers人数又七百多人</p>
 <p></p>
 <p>他只Pin了一个仓库，有70多个star，按理说无法吸引如此多数量的followers，这激起了我的好奇，难不成有什么好的内容没有Pin出来？</p>
 <p></p>
@@ -1981,8 +1981,8 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wrangler publish
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="使用github-actions持续集成">使用Github Actions持续集成</h2>
-<p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用Github Actions将博客内容部署到CF Workers Site</p>
+</div><h2 id="使用github-actions持续集成">使用GitHub Actions持续集成</h2>
+<p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用GitHub Actions将博客内容部署到CF Workers Site</p>
 <h3 id="添加认证信息">添加认证信息</h3>
 <p>在github仓库设置一个secret，名字为<code>CF_API_TOKEN</code>，值为Wrangler的token</p>
 <p></p>
@@ -2424,7 +2424,7 @@
 <p>拿到权限以后,把网站日志中的所有关于webshell的访问记录和渗透时造成的一些网站报错记录全部删除</p>
 </li>
 <li>
-<p>把webshell的属性时间改为和同目录文件相同的时间戳,比如linux中的touch就是非常好的工具</p>
+<p>把webshell的属性时间改为和同目录文件相同的时间戳,比如Linux中的touch就是非常好的工具</p>
 </li>
 <li>
 <p>目录层级越深越好,平时网站不出问题的话,一般四五级目录很少会被注意到,尽量藏在那些程序员和管理员都不会经常光顾的目录中比如:第三方工具的一些插件目录,主题目录,编辑器的图片目录以及一些临时目录</p>

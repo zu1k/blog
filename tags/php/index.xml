@@ -131,7 +131,7 @@
 <li>使用PHP接口做测试的好处是可以随意指定发送方的邮件地址，即mail函数的最后一个参数。</li>
 </ul>
 <p>即使系统的hostname未设置也可以正常发送出邮件。</p>
-<h3 id="使用linux的mail命令发送邮件">使用linux的mail命令发送邮件</h3>
+<h3 id="使用linux的mail命令发送邮件">使用Linux的mail命令发送邮件</h3>
 <p>mail命令就没有使用自定义的邮件发送地址，而是使用HOSTNAME。</p>
 <p>安装系统时由于没有对hostname做特别设置，HOSTNAME的值是默认的 localhost.localdomain</p>
 <p>这样的邮件域名会被大多数邮箱如163，QQ拒收。</p>

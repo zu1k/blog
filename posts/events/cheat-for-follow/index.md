@@ -7,7 +7,7 @@
 
 通常出于礼貌，我会查看对方的个人页和他的仓库，如果感觉不错便会回Follow他
 
-当我打开他的Github个人profile页面，令我惊讶的是他总共follow了**59.3k**人，而他的followers人数又七百多人
+当我打开他的GitHub个人profile页面，令我惊讶的是他总共follow了**59.3k**人，而他的followers人数又七百多人
 
 ![Follow数](follow_count.png)
 

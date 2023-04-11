@@ -1,11 +1,11 @@
-# 加快Github Pages国内访问速度
+# 加快GitHub Pages国内访问速度
 
 
 ## 前言
 
-相信不少小伙伴都在使用 Github Pages 提供的免费静态网站托管来搭建自己的博客，但是因为墙的存在和特殊国情，使用 Github Pages 搭建的网站速度普遍不快，因此很多小伙伴只能转战国内付费的服务器和 CDN。
+相信不少小伙伴都在使用 GitHub Pages 提供的免费静态网站托管来搭建自己的博客，但是因为墙的存在和特殊国情，使用 GitHub Pages 搭建的网站速度普遍不快，因此很多小伙伴只能转战国内付费的服务器和 CDN。
 
-正巧我也在使用 Github Pages 搭建自己的静态博客，正好来说一下我的优化方法。
+正巧我也在使用 GitHub Pages 搭建自己的静态博客，正好来说一下我的优化方法。
 
 ## 压缩
 
@@ -25,7 +25,7 @@
 npm install gulp -g
 ```
 
-为了 Github Action 或其他 CI\CD 平台也能够进行安装，这里推荐
+为了 GitHub Action 或其他 CI\CD 平台也能够进行安装，这里推荐
 
 ```bash
 npm install gulp --save-dev
@@ -135,15 +135,15 @@ gulp.task(
 
 如果你查看博客的网络请求内容，你会发现在 html 加载之后，还有一堆小文件等待加载，而这些 css\js\图片文件的加载占据了大部分的网页打开时间。
 
-因为 Github Pages 的延迟巨大，速度极慢，我们更有必要使用国内的 CDN 对这些资源进行分发。
+因为 GitHub Pages 的延迟巨大，速度极慢，我们更有必要使用国内的 CDN 对这些资源进行分发。
 
 不想使用国内付费的 CDN 服务，我尝试过使用 CloudFlare 进行加速（实质减速）效果不佳，后来发现了 jsDelivr。
 
 jsDelivr 是一家开源免费 CDN，主要是对 npm 包进行 CDN 分发
 
-绝妙的是它还能对 Github 和 Wordpress 进行 CDN 分发
+绝妙的是它还能对 GitHub 和 Wordpress 进行 CDN 分发
 
-我们可以借助 jsDelivr 的 Github 资源分发 服务来对我们博客中的 css\js\小图片进行加速
+我们可以借助 jsDelivr 的 GitHub 资源分发 服务来对我们博客中的 css\js\小图片进行加速
 
 > 这是我目前找到的唯一一家在国内有节点并且不需要备案的 CDN 分发服务
 
@@ -151,7 +151,7 @@ jsDelivr 是一家开源免费 CDN，主要是对 npm 包进行 CDN 分发
 
 ### 链接格式
 
-jsDelivr 针对 Github 资源有众多 URL 格式
+jsDelivr 针对 GitHub 资源有众多 URL 格式
 
 ```url
 https://cdn.jsdelivr.net/gh/user/repo@version/file
@@ -362,7 +362,7 @@ lazyload:
 
 如果经过上面的优化，你还对博客的加载速度不满意，那一定是 github pages 服务器在美国的原因，200+ms 的延迟导致首字节返回时间不短
 
-其实支持通过 Github 仓库代码进行构建，部署为静态网站的平台不值 github pages 一家，我使用过的比较好的是 `zeit.co` ， 国内访问走的是台湾的 gcp 节点，延迟低速度快，推荐
+其实支持通过 GitHub 仓库代码进行构建，部署为静态网站的平台不值 github pages 一家，我使用过的比较好的是 `zeit.co` ， 国内访问走的是台湾的 gcp 节点，延迟低速度快，推荐
 
 具体使用方法非常简单，自行摸索吧
 

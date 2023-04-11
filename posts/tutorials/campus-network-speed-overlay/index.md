@@ -184,7 +184,7 @@ ip rule add from <vmac1-ip> table vmac1
 
 #### 用作路由器
 
-如果这台linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 `192.168/16`
+如果这台Linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 `192.168/16`
 
 ```shell
 iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every 2 --packet 0 -j VMAC0

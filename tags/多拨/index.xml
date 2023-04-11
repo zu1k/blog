@@ -236,7 +236,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="用作路由器">用作路由器</h4>
-<p>如果这台linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 <code>192.168/16</code></p>
+<p>如果这台Linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 <code>192.168/16</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1

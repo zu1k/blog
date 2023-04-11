@@ -1,7 +1,7 @@
 # 学习Linux中的SUID机制
 
 
-## 什么是SUID
+## 什么是 SUID
 
 SUID简称位，英文全称是Set owner User ID up on execution，它是一种特殊的文件权限，能够让用户(如Bob)用其他用户(如root用户)的权限运行一个程序，而不需要用sudo进行临时提权
 
@@ -98,7 +98,7 @@ nmap --interactive
 !sh
 ```
 
-详细介绍见： https://www.leavesongs.com/PENETRATION/linux-suid-privilege-escalation.html
+详细介绍见： https://www.leavesongs.com/PENETRATION/Linux-suid-privilege-escalation.html
 
 ## SUID在脚本中失效
 

@@ -91,7 +91,7 @@ mail('test@sohu.com', "Test email content", "sendmail title", null, "-f testname
 
 即使系统的hostname未设置也可以正常发送出邮件。
 
-### 使用linux的mail命令发送邮件
+### 使用Linux的mail命令发送邮件
 
 mail命令就没有使用自定义的邮件发送地址，而是使用HOSTNAME。
 

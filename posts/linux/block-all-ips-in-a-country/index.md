@@ -145,4 +145,4 @@ exit 0
 [在Linux下实现批量屏蔽IP地址的方法][2]
 
   [1]: http://www.ipdeny.com/ipblocks/
-  [2]: https://www.jb51.net/LINUXjishu/339309.html
+  [2]: https://www.jb51.net/Linuxjishu/339309.html
