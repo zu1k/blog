@@ -1,6 +1,6 @@
 ---
 title: "我的项目"
-description: 此页面介绍我做的一些项目和工具
+description: 此页面介绍我做的一些项目和工具，其中有 7 个项目曾经进入 GitHub Trending 排行榜
 keywords:
 - 项目
 - 工具
@@ -519,7 +519,7 @@ https://github.com/zu1k/coolq-rsspushbot
 
 ## My Followers
 
-这是我的Followers数目破1k的纪念项目，查看 [My GitHub Followers](/github_followers)
+这是我的Followers数目破1k的纪念项目
 
 通过GitHub的GraphQL Api，获取自己的follower列表，然后生成头像墙。通过GitHub Action定时每日更新
 
