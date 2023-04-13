@@ -1,7 +1,7 @@
 # 我的项目
 
 
-此页面介绍我做的一些项目和工具
+此页面介绍我做的一些项目和工具，其中绝大部分代码已经开源，更多内容请查看我的 [GitHub: @zu1k](https://github.com/zu1k)
 
 ## GitHub Trending 项目
 
