@@ -327,10 +327,10 @@
 </span></span><span class=line><span class=cl>            <span class=n>face_locations</span><span class=p>,</span> <span class=n>face_encodings</span><span class=p>):</span>
 </span></span><span class=line><span class=cl>        <span class=c1># 看看面部是否与已知人脸相匹配。</span>
 </span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>i</span><span class=p>,</span> <span class=n>v</span> <span class=ow>in</span> <span class=nb>enumerate</span><span class=p>(</span><span class=n>total_face_encoding</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>            <span class=n>match</span> <span class=o>=</span> <span class=n>face_recognition</span><span class=o>.</span><span class=n>compare_faces</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=k>match</span> <span class=o>=</span> <span class=n>face_recognition</span><span class=o>.</span><span class=n>compare_faces</span><span class=p>(</span>
 </span></span><span class=line><span class=cl>                <span class=p>[</span><span class=n>v</span><span class=p>],</span> <span class=n>face_encoding</span><span class=p>,</span> <span class=n>tolerance</span><span class=o>=</span><span class=mf>0.4</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>            <span class=n>name</span> <span class=o>=</span> <span class=s2>&#34;Unknown&#34;</span>
-</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>match</span><span class=p>[</span><span class=mi>0</span><span class=p>]:</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=k>match</span><span class=p>[</span><span class=mi>0</span><span class=p>]:</span>
 </span></span><span class=line><span class=cl>                <span class=n>name</span> <span class=o>=</span> <span class=n>total_image_name</span><span class=p>[</span><span class=n>i</span><span class=p>]</span>
 </span></span><span class=line><span class=cl>                <span class=k>break</span>
 </span></span><span class=line><span class=cl>        <span class=c1># 画出一个框，框住脸</span>
