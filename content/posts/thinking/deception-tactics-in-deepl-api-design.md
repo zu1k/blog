@@ -9,7 +9,7 @@ tags:
 categories:
 - thinking
 toc: true
-draft: true
+draft: false
 ---
 
 这篇博文本应该在去年完成 DeepL 客户端逆向的时候发布，但考虑到相关细节一旦公开，恐怕会被广泛采用而被 DeepL 官方封杀，因此迟迟未开始。前段时间我发布了 [DeepL Free Api 的 Docker 镜像](https://hub.docker.com/r/zu1k/deepl)，也在 [GitHub 上公开了相关二进制程序](https://github.com/zu1k/deepl-api-rs)，就下载量来看已经有不少人在使用了，相信 DeepL 不久就会有动作，因此我认为现在已经可以公开相关细节。 
