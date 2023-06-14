@@ -142,9 +142,7 @@ LimitNOFILE=1048576
 
 可惜的是这两个都不是 POSIX 规范定义的系统调用，不过我认为这后面会成为主流的。
 
-https://github.com/zu1k/llvm-project/commit/ba3ac3c9e636b4f32590cda4f44ccf76cb84550d
-
-只改了 Linux 的版本，并且需要 Kernel 5.9 以上。
+只改了 [Linux 的版本](https://github.com/zu1k/llvm-project/commit/ba3ac3c9e636b4f32590cda4f44ccf76cb84550d)，并且需要 Kernel 5.9 以上。
 
 ## 后续
 

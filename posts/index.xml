@@ -147,8 +147,7 @@
 <li><code>closefrom</code> FreeBSD 8.0 引入, 在 Linux 上需要链接 <code>libbsd</code></li>
 </ul>
 <p>可惜的是这两个都不是 POSIX 规范定义的系统调用，不过我认为这后面会成为主流的。</p>
-<p><a href="https://github.com/zu1k/llvm-project/commit/ba3ac3c9e636b4f32590cda4f44ccf76cb84550d" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/llvm-project/commit/ba3ac3c9e636b4f32590cda4f44ccf76cb84550d</a></p>
-<p>只改了 Linux 的版本，并且需要 Kernel 5.9 以上。</p>
+<p>只改了 <a href="https://github.com/zu1k/llvm-project/commit/ba3ac3c9e636b4f32590cda4f44ccf76cb84550d" target="_blank" rel="noopener noreffer" class="post-link">Linux 的版本</a>，并且需要 Kernel 5.9 以上。</p>
 <h2 id="后续">后续</h2>
 <p>在 GitHub 上相应仓库提起了 issue，等待改进。虽然自己改了一个 Linux 的可以用了，但是考虑到 LLVM 需要保证兼容性，这里也不敢去提 PR，毕竟要求 Linux 5.9 以上版本可不是一个兼容性好的方案。（我在 ubuntu 18.04 的 docker 里就没办法编译通过，<code>unistd.h</code> 里没有定义 <code>#define __NR_close_range 436</code>）</p>
 <ul>
