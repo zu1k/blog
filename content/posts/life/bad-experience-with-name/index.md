@@ -5,7 +5,7 @@ tags:
 - Domain
 categories:
 - life
-draft: true
+draft: false
 ---
 
 这个事情发生在一个周以内，体验极其糟糕，特此记录一下。
