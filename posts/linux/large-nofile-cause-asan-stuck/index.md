@@ -1,4 +1,4 @@
-# 从 ASAN stuck 到 Open Files Limit
+# 从 ASAN stuck 到 Open Files limit
 
 
 [Sanitizers](https://github.com/google/sanitizers) 是好东西，可以帮助程序员检测错误并提供详细的错误报告。但前两天我遇到了一个问题，在我实验室主机的 Docker 容器中，AddressSanitizer 输出几行 Error 概述信息后，无法输出调用堆栈信息以及后续内容，程序会卡在这里，并且一个子进程会占满一个 CPU 核心。这件事我花了两天时间来排查，最终确定竟然是由于打开文件数限制设置太大导致的。请听我道来。
