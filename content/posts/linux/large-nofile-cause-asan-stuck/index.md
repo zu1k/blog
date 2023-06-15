@@ -160,9 +160,9 @@ LimitNOFILE=1048576
 
 在 GitHub 上相应仓库提起了 issue，等待改进。虽然自己改了一个 Linux 的可以用了，但是考虑到 LLVM 需要保证兼容性，这里也不敢去提 PR，毕竟要求 Linux 5.9 以上版本可不是一个兼容性好的方案。（我在 ubuntu 18.04 的 docker 里就没办法编译通过，`unistd.h` 里没有定义 `#define __NR_close_range 436`）
 
-- https://github.com/llvm/llvm-project/issues/63297
-- https://github.com/google/sanitizers/issues/1662
-- https://github.com/google/sanitizers/issues/1477
+- [llvm/llvm-project/issues/63297](https://github.com/llvm/llvm-project/issues/63297)
+- [google/sanitizers/issues/1662](https://github.com/google/sanitizers/issues/1662)
+- [google/sanitizers/issues/1477](https://github.com/google/sanitizers/issues/1477)
 
 > 突然想到了一个之前别人问的一个问题：[当我运行 >500 个线程时代理开始失败](https://github.com/zu1k/blog/discussions/53#discussioncomment-4808529)
 > 
