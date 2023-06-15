@@ -8,7 +8,7 @@ const { ExpirationPlugin } = expiration;
 const { CacheableResponsePlugin } = cacheableResponse;
 core.skipWaiting();
 core.clientsClaim();
-precaching.cleanupOutdatedCaches()
+precaching.cleanupOutdatedCaches();
 
 routing.registerRoute(
     '/sw.js',
@@ -24,7 +24,7 @@ routing.registerRoute(
                 statuses: [0, 200]
             }),
             new ExpirationPlugin({
-                maxEntries: 200,
+                maxEntries: 100,
                 maxAgeSeconds: 24 * 60 * 60,
             }),
         ]
@@ -40,8 +40,8 @@ routing.registerRoute(
                 statuses: [0, 200]
             }),
             new ExpirationPlugin({
-                maxEntries: 1000,
-                maxAgeSeconds: 30 * 24 * 60 * 60,
+                maxEntries: 100,
+                maxAgeSeconds: 24 * 60 * 60,
             }),
         ]
     })
@@ -56,7 +56,7 @@ routing.registerRoute(
                 statuses: [0, 200]
             }),
             new ExpirationPlugin({
-                maxEntries: 1000,
+                maxEntries: 100,
                 maxAgeSeconds: 7 * 24 * 60 * 60,
             }),
         ]
@@ -72,7 +72,7 @@ routing.registerRoute(
                 statuses: [0, 200]
             }),
             new ExpirationPlugin({
-                maxEntries: 1000,
+                maxEntries: 100,
                 maxAgeSeconds: 10 * 60,
             }),
         ]
@@ -85,15 +85,15 @@ routing.registerRoute(
 );
 
 routing.setDefaultHandler(
-    new StaleWhileRevalidate({
-        cacheName: 'stories',
+    new CacheFirst({
+        cacheName: 'html-cache',
         plugins: [
             new CacheableResponsePlugin({
-                statuses: [0, 200]
+                statuses: [200]
             }),
             new ExpirationPlugin({
                 maxEntries: 50,
-                maxAgeSeconds: 24 * 60 * 60,
+                maxAgeSeconds: 60 * 60,
             }),
         ]
     })
