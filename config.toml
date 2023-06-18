@@ -53,7 +53,7 @@ LanguageCode = "zh-CN"
   [[menu.main]]
     identifier = "rss"
     pre = "<i class='icon-rss'></i>"
-    url = "/index.xml"
+    url = "/rss.xml"
     title = "RSS"
     weight = 18
   [[menu.main]]
@@ -244,8 +244,57 @@ LanguageCode = "zh-CN"
   isHTML = false
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "INDEX", "RSS", "FEED", "ATOM", "JSON"]
   page = ["HTML", "MarkDown"]
   section = ["HTML", "RSS"]
   taxonomy = ["HTML", "RSS"]
   taxonomyTerm = ["HTML"]
+
+
+[mediaTypes."application/rss"]
+  suffixes = ["xml"]
+
+
+[outputFormats.Rss]
+  name = "RSS"
+  mediaType = "application/rss"
+  baseName = "rss"
+  isPlainText = false
+  rel = "alternate"
+  isHTML = false
+  noUgly = true
+  permalinkable = false
+
+[outputFormats.Index]
+  name = "INDEX"
+  mediaType = "application/rss"
+  baseName = "index"
+  isPlainText = false
+  rel = "alternate"
+  isHTML = false
+  noUgly = true
+  permalinkable = false
+
+
+[mediaTypes."application/atom+xml"]
+  suffixes = ["xml"]
+
+[outputFormats.Atom]
+  name = "Atom"
+  mediaType = "application/atom+xml"
+  baseName = "atom"
+  isPlainText = false
+  rel = "alternate"
+  isHTML = false
+  noUgly = true
+  permalinkable = false
+
+[outputFormats.Feed]
+  name = "FEED"
+  mediaType = "application/atom+xml"
+  baseName = "feed"
+  isPlainText = false
+  rel = "alternate"
+  isHTML = false
+  noUgly = true
+  permalinkable = false
