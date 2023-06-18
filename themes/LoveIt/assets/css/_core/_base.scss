@@ -4,7 +4,9 @@ html {
   font-display: block;
   font-size: $global-font-size;
   line-height: $global-line-height;
-  width:100%;
+
+  margin-right: calc(100% - 100vw);
+  overflow-x: hidden;
 }
 
 /* scrollbar, only support webkit */

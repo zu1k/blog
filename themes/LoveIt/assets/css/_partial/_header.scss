@@ -29,7 +29,7 @@ header {
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  width: 100%;
+  width: 100vw;
 }
 
 .header-title {
@@ -158,7 +158,7 @@ header {
   }
 
   .header-wrapper {
-    padding: 0 2rem 0 calc(10vw + 100% - 100vw);
+    padding: 0 2rem 0 10vw;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 
