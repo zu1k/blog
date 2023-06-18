@@ -1,5 +1,5 @@
 {{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" ?>" | safeHTML }}
-{{ printf "<?xml-stylesheet type=\"text/css\" href=\"/css/rss.css\" ?>" | safeHTML }}
+{{- printf "<?xml-stylesheet type=\"text/xsl\" href=\"/xsl/rss.xsl\" ?>" | safeHTML }}
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>
