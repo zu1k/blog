@@ -2,7 +2,7 @@
 
 
 欢迎访问我的博客，这里主要分享我的一些经验、想法和作品。
-你可以通过 [[**RSS**]](https://zu1k.com/index.xml) 和 [[邮件订阅]](https://feedburner.google.com/fb/a/mailverify?uri=zu1k) 的方式持续关注我的博客更新
+你可以通过 [[**RSS**]](https://zu1k.com/rss.xml) 的方式持续关注我的博客更新
 
 ## 关于我
 
