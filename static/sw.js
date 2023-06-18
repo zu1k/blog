@@ -80,7 +80,7 @@ routing.registerRoute(
 );
 
 routing.registerRoute(
-    new RegExp('googletagmanager|cnzz|giscus|api\.github|rproxy'),
+    new RegExp('googletagmanager|cnzz|giscus|api\.github|rproxy|_vercel'),
     new NetworkOnly()
 );
 
