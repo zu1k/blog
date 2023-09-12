@@ -247,7 +247,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">时长信息4个时间单位不必全部写满，时长换算成秒如果低于30s意味着永久禁言，多于1年也是永久禁言
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">踢人
-</span></span><span class="line"><span class="cl">/add 日站<span class="o">===</span>kick
+</span></span><span class="line"><span class="cl">/add <span class="nv">日站</span><span class="o">===</span>kick
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>你还是可以结合上面的内容进行优化，因为delete、ban、kick也是回复种类之一，所以跟文字、照片、视频、文件等的使用方法相同，也就可以进行组合。</p>
@@ -285,7 +285,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">/goodbye
 </span></span><span class="line"><span class="cl">开启后，可以设置内容
-</span></span><span class="line"><span class="cl">/setgoodbyetext <span class="nv">$username</span>离开了我们群
+</span></span><span class="line"><span class="cl">/setgoodbyetext <span class="nv">$username离开了我们群</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>

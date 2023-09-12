@@ -200,15 +200,15 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">route-ttl 30000
-</span></span><span class="line"><span class="cl">proxy enp1s0 {
-</span></span><span class="line"><span class="cl">    router no
-</span></span><span class="line"><span class="cl">    timeout 500
-</span></span><span class="line"><span class="cl">    ttl 30000
-</span></span><span class="line"><span class="cl">    rule 2001:19f0:6001:48e4::/64 {
-</span></span><span class="line"><span class="cl">        static
-</span></span><span class="line"><span class="cl">    }
-</span></span><span class="line"><span class="cl">}
+<pre tabindex="0" class="chroma"><code class="language-conf" data-lang="conf"><span class="line"><span class="cl"><span class="nv">route-ttl</span> <span class="nv">30000</span>
+</span></span><span class="line"><span class="cl"><span class="nv">proxy</span> <span class="nv">enp1s0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">router</span> <span class="nv">no</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">timeout</span> <span class="nv">500</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">ttl</span> <span class="nv">30000</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">rule</span> <span class="nv">2001</span><span class="err">:</span><span class="nv">19f0</span><span class="err">:</span><span class="nv">6001</span><span class="err">:</span><span class="nv">48e4</span><span class="err">::/</span><span class="nv">64</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">static</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>启动 <code>ndppd</code>: <code>systemctl start ndppd</code></p>
@@ -789,7 +789,7 @@
 </span></span><span class="line"><span class="cl"><span class="nb">PS </span><span class="n">D:</span><span class="p">\</span><span class="n">blog</span><span class="p">&gt;</span> <span class="n">ipfs</span> <span class="n">add</span> <span class="n">-r</span> <span class="n">public</span>
 </span></span><span class="line"><span class="cl"><span class="n">added</span> <span class="n">QmZT5jXEi2HFVv8tzuDqULBaiEPc8geZFVjXxb9iAsBqbg</span> <span class="n">public</span><span class="p">/</span><span class="mf">404</span><span class="p">.</span><span class="py">html</span>
 </span></span><span class="line"><span class="cl"><span class="n">added</span> <span class="n">QmcGDfkg6mcboba3MkNeamGQvRgdnHiD4HZhvCRwEnSdSj</span> <span class="n">public</span><span class="p">/</span><span class="n">CNAME</span>
-</span></span><span class="line"><span class="cl"><span class="err">很长的滚屏后</span><span class="p">......</span>
+</span></span><span class="line"><span class="cl"><span class="n">很长的滚屏后</span><span class="p">......</span>
 </span></span><span class="line"><span class="cl"><span class="n">added</span> <span class="n">QmT61SS4ykbnt1ECQFDfX27QJdyhsVfRrLJztDvbcR7Kc1</span> <span class="n">public</span><span class="p">/</span><span class="n">tags</span>
 </span></span><span class="line"><span class="cl"><span class="n">added</span> <span class="n">QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</span> <span class="n">public</span>
 </span></span><span class="line"><span class="cl"> <span class="mf">35.12</span> <span class="n">MiB</span> <span class="p">/</span> <span class="mf">35.12</span> <span class="n">MiB</span> <span class="p">[===========================================]</span> <span class="mf">100.00</span><span class="p">%</span>

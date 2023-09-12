@@ -91,8 +91,6 @@ https://github.com/zu1k/nali
 
 https://github.com/book-searcher-org/book-searcher
 
-Demo: https://zbook.lol/
-
 ---
 
 ## Copy Translator

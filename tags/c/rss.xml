@@ -331,7 +331,7 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">string</span><span class="err">类重载运算符</span><span class="k">operator</span><span class="o">&gt;&gt;</span><span class="c1">//用于输入，同样重载运算符operator&lt;&lt;用于输出操作。函数getline(istream &amp;in,string &amp;s);//用于从输入流in中读取字符串到s中，以换行符&#39;\n&#39;分开。
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">string类重载运算符operator</span><span class="o">&gt;&gt;</span><span class="c1">//用于输入，同样重载运算符operator&lt;&lt;用于输出操作。函数getline(istream &amp;in,string &amp;s);//用于从输入流in中读取字符串到s中，以换行符&#39;\n&#39;分开。
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="string的赋值">string的赋值：</h2>
@@ -768,9 +768,9 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">iterator</span> <span class="nf">rend</span><span class="p">();</span><span class="c1">//返回string第一个字符位置的前面rbegin
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="err">和</span><span class="n">rend</span><span class="err">用于从后向前的迭代访问，通过设置迭代器</span>
+</span></span><span class="line"><span class="cl"><span class="err">和</span><span class="n">rend用于从后向前的迭代访问</span><span class="err">，通过设置迭代器</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">string</span><span class="o">::</span><span class="n">reverse_iterator</span><span class="p">,</span><span class="n">string</span><span class="o">::</span><span class="n">const_reverse_iterator</span><span class="err">实现</span>
+</span></span><span class="line"><span class="cl"><span class="n">string</span><span class="o">::</span><span class="n">reverse_iterator</span><span class="p">,</span><span class="n">string</span><span class="o">::</span><span class="n">const_reverse_iterator实现</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="字符串流处理">字符串流处理：</h2>

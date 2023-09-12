@@ -112,7 +112,7 @@
 </span></span><span class=line><span class=cl>时长信息4个时间单位不必全部写满，时长换算成秒如果低于30s意味着永久禁言，多于1年也是永久禁言
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>踢人
-</span></span><span class=line><span class=cl>/add 日站<span class=o>===</span>kick
+</span></span><span class=line><span class=cl>/add <span class=nv>日站</span><span class=o>===</span>kick
 </span></span></code></pre></td></tr></table></div></div><p>你还是可以结合上面的内容进行优化，因为delete、ban、kick也是回复种类之一，所以跟文字、照片、视频、文件等的使用方法相同，也就可以进行组合。</p><h3 id=屏蔽特定后缀文件>屏蔽特定后缀文件</h3><p>有人发送exe\com\bat等后缀的病毒？不用再去找其他机器人了，使用自定义规则即可完成屏蔽和禁言。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/add re:(\.exe|\.scr|\.cpl|\.com|\.cmd|\.bat|\.vbs)$===ban
 </span></span></code></pre></td></tr></table></div></div><p>这样带有exe\src\cpl\com\cmd\bat\vbs等可执行后缀的文件就会被自动删除，相关发送者就会被禁言。</p><blockquote><p>关键词功能可以根据每个群组添加的不同的关键词规则实现一些简单的回复或者更加复杂的操作，通过组合等方式来实现相应功能完全看你的规则，所以发挥你的脑洞吧。</p></blockquote><h3 id=进群欢迎和退群欢送>进群欢迎和退群欢送</h3><p>机器人可以设置欢迎和欢送文字</p><p>需要使用 <code>/welcome</code> 和 <code>/goodbye</code> 命令分别开启</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
@@ -128,7 +128,7 @@
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>/goodbye
 </span></span><span class=line><span class=cl>开启后，可以设置内容
-</span></span><span class=line><span class=cl>/setgoodbyetext <span class=nv>$username</span>离开了我们群
+</span></span><span class=line><span class=cl>/setgoodbyetext <span class=nv>$username离开了我们群</span>
 </span></span></code></pre></td></tr></table></div></div><blockquote><p>注意：加群欢迎和退群欢送文字默认开启markdown语法
 使用 $userid 自动替换 用户id, $username 自动替换用户名
 使用 $groupid 自动替换 群组id， $groupname 自动替换群组名</p></blockquote><h3 id=回复按钮>回复按钮</h3><blockquote><p>看样子很多人需要这个功能，就加上了</p></blockquote><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1

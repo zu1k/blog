@@ -44,15 +44,15 @@
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>route-ttl 30000
-</span></span><span class=line><span class=cl>proxy enp1s0 {
-</span></span><span class=line><span class=cl>    router no
-</span></span><span class=line><span class=cl>    timeout 500
-</span></span><span class=line><span class=cl>    ttl 30000
-</span></span><span class=line><span class=cl>    rule 2001:19f0:6001:48e4::/64 {
-</span></span><span class=line><span class=cl>        static
-</span></span><span class=line><span class=cl>    }
-</span></span><span class=line><span class=cl>}
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-conf data-lang=conf><span class=line><span class=cl><span class=nv>route-ttl</span> <span class=nv>30000</span>
+</span></span><span class=line><span class=cl><span class=nv>proxy</span> <span class=nv>enp1s0</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>router</span> <span class=nv>no</span>
+</span></span><span class=line><span class=cl>    <span class=nv>timeout</span> <span class=nv>500</span>
+</span></span><span class=line><span class=cl>    <span class=nv>ttl</span> <span class=nv>30000</span>
+</span></span><span class=line><span class=cl>    <span class=nv>rule</span> <span class=nv>2001</span><span class=err>:</span><span class=nv>19f0</span><span class=err>:</span><span class=nv>6001</span><span class=err>:</span><span class=nv>48e4</span><span class=err>::/</span><span class=nv>64</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kc>static</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span></code></pre></td></tr></table></div></div><p>启动 <code>ndppd</code>: <code>systemctl start ndppd</code></p><div class="details admonition note open"><div class="details-summary admonition-title"><i class="icon icon-pencil"></i>注意<i class="details-icon icon-angle-circled-right"></i></div><div class=details-content><div class=admonition-content><p>只有使用 ND 协议进行主机发现的时候才需要开启 NDP。</p><p>如果整个子网是直接路由过来，则无需进行这一步。例如使用 Linode 或 He.com Tunnelbroker</p></div></div></div><p><strong>验证</strong></p><p>接下来你可以验证一下了，用 <code>curl --interface</code> 指定出口 IP：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
