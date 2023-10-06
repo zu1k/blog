@@ -1,8 +1,13 @@
-{{- /* lazysizes and lightgallery.js */ -}}
-{{- $src := .Src -}}
-{{- with dict "Path" .Src "Resources" .Resources | partial "function/resource.html" -}}
-    {{- $src = .RelPermalink -}}
-{{- end -}}
+{{ $src :=  .Src }}
+{{ $image := .Resources.GetMatch $src }}
+{{ if $image }}
+    {{ if and (ne $image.MediaType.SubType "svg") (ne $image.MediaType.SubType "gif") }}
+        {{ $image = $image.Resize (print $image.Width "x" $image.Height " webp") }}
+        {{ $src = $image.RelPermalink }}
+    {{ end }}
+{{ else }}
+    {{ warnf "Unable to find image resource for src: %s" .Src }}
+{{ end }}
 
 {{- $alt := .Alt | default $src -}}
 {{- $loading := resources.Get "svg/loading.svg" | minify -}}
