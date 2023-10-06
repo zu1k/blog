@@ -96,7 +96,14 @@
 </div>
 </div><h3 id="发布">发布</h3>
 <p>在Cloudflare中增加一条DNS记录，需要打开CF代理</p>
-<p></p>
+<p>
+
+
+    
+        
+        
+    
+</p>
 <p>执行下面命令进行部署</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -110,7 +117,14 @@
 <p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用GitHub Actions将博客内容部署到CF Workers Site</p>
 <h3 id="添加认证信息">添加认证信息</h3>
 <p>在github仓库设置一个secret，名字为<code>CF_API_TOKEN</code>，值为Wrangler的token</p>
-<p></p>
+<p>
+
+
+    
+        
+        
+    
+</p>
 <h3 id="workflows">Workflows</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

@@ -2,7 +2,14 @@
 <p>文中的攻防过程令我很是激动，因为我想起了在2020年初的一件事</p>
 <h2 id="光猫升级事件">光猫升级事件</h2>
 <p>2020年1月初，访问某些http协议(80端口)的网站，会被劫持到一个联通光猫升级页面</p>
-<p><figure><a class="lightgallery" href="/posts/events/pinkbot/tieba-web-update.png" title="百度贴吧被劫持到升级页面" data-thumbnail="/posts/events/pinkbot/tieba-web-update.png" data-sub-html="<h2>百度贴吧被劫持到升级页面</h2><p>百度贴吧被劫持到升级页面</p>">
+<p><figure>
+
+
+    
+        
+        
+    
+<a class="lightgallery" href="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp" title="百度贴吧被劫持到升级页面" data-thumbnail="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp" data-sub-html="<h2>百度贴吧被劫持到升级页面</h2><p>百度贴吧被劫持到升级页面</p>">
         
     </a><figcaption class="image-caption">百度贴吧被劫持到升级页面</figcaption>
     </figure></p>
@@ -74,7 +81,14 @@
 </div>
 </div><p>很明显，这是一个后门，或者是一个漏洞，我更相信这是一个官方后门</p>
 <p>根据它的写法我稍微测试了一下，通过jsonp跨域，进行CSRF，的确可以执行任意命令</p>
-<p><figure><a class="lightgallery" href="/posts/events/pinkbot/test-backdoor.png" title="测试这个后门" data-thumbnail="/posts/events/pinkbot/test-backdoor.png" data-sub-html="<h2>测试后门</h2><p>测试这个后门</p>">
+<p><figure>
+
+
+    
+        
+        
+    
+<a class="lightgallery" href="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp" title="测试这个后门" data-thumbnail="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp" data-sub-html="<h2>测试后门</h2><p>测试这个后门</p>">
         
     </a><figcaption class="image-caption">测试后门</figcaption>
     </figure></p>
@@ -133,7 +147,14 @@
 <h3 id="联通工作人员上门升级">联通工作人员上门升级</h3>
 <p>2020年5月10号下午，联通工作人员上门进行光猫升级。具体升级方法就是把一块板子通过光猫侧面的口插到主板上，然后通过手机上的app进行固件刷写</p>
 <p>在交流的过程中，他透漏光猫大批量被控，有对外攻击流量，接上面要求需要对所有光猫进行升级。我家的光猫在线升级失败，只能到户手动完成。我看了一下他需要上门的名单，看样子我们这个区域关闭了在线管理接口的用户还不少啊哈哈哈</p>
-<p><figure><a class="lightgallery" href="/posts/events/pinkbot/update.jpg" title="联通工作人员上门升级" data-thumbnail="/posts/events/pinkbot/update.jpg" data-sub-html="<h2>联通工作人员上门升级</h2><p>联通工作人员上门升级</p>">
+<p><figure>
+
+
+    
+        
+        
+    
+<a class="lightgallery" href="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp" title="联通工作人员上门升级" data-thumbnail="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp" data-sub-html="<h2>联通工作人员上门升级</h2><p>联通工作人员上门升级</p>">
         
     </a><figcaption class="image-caption">联通工作人员上门升级</figcaption>
     </figure></p>

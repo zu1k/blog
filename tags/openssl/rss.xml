@@ -12,12 +12,33 @@
 <p><a href="https://www.nasm.us/" target="_blank" rel="noopener noreffer" class="post-link">https://www.nasm.us/</a></p>
 <h3 id="配置环境变量">配置环境变量</h3>
 <p>将刚刚安装的nasm和perl的bin目录加入PATH</p>
-<p></p>
+<p>
+
+
+    
+        
+        
+    
+</p>
 <h2 id="编译-openssl-静态链接库">编译 openssl 静态链接库</h2>
 <h3 id="初始化环境">初始化环境</h3>
 <p>使用visual studio自带的命令提示工具初始化环境，因为需要使用nmake</p>
-<p></p>
-<p></p>
+<p>
+
+
+    
+        
+        
+    
+</p>
+<p>
+
+
+    
+        
+        
+    
+</p>
 <h3 id="生成编译配置文件">生成编译配置文件</h3>
 <p>cd进入openssl源码目录</p>
 <p>执行 <code>perl Configure VC-WIN64A no-asm no-shared --prefix=&quot;D:\Project\opensslwork\openssl\build&quot; --openssldir=&quot;D:\Project\opensslwork\openssl\build\ssl&quot;</code></p>
@@ -35,14 +56,35 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>此时已经有了我们需要的头文件和静态链接lib库</p>
-<p></p>
-<p></p>
+<p>
+
+
+    
+        
+        
+    
+</p>
+<p>
+
+
+    
+        
+        
+    
+</p>
 <h2 id="使用openssl的api进行编程">使用openssl的api进行编程</h2>
 <h3 id="visual-studio项目配置">visual studio项目配置</h3>
 <p>vs创建空项目，然后配置头文件和库文件的路径</p>
 <p>项目右键-属性，配置选择所有配置，平台选择x64</p>
 <p><code>VC++ 目录</code> 配置里面的 <code>包含目录</code> 添加openssl的头文件目录, 我这里是 <code>D:\Project\opensslwork\openssl\build\include;</code></p>
-<p></p>
+<p>
+
+
+    
+        
+        
+    
+</p>
 <p><code>链接器</code> 里面的 <code>输入</code> 的 <code>附加依赖项</code> 添加 静态库名，<code>libcrypto.lib;libssl.lib;</code></p>
 <blockquote>
 <p>注意：在使用openssl的静态链接库时，除了添加 <code>libcrypto.lib;libssl.lib;</code>，还需要添加系统的依赖库：<code>crypt32.lib;WS2_32.lib;</code>， 因为openssl在windows平台使用了这些库。
@@ -237,9 +279,30 @@
 </blockquote>
 <h2 id="运行">运行</h2>
 <h3 id="运行截图">运行截图</h3>
-<p></p>
+<p>
+
+
+    
+        
+        
+    
+</p>
 <h3 id="生成的私钥文件">生成的私钥文件</h3>
-<p></p>
+<p>
+
+
+    
+        
+        
+    
+</p>
 <h3 id="生成的公钥文件">生成的公钥文件</h3>
-<p></p>
+<p>
+
+
+    
+        
+        
+    
+</p>
 ]]></description></item></channel></rss>

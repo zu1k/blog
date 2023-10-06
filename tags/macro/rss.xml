@@ -32,7 +32,14 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>需求本身确实简单，问题在于这个枚举类型的成员太多了，足足有 459 个，按照传统的思路，保守估计至少要写半天，并且很枯燥。图中可以看出，要对该枚举类型实现一个简单的函数都需要上千行。</p>
-<p><figure><a class="lightgallery" href="/posts/coding/i-love-rust-proc_macro/enum_variants_count.png" title="庞大的枚举类型" data-thumbnail="/posts/coding/i-love-rust-proc_macro/enum_variants_count.png" data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>">
+<p><figure>
+
+
+    
+        
+        
+    
+<a class="lightgallery" href="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp" title="庞大的枚举类型" data-thumbnail="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp" data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>">
         
     </a><figcaption class="image-caption">庞大的枚举类型</figcaption>
     </figure></p>
