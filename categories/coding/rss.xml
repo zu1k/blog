@@ -1123,7 +1123,7 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">export NALI_DB=geoip
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">export</span> <span class="n">NALI_DB</span><span class="o">=</span><span class="n">geoip</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="使用ipip数据库-1">使用ipip数据库</h5>
@@ -1132,7 +1132,7 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">export NALI_DB=ipip
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">export</span> <span class="n">NALI_DB</span><span class="o">=</span><span class="n">ipip</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="更换数据库目录">更换数据库目录</h3>
