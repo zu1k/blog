@@ -32,7 +32,7 @@ routing.registerRoute(
 );
 
 routing.registerRoute(
-    new RegExp('\\.(png|jpg|jpeg|gif|svg|ico)$'),
+    new RegExp('\\.(webp|png|jpg|jpeg|gif|svg|ico)$'),
     new CacheFirst({
         cacheName: 'images-cache',
         plugins: [
