@@ -85,16 +85,5 @@ routing.registerRoute(
 );
 
 routing.setDefaultHandler(
-    new CacheFirst({
-        cacheName: 'html-cache',
-        plugins: [
-            new CacheableResponsePlugin({
-                statuses: [200]
-            }),
-            new ExpirationPlugin({
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60,
-            }),
-        ]
-    })
+    new StaleWhileRevalidate()
 );
