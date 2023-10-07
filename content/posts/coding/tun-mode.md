@@ -4,14 +4,15 @@ date: 2022-03-22T22:01:18+08:00
 summary: TUN 是内核提供的三层虚拟网络设备，被众多 VPN 和 代理软件采用。本文介绍代理软件处理 TUN 数据的两种模式，并介绍如何避免产生路由环路。
 tags:
 - coding
-- tun
-- proxy
+- TUN
+- Proxy
+- Network
 categories:
 - coding
 keywords:
 - coding
-- tun
-- proxy
+- TUN
+- Proxy
 - cgroup
 - route
 toc: true

@@ -2,6 +2,7 @@
 title: 使用iptables将ubuntu配置为路由器
 tags:
   - iptables
+  - Network
 categories:
   - coding
 date: 2020-03-18 13:15:40

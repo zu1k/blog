@@ -2,12 +2,12 @@
 title: Telegram关键词自动回复机器人
 date: 2019-11-26 19:03:35
 tags: 
-    - telegram
+    - Telegram
     - coding
 categories:
     - coding
 keywords:
-    - telegram
+    - Telegram
     - tgbot
     - bot
     - tg
@@ -26,8 +26,8 @@ keywords:
     - 群主小秘
     - 群管家
     - 群主帮手
-    - tg机器人
-    - telegram机器人
+    - TG机器人
+    - Telegram机器人
     - 添加规则
     - 规则匹配
     - 删除规则

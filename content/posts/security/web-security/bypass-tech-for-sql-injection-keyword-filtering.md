@@ -8,7 +8,7 @@ tags:
 categories:
 - web-security
 keywords:
-- ctf
+- CTF
 - SQL
 - bypass
 - SQL injection

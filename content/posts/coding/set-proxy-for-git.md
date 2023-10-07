@@ -1,9 +1,10 @@
 ---
-title: 给 git 设置代理
+title: 给 Git 设置代理
 tags:
-  - proxy
+  - Proxy
   - GitHub
-  - git
+  - Git
+  - Network
 categories:
   - coding
 date: 2020-03-27 15:45:02

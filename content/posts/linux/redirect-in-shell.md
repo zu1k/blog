@@ -2,7 +2,7 @@
 title: Linux Shell中的重定向
 tags:
   - coding
-  - shell
+  - Shell
   - Linux
 categories:
   - coding

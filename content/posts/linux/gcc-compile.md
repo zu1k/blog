@@ -1,8 +1,7 @@
 ---
 title: 编译gcc
 tags:
-  - gcc
-  - compile
+  - coding
 categories:
   - coding
 date: 2019-12-28 21:02:59

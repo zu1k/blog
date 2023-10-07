@@ -1,9 +1,8 @@
 ---
-title: c/c++字符串处理大集合
+title: C/C++字符串处理大集合
 date: 2018-12-03 13:09:49
 tags:
-- c
-- c++
+- C/C++
 categories:
 - coding
 ---

@@ -4,12 +4,12 @@ date: 2022-05-07T19:21:25+08:00
 description: "哪个小伙子不想要一个拥有 1844 6744 0737 0955 1616 个 IP 的代理池？本文中我将介绍一种充分利用 IPv6 资源来构建代理池的方法"
 summary: "哪个小伙子不想要一个拥有 1844 6744 0737 0955 1616 个 IP 的代理池？本文中我将介绍一种充分利用 IPv6 资源来构建代理池的方法"
 tags:
-- proxy
+- Proxy
 - IPv6
 - Linux
 - NDP
-- ip_nonlocal_bind
 - Vultr
+- Network
 categories:
 - tutorial
 keywords:
@@ -21,6 +21,7 @@ keywords:
 - freebind
 - ip_nonlocal_bind
 - NDP
+- Network
 ---
 
 ## 前言

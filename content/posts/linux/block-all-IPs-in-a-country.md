@@ -2,7 +2,7 @@
 title: 屏蔽一个国家所有IP
 date: 2018-12-03 17:55:28
 tags:
-- ipset
+- Network
 - iptables
 categories:
 - coding
