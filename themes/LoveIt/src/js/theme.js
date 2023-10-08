@@ -475,7 +475,7 @@ class Theme {
             const $page = document.getElementsByClassName("page")[0];
             const rect = $page.getBoundingClientRect();
             $toc.style.left = `${rect.left + rect.width + 20}px`;
-            $toc.style.maxWidth = `${$page.getBoundingClientRect().left - 40}px`;
+            $toc.style.maxWidth = `${$page.getBoundingClientRect().left - 10}px`;
             $toc.style.visibility = "visible";
             const $tocLinkElements = $tocCore.querySelectorAll("a:first-child");
             const $tocLiElements = $tocCore.getElementsByTagName("li");

@@ -1,1 +1,1 @@
-{{ . | replaceRE "(?s)(<table>.*?</table>)" `<div class="table-wrapper">${1}</div>` | safeHTML }}
+{{ . | replaceRE "(?s)(<table.*?</table>)" `<div class="table-wrapper">${1}</div>` | safeHTML }}
