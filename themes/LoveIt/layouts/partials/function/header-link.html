@@ -1,0 +1,1 @@
+{{ . | replaceRE "(<h[1-6] id=\"([^\"]+)\">)(.+)(</h[1-6]+>)" `${1}<a href="#${2}" class="header-mark headerLink">${3}</a>${4}` | safeHTML }}

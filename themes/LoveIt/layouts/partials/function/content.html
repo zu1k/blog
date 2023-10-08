@@ -1,5 +1,7 @@
 {{- $content := .Content -}}
 
+{{- $content = partial "function/header-link.html" $content -}}
+
 {{- if .Fraction -}}
     {{- $content = partial "function/fraction.html" $content -}}
 {{- end -}}
