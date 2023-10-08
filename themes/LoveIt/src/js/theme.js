@@ -717,20 +717,23 @@ class Theme {
             this.initDetails();
             this.initHighlight();
             this.initTable();
-            this.initSmoothScroll();
         } catch (err) {
             console.error(err);
         }
 
         window.setTimeout(() => {
+            this.initSmoothScroll();
             this.initToc();
             this.onScroll();
             this.onResize();
             this.onClickMask();
+        }, 100);
+
+        window.setTimeout(() => {
             this.initSearch();
             this.initMermaid();
             this.initLightGallery();
-        }, 100);
+        }, 500);
 
         window.setTimeout(() => {
             this.initComment();
