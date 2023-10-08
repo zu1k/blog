@@ -452,15 +452,6 @@ class Theme {
         );
     }
 
-    initTable() {
-        this.util.forEach(document.querySelectorAll(".content table"), ($table) => {
-            const $wrapper = document.createElement("div");
-            $wrapper.className = "table-wrapper";
-            $table.parentElement.replaceChild($wrapper, $table);
-            $wrapper.appendChild($table);
-        });
-    }
-
     initToc() {
         const $tocCore = document.getElementById("TableOfContents");
         if ($tocCore === null) return;
@@ -716,7 +707,6 @@ class Theme {
             this.initSwitchTheme();
             this.initDetails();
             this.initHighlight();
-            this.initTable();
         } catch (err) {
             console.error(err);
         }
