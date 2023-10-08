@@ -705,13 +705,13 @@ class Theme {
         try {
             this.checkMobile();
             this.initSwitchTheme();
-            this.initDetails();
-            this.initHighlight();
         } catch (err) {
             console.error(err);
         }
 
         window.setTimeout(() => {
+            this.initHighlight();
+            this.initDetails();
             this.initSmoothScroll();
             this.initToc();
             this.onScroll();
