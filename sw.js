@@ -25,7 +25,7 @@ routing.registerRoute(
             }),
             new ExpirationPlugin({
                 maxEntries: 100,
-                maxAgeSeconds: 24 * 60 * 60,
+                maxAgeSeconds: 6 * 60 * 60,
             }),
         ]
     })
@@ -57,7 +57,7 @@ routing.registerRoute(
             }),
             new ExpirationPlugin({
                 maxEntries: 100,
-                maxAgeSeconds: 7 * 24 * 60 * 60,
+                maxAgeSeconds: 24 * 60 * 60,
             }),
         ]
     })
