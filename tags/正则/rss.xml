@@ -6,7 +6,7 @@
 </ol>
 <h2 id="正则表达式简单用法"><a href="#正则表达式简单用法" class="header-mark headerLink">正则表达式简单用法</a></h2>
 <p>常用元字符</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th style="text-align:left">代码</th>
@@ -43,9 +43,9 @@
 <td style="text-align:left">匹配字符串的结束</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>常用限定符</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th style="text-align:left">代码/语法</th>
@@ -78,9 +78,9 @@
 <td style="text-align:left">重复n到m次</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>常用反义词</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th style="text-align:left">代码/语法</th>
@@ -113,7 +113,7 @@
 <td style="text-align:left">匹配除了aeiou这几个字母以外的任意字符</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <!-- 
 ## 常用正则表达式
 
