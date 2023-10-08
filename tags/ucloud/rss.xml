@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>UCloud - 标签 - zu1k</title><link>https://zu1k.com/tags/ucloud/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 12 Apr 2020 16:37:56 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/ucloud/" rel="self" type="application/rss+xml"/><item><title>使用GlobalSSH服务加速境外服务器ssh访问</title><link>https://zu1k.com/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/</link><pubDate>Sun, 12 Apr 2020 16:37:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/</guid><description><![CDATA[<blockquote>
-<h3 id="ucloud已经对加速ip进行限制本文中的方法即时失效">UCloud已经对加速IP进行限制，本文中的方法即时失效</h3>
+<h3 id="ucloud已经对加速ip进行限制本文中的方法即时失效"><a href="#ucloud已经对加速ip进行限制本文中的方法即时失效" class="header-mark headerLink">UCloud已经对加速IP进行限制，本文中的方法即时失效</a></h3>
 <p>通知内容如下：<br>
 尊敬的UCloud用户，您好！<br>
 GlobalSSH产品即日起将暂时限制服务器IP地址范围，<br>
@@ -25,7 +25,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <li>如果科学上网服务器不稳定经常断流就会导致ssh连接断开</li>
 <li>部分客户端不支持设置http或者socks代理</li>
 </ol>
-<h2 id="globalssh">GlobalSSH</h2>
+<h2 id="globalssh"><a href="#globalssh" class="header-mark headerLink">GlobalSSH</a></h2>
 <p>今天发现了一个免费的加速服务，非常方便，推荐给需要的人</p>
 <p>这就是 UCloud 免费提供的 GlobalSSH 加速服务</p>
 <p>官网链接： <a href="https://console.ucloud.cn/upathx/globalssh" target="_blank" rel="noopener noreffer" class="post-link">https://console.ucloud.cn/upathx/globalssh</a></p>
@@ -47,13 +47,13 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </p>
 <p>创建之后会提供一个域名，可以将自己的域名CNAME解析到提供的域名上方便记忆，UCLOUD可以准确识别到是访问哪一台服务器</p>
 <p>在我们使用的客户端上只需要用提供的加速域名和原服务端口号就可以了</p>
-<h2 id="注意事项">注意事项</h2>
+<h2 id="注意事项"><a href="#注意事项" class="header-mark headerLink">注意事项</a></h2>
 <ol>
 <li>自产品实例创建之日起，7日内单个实例累计出向流量小于2MB，加速功能将被停用，所以一开始先多用点吧</li>
 <li>每个源IP只能加速一个端口</li>
 <li>加速流量上限官方未注明，滥用的话会被封</li>
 </ol>
-<h2 id="妙用">妙用</h2>
+<h2 id="妙用"><a href="#妙用" class="header-mark headerLink">妙用</a></h2>
 <p>众所周知，github在国内的访问速度很慢，有时候clone一个库不得不忍受十几k几十k每秒的速度</p>
 <p>而git是可以用ssh协议的，所以我们只需要从 <a href="https://api.github.com/meta" target="_blank" rel="noopener noreffer" class="post-link">https://api.github.com/meta</a> 找到github使用的ip，通过GlobalSSH加速22端口，然后将自己的域名解析到加速的ip，最后使用自己的域名clone就行了</p>
 <p>经过我的尝试效果还不错，可以跑到10Mbps</p>

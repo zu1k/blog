@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>密码学 - 分类 - zu1k</title><link>https://zu1k.com/categories/cryptography/</link><description>现代密码学是保障公民权益的最后一道防线，作为一名将来可能从事安全行业的预备生，我将在这个栏目里向你介绍密码学知识和一些攻击方法。不要害怕，虽然密码学从理论上是枯燥的，但是在实践中它又是非常有趣的。</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zu1k.com/categories/cryptography/" rel="self" type="application/rss+xml"/><item><title>MD5的Hash长度扩展攻击</title><link>https://zu1k.com/posts/security/crypto/md5-hash-length-extension-attack/</link><pubDate>Sun, 14 Oct 2018 17:53:03 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/crypto/md5-hash-length-extension-attack/</guid><description><![CDATA[<h2 id="一遇到的问题">一、遇到的问题</h2>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>密码学 - 分类 - zu1k</title><link>https://zu1k.com/categories/cryptography/</link><description>现代密码学是保障公民权益的最后一道防线，作为一名将来可能从事安全行业的预备生，我将在这个栏目里向你介绍密码学知识和一些攻击方法。不要害怕，虽然密码学从理论上是枯燥的，但是在实践中它又是非常有趣的。</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zu1k.com/categories/cryptography/" rel="self" type="application/rss+xml"/><item><title>MD5的Hash长度扩展攻击</title><link>https://zu1k.com/posts/security/crypto/md5-hash-length-extension-attack/</link><pubDate>Sun, 14 Oct 2018 17:53:03 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/crypto/md5-hash-length-extension-attack/</guid><description><![CDATA[<h2 id="一遇到的问题"><a href="#一遇到的问题" class="header-mark headerLink">一、遇到的问题</a></h2>
 <p>在一道web题目中遇到了以下判断:
 <code>if ($COOKIE[&quot;md5hash&quot;] === md5($secret . $input))</code></p>
 <p>在该题目中我们可以掌握的参数有<code>md5hash</code>、<code>input</code>的值，<code>secret</code>的md5值和长度，我们需要想办法让这个判断通过。</p>
 <p>由此想到了md5的hash长度扩展攻击。</p>
-<h2 id="二md5算法原理">二、md5算法原理</h2>
-<h3 id="基本介绍">基本介绍</h3>
+<h2 id="二md5算法原理"><a href="#二md5算法原理" class="header-mark headerLink">二、md5算法原理</a></h2>
+<h3 id="基本介绍"><a href="#基本介绍" class="header-mark headerLink">基本介绍</a></h3>
 <p>md5是对一段信息（Message）产生信息摘要（Message-Digest），所谓信息就是指我们需要加密的原数据，信息摘要是数据经过一系列计算得出来的一个长度固定的数据（可以说是源数据的一个独一无二的指纹）。</p>
-<h3 id="计算步骤">计算步骤</h3>
+<h3 id="计算步骤"><a href="#计算步骤" class="header-mark headerLink">计算步骤</a></h3>
 <p>MD5以512位分组来处理输入的信息，且每一分组又被划分为16个32位子分组，经过了一系列的处理后，算法的输出由四个32位分组组成，将这四个32位分组级联后将生成一个128位散列值。</p>
-<h4 id="第一步填充">第一步、填充</h4>
+<h4 id="第一步填充"><a href="#第一步填充" class="header-mark headerLink">第一步、填充</a></h4>
 <p>如果输入信息的长度(bit)对512求余的结果不等于448，就需要填充使得对512求余的结果等于448。填充的方法是填充一个1和n个0。填充完后，信息的长度就为N*512+448(bit)；</p>
-<h4 id="第二步记录信息长度">第二步、记录信息长度</h4>
+<h4 id="第二步记录信息长度"><a href="#第二步记录信息长度" class="header-mark headerLink">第二步、记录信息长度</a></h4>
 <p>用64位来存储填充前信息长度。这64位加在第一步结果的后面，这样信息长度就变为N*512+448+64=(N+1)*512位。</p>
-<h4 id="第三步装入标准的幻数四个整数">第三步、装入标准的幻数（四个整数）</h4>
+<h4 id="第三步装入标准的幻数四个整数"><a href="#第三步装入标准的幻数四个整数" class="header-mark headerLink">第三步、装入标准的幻数（四个整数）</a></h4>
 <p>标准的幻数（物理顺序）是</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -23,9 +23,9 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>标准的初幻数是Md5算法固定的，不会变化，但是幻数本身是随着每一轮计算不断变动的。</p>
-<h4 id="第四步四轮循环运算">第四步、四轮循环运算</h4>
+<h4 id="第四步四轮循环运算"><a href="#第四步四轮循环运算" class="header-mark headerLink">第四步、四轮循环运算</a></h4>
 <p>复杂运算，具体计算方法可以google一下代码。</p>
-<h3 id="举个计算的例子">举个计算的例子</h3>
+<h3 id="举个计算的例子"><a href="#举个计算的例子" class="header-mark headerLink">举个计算的例子</a></h3>
 <p>比如计算字符串<code>test</code>的md5值。</p>
 <p>十六进制<code>0x74657374</code>
 二进制<code>0b1110100011001010111001101110100</code></p>
@@ -65,12 +65,12 @@
 </div>
 </div><p>数据小于512位，所以将ABCD通过小端规则转换就是MD5值：<code>098f6bcd4621d373cade4e832627b4f6</code></p>
 <p>如果我输入的数据不是test而是一串很长的字符，换算出来大于512小于1024，就需要计算两次，第一次先计算前512位的ABCD的值，算出来后再用这个ABCD去计算后面512位的的ABCD的值，最后算出来的ABCD经过拼接就是这串字符的MD5了</p>
-<h2 id="三md5的hash扩展攻击">三、md5的hash扩展攻击</h2>
-<h3 id="解决的问题">解决的问题</h3>
+<h2 id="三md5的hash扩展攻击"><a href="#三md5的hash扩展攻击" class="header-mark headerLink">三、md5的hash扩展攻击</a></h2>
+<h3 id="解决的问题"><a href="#解决的问题" class="header-mark headerLink">解决的问题</a></h3>
 <p>如文章最初遇到的问题，由两个字符串组成一个字符串<code>$str=$a+$b</code>，第一个字符串<code>$a</code>不知道也不可控，只可控第二个字符串<code>$b</code>，同时知道第一个字符串<code>$a</code>的MD5值和长度，这时候将第二个字符串精心构造一下，便可以算出合成的字符串<code>$str</code>的MD5的值</p>
-<h3 id="攻击原理">攻击原理</h3>
+<h3 id="攻击原理"><a href="#攻击原理" class="header-mark headerLink">攻击原理</a></h3>
 <p>要明白攻击的原理，需要对md5计算方法稍微了解一下，就是上边的几个步骤，我们先来看一下以上问题正常计算的步骤。</p>
-<h4 id="正常的计算步骤">正常的计算步骤</h4>
+<h4 id="正常的计算步骤"><a href="#正常的计算步骤" class="header-mark headerLink">正常的计算步骤</a></h4>
 <p>假如第一个字符串<code>$a=“test”</code>,为了方便转为十六进制<code>0x74657374</code></p>
 <p>构造第二个字符串首先手动将<code>$str</code>补成一个标准的可以直接计算的512位</p>
 <div class="highlight"><div class="chroma">
@@ -148,13 +148,13 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>最后算出来的MD5是<code>e5596322eb12df999ef55368856340f5</code></p>
-<h4 id="发现问题">发现问题</h4>
+<h4 id="发现问题"><a href="#发现问题" class="header-mark headerLink">发现问题</a></h4>
 <p>我们看到了，将原数据按长度拆分后，第一轮计算的结果会作为幻数用在第二轮计算中。而在我们的问题中，第一轮计算的结果我们是已知的，也就是说，我们知道了第二轮计算的幻数，可以进行接下来的运算。</p>
 <p>因为知道了第一个字符串<code>$a</code>的长度，我们可以构造第二个字符串<code>$b</code>的值，也就是说我们手动在第二个字符串<code>$b</code>的前端添加一些特定数据，使得第一轮计算因为我们添加数据后符合一轮计算的原数据长度而只计算出第一个字符串的hash值。这样我们就可以利用这个结果作为我们二轮计算的幻数进行下面的计算，从而预测最终的md结果。</p>
 <p>具体的操作步骤看一下例子。</p>
-<h4 id="md5的hash长度扩展攻击操作实例">md5的hash长度扩展攻击操作实例</h4>
+<h4 id="md5的hash长度扩展攻击操作实例"><a href="#md5的hash长度扩展攻击操作实例" class="header-mark headerLink">md5的hash长度扩展攻击操作实例</a></h4>
 <p>我们作为攻击者来复现一下刚才正常计算的那个过程。</p>
-<h5 id="知道的条件">知道的条件</h5>
+<h5 id="知道的条件"><a href="#知道的条件" class="header-mark headerLink">知道的条件</a></h5>
 <pre><code>1.$a的MD5(098f6bcd4621d373cade4e832627b4f6)
 2.$a的长度=4
 3.$b我们可以任意控制
@@ -177,7 +177,7 @@ D=0xf6b42726
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$str=&#39;aaaa&#39;+&#39;\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00&#39;+&#39;test&#39;
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h5 id="我们脑补一下程序计算str的过程">我们脑补一下程序计算str的过程</h5>
+</div><h5 id="我们脑补一下程序计算str的过程"><a href="#我们脑补一下程序计算str的过程" class="header-mark headerLink">我们脑补一下程序计算str的过程</a></h5>
 <pre><code>1.由于大于512位，先补全为1024位，
 2.将其分为两部分
 3.计算第一部分的ABCD的值
@@ -188,8 +188,8 @@ D=0xf6b42726
 <p><code>0x74657374800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002002000000000000</code></p>
 <p>的MD5，发现是<code>e5596322eb12df999ef55368856340f5</code>，和上面正向计算出来的一样！</p>
 <p>到此，md5的hash扩展攻击结束。</p>
-<h2 id="四代码实现">四、代码实现</h2>
-<h3 id="my_md5py">my_md5.py</h3>
+<h2 id="四代码实现"><a href="#四代码实现" class="header-mark headerLink">四、代码实现</a></h2>
+<h3 id="my_md5py"><a href="#my_md5py" class="header-mark headerLink">my_md5.py</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">  1
@@ -616,7 +616,7 @@ D=0xf6b42726
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">show_md5</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="testpy">test.py</h3>
+</div><h3 id="testpy"><a href="#testpy" class="header-mark headerLink">test.py</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -679,5 +679,5 @@ D=0xf6b42726
 </div>
 </div><p>脚本使用时第一个命令行参数是一个服务端加密一个固定长度数据的md5，第二个参数是固定的长度
 例如已知服务端加密一个15字符的md5：test.py 571580b26c65f306376d4f64e53cb5c7 15</p>
-<h4 id="参考文章">参考文章</h4>
+<h4 id="参考文章"><a href="#参考文章" class="header-mark headerLink">参考文章</a></h4>
 <p><a href="https://www.cnblogs.com/p00mj/p/6288337.html" target="_blank" rel="noopener noreffer" class="post-link">MD5的Hash长度扩展攻击</a></p>]]></description></item></channel></rss>

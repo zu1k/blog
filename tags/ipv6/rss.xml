@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>IPv6 - 标签 - zu1k</title><link>https://zu1k.com/tags/ipv6/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 07 May 2022 19:21:25 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/ipv6/" rel="self" type="application/rss+xml"/><item><title>谁不想要 2^64 个 IP 的代理池 ？</title><link>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</link><pubDate>Sat, 07 May 2022 19:21:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>IPv6 - 标签 - zu1k</title><link>https://zu1k.com/tags/ipv6/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 07 May 2022 19:21:25 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/ipv6/" rel="self" type="application/rss+xml"/><item><title>谁不想要 2^64 个 IP 的代理池 ？</title><link>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</link><pubDate>Sat, 07 May 2022 19:21:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</guid><description><![CDATA[<h2 id="前言"><a href="#前言" class="header-mark headerLink">前言</a></h2>
 <p>昨天我舍友为了爬虫购买了昂贵的 IP 代理池，我在旁边突然萌生了一个想法，现在各大 ISP/IDC 动不动就给你分配一整个 64 位前缀的 IPv6 网段，我们能不能好好利用一下这庞大的 IPv6 IP 资源呢？</p>
 <p>有了这个想法我就睡不着了，今天一大早（9点半）我就起来着手研究，最终成功实现每一个请求从一个单独的 IPv6 地址发出。</p>
 <p>先看效果，我把写好的程序放在服务器上跑了一会，下面是 Cloudflare 统计的访问信息，可以看到独立访问者 (独立 IP) 数量达到了我的小博客前所未有的数量，基本上是一个请求一个独立 IP，效果非常不错。</p>
@@ -14,7 +14,7 @@
         
     
 </p>
-<h2 id="教程">教程</h2>
+<h2 id="教程"><a href="#教程" class="header-mark headerLink">教程</a></h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
 <p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[AFF 链接]</a>.</p>
 <p>你可以通过 <code>ip a</code> 命令查看网络接口的地址，从而获取你的 IPv6 子网信息：</p>
@@ -123,7 +123,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以看到，能够按照我们指定的任意 IP 进行请求</p>
-<h2 id="http-代理">Http 代理</h2>
+<h2 id="http-代理"><a href="#http-代理" class="header-mark headerLink">Http 代理</a></h2>
 <p>为了方便使用，使用 Rust 写了一个 http 代理服务端，每一个请求会走指定 IPv6 子网下随机 IP，算是一个基础 demo</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -166,7 +166,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
-<h2 id="碎碎念">碎碎念</h2>
+<h2 id="碎碎念"><a href="#碎碎念" class="header-mark headerLink">碎碎念</a></h2>
 <!-- ### Proxypool 项目
 
 舍友要买代理池，我就去 GitHub 上搜了一下，没想到我之前早已停更的项目竟然排在第一位。
@@ -174,7 +174,7 @@
 ![GitHub 搜 proxypool](github-proxypool.png)
 
 排名第二的是专门给爬虫准备的代理池，作者是我的师兄，他对爬虫有非常深入的研究，推荐给大家。 -->
-<h3 id="一开始的想法">一开始的想法</h3>
+<h3 id="一开始的想法"><a href="#一开始的想法" class="header-mark headerLink">一开始的想法</a></h3>
 <p>其实我一开始的想法并不是直接给接口附加整个 IP 段的。一开始我并不知道网络接口可以直接附加一整个 IP 段，考虑到这个 IPv6 段数量过于庞大，通过枚举给接口附加多个静态 IP 显然不现实，所以我就在想办法去自己封装 IP 包然后进行注入。</p>
 <p>我想到了两个注入数据包的方案：</p>
 <ol>
@@ -188,7 +188,7 @@
 <p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="" class="post-link">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="" class="post-link">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
 <p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-Linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
 <p>幸亏后面搜资料发现了本文方便的方法，才避免了我陷入这些迷途。反思一下，即自己的知识不够，对 Linux 内核及其提供的众多功能了解不够深入，导致人家原本就有的功能自己根本不知道，所以想不出合适的方案。</p>
-<h3 id="waf">WAF</h3>
+<h3 id="waf"><a href="#waf" class="header-mark headerLink">WAF</a></h3>
 <p>我也不是非常了解，现在的 WAF 是不是就是单纯根据 IP 来进行限流限速 ？如果真是这样，那利用这庞大的 IPv6 资源岂不是轻松绕过封禁。</p>
 <p>如果是会直接封禁或者限制整个子网，会不会有很严重的误杀，毕竟不是所有 ISP 都会这么大方的给一整个 IP 段。</p>
 <p>有了解的小伙伴欢迎评论交流。</p>

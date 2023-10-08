@@ -99,7 +99,7 @@
 ]]></description></item><item><title>给 Git 设置代理</title><link>https://zu1k.com/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，GitHub 的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
 <p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议</p>
 <p>而我们平时使用github一般使用两种协议，一种是http协议，另一种是ssh协议，针对这两种协议有两种不同的代理设置办法</p>
-<h2 id="http协议">http协议</h2>
+<h2 id="http协议"><a href="#http协议" class="header-mark headerLink">http协议</a></h2>
 <p>通常使用的链接形如：<code>https://github.com/git/git.git</code></p>
 <p>针对这种协议，代理设置比较简单</p>
 <div class="highlight"><div class="chroma">
@@ -122,7 +122,7 @@
 </span></span><span class="line"><span class="cl">git config --global --unset https.proxy
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="ssh协议">ssh协议</h2>
+</div><h2 id="ssh协议"><a href="#ssh协议" class="header-mark headerLink">ssh协议</a></h2>
 <p>通常使用的链接形如：<code>git@github.com:git/git.git</code> 或者 <code>ssh://[&lt;username&gt;@]&lt;server&gt;[:&lt;port&gt;]/path/repo.git</code></p>
 <p>对于使用ssh协议的库，上面的代理设置办法就失效了，需要给ssh设置socks代理</p>
 <p>在 <code>~/.ssh/config</code> 文件中添加下面内容， 如果没有这个文件就新建</p>
@@ -188,10 +188,10 @@
         
     
 </p>
-<h2 id="检查github证书">检查GitHub证书</h2>
+<h2 id="检查github证书"><a href="#检查github证书" class="header-mark headerLink">检查GitHub证书</a></h2>
 <p>这里我通过北京和香港两台阿里云主机，使用openssl提供的方法查看证书详细内容</p>
 <p>命令为: <code>openssl s_client -showcerts -connect github.com:443 &lt; /dev/null</code></p>
-<h3 id="北京阿里云">北京阿里云</h3>
+<h3 id="北京阿里云"><a href="#北京阿里云" class="header-mark headerLink">北京阿里云</a></h3>
 <details>
   <summary>点击展开</summary>
 <div class="highlight"><div class="chroma">
@@ -383,7 +383,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div></details>
-<h3 id="香港阿里云">香港阿里云</h3>
+<h3 id="香港阿里云"><a href="#香港阿里云" class="header-mark headerLink">香港阿里云</a></h3>
 <details>
   <summary>点击展开</summary>
 <div class="highlight"><div class="chroma">
@@ -609,16 +609,16 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div></details>
-<h2 id="实施手段">实施手段</h2>
+<h2 id="实施手段"><a href="#实施手段" class="header-mark headerLink">实施手段</a></h2>
 <p>通过检查网络和对出现的状况的分析，我认为这次MITM不是通过sni或者返回的证书进行的，而是直接针对某些ip的443端口进行的</p>
 <p>通过控制这些ip的路由，让流量经过某些恶意节点，在某个恶意节点针对443端口进行MITM，而不检查实际访问的域名和返回的证书</p>
 <p>并且这次事件所影响的github的ip并不全，通过doh或dot获取到国外服务器解析到的ip而不是国内使用的几个ip，可以正常访问github</p>
-<h2 id="危害">危害</h2>
+<h2 id="危害"><a href="#危害" class="header-mark headerLink">危害</a></h2>
 <p>使用TLS是保证我们访问网站时信息不被中间人窥探和篡改的有效手段，如果TLS用来加密通讯使用的证书出现问题，那么信息安全就无从谈起</p>
 <p>TLS使用公钥密码算法交换后面数据进行对称加密使用的秘钥，作为中间人没有服务器上的私钥就无法解密获得后面加密使用的秘钥，所以即使截获到https的数据报文，也无法解密和篡改传输的内容</p>
 <p>而本次事件使用的手法是MITM常用手法，通常情况下我们为了抓包和改包，会自己签署一个假的证书并导入自己被抓包设备的信任证书列表，然后中间人分别与服务器和客户端建立TLS连接，简单来说，中间人作为客户端从服务器获取内容，然后作为服务器向真正的客户端传输修改后的内容</p>
 <p>所以如果我们信任了浏览器给出的警告，就会导致我们的信息包括github用户名、邮箱、密码、token和私有库泄露</p>
-<h2 id="如何防范">如何防范</h2>
+<h2 id="如何防范"><a href="#如何防范" class="header-mark headerLink">如何防范</a></h2>
 <p>作为站长，首先可以确定的是，并没有什么用户无痛(无需用户进行任何操作和设置)的办法来绕过这类针对性的MITM攻击，如果需要保护用户的隐私，建议开启域名的HSTS策略，这样浏览器检查到证书错误时的警告页面上就不会显示 <code>忽略警告</code> 相关按钮，防止不懂的用户忽略安全警告进行访问，避免隐私数据泄露</p>
 <p>当然，像昨天那种针对 GitHub Pages 的攻击只会导致用户无法访问，并不会带来隐私泄露，因为github pages是提供静态网页托管，根本不需要用户输入隐私数据</p>
 <p>作为访客，因为这种中间人攻击肯定发生在路由路径的某一个节点处，所以我们可以使用代理绕过这个恶意节点，这应该是目前最简单最好用的方法了</p>
@@ -627,11 +627,11 @@
 <p>因为我自己访问国外网站一直是使用代理，所以本次事件对我的影响几乎等于零
 因为不受影响，所以也很难在第一时间发现这类事件，后续需要准备一个监控系统了</p>
 </blockquote>
-]]></description></item><item><title>使用GitHub Actions对Hexo博客自动部署</title><link>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>使用GitHub Actions对Hexo博客自动部署</title><link>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言"><a href="#前言" class="header-mark headerLink">前言</a></h2>
 <p>很多同学和我一样也在用Hexo搭建自己的博客，通常最后发布的操作是 <code>hexo g</code> 生成静态网页，然后 <code>hexo d</code> 将public目录推送到github、coding、gitee等平台。</p>
 <p>但是很多时候我们都想偷个懒，只管写博客，写完后将git 一 push，后面的生成部署工作让程序自动完成，github actions为我们提供了这个便利。</p>
-<h2 id="操作">操作</h2>
-<h3 id="开启actions功能">开启actions功能</h3>
+<h2 id="操作"><a href="#操作" class="header-mark headerLink">操作</a></h2>
+<h3 id="开启actions功能"><a href="#开启actions功能" class="header-mark headerLink">开启actions功能</a></h3>
 <p>在我们博客的github仓库顶部可以找到 Actions 菜单，在里面我们可以搜索、选择各种预备好的actions模板，也可以点击 <code>Set up a workflow yourself</code> 按钮创建自己的工作流。</p>
 <p>
 
@@ -660,7 +660,7 @@
     
 </p>
 <p>当然，也可以选择在 hexo 根目录下创建 <code>.github/workflows</code> 目录，并在里面编写github actions配置文件的方法来开启这个功能。</p>
-<h3 id="基本部署">基本部署</h3>
+<h3 id="基本部署"><a href="#基本部署" class="header-mark headerLink">基本部署</a></h3>
 <p>首先我们需要将git库的代码检出到github actions提供的容器中，这里使用github提供的checkout步骤</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -732,9 +732,9 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">cname</span><span class="p">:</span><span class="w"> </span><span class="l">g.blog.zu1k.com</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="增加更多功能">增加更多功能</h3>
+</div><h3 id="增加更多功能"><a href="#增加更多功能" class="header-mark headerLink">增加更多功能</a></h3>
 <p>在github actions工作流中，还可以完成更多更复杂的操作，里面可以直接执行shell脚本，可以使用docker镜像提供的特殊环境，大家可以根据自己需求进行修改。</p>
-<h2 id="完整配置文件">完整配置文件</h2>
+<h2 id="完整配置文件"><a href="#完整配置文件" class="header-mark headerLink">完整配置文件</a></h2>
 <p>我的配置文件是适合我自己博客用的，里面还包括了网页、js、css、图片的压缩，cdn链接的替换，自动打release方便绕过jsDelivr的缓存。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -835,15 +835,15 @@
 </div><blockquote>
 <p>在github actions将page专用分支更新后，zeit\netlify\github pages三个平台都会自动将最新的内容部署上，这样我就只需要关注博客内容，后续操作都不需要管了</p>
 </blockquote>
-]]></description></item><item><title>加快GitHub Pages国内访问速度</title><link>https://zu1k.com/posts/coding/speedup-github-page/</link><pubDate>Thu, 19 Mar 2020 17:17:53 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/speedup-github-page/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>加快GitHub Pages国内访问速度</title><link>https://zu1k.com/posts/coding/speedup-github-page/</link><pubDate>Thu, 19 Mar 2020 17:17:53 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/speedup-github-page/</guid><description><![CDATA[<h2 id="前言"><a href="#前言" class="header-mark headerLink">前言</a></h2>
 <p>相信不少小伙伴都在使用 GitHub Pages 提供的免费静态网站托管来搭建自己的博客，但是因为墙的存在和特殊国情，使用 GitHub Pages 搭建的网站速度普遍不快，因此很多小伙伴只能转战国内付费的服务器和 CDN。</p>
 <p>正巧我也在使用 GitHub Pages 搭建自己的静态博客，正好来说一下我的优化方法。</p>
-<h2 id="压缩">压缩</h2>
+<h2 id="压缩"><a href="#压缩" class="header-mark headerLink">压缩</a></h2>
 <p>默认情况下，如果我们查看 Hexo 生成的静态网页源代码，会发现存在大量的空格、空行、注释等无用内容。同样的，如果使用的 hexo 主题没有进行优化，大量的 css 和 js 文件也存在这样的垃圾内容。</p>
 <p>如果你在一些大型网站右键查看网页源代码，你会发现他们的 html\js\css 是经过压缩处理的，没有多余的换行和注释，这势必会节省带宽流量和传输时间，提升用户体验。</p>
 <p>所以我们优化速度的第一关就是对 Hexo 生成的代码进行压缩。</p>
 <p>这里我使用的工具是 gulp</p>
-<h3 id="安装-gulp">安装 gulp</h3>
+<h3 id="安装-gulp"><a href="#安装-gulp" class="header-mark headerLink">安装 gulp</a></h3>
 <p>在自己本机安装</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -891,7 +891,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>            imagemin-optipng
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="创建配置文件">创建配置文件</h3>
+</div><h3 id="创建配置文件"><a href="#创建配置文件" class="header-mark headerLink">创建配置文件</a></h3>
 <p>在博客 hexo 的根目录下，新建 <code>gulpfile.js</code> 配置文件</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1045,9 +1045,9 @@
 </span></span><span class="line"><span class="cl"><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用方法">使用方法</h3>
+</div><h3 id="使用方法"><a href="#使用方法" class="header-mark headerLink">使用方法</a></h3>
 <p>在使用 <code>hexo g</code> 生成静态网站后， 运行 <code>gulp</code> 进行压缩</p>
-<h2 id="使用-cdn">使用 CDN</h2>
+<h2 id="使用-cdn"><a href="#使用-cdn" class="header-mark headerLink">使用 CDN</a></h2>
 <p>如果你查看博客的网络请求内容，你会发现在 html 加载之后，还有一堆小文件等待加载，而这些 css\js\图片文件的加载占据了大部分的网页打开时间。</p>
 <p>因为 GitHub Pages 的延迟巨大，速度极慢，我们更有必要使用国内的 CDN 对这些资源进行分发。</p>
 <p>不想使用国内付费的 CDN 服务，我尝试过使用 CloudFlare 进行加速（实质减速）效果不佳，后来发现了 jsDelivr。</p>
@@ -1058,7 +1058,7 @@
 <p>这是我目前找到的唯一一家在国内有节点并且不需要备案的 CDN 分发服务</p>
 </blockquote>
 <p>这里我就以我使用的主题为例，分享一下我如何使用 jsDelivr 进行 CDN 分发</p>
-<h3 id="链接格式">链接格式</h3>
+<h3 id="链接格式"><a href="#链接格式" class="header-mark headerLink">链接格式</a></h3>
 <p>jsDelivr 针对 GitHub 资源有众多 URL 格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1094,9 +1094,9 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们可以通过打 tag 来访问同一个资源文件的不同版本，而不需要考虑缓存时间</p>
-<h3 id="替换链接">替换链接</h3>
+<h3 id="替换链接"><a href="#替换链接" class="header-mark headerLink">替换链接</a></h3>
 <p>大部分 hexo 主题并不会对使用到的 js\css\图片\字体 套上 CDN，我们来手动替换</p>
-<h4 id="css-样式表">css 样式表</h4>
+<h4 id="css-样式表"><a href="#css-样式表" class="header-mark headerLink">css 样式表</a></h4>
 <p>大部分 css 样式会在 <code>head</code> 标签里面引入，这里的 css 样式表会阻塞页面的渲染，导致打开慢的体验，所以需要特别注意</p>
 <p>我将我使用的主题的 style.css \ rtl.css \ disquesjs.css 替换成 jsDelivr，明显提升了等待时间</p>
 <p>
@@ -1124,7 +1124,7 @@
         
     
 </p>
-<h4 id="js-脚本">js 脚本</h4>
+<h4 id="js-脚本"><a href="#js-脚本" class="header-mark headerLink">js 脚本</a></h4>
 <p>寻找并替换各种调用到的 js 脚本</p>
 <p>
 
@@ -1165,7 +1165,7 @@
     
 </p>
 <p>还有其他的一些地方，不一一列举了</p>
-<h4 id="字体">字体</h4>
+<h4 id="字体"><a href="#字体" class="header-mark headerLink">字体</a></h4>
 <p>字体需要特别注意，通常情况下比较大，耗时比较长</p>
 <p>
 
@@ -1180,7 +1180,7 @@
     
 </p>
 <p>我使用的主题使用的字体通过 <code>all.min.css</code> 引入，因为前面这个 css 样式已经通过 jsDelivr 导入，里面的字体使用的是相对链接，所以字体默认也是通过 jsDelivr 引入了</p>
-<h4 id="img-小图片">img 小图片</h4>
+<h4 id="img-小图片"><a href="#img-小图片" class="header-mark headerLink">img 小图片</a></h4>
 <p>一般是 logo 等资源，根据主题自行替换</p>
 <blockquote>
 <p>更新：为了更好的控制版本和决定是否使用 jsDelivr, 可以将这个地方独立出来放到配置文件里</p>
@@ -1221,7 +1221,7 @@
 </span></span><span class="line"><span class="cl">其他的地方同样的方法
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="加载时文字可见">加载时文字可见</h2>
+</div><h2 id="加载时文字可见"><a href="#加载时文字可见" class="header-mark headerLink">加载时文字可见</a></h2>
 <p>无论怎样优化，字体加载的时间无法忽略，这段时间的网页文字显示为空，这给用户带来卡顿感</p>
 <p>我们必须使字体加载时文字可见，这样才能弥补 github pages 的慢</p>
 <p>具体方法是将各 <code>@font-face</code> 中 <code>font-display</code> 设置为 <code>swap</code>, 这样可以在字体未加载完时临时使用系统字体替代，加载完后重新渲染字体</p>
@@ -1238,7 +1238,7 @@
     
 </p>
 <p>每一个地方都需要改，自己搜索吧</p>
-<h2 id="使用-disqusjs">使用 DisqusJS</h2>
+<h2 id="使用-disqusjs"><a href="#使用-disqusjs" class="header-mark headerLink">使用 DisqusJS</a></h2>
 <p>由于众所周知的原因，disqus 被墙了，国内访问不了，而大部分 hexo 网站都使用 disqus 作为评论系统，这导致网页会卡在评论区的加载上，虽然网页已经加载完了，但进度条还在进行，给用户带来慢的感觉。</p>
 <p>并且，即使有的用户翻墙能够访问 Disqus，但 Disqus 本身非常笨重，各种 CSS/JS/Font/API 加起来请求不小于 2MB，当 Disqus 加载时，浏览器会在主线程中同步解析、渲染 Disqus，造成卡顿感。</p>
 <p>在上网搜索之后，找到了一个替代方案，那就是苏卡卡大佬的 DisqusJS，大家可以根据教程对自己博客的主题进行修改</p>
@@ -1252,9 +1252,9 @@
 <blockquote>
 <p>如果 disqusJS 默认样式不适合自己的主题，推荐 fork 原库进行修改，注意要使用 1.2.6，最新的 master 在懒加载上有点问题</p>
 </blockquote>
-<h2 id="使用懒加载">使用懒加载</h2>
+<h2 id="使用懒加载"><a href="#使用懒加载" class="header-mark headerLink">使用懒加载</a></h2>
 <p>如果图片和评论区随着页面在一开始就加载，势必会拖累网页首次渲染和文字的迅速显示，这里最好的办法是使用懒加载技术</p>
-<h3 id="图片懒加载">图片懒加载</h3>
+<h3 id="图片懒加载"><a href="#图片懒加载" class="header-mark headerLink">图片懒加载</a></h3>
 <p>对于图片，我使用了 <code>hexo-lazyload-image</code> 这个插件</p>
 <p>安装</p>
 <div class="highlight"><div class="chroma">
@@ -1312,7 +1312,7 @@
 </span></span><span class="line"><span class="cl">    url: https://cdn.com
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="评论懒加载">评论懒加载</h3>
+</div><h3 id="评论懒加载"><a href="#评论懒加载" class="header-mark headerLink">评论懒加载</a></h3>
 <p>对于评论区，很多情况下用户根本不会划到页面底部（文章写得太烂没人看得下去）。</p>
 <p>所以我这里对 disqus 的加载使用懒加载技术，参考 <a href="https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/" target="_blank" rel="noopener noreffer" class="post-link">https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/</a></p>
 <p>我使用的是 disqusJS, 下面给出加载的 js 代码</p>
@@ -1394,7 +1394,7 @@
 </span></span><span class="line"><span class="cl"><span class="o">&lt;%</span> <span class="p">}</span> <span class="o">%&gt;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="终极大招">终极大招</h2>
+</div><h2 id="终极大招"><a href="#终极大招" class="header-mark headerLink">终极大招</a></h2>
 <p>如果经过上面的优化，你还对博客的加载速度不满意，那一定是 github pages 服务器在美国的原因，200+ms 的延迟导致首字节返回时间不短</p>
 <p>其实支持通过 GitHub 仓库代码进行构建，部署为静态网站的平台不值 github pages 一家，我使用过的比较好的是 <code>zeit.co</code> ， 国内访问走的是台湾的 gcp 节点，延迟低速度快，推荐</p>
 <p>具体使用方法非常简单，自行摸索吧</p>
@@ -1404,6 +1404,6 @@
 Due to that, we cannot deploy the commit e80751b.</p>
 <p>You can try again later or upgrade your plan.</p>
 </blockquote>
-<h2 id="辅助优化">辅助优化</h2>
+<h2 id="辅助优化"><a href="#辅助优化" class="header-mark headerLink">辅助优化</a></h2>
 <p>使用谷歌提供的 <a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="noopener noreffer" class="post-link">Pagespeed Insights</a> 工具分析网页加载并根据建议进行优化</p>
 ]]></description></item></channel></rss>

@@ -814,11 +814,11 @@
 </div><p>最终的答案是一个html文件，存在D盘根目录，名称EnglishAnswer.html,直接双击用浏览器打开就可以。</p>
 <p>后续补充：有时候网页中会出现个别字符导致文件写入编码方式出错，请自己使用replace函数移除相应字符。</p>]]></description></item><item><title>人脸检测与识别基础教程</title><link>https://zu1k.com/posts/tutorials/ai/face-detection-and-recognition-basic-tutorial/</link><pubDate>Sun, 14 Oct 2018 15:58:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/ai/face-detection-and-recognition-basic-tutorial/</guid><description><![CDATA[<p>这里我们将要介绍如何使用python进行简单的人脸检测与人脸识别，并且通过gpu来加速。</p>
 <p>注意：这里都是基础内容，如果需要更加强大深入的请出门左转。</p>
-<h2 id="一环境搭建与资源下载">一、环境搭建与资源下载</h2>
+<h2 id="一环境搭建与资源下载"><a href="#一环境搭建与资源下载" class="header-mark headerLink">一、环境搭建与资源下载</a></h2>
 <p>下面介绍简单人脸检测与识别需要使用到的几个重要依赖。</p>
-<h3 id="基础环境">基础环境</h3>
+<h3 id="基础环境"><a href="#基础环境" class="header-mark headerLink">基础环境</a></h3>
 <p>我所使用的环境是windows 10 + python3.6(64位)</p>
-<h3 id="python库">python库</h3>
+<h3 id="python库"><a href="#python库" class="header-mark headerLink">python库</a></h3>
 <ol>
 <li>numpy</li>
 <li>OpenCV</li>
@@ -832,46 +832,46 @@
 python安装依赖可以选择在线安装，如 <code>pip install 依赖名</code><br>
 也可以选择使用whl文件安装，如 <code>pip install whl文件位置</code></p>
 </blockquote>
-<h4 id="1-python扩展程序集numpyhttpswwwlfduciedugohlkepythonlibsnumpy">1. python扩展程序集：<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy" target="_blank" rel="noopener noreffer" class="post-link">numpy</a></h4>
+<h4 id="1-python扩展程序集numpyhttpswwwlfduciedugohlkepythonlibsnumpy"><a href="#1-python扩展程序集numpyhttpswwwlfduciedugohlkepythonlibsnumpy" class="header-mark headerLink">1. python扩展程序集：<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy" target="_blank" rel="noopener noreffer" class="post-link">numpy</a></a></h4>
 <p>基于我的环境，我使用的是<code>numpy‑1.15.2+mkl‑cp36‑cp36m‑win_amd64.whl</code>这个版本，大家可以根据自己环境选择适合自己的版本下载。</p>
 <p>安装使用命令 <code>pip3 install numpy‑1.15.2+mkl‑cp36‑cp36m‑win_amd64.whl</code></p>
-<h4 id="2-计算机视觉库opencvhttpswwwlfduciedugohlkepythonlibsopencv">2. 计算机视觉库：<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#opencv" target="_blank" rel="noopener noreffer" class="post-link">OpenCV</a></h4>
+<h4 id="2-计算机视觉库opencvhttpswwwlfduciedugohlkepythonlibsopencv"><a href="#2-计算机视觉库opencvhttpswwwlfduciedugohlkepythonlibsopencv" class="header-mark headerLink">2. 计算机视觉库：<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#opencv" target="_blank" rel="noopener noreffer" class="post-link">OpenCV</a></a></h4>
 <p>我使用的是<code>opencv_python‑3.4.3‑cp36‑cp36m‑win_amd64.whl</code>这个版本。</p>
 <p>安装使用命令 <code>pip3 install opencv_python‑3.4.3‑cp36‑cp36m‑win_amd64.whl</code></p>
-<h4 id="3-机器学习c算法库dlibhttpspypiorgsimpledlib">3. 机器学习c++算法库：<a href="https://pypi.org/simple/dlib/" target="_blank" rel="noopener noreffer" class="post-link">Dlib</a></h4>
+<h4 id="3-机器学习c算法库dlibhttpspypiorgsimpledlib"><a href="#3-机器学习c算法库dlibhttpspypiorgsimpledlib" class="header-mark headerLink">3. 机器学习c++算法库：<a href="https://pypi.org/simple/dlib/" target="_blank" rel="noopener noreffer" class="post-link">Dlib</a></a></h4>
 <p>我使用的是<code>dlib-19.8.1-cp36-cp36m-win_amd64.whl</code>。</p>
 <p>安装使用命令 <code>pip3 install dlib-19.8.1-cp36-cp36m-win_amd64.whl</code></p>
-<h4 id="4-人脸识别集成库face_recognitionhttpsgithubcomageitgeyface_recognition">4. 人脸识别集成库：<a href="https://github.com/ageitgey/face_recognition" target="_blank" rel="noopener noreffer" class="post-link">face_recognition</a></h4>
+<h4 id="4-人脸识别集成库face_recognitionhttpsgithubcomageitgeyface_recognition"><a href="#4-人脸识别集成库face_recognitionhttpsgithubcomageitgeyface_recognition" class="header-mark headerLink">4. 人脸识别集成库：<a href="https://github.com/ageitgey/face_recognition" target="_blank" rel="noopener noreffer" class="post-link">face_recognition</a></a></h4>
 <p>安装使用命令 <code>pip3 install face_recognition</code></p>
-<h4 id="5-深度学习库kerashttpskerasio">5. 深度学习库：<a href="https://keras.io/" target="_blank" rel="noopener noreffer" class="post-link">Keras</a></h4>
+<h4 id="5-深度学习库kerashttpskerasio"><a href="#5-深度学习库kerashttpskerasio" class="header-mark headerLink">5. 深度学习库：<a href="https://keras.io/" target="_blank" rel="noopener noreffer" class="post-link">Keras</a></a></h4>
 <p>安装使用命令 <code>pip3 install keras</code></p>
 <p>前面部分用不到，后面高级应用会用到，可提前下载安装，也可后面需要的时候安装</p>
-<h4 id="6-机器学习框架tensorflowhttpswwwtensorfloworghlzh-cn">6. 机器学习框架：<a href="https://www.tensorflow.org/?hl=zh-cn" target="_blank" rel="noopener noreffer" class="post-link">TensorFlow</a></h4>
+<h4 id="6-机器学习框架tensorflowhttpswwwtensorfloworghlzh-cn"><a href="#6-机器学习框架tensorflowhttpswwwtensorfloworghlzh-cn" class="header-mark headerLink">6. 机器学习框架：<a href="https://www.tensorflow.org/?hl=zh-cn" target="_blank" rel="noopener noreffer" class="post-link">TensorFlow</a></a></h4>
 <p>安装使用命令： <code>pip3 install tensorflow</code></p>
 <p>前面部分用不到，后面高级应用会用到，可提前下载安装，也可后面需要的时候安装</p>
-<h3 id="人脸识别用到的数据模型">人脸识别用到的数据模型</h3>
+<h3 id="人脸识别用到的数据模型"><a href="#人脸识别用到的数据模型" class="header-mark headerLink">人脸识别用到的数据模型</a></h3>
 <p>基于目前的数据量和个人知识与能力，我还不能自己利用机器学习来训练数据模型，所以使用的是国外别人已经训练好的数据模型。</p>
-<h4 id="1-opencv使用到的人脸分类模型xmlhaarcascadeshttpsgithubcomopencvopencvtreemasterdatahaarcascades">1. OpenCV使用到的人脸分类模型xml：<a href="https://github.com/opencv/opencv/tree/master/data/haarcascades" target="_blank" rel="noopener noreffer" class="post-link">haarcascades</a></h4>
+<h4 id="1-opencv使用到的人脸分类模型xmlhaarcascadeshttpsgithubcomopencvopencvtreemasterdatahaarcascades"><a href="#1-opencv使用到的人脸分类模型xmlhaarcascadeshttpsgithubcomopencvopencvtreemasterdatahaarcascades" class="header-mark headerLink">1. OpenCV使用到的人脸分类模型xml：<a href="https://github.com/opencv/opencv/tree/master/data/haarcascades" target="_blank" rel="noopener noreffer" class="post-link">haarcascades</a></a></h4>
 <p>上面链接中所有的xml都推荐下载到本地备用，我所使用的是<code>haarcascade_frontalface_default.xml</code></p>
-<h4 id="2-dlib使用到的人脸识别训练模型shape_predictorhttpdlibnetfiles">2. Dlib使用到的人脸识别训练模型：<a href="http://dlib.net/files/" target="_blank" rel="noopener noreffer" class="post-link">shape_predictor</a></h4>
+<h4 id="2-dlib使用到的人脸识别训练模型shape_predictorhttpdlibnetfiles"><a href="#2-dlib使用到的人脸识别训练模型shape_predictorhttpdlibnetfiles" class="header-mark headerLink">2. Dlib使用到的人脸识别训练模型：<a href="http://dlib.net/files/" target="_blank" rel="noopener noreffer" class="post-link">shape_predictor</a></a></h4>
 <p>我所使用的是<code>shape_predictor_68_face_landmarks.dat.bz2</code>和<code>shape_predictor_5_face_landmarks.dat.bz2</code>这两个。</p>
 <p>推荐大家把这两个都下载下来，并解压，我们所需要的是里面的<code>dat</code>数据文件。</p>
 <blockquote>
 <p>好了，有了上面的这些基础环境与依赖，我们可以继续我们接下来的简单人脸检测与识别了。
 没有装好这些环境的同学请注意了，我们班级已经与谷歌、百度等大公司达成合作，有任何问题请在<a href="https://www.google.com" target="_blank" rel="noopener noreffer" class="post-link">Google</a>和<a href="https://www.baidu.com" target="_blank" rel="noopener noreffer" class="post-link">Baidu</a>进行搜索，他们会提供你所需要的答案。</p>
 </blockquote>
-<h2 id="二简单人脸检测">二、简单人脸检测</h2>
+<h2 id="二简单人脸检测"><a href="#二简单人脸检测" class="header-mark headerLink">二、简单人脸检测</a></h2>
 <blockquote>
 <p>在这一节不会讲解复杂的人脸识别，只是先通过简单的小例子让大家先了解一下人脸识别需要用到什么、人脸识别的基本步骤等等最简单的内容。</p>
 </blockquote>
-<h3 id="1-利用opencv进行图片人脸检测并进行标注">1. 利用<strong>OpenCV</strong>进行<strong>图片</strong>人脸检测并进行标注</h3>
-<h4 id="实现思路">实现思路</h4>
+<h3 id="1-利用opencv进行图片人脸检测并进行标注"><a href="#1-利用opencv进行图片人脸检测并进行标注" class="header-mark headerLink">1. 利用<strong>OpenCV</strong>进行<strong>图片</strong>人脸检测并进行标注</a></h3>
+<h4 id="实现思路"><a href="#实现思路" class="header-mark headerLink">实现思路</a></h4>
 <ol>
 <li>先将图片灰度化，为了降低图片颜色维度，减少后续识别计算量</li>
 <li>然后利用OpenCV加载别人训练好的人脸分类器，通过这个分类器来检测人脸</li>
 <li>在原图片上画一个矩形，然后显示出来</li>
 </ol>
-<h4 id="实现代码">实现代码</h4>
+<h4 id="实现代码"><a href="#实现代码" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -924,11 +924,11 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="2-利用opencv进行视频人脸检测并进行标注">2. 利用<strong>OpenCV</strong>进行<strong>视频</strong>人脸检测并进行标注</h3>
+</div><h3 id="2-利用opencv进行视频人脸检测并进行标注"><a href="#2-利用opencv进行视频人脸检测并进行标注" class="header-mark headerLink">2. 利用<strong>OpenCV</strong>进行<strong>视频</strong>人脸检测并进行标注</a></h3>
 <blockquote>
 <p>在人脸检测方面实现方法与上面图片的实现方法一模一样，只是这个图片是从摄像头不断获取的。</p>
 </blockquote>
-<h4 id="实现代码-1">实现代码</h4>
+<h4 id="实现代码-1"><a href="#实现代码-1" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -985,12 +985,12 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="3-利用dlib进行图片人脸检测并标注">3. 利用<strong>Dlib</strong>进行<strong>图片</strong>人脸检测并标注</h3>
+</div><h3 id="3-利用dlib进行图片人脸检测并标注"><a href="#3-利用dlib进行图片人脸检测并标注" class="header-mark headerLink">3. 利用<strong>Dlib</strong>进行<strong>图片</strong>人脸检测并标注</a></h3>
 <blockquote>
 <p>Dlib里面有很多算法，可以实现一些复杂的人脸识别。
 在这一小节只演示用dlib内部自带的默认的人脸识别模型来进行人脸检测</p>
 </blockquote>
-<h4 id="实现代码-2">实现代码</h4>
+<h4 id="实现代码-2"><a href="#实现代码-2" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -1041,11 +1041,11 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="4-利用dlib进行视频人脸检测并进行标注">4. 利用<strong>Dlib</strong>进行<strong>视频</strong>人脸检测并进行标注</h3>
+</div><h3 id="4-利用dlib进行视频人脸检测并进行标注"><a href="#4-利用dlib进行视频人脸检测并进行标注" class="header-mark headerLink">4. 利用<strong>Dlib</strong>进行<strong>视频</strong>人脸检测并进行标注</a></h3>
 <blockquote>
 <p>都是相同的步骤呀，与上面大同小异</p>
 </blockquote>
-<h4 id="实现代码-3">实现代码</h4>
+<h4 id="实现代码-3"><a href="#实现代码-3" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -1108,13 +1108,13 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 但是在速度上 OpenCV &gt; Dlib<br>
 后面我们会有专门的内容讲解通过GPU加速Dlib</p>
 </blockquote>
-<h2 id="三稍微复杂的人脸检测与识别">三、稍微复杂的人脸检测与识别</h2>
+<h2 id="三稍微复杂的人脸检测与识别"><a href="#三稍微复杂的人脸检测与识别" class="header-mark headerLink">三、稍微复杂的人脸检测与识别</a></h2>
 <blockquote>
 <p>上面已经介绍过了简单的从一张图片或视频中的每一帧中检测到人脸并进行画框<br>
 在这一小节，我们会进一步利用Dlib这个库中更加强大的工具来实现稍微发杂一些的人脸检测任务</p>
 </blockquote>
-<h3 id="1-检测人脸的5个关键点和68个关键点并显示出来">1. 检测人脸的5个关键点和68个关键点并显示出来</h3>
-<h4 id="实现代码-4">实现代码</h4>
+<h3 id="1-检测人脸的5个关键点和68个关键点并显示出来"><a href="#1-检测人脸的5个关键点和68个关键点并显示出来" class="header-mark headerLink">1. 检测人脸的5个关键点和68个关键点并显示出来</a></h3>
+<h4 id="实现代码-4"><a href="#实现代码-4" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -1176,8 +1176,8 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </div><blockquote>
 <p>上人脸识别的主菜</p>
 </blockquote>
-<h3 id="2-利用face_recognition进行人脸识别">2. 利用<strong>face_recognition</strong>进行人脸识别</h3>
-<h4 id="实现代码-5">实现代码</h4>
+<h3 id="2-利用face_recognition进行人脸识别"><a href="#2-利用face_recognition进行人脸识别" class="header-mark headerLink">2. 利用<strong>face_recognition</strong>进行人脸识别</a></h3>
+<h4 id="实现代码-5"><a href="#实现代码-5" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -1276,8 +1276,8 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="3-利用face_recognition进行人脸轮廓绘制">3. 利用<strong>face_recognition</strong>进行人脸轮廓绘制</h3>
-<h4 id="代码实现">代码实现</h4>
+</div><h3 id="3-利用face_recognition进行人脸轮廓绘制"><a href="#3-利用face_recognition进行人脸轮廓绘制" class="header-mark headerLink">3. 利用<strong>face_recognition</strong>进行人脸轮廓绘制</a></h3>
+<h4 id="代码实现"><a href="#代码实现" class="header-mark headerLink">代码实现</a></h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -1336,12 +1336,12 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl">    <span class="n">pil_image</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="4-利用keras实现性别识别">4. 利用<strong>keras</strong>实现性别识别</h3>
+</div><h3 id="4-利用keras实现性别识别"><a href="#4-利用keras实现性别识别" class="header-mark headerLink">4. 利用<strong>keras</strong>实现性别识别</a></h3>
 <blockquote>
 <p>使用keras实现性别识别<br>
 模型数据使用的是<a href="https://github.com/oarriaga/face_classification" target="_blank" rel="noopener noreffer" class="post-link">oarriaga/face_classification的模型</a></p>
 </blockquote>
-<h4 id="实现代码-6">实现代码</h4>
+<h4 id="实现代码-6"><a href="#实现代码-6" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -1410,8 +1410,8 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="5-利用keras实现表情识别">5. 利用<strong>keras</strong>实现表情识别</h3>
-<h4 id="实现代码-7">实现代码</h4>
+</div><h3 id="5-利用keras实现表情识别"><a href="#5-利用keras实现表情识别" class="header-mark headerLink">5. 利用<strong>keras</strong>实现表情识别</a></h3>
+<h4 id="实现代码-7"><a href="#实现代码-7" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -1510,25 +1510,25 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="四利用gpu加速dlib提高效率">四、利用GPU加速Dlib提高效率</h2>
+</div><h2 id="四利用gpu加速dlib提高效率"><a href="#四利用gpu加速dlib提高效率" class="header-mark headerLink">四、利用GPU加速Dlib提高效率</a></h2>
 <blockquote>
 <p>在前面的小实验中我们发现了，使用Dlib来实现的人脸检测与识别速度很慢，在视频中很难实现实时性。
 所以我们不仅要想，是否可以用GPU加速一下。
 以前可能很麻烦，现在英伟达推出的CUDA就专门为了解决这个而生。</p>
 </blockquote>
-<h3 id="1-首先下载cuda">1. 首先下载<strong>CUDA</strong></h3>
+<h3 id="1-首先下载cuda"><a href="#1-首先下载cuda" class="header-mark headerLink">1. 首先下载<strong>CUDA</strong></a></h3>
 <p><a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="noopener noreffer" class="post-link">CUDA下载链接</a></p>
 <p>下载并安装，不必多说，一路下一步</p>
-<h3 id="2-然后下载cudnn">2. 然后下载<strong>cudnn</strong></h3>
+<h3 id="2-然后下载cudnn"><a href="#2-然后下载cudnn" class="header-mark headerLink">2. 然后下载<strong>cudnn</strong></a></h3>
 <p><a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank" rel="noopener noreffer" class="post-link">cudnn下载链接</a></p>
 <p>这里下载需要注册英伟达账号，注册就行，下载下来后解压，里面提供cudnn库文件以及头文件，需要把cudnn目录下的bin、include以及lib目录中的文件拷贝到相应的cuda目录中的bin、include和lib目录中去。</p>
-<h3 id="3-安装cmake">3. 安装<strong>cmake</strong></h3>
+<h3 id="3-安装cmake"><a href="#3-安装cmake" class="header-mark headerLink">3. 安装<strong>cmake</strong></a></h3>
 <p>cmake是要在后面编译Dlib用到的。
 <a href="https://cmake.org/download/" target="_blank" rel="noopener noreffer" class="post-link">cmake下载链接</a>
 记住安装并添加path。</p>
-<h3 id="4-编译dlib">4. 编译Dlib</h3>
+<h3 id="4-编译dlib"><a href="#4-编译dlib" class="header-mark headerLink">4. 编译Dlib</a></h3>
 <p>这里我们跳过，因为后面可以直接在安装Dlib库时让他自动编译，能自动搞何必去麻烦，如果感兴趣可以自己去编译。</p>
-<h3 id="5-安装支持cuda的dlib库会自动编译">5. 安装支持CUDA的Dlib库（会自动编译）</h3>
+<h3 id="5-安装支持cuda的dlib库会自动编译"><a href="#5-安装支持cuda的dlib库会自动编译" class="header-mark headerLink">5. 安装支持CUDA的Dlib库（会自动编译）</a></h3>
 <p>我们打开64位的cmd（这一个会在安装VS2017的时候提供），或者打开64位的Powershell，在里面运行安装命令</p>
 <p><code>python setup.py install --yes DLIB_USE_CUDA</code></p>
 <p>这一个命令会自动编译Dlib并且安装，就不用操心了。</p>
@@ -1540,7 +1540,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 有一种很奇葩的现象是，有可能你的机器上已经安装过了cuda和cudnn，并且之前使用cmake configure的时候成功编译完成得到dlib的python库，但是出于某些原因需要重新安装cuda和cudnn，那么不仅需要手动卸载之前的cuda，而且最好也删除site-packages目录中所有和dlib相关的目录和文件，以及cmake输出得到的临时文件，然后重新安装cuda和cudnn，并且按照之前的步骤执行python setup.py install &ndash;yes DLIB_USE_CUDA，得到dlib的python库文件。
 如果编译顺利，并且中间没有报错，可以新建一个python程序，然后import dlib成功，大功告成。</p>
 </blockquote>
-<h3 id="6-验证新编译好的dlib是否支持cuda">6. 验证新编译好的Dlib是否支持CUDA</h3>
+<h3 id="6-验证新编译好的dlib是否支持cuda"><a href="#6-验证新编译好的dlib是否支持cuda" class="header-mark headerLink">6. 验证新编译好的Dlib是否支持CUDA</a></h3>
 <p><strong>python脚本运行</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1556,4 +1556,4 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_num_devices</span><span class="p">())</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="人脸检测和识别学习就告一段落了感谢观看">人脸检测和识别学习就告一段落了，感谢观看</h2>]]></description></item></channel></rss>
+</div><h2 id="人脸检测和识别学习就告一段落了感谢观看"><a href="#人脸检测和识别学习就告一段落了感谢观看" class="header-mark headerLink">人脸检测和识别学习就告一段落了，感谢观看</a></h2>]]></description></item></channel></rss>

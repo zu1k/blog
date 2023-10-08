@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Docker - 标签 - zu1k</title><link>https://zu1k.com/tags/docker/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 08 Mar 2020 21:16:07 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/docker/" rel="self" type="application/rss+xml"/><item><title>加速docker pull</title><link>https://zu1k.com/posts/coding/speedup-docker-pull/</link><pubDate>Sun, 08 Mar 2020 21:16:07 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/speedup-docker-pull/</guid><description><![CDATA[<h2 id="为docker设置代理">为docker设置代理</h2>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Docker - 标签 - zu1k</title><link>https://zu1k.com/tags/docker/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 08 Mar 2020 21:16:07 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/docker/" rel="self" type="application/rss+xml"/><item><title>加速docker pull</title><link>https://zu1k.com/posts/coding/speedup-docker-pull/</link><pubDate>Sun, 08 Mar 2020 21:16:07 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/speedup-docker-pull/</guid><description><![CDATA[<h2 id="为docker设置代理"><a href="#为docker设置代理" class="header-mark headerLink">为docker设置代理</a></h2>
 <p>环境是在centos下，如果没有新建下面这个文件夹</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -51,7 +51,7 @@
 </div><p>之后你使用docker pull的时候就可以pull gcr.io上的镜像了</p>
 <p><a href="https://juejin.im/post/5cc7b53c51882525124126f1" target="_blank" rel="noopener noreffer" class="post-link">https://juejin.im/post/5cc7b53c51882525124126f1</a><br>
 <a href="https://docs.docker.com/config/daemon/systemd" target="_blank" rel="noopener noreffer" class="post-link">https://docs.docker.com/config/daemon/systemd</a></p>
-<h2 id="换国内源">换国内源</h2>
+<h2 id="换国内源"><a href="#换国内源" class="header-mark headerLink">换国内源</a></h2>
 <p>创建或修改 <code>/etc/docker/daemon.json</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

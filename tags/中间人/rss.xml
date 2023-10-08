@@ -38,10 +38,10 @@
         
     
 </p>
-<h2 id="检查github证书">检查GitHub证书</h2>
+<h2 id="检查github证书"><a href="#检查github证书" class="header-mark headerLink">检查GitHub证书</a></h2>
 <p>这里我通过北京和香港两台阿里云主机，使用openssl提供的方法查看证书详细内容</p>
 <p>命令为: <code>openssl s_client -showcerts -connect github.com:443 &lt; /dev/null</code></p>
-<h3 id="北京阿里云">北京阿里云</h3>
+<h3 id="北京阿里云"><a href="#北京阿里云" class="header-mark headerLink">北京阿里云</a></h3>
 <details>
   <summary>点击展开</summary>
 <div class="highlight"><div class="chroma">
@@ -233,7 +233,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div></details>
-<h3 id="香港阿里云">香港阿里云</h3>
+<h3 id="香港阿里云"><a href="#香港阿里云" class="header-mark headerLink">香港阿里云</a></h3>
 <details>
   <summary>点击展开</summary>
 <div class="highlight"><div class="chroma">
@@ -459,16 +459,16 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div></details>
-<h2 id="实施手段">实施手段</h2>
+<h2 id="实施手段"><a href="#实施手段" class="header-mark headerLink">实施手段</a></h2>
 <p>通过检查网络和对出现的状况的分析，我认为这次MITM不是通过sni或者返回的证书进行的，而是直接针对某些ip的443端口进行的</p>
 <p>通过控制这些ip的路由，让流量经过某些恶意节点，在某个恶意节点针对443端口进行MITM，而不检查实际访问的域名和返回的证书</p>
 <p>并且这次事件所影响的github的ip并不全，通过doh或dot获取到国外服务器解析到的ip而不是国内使用的几个ip，可以正常访问github</p>
-<h2 id="危害">危害</h2>
+<h2 id="危害"><a href="#危害" class="header-mark headerLink">危害</a></h2>
 <p>使用TLS是保证我们访问网站时信息不被中间人窥探和篡改的有效手段，如果TLS用来加密通讯使用的证书出现问题，那么信息安全就无从谈起</p>
 <p>TLS使用公钥密码算法交换后面数据进行对称加密使用的秘钥，作为中间人没有服务器上的私钥就无法解密获得后面加密使用的秘钥，所以即使截获到https的数据报文，也无法解密和篡改传输的内容</p>
 <p>而本次事件使用的手法是MITM常用手法，通常情况下我们为了抓包和改包，会自己签署一个假的证书并导入自己被抓包设备的信任证书列表，然后中间人分别与服务器和客户端建立TLS连接，简单来说，中间人作为客户端从服务器获取内容，然后作为服务器向真正的客户端传输修改后的内容</p>
 <p>所以如果我们信任了浏览器给出的警告，就会导致我们的信息包括github用户名、邮箱、密码、token和私有库泄露</p>
-<h2 id="如何防范">如何防范</h2>
+<h2 id="如何防范"><a href="#如何防范" class="header-mark headerLink">如何防范</a></h2>
 <p>作为站长，首先可以确定的是，并没有什么用户无痛(无需用户进行任何操作和设置)的办法来绕过这类针对性的MITM攻击，如果需要保护用户的隐私，建议开启域名的HSTS策略，这样浏览器检查到证书错误时的警告页面上就不会显示 <code>忽略警告</code> 相关按钮，防止不懂的用户忽略安全警告进行访问，避免隐私数据泄露</p>
 <p>当然，像昨天那种针对 GitHub Pages 的攻击只会导致用户无法访问，并不会带来隐私泄露，因为github pages是提供静态网页托管，根本不需要用户输入隐私数据</p>
 <p>作为访客，因为这种中间人攻击肯定发生在路由路径的某一个节点处，所以我们可以使用代理绕过这个恶意节点，这应该是目前最简单最好用的方法了</p>

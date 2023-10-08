@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>GDB - 标签 - zu1k</title><link>https://zu1k.com/tags/gdb/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 14 Jun 2023 16:00:00 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/gdb/" rel="self" type="application/rss+xml"/><item><title>从 ASAN Stuck 到 Open Files Limit</title><link>https://zu1k.com/posts/linux/large-nofile-cause-asan-stuck/</link><pubDate>Wed, 14 Jun 2023 16:00:00 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/large-nofile-cause-asan-stuck/</guid><description><![CDATA[<p><a href="https://github.com/google/sanitizers" target="_blank" rel="noopener noreffer" class="post-link">Sanitizers</a> 是好东西，可以帮助程序员检测错误并提供详细的错误报告。但前两天我遇到了一个问题，在我实验室主机的 Docker 容器中，AddressSanitizer 输出几行 Error 概述信息后，无法输出调用堆栈信息以及后续内容，程序会卡在这里，并且一个子进程会占满一个 CPU 核心。这件事我花了两天时间来排查，最终确定竟然是由于打开文件数限制设置太大导致的。请听我道来。</p>
-<h2 id="发现问题">发现问题</h2>
+<h2 id="发现问题"><a href="#发现问题" class="header-mark headerLink">发现问题</a></h2>
 <p>我准备了一个最小的 POC，用来重现本次事件的整个流程。以下是一个简单的 c 程序，如果直接编译运行会出现 SegmentFault，因为出现了越界写。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -138,7 +138,7 @@
 <p>这里可以看到 AddressSanitizer 通过 fork 子进程，然后通过 pipe 的方式与子进程通讯，写 <code>CODE &quot;binary_path&quot; offset\n</code> 来请求查询 <code>binary</code> 的 <code>offset</code> 位置对应的符号信息，如果查询成功会返回源代码、行号、函数名等符号信息。</p>
 <p>我尝试手动运行 llvm-symbolizer，正常输出没有任何问题。</p>
 <p>但是这个时候我是一筹莫展，睡觉前在 <a href="https://twitter.com/zu1k_/status/1668635289433292885" target="_blank" rel="noopener noreffer" class="post-link">Twitter 上求助</a>，看看有没有人也遇到过这个问题。</p>
-<h2 id="深入">深入</h2>
+<h2 id="深入"><a href="#深入" class="header-mark headerLink">深入</a></h2>
 <p>根据网友 <a href="https://twitter.com/whsloef/status/1668636143863369729" target="_blank" rel="noopener noreffer" class="post-link">whsloef 的回复</a>，我打印了阻塞的进程的调用栈，跟我通过 strace 得到的结论相同，是卡 read 系统调用了。</p>
 <p><figure>
 
@@ -253,7 +253,7 @@
 <p>通过在容器内运行 <code>ulimit -n</code> 发现容器内的文件描述符限制是 <code>1073741816</code>，而对比宿主机的限制 <code>1024</code>，这种差异就是我将程序拷贝到宿主机就无法复线问题的重要原因。</p>
 <p>我尝试在运行容器的时候加一个打开文件数限制 <code>--ulimit nofile=1024:1024</code>，问题顺利解决。</p>
 <p>原来网友 <a href="https://twitter.com/lightning1141/status/1668726282811580416" target="_blank" rel="noopener noreffer" class="post-link">lightning1141 的回复</a> 是让我看文件打开数是不是太大的意思啊，我还以为是看看够不够用呢。我之前一直以为这个东西设置的越大越好的，我 too naive too simple.</p>
-<h2 id="思考">思考</h2>
+<h2 id="思考"><a href="#思考" class="header-mark headerLink">思考</a></h2>
 <p>但既然宿主机限制是 <code>1024</code>，那为什么在 Docker 容器里的限制却有 <code>1073741816</code>？</p>
 <p>我根据经验查询了以下文件，发现打开文件数均为默认，并未指定特定数值：</p>
 <ul>
@@ -268,8 +268,8 @@
 </ul>
 <p>在服务文件中均指定 <code>LimitNOFILE=infinity</code>，由此导致打开文件数不受限制，通过 <code>cat /proc/sys/fs/nr_open</code> 查看内核默认的进程打开文件数限制，发现是 <code>1073741816</code>。而在同学的 ubuntu 机器上 nr_open 是 <code>1048576</code>。</p>
 <p>这种发行版的细微差别导致的问题真是难以排查啊！</p>
-<h2 id="解决方案">解决方案</h2>
-<h3 id="修改-containerd-文件描述符限制">修改 Containerd 文件描述符限制</h3>
+<h2 id="解决方案"><a href="#解决方案" class="header-mark headerLink">解决方案</a></h2>
+<h3 id="修改-containerd-文件描述符限制"><a href="#修改-containerd-文件描述符限制" class="header-mark headerLink">修改 Containerd 文件描述符限制</a></h3>
 <p>修改 <code>/usr/lib/systemd/system/containerd.service</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -284,7 +284,7 @@
 </div><p>无需修改 <code>/usr/lib/systemd/system/docker.service</code></p>
 <p>或者在启动容器的时候添加限制 <code>--ulimit nofile=1048576:1048576</code>：</p>
 <p><code>docker run -it --ulimit nofile=1048576:1048576 ubuntu:18.04 /bin/bash</code></p>
-<h3 id="修改-llvm-中逻辑">修改 LLVM 中逻辑</h3>
+<h3 id="修改-llvm-中逻辑"><a href="#修改-llvm-中逻辑" class="header-mark headerLink">修改 LLVM 中逻辑</a></h3>
 <p>可以修改 LLVM 源码，使用 <code>close_range</code> 或者 <code>closefrom</code> 系统调用替换 <code>close</code>.</p>
 <ul>
 <li><code>close_range</code> Linux kernel 5.9 增加, 在 BSD 也可用</li>
@@ -292,7 +292,7 @@
 </ul>
 <p>可惜的是这两个都不是 POSIX 规范定义的系统调用，不过我认为这后面会成为主流的。</p>
 <p>只改了 <a href="https://github.com/zu1k/llvm-project/commit/ba3ac3c9e636b4f32590cda4f44ccf76cb84550d" target="_blank" rel="noopener noreffer" class="post-link">Linux 的版本</a>，并且需要 Kernel 5.9 以上。</p>
-<h2 id="后续">后续</h2>
+<h2 id="后续"><a href="#后续" class="header-mark headerLink">后续</a></h2>
 <p>在 GitHub 上相应仓库提起了 issue，等待改进。虽然自己改了一个 Linux 的可以用了，但是考虑到 LLVM 需要保证兼容性，这里也不敢去提 PR，毕竟要求 Linux 5.9 以上版本可不是一个兼容性好的方案。（我在 ubuntu 18.04 的 docker 里就没办法编译通过，<code>unistd.h</code> 里没有定义 <code>#define __NR_close_range 436</code>）</p>
 <ul>
 <li><a href="https://github.com/llvm/llvm-project/issues/63297" target="_blank" rel="noopener noreffer" class="post-link">llvm/llvm-project/issues/63297</a></li>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>OpenWrt - 标签 - zu1k</title><link>https://zu1k.com/tags/openwrt/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 11 Apr 2021 17:11:00 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/openwrt/" rel="self" type="application/rss+xml"/><item><title>垃圾校园网，我忍不了了</title><link>https://zu1k.com/posts/tutorials/campus-network-speed-overlay/</link><pubDate>Sun, 11 Apr 2021 17:11:00 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/campus-network-speed-overlay/</guid><description><![CDATA[<p>记得大一刚入学时，免费的校园网是上下行对等的100Mbps带宽，虽然赶不上家里的速度，但是用起来还是比较舒服的</p>
 <p>万万没想到，当别的学校都在忙着升级成千兆网络的时候，自己学校竟然来了个反向操作，30Mbps限速，真TMD鬼，不知道怎么想的</p>
 <p>这垃圾校园网，我是忍不了了，考虑到每个人都能多个设备同时登录，肯定就有多拨的可能，那就搞起来！</p>
-<h2 id="linux下手工操作">Linux下手工操作</h2>
+<h2 id="linux下手工操作"><a href="#linux下手工操作" class="header-mark headerLink">Linux下手工操作</a></h2>
 <p>本着学习的态度，上来肯定要先在Linux下手动操作一遍（其实我是先用iKuai验证可行后，才尝试用Linux手工配的</p>
 <p>我们的基本思路是：</p>
 <ol>
@@ -10,7 +10,7 @@
 <li>进行负载均衡</li>
 </ol>
 <p>以下所有操作都需要root权限</p>
-<h3 id="利用macvlan获取多个ip">利用macvlan获取多个IP</h3>
+<h3 id="利用macvlan获取多个ip"><a href="#利用macvlan获取多个ip" class="header-mark headerLink">利用macvlan获取多个IP</a></h3>
 <p>首先要创建多个虚拟网络接口，利用不同的Mac地址进行DHCP获取多个不同的IP地址</p>
 <p>在Linux下，内核提供的macvlan就可以实现我们的需求，从Linux Kernel 3.9开始就支持了貌似，所以只要不是安装非常老的系统都是支持的</p>
 <p>查看一下你的系统是否支持：</p>
@@ -85,7 +85,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>然后需要获取到多个IP，直接执行 <code>dhclient</code> 即可</p>
-<h3 id="进行联网认证">进行联网认证</h3>
+<h3 id="进行联网认证"><a href="#进行联网认证" class="header-mark headerLink">进行联网认证</a></h3>
 <p>我们学校用的是深澜的认证系统，对其认证流程分析后，写了一个小工具:<a href="/posts/tutorials/campus-network-speed-overlay/sdu-srun.zip" rel="" class="post-link">多账号登录认证工具</a></p>
 <div class="details admonition info open">
         <div class="details-summary admonition-title">
@@ -134,11 +134,11 @@
             <div class="admonition-content">认证成功后即可进行下面的步骤，如果认证失败需要检查账号密码是否正确，本工具也不能保证后续系统更新后仍能使用，必要时可登录认证后台手工添加mac认证白名单</div>
         </div>
     </div>
-<h3 id="进行路由级别的分流">进行路由级别的分流</h3>
+<h3 id="进行路由级别的分流"><a href="#进行路由级别的分流" class="header-mark headerLink">进行路由级别的分流</a></h3>
 <p>经过上面的步骤，其实现在已经有多个可以上网的接口了，每一个接口都限速30Mbps，可以通过修改路由表验证，但是测速发现还是总速度还是30Mbps，速度并没有叠加</p>
 <p>这其实是因为你的主机只有一个默认网关，流量实际上只走了一条线，所以还是受单接口限速的限制。我们的目的是让流量能够分别走多个接口，从而达到速度叠加的效果，也就是常说的负载均衡</p>
 <p>思路是：通过iptables规则给数据包打上标记，然后通过策略路由根据标记来选择走哪个接口出去。需要注意不同包之间的关系，追踪连接状态并恢复标记，否则的话同一个连接的不同包走了不同的接口，会被丢弃掉。</p>
-<h4 id="创建路由表">创建路由表</h4>
+<h4 id="创建路由表"><a href="#创建路由表" class="header-mark headerLink">创建路由表</a></h4>
 <p>首先创建多个路由表，因为每一个路由表只能默认走一个接口，所以刚刚创建了多少虚拟网络接口，这里就要增加几个路由表，我按照2个接口来演示</p>
 <p>编辑 <code>/etc/iproute2/rt_tables</code> 文件，在文件末尾增加两个路由表</p>
 <div class="highlight"><div class="chroma">
@@ -175,7 +175,7 @@
 </span></span><span class="line"><span class="cl">ip route add 0/0 dev vmac1 table vmac1
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="配置iptables">配置iptables</h4>
+</div><h4 id="配置iptables"><a href="#配置iptables" class="header-mark headerLink">配置iptables</a></h4>
 <p>分别创建多个新的链</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -210,7 +210,7 @@
 </span></span><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="配置策略路由">配置策略路由</h4>
+</div><h4 id="配置策略路由"><a href="#配置策略路由" class="header-mark headerLink">配置策略路由</a></h4>
 <p>下面需要配置策略路由，根据我们设置的策略，流量分别由多个路由表进行路由，所以就可以走多个网络接口了</p>
 <p>我们让防火墙标记为<code>0x100</code>的用<code>vmac0</code>路由表，标记为<code>0x101</code>流量的用<code>vmac1</code>路由表</p>
 <div class="highlight"><div class="chroma">
@@ -235,7 +235,7 @@
 </span></span><span class="line"><span class="cl">ip rule add from &lt;vmac1-ip&gt; table vmac1
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="用作路由器">用作路由器</h4>
+</div><h4 id="用作路由器"><a href="#用作路由器" class="header-mark headerLink">用作路由器</a></h4>
 <p>如果这台Linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 <code>192.168/16</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -270,11 +270,11 @@
 </div>
         </div>
     </div>
-<h2 id="使用openwrtmwan3">使用OpenWrt+mwan3</h2>
+<h2 id="使用openwrtmwan3"><a href="#使用openwrtmwan3" class="header-mark headerLink">使用OpenWrt+mwan3</a></h2>
 <p>我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWrt或者弄个树莓派刷OpenWrt都行，可以考虑买个二手矿渣 <code>newifi 3</code> 或者 <code>R2S</code></p>
 <p>因为在OpenWrt里面有现成的插件，可以非常方便的创建多个虚拟网络接口，并能够利用图形界面配置更加强大的分流策略。</p>
 <p>主要涉及到两个插件：kmod-macvlan和mwan3</p>
-<h3 id="添加设备获取ip">添加设备，获取IP</h3>
+<h3 id="添加设备获取ip"><a href="#添加设备获取ip" class="header-mark headerLink">添加设备，获取IP</a></h3>
 <p>首先在正确配置好网络的基础上，先创建网络设备，类型是macvlan，在学习了Linux下手工操作的基础上，这里的配置项都好理解</p>
 <p>
 
@@ -315,7 +315,7 @@
     
 </p>
 <p>接口添加好后，进行连接就会自动获取IP了，然后与上面手工方式一样，把所有IP都认证一下</p>
-<h3 id="配置mwan3分流">配置mwan3分流</h3>
+<h3 id="配置mwan3分流"><a href="#配置mwan3分流" class="header-mark headerLink">配置mwan3分流</a></h3>
 <p>在mwan的管理界面，首先添加接口，与网络里面刚刚配置的接口一一对应</p>
 <p>
 
@@ -410,7 +410,7 @@
             <div class="admonition-content">mwan3代码在：<a href="https://github.com/openwrt/packages/tree/master/net/mwan3" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/openwrt/packages/tree/master/net/mwan3</a></div>
         </div>
     </div>
-<h2 id="爱快分流很强大">爱快，分流很强大</h2>
+<h2 id="爱快分流很强大"><a href="#爱快分流很强大" class="header-mark headerLink">爱快，分流很强大</a></h2>
 <p>正好我在的实验室里有老旧的台式机，又有多个网卡，我就安装了以分流著称的iKuai系统</p>
 <p>爱快路由系统对性能要求很高，64位甚至要求4G运存才能安装，不太建议宿舍用，不过实话实话这个是真的爽</p>
 <p>首先在网路设置中，选择正确的物理网卡，接入方式选<code>基于物理网卡的混合模式</code>，在DHCP模式下添加多个虚拟网络接口，mac地址自己指定</p>
@@ -454,7 +454,7 @@
     
 </p>
 <p>对！就是这么简单，iKuai就是牛，已经把网速叠加成功了</p>
-<h2 id="新发现">新发现</h2>
+<h2 id="新发现"><a href="#新发现" class="header-mark headerLink">新发现</a></h2>
 <p>在与同学的交流中，发现校园网还可以用任意手机号验证码登录，登陆后的权限是访客，不过与学生权限一样，如此看来可以利用多个手机号突破5台设备的限制了</p>
 <p>注意，登录成功后一定要修改密码，否则第二次登录的时候会提示创建新账号失败，是后台的BUG，日</p>
 <p>最后，向大家推荐一个讲iptables的视频，可以在Youtube或者Bilibili搜索<code>坏人的iptables小讲堂</code>，讲的真的很不错</p>

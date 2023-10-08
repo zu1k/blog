@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>PHP - 标签 - zu1k</title><link>https://zu1k.com/tags/php/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 03 Dec 2018 17:59:48 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/php/" rel="self" type="application/rss+xml"/><item><title>通过Sendmail服务发送邮件</title><link>https://zu1k.com/posts/coding/send-mail-via-endmail-service/</link><pubDate>Mon, 03 Dec 2018 17:59:48 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/send-mail-via-endmail-service/</guid><description><![CDATA[<p>通过Sendmail服务发送邮件</p>
 <p>系统centos7</p>
 <p>需要开启25端口</p>
-<h3 id="安装sendmail">安装sendmail</h3>
+<h3 id="安装sendmail"><a href="#安装sendmail" class="header-mark headerLink">安装sendmail</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -10,7 +10,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum  -y  install sendmail  sendmail-cf
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="安装mta功能测试用软件">安装MTA功能测试用软件</h3>
+</div><h3 id="安装mta功能测试用软件"><a href="#安装mta功能测试用软件" class="header-mark headerLink">安装MTA功能测试用软件</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -19,7 +19,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum -y install  mailx   php
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="切换系统的邮件发送接口">切换系统的邮件发送接口</h3>
+</div><h3 id="切换系统的邮件发送接口"><a href="#切换系统的邮件发送接口" class="header-mark headerLink">切换系统的邮件发送接口</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -52,7 +52,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>输入2后回车即把MTA功能切换到sendmail上，+号会显示在sendmail的行头。</p>
-<h3 id="配置sendmail">配置sendmail</h3>
+<h3 id="配置sendmail"><a href="#配置sendmail" class="header-mark headerLink">配置sendmail</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -75,7 +75,7 @@
 </span></span><span class="line"><span class="cl">生成正式的配置文件。
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="重启并测试功能">重启并测试功能</h3>
+</div><h3 id="重启并测试功能"><a href="#重启并测试功能" class="header-mark headerLink">重启并测试功能</a></h3>
 <p><code>reboot -f</code></p>
 <p>重启完成后确认MTA程序已经切换到sendmail</p>
 <div class="highlight"><div class="chroma">
@@ -110,7 +110,7 @@
 </span></span><span class="line"><span class="cl">      postfix的相关进程都没有开启
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="用php函数发送邮件">用PHP函数发送邮件</h3>
+</div><h3 id="用php函数发送邮件"><a href="#用php函数发送邮件" class="header-mark headerLink">用PHP函数发送邮件</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -131,7 +131,7 @@
 <li>使用PHP接口做测试的好处是可以随意指定发送方的邮件地址，即mail函数的最后一个参数。</li>
 </ul>
 <p>即使系统的hostname未设置也可以正常发送出邮件。</p>
-<h3 id="使用linux的mail命令发送邮件">使用Linux的mail命令发送邮件</h3>
+<h3 id="使用linux的mail命令发送邮件"><a href="#使用linux的mail命令发送邮件" class="header-mark headerLink">使用Linux的mail命令发送邮件</a></h3>
 <p>mail命令就没有使用自定义的邮件发送地址，而是使用HOSTNAME。</p>
 <p>安装系统时由于没有对hostname做特别设置，HOSTNAME的值是默认的 localhost.localdomain</p>
 <p>这样的邮件域名会被大多数邮箱如163，QQ拒收。</p>
@@ -163,14 +163,14 @@
 <p>执行mail命令发送邮件</p>
 <p><code>echo &quot;test mail content&quot;|mail -s &quot;Mail title&quot; test@sohu.com</code></p>
 <hr>
-<h2 id="补充">补充</h2>
-<h3 id="切换系统的邮件发送接口-1">切换系统的邮件发送接口</h3>
+<h2 id="补充"><a href="#补充" class="header-mark headerLink">补充</a></h2>
+<h3 id="切换系统的邮件发送接口-1"><a href="#切换系统的邮件发送接口-1" class="header-mark headerLink">切换系统的邮件发送接口</a></h3>
 <p><code>alternatives --config mta</code></p>
 <ul>
 <li>Postfix是Centos7系统默认自带。 也可以用命令 yum list installed | grep postfix 确认</li>
 </ul>
 <p>选择postfix所在行的编号后回车</p>
-<h3 id="重启并测试功能-1">重启并测试功能</h3>
+<h3 id="重启并测试功能-1"><a href="#重启并测试功能-1" class="header-mark headerLink">重启并测试功能</a></h3>
 <p><code>reboot -f</code></p>
 <p>重启后查看进程看到postfix相关的进程已经启动</p>
 <div class="highlight"><div class="chroma">

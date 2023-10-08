@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Swap - 标签 - zu1k</title><link>https://zu1k.com/tags/swap/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 12 Apr 2020 20:38:26 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/swap/" rel="self" type="application/rss+xml"/><item><title>Linux添加swap</title><link>https://zu1k.com/posts/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-add-swap/</guid><description><![CDATA[<p>给 Linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
-<h2 id="查看当前swap">查看当前swap</h2>
+<h2 id="查看当前swap"><a href="#查看当前swap" class="header-mark headerLink">查看当前swap</a></h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -18,9 +18,9 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">free -h
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="添加swap">添加swap</h2>
+</div><h2 id="添加swap"><a href="#添加swap" class="header-mark headerLink">添加swap</a></h2>
 <p>添加swap基本步骤： 创建一个大文件 -&gt; 初始化文件为swap交换文件格式 -&gt; 启用这个文件</p>
-<h3 id="创建大文件">创建大文件</h3>
+<h3 id="创建大文件"><a href="#创建大文件" class="header-mark headerLink">创建大文件</a></h3>
 <p>先找一个剩余空间大点的地方创建一个大文件，这里以1G的大小为例，一般swap空间大小以真实物理内存1-2倍大小</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -45,7 +45,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod <span class="m">600</span> /swapfile
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="初始化文件">初始化文件</h3>
+</div><h3 id="初始化文件"><a href="#初始化文件" class="header-mark headerLink">初始化文件</a></h3>
 <p>创建完文件后需要将文件进行初始化，标记为swap文件格式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -55,7 +55,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkswap /swapfile
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="启用swap">启用swap</h3>
+</div><h3 id="启用swap"><a href="#启用swap" class="header-mark headerLink">启用swap</a></h3>
 <p>接下来使用 命令启用这个swap交换文件</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -74,11 +74,11 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/swapfile swap swap defaults <span class="m">0</span> <span class="m">0</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="检查">检查</h3>
+</div><h3 id="检查"><a href="#检查" class="header-mark headerLink">检查</a></h3>
 <p>用一开始的命令检查一下swap是否启用正常</p>
-<h2 id="移除swap分区">移除SWAP分区</h2>
+<h2 id="移除swap分区"><a href="#移除swap分区" class="header-mark headerLink">移除SWAP分区</a></h2>
 <p>根据添加的顺序反着来就行： 取消swap -&gt; 删除swap分页文件</p>
-<h3 id="取消swap">取消swap</h3>
+<h3 id="取消swap"><a href="#取消swap" class="header-mark headerLink">取消swap</a></h3>
 <p>首先输入以下命令停用 SWAP 空间：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -89,7 +89,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>在 <code>/etc/fstab</code> 文件中删除有效 swap 的行。</p>
-<h3 id="删除文件">删除文件</h3>
+<h3 id="删除文件"><a href="#删除文件" class="header-mark headerLink">删除文件</a></h3>
 <p>最后执行以下命令删除 swapfile 文件：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -99,7 +99,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo rm /swapfile
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="调整swappiness值">调整Swappiness值</h2>
+</div><h2 id="调整swappiness值"><a href="#调整swappiness值" class="header-mark headerLink">调整Swappiness值</a></h2>
 <p>Swappiness 是一个 Linux 内核属性，用于定义 Linux 系统使用 SWAP 空间的频率。Swappiness 值可以从 0 至 100，较低的值会让内核尽可能少的使用 SWAP 空间，而较高的值将让 Linux Kernel 能够更加积极地使用 SWAP 分区。</p>
 <p>Ubuntu 18.04 默认的 Swappiness 值为 60，您可以使用如下命令来查看：</p>
 <div class="highlight"><div class="chroma">

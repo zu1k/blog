@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>雨课堂 - 标签 - zu1k</title><link>https://zu1k.com/tags/%E9%9B%A8%E8%AF%BE%E5%A0%82/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 12 Jun 2020 20:23:46 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/%E9%9B%A8%E8%AF%BE%E5%A0%82/" rel="self" type="application/rss+xml"/><item><title>屏蔽雨课堂在线考试异常上报</title><link>https://zu1k.com/posts/security/web-security/yuketang-exam-block-report/</link><pubDate>Fri, 12 Jun 2020 20:23:46 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/yuketang-exam-block-report/</guid><description><![CDATA[<p>学校又开始推雨课堂的在线考试功能了，在老师的配合下稍微分析了一下</p>
 <p>因为都是js代码，没有用wasm，分析还是比较简单的</p>
-<h2 id="切屏检测">切屏检测</h2>
+<h2 id="切屏检测"><a href="#切屏检测" class="header-mark headerLink">切屏检测</a></h2>
 <p>考试过程中，如果切换浏览器标签，返回后会有一个切屏警告，并且老师那边也会有切屏记录</p>
 <p>通过实验发现如果不切换浏览器标签，使用另一个浏览器窗口或者切换其他软件都不会触发这个记录</p>
 <p>相关代码如下</p>
@@ -79,7 +79,7 @@
 </div>
 </div><p>其中 <code>API.feed_add1</code> 是 <code>/online_proctor/stu/monitor/feed/add</code> 这个路径</p>
 <p>也就是说切标签后会 POST 一个标号为12的action记录，抓包后也发现的确如此，也仅仅而已</p>
-<h2 id="照片上传">照片上传</h2>
+<h2 id="照片上传"><a href="#照片上传" class="header-mark headerLink">照片上传</a></h2>
 <p>查看请求发现图片是先上传到七牛云，然后将返回的连接发给服务器</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -209,7 +209,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="如何绕过">如何绕过</h2>
+</div><h2 id="如何绕过"><a href="#如何绕过" class="header-mark headerLink">如何绕过</a></h2>
 <p>那啥，就几个有用的url，反正都是后台请求，当做广告拦截了就行，这样老师那边就没有切屏警告和异常照片了</p>
 <ul>
 <li>changjiang-exam.yuketang.cn/online_proctor/stu/monitor/feed/add</li>

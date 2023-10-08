@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>HackBar - 标签 - zu1k</title><link>https://zu1k.com/tags/hackbar/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 22 Mar 2020 10:11:42 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/hackbar/" rel="self" type="application/rss+xml"/><item><title>HackBar破解</title><link>https://zu1k.com/posts/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>HackBar - 标签 - zu1k</title><link>https://zu1k.com/tags/hackbar/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 22 Mar 2020 10:11:42 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/hackbar/" rel="self" type="application/rss+xml"/><item><title>HackBar破解</title><link>https://zu1k.com/posts/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言"><a href="#前言" class="header-mark headerLink">前言</a></h2>
 <p>相信很多研究安全或者打CTF的朋友都在使用HackBar，在浏览器中使用HackBar构造并发送请求非常方便，特别是测试SQL注入和XSS等常见漏洞。</p>
 <p>但是HackBar是收费软件，在其 <a href="https://hackbar.site/" target="_blank" rel="noopener noreffer" class="post-link">官网</a> 上，价格由3刀到89刀不等。很多安全研究人员会选择购买89刀的10年证书，但是对于学生来说，短期的一个月1刀的短期价格对于这样一个浏览器插件来说还是比较贵的。</p>
 <p>
@@ -28,8 +28,8 @@
     
 </p>
 <p>下面我将以Chrome浏览器为例，对HackBar插件进行破解。</p>
-<h2 id="破解插件">破解插件</h2>
-<h3 id="找到插件路径">找到插件路径</h3>
+<h2 id="破解插件"><a href="#破解插件" class="header-mark headerLink">破解插件</a></h2>
+<h3 id="找到插件路径"><a href="#找到插件路径" class="header-mark headerLink">找到插件路径</a></h3>
 <p>首先我们需要在官网上找到插件的安装地址并进行安装</p>
 <p>
 
@@ -71,7 +71,7 @@
     
 </p>
 <p>我们可以在扩展程序界面看到所有插件的ID，找到HackBar的ID，然后从Extension目录中找到这个目录，进入后就是HackBar的插件目录</p>
-<h3 id="分析授权验证">分析授权验证</h3>
+<h3 id="分析授权验证"><a href="#分析授权验证" class="header-mark headerLink">分析授权验证</a></h3>
 <p>我们先将插件这个目录复制出来，然后用编辑器打开，其中授权验证相关代码在 <code>theme\js\hackbar-panel.js</code> 这个js文件中</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -189,7 +189,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="进行破解">进行破解</h3>
+</div><h3 id="进行破解"><a href="#进行破解" class="header-mark headerLink">进行破解</a></h3>
 <p>通过上面对授权验证代码的分析，我们可以找到很多破解的思路，核心有一下几点：</p>
 <ul>
 <li><code>license_ok</code> 一开始是 <code>true</code></li>
@@ -213,7 +213,7 @@
 <blockquote>
 <p>我不会直接给出破解后的代码和插件的，希望大家能够根据上面的分析和破解思路自己进行破解</p>
 </blockquote>
-<h2 id="插件安装">插件安装</h2>
+<h2 id="插件安装"><a href="#插件安装" class="header-mark headerLink">插件安装</a></h2>
 <p>近年来，通过浏览器插件对用户进行攻击、获取用户隐私信息的攻击越来越多，现代浏览器厂商为了保护用户的安全，往往会对发布的浏览器插件进行严格审查，对未经签名验证的插件不予安装或安装后无法运行</p>
 <p>所以我们破解后的HackBar是无法通过正常途径安装的，我们需要通过开发者模式进行安装</p>
 <p>在扩展程序页面右上角打开 开发者模式，这样就可以不经签名安装自己开发的插件</p>
@@ -248,6 +248,6 @@
         
     
 </p>
-<h2 id="总结">总结</h2>
+<h2 id="总结"><a href="#总结" class="header-mark headerLink">总结</a></h2>
 <p>本文以HackBar的chrome插件的分析破解为例，想大家展示了浏览器插件的简单破解，Firefox的插件破解也是大同小异，希望大家可以活学活用</p>
 ]]></description></item></channel></rss>

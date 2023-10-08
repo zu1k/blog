@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Proxy - 标签 - zu1k</title><link>https://zu1k.com/tags/proxy/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 07 May 2022 19:21:25 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/proxy/" rel="self" type="application/rss+xml"/><item><title>谁不想要 2^64 个 IP 的代理池 ？</title><link>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</link><pubDate>Sat, 07 May 2022 19:21:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Proxy - 标签 - zu1k</title><link>https://zu1k.com/tags/proxy/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 07 May 2022 19:21:25 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/proxy/" rel="self" type="application/rss+xml"/><item><title>谁不想要 2^64 个 IP 的代理池 ？</title><link>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</link><pubDate>Sat, 07 May 2022 19:21:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</guid><description><![CDATA[<h2 id="前言"><a href="#前言" class="header-mark headerLink">前言</a></h2>
 <p>昨天我舍友为了爬虫购买了昂贵的 IP 代理池，我在旁边突然萌生了一个想法，现在各大 ISP/IDC 动不动就给你分配一整个 64 位前缀的 IPv6 网段，我们能不能好好利用一下这庞大的 IPv6 IP 资源呢？</p>
 <p>有了这个想法我就睡不着了，今天一大早（9点半）我就起来着手研究，最终成功实现每一个请求从一个单独的 IPv6 地址发出。</p>
 <p>先看效果，我把写好的程序放在服务器上跑了一会，下面是 Cloudflare 统计的访问信息，可以看到独立访问者 (独立 IP) 数量达到了我的小博客前所未有的数量，基本上是一个请求一个独立 IP，效果非常不错。</p>
@@ -14,7 +14,7 @@
         
     
 </p>
-<h2 id="教程">教程</h2>
+<h2 id="教程"><a href="#教程" class="header-mark headerLink">教程</a></h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
 <p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[AFF 链接]</a>.</p>
 <p>你可以通过 <code>ip a</code> 命令查看网络接口的地址，从而获取你的 IPv6 子网信息：</p>
@@ -123,7 +123,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以看到，能够按照我们指定的任意 IP 进行请求</p>
-<h2 id="http-代理">Http 代理</h2>
+<h2 id="http-代理"><a href="#http-代理" class="header-mark headerLink">Http 代理</a></h2>
 <p>为了方便使用，使用 Rust 写了一个 http 代理服务端，每一个请求会走指定 IPv6 子网下随机 IP，算是一个基础 demo</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -166,7 +166,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
-<h2 id="碎碎念">碎碎念</h2>
+<h2 id="碎碎念"><a href="#碎碎念" class="header-mark headerLink">碎碎念</a></h2>
 <!-- ### Proxypool 项目
 
 舍友要买代理池，我就去 GitHub 上搜了一下，没想到我之前早已停更的项目竟然排在第一位。
@@ -174,7 +174,7 @@
 ![GitHub 搜 proxypool](github-proxypool.png)
 
 排名第二的是专门给爬虫准备的代理池，作者是我的师兄，他对爬虫有非常深入的研究，推荐给大家。 -->
-<h3 id="一开始的想法">一开始的想法</h3>
+<h3 id="一开始的想法"><a href="#一开始的想法" class="header-mark headerLink">一开始的想法</a></h3>
 <p>其实我一开始的想法并不是直接给接口附加整个 IP 段的。一开始我并不知道网络接口可以直接附加一整个 IP 段，考虑到这个 IPv6 段数量过于庞大，通过枚举给接口附加多个静态 IP 显然不现实，所以我就在想办法去自己封装 IP 包然后进行注入。</p>
 <p>我想到了两个注入数据包的方案：</p>
 <ol>
@@ -188,7 +188,7 @@
 <p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="" class="post-link">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="" class="post-link">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
 <p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-Linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
 <p>幸亏后面搜资料发现了本文方便的方法，才避免了我陷入这些迷途。反思一下，即自己的知识不够，对 Linux 内核及其提供的众多功能了解不够深入，导致人家原本就有的功能自己根本不知道，所以想不出合适的方案。</p>
-<h3 id="waf">WAF</h3>
+<h3 id="waf"><a href="#waf" class="header-mark headerLink">WAF</a></h3>
 <p>我也不是非常了解，现在的 WAF 是不是就是单纯根据 IP 来进行限流限速 ？如果真是这样，那利用这庞大的 IPv6 资源岂不是轻松绕过封禁。</p>
 <p>如果是会直接封禁或者限制整个子网，会不会有很严重的误杀，毕竟不是所有 ISP 都会这么大方的给一整个 IP 段。</p>
 <p>有了解的小伙伴欢迎评论交流。</p>
@@ -207,9 +207,9 @@
 </li>
 </ul>
 <p>简单来说，VPN 不需要解析 IP 包的 payload，而代理程序需要解析出传输层信息并处理，特别是像 TCP 这样复杂的协议，对其处理更是需要非常小心和严谨。对于代理程序这样的需求，如果我们使用 TUN 技术，通常有两种模式：在用户态实现网络栈，或者直接利用操作系统网络栈实现。</p>
-<h2 id="用户态网络栈">用户态网络栈</h2>
+<h2 id="用户态网络栈"><a href="#用户态网络栈" class="header-mark headerLink">用户态网络栈</a></h2>
 <p>第一种选择是在用户态实现网络栈，这是不小的工程啊，特别是实现 TCP 协议，因为其协议非常复杂，实现起来有很多细节需要注意，所以自己实现非常容易犯错。所以我们一般会直接找现成的实现来用，现有不少比较成熟且高效的实现，我相信肯定比我自己写的要好几个数量级。</p>
-<h3 id="网络栈实现">网络栈实现</h3>
+<h3 id="网络栈实现"><a href="#网络栈实现" class="header-mark headerLink">网络栈实现</a></h3>
 <ul>
 <li>
 <p>如果使用 <strong>C</strong> 语言，<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="noopener noreffer" class="post-link"><strong>lwIP</strong></a> 是一个非常不错的选择，由瑞典计算机科学研究所科学院开源，这是一个轻量级的 TCP/IP 栈实现，在占用超少内存的情况下，实现了完整的 TCP，被广泛应用到嵌入式设备中，稳定性有保证。同时，lwIP 有很多其他语言的绑定，包括 go 和 rust，这使我们在使用其他语言开发时也可以选择 lwIP 作为用户态网络栈实现。</p>
@@ -224,9 +224,9 @@
 <p>当然，我觉得还有一个可以期待的实现，就是 Google 为 Fuchsia 操作系统开发的 <a href="https://cs.opensource.google/fuchsia/fuchsia/&#43;/master:src/connectivity/network/netstack3/" target="_blank" rel="noopener noreffer" class="post-link"><strong>Netstack3</strong></a>，之前是由 Go 实现的，不过现在 Google 用 Rust 重新实现了一个新的，谷歌背书，可以期待。</p>
 </li>
 </ul>
-<h3 id="使用流程">使用流程</h3>
+<h3 id="使用流程"><a href="#使用流程" class="header-mark headerLink">使用流程</a></h3>
 <p>在看完可供选择的实现后，我们来看一下在用户空间实现的网络栈如何使用。虽然不同在不同实现下，各个库有不同的编程接口和使用方法，但基本的思路都是一致的，这里我们便仅讨论基本使用流程。</p>
-<h4 id="基本思路">基本思路</h4>
+<h4 id="基本思路"><a href="#基本思路" class="header-mark headerLink">基本思路</a></h4>
 <p>从原理上来讲，用户态网络栈就是要不断通过协议解析，从 IPv4 数据包中不断解析出 TCP 流中的载荷数据；将传输层载荷通过不断的协议封装，拿到最终的 IPv4 数据包。</p>
 <p><strong>从 TUN 往外读</strong></p>
 <p>从 TUN 设备所对应的句柄中读出了一段字节序列，便是需要处理的IP数据包，一般是 IPv4 协议，不过还是需要先根据字节序列的第一个字节进行判断。</p>
@@ -235,14 +235,14 @@
 <p><strong>向 TUN 写数据</strong></p>
 <p>写的过程其实就是读的过程反过来，拿到的是某个传输层协议的 payload，就拿UDP为例，根据该数据报的元信息，构建出完整的 UDP Header，然后将 payload 内容拼接进去。</p>
 <p>接下来构建 IPv4 Header，然后将 UDP 报文拼接进 IPv4 payload 中。在拿到 IPv4 数据包后，即可序列化为字节序列，写入 TUN 句柄了。</p>
-<h4 id="实际使用">实际使用</h4>
+<h4 id="实际使用"><a href="#实际使用" class="header-mark headerLink">实际使用</a></h4>
 <p>上面的读、写过程看起来简单，但实际需要考虑的东西非常多，包括但不限于分片、丢包、重传、流量控制等等，TCP 作为一个极其复杂的传输层协议，有巨多情况需要考虑，很明显用上面的基本思路是非常繁琐并且难以使用的。</p>
 <p>众多用户态网络栈肯定考虑到了这一点，实现都提供了非常友好且直接的接口，可以直接创建一个 TCP/IP 网络栈实例，拿到两个句柄，一端负责读取和写入网络层 IP 数据包，另一端负责接收和写入传输层载荷，中间的复杂转换关系和特殊情况都被内部屏蔽掉了。</p>
-<h2 id="操作系统网络栈">操作系统网络栈</h2>
+<h2 id="操作系统网络栈"><a href="#操作系统网络栈" class="header-mark headerLink">操作系统网络栈</a></h2>
 <p>根据我们的需求，实际就是在 IPv4 和 TCP payload 之间进行转换，而操作系统的网络栈正好就有这个功能，我们无法简单的直接使用操作系统的网络栈代码，但是可以想办法复用操作系统网络栈提供的功能。TUN 在网络层已经打开了一个口子，还需要在传输层也打开一个口子，其实可以利用操作系统提供的 socket。</p>
 <p>我们使用操作系统提供的 Socket 创建一个传输层的 Listener，将某个 IPv4 数据包的目标 IP 和目标端口修改为我们监听的 IP 和端口，然后通过 TUN 将该 IPv4 数据包注入到操作系统的网络栈中，操作系统就会自动的进行相应的解析，并将所需要的传输层 payload 通过前面创建的 Socket 发送给 Listener，由此便利用操作系统网络栈完成了 “往外读” 的操作。</p>
 <p>对于“向里写”的操作，只需要向刚刚创建的传输层连接句柄写入即可，操作系统的网络栈同样会进行相应的封包，最后形成 IPv4 数据包。很明显，需要考虑反向的数据包，当向传输层连接的句柄中写入数据、操作系统的网络栈封包时，源 IP 和源端口会被视为新的目标 IP 和目标端口，因为我们需要使返回的 IPv4 数据包能够被 TUN 接口捕获到，在上面步骤中就不能只修改目标 IP 和目标端口，同时还要修改源 IP 和源端口，源 IP 应该限制为 TUN 网段中的 IP。</p>
-<h3 id="工作流程">工作流程</h3>
+<h3 id="工作流程"><a href="#工作流程" class="header-mark headerLink">工作流程</a></h3>
 <p>在利用操作系统网络栈时，通常是以下步骤，这里拿 TCP 协议举例。</p>
 <p>在我们的例子中， TUN网络的配置为 <code>198.10.0.1/16</code>，主机IP为 <code>198.10.0.1</code>，代理客户端监听 <code>198.10.0.1:1313</code>，App想要访问 <code>google.com:80</code>，自定义的DNS服务返回<code>google.com</code>的 Fake IP <code>198.10.2.2</code>。</p>
 <p><strong>1. Proxy 创建 TCP Socket Listener</strong></p>
@@ -267,14 +267,14 @@
 <p><strong>6. App 拿到返回数据</strong></p>
 <div class="mermaid" id="id-5"></div>
 <p>上面的过程便是利用操作系统网络栈完成 IPv4 到 TCP 载荷数据及其反方向转变的过程。通过这种办法，可以充分利用操作系统的实现，都是饱经检验，质量可靠，且满足各种复杂情况。但是也有缺点，数据需要拷贝多次，增加了性能损耗和延迟。</p>
-<h3 id="nat-策略">NAT 策略</h3>
+<h3 id="nat-策略"><a href="#nat-策略" class="header-mark headerLink">NAT 策略</a></h3>
 <blockquote>
 <p>我这里想说的 NAT 策略不是指常说的那四种 NAT 类型，当然你可以去实现不同的NAT类型来满足各种各样的需求，但那是更深入的话题，不在本文讨论。</p>
 </blockquote>
 <p>在刚刚的流程的第3步中，你应该发现对源 IP 和源端口的修改是有限制的，我们需要将 IP 限定为 TUN 网段，从而使返回的数据包可以重新被 TUN 设备捕获。但是这种限制是非常宽松的，在我们的例子对 TUN 设备网段的配置中，你有 2^16 个 IP 可供选择，每一个 IP 又有 2^16 个端口可供选择。</p>
 <p>但是如果你仔细观察，你会发现上面的例子并没有充分利用这些资源，我们仅仅是将 Fake IP 作为源 IP、真实目标端口作为源端口，而这个 IP 的其他端口都被闲置了。同时我也在其他人写的某些程序中发现，他们仅选择一个 IP 设置为源 IP，通过合理的分配该 IP 的端口作为源端口，在这种情况下， TUN 网段中其余的 IP 资源就被浪费了。</p>
 <p>以上两种 NAT 策略在个人电脑上没啥问题，但是如果代理客户端运行在网关上，网络中访问的 IP 数量超过网段中 IP 数量上限，或者 hash(ip:port) 数量超过端口总数(2^16)，就会难以继续分配 NAT 项。因此我们应该专门编写一个 NAT 管理组件，合理分配 IP 和端口资源，争取做到利用最大化。</p>
-<h2 id="防止环路">防止环路</h2>
+<h2 id="防止环路"><a href="#防止环路" class="header-mark headerLink">防止环路</a></h2>
 <p>抛开事实不谈，如果我们想要代理全部流量，就是要通过路由规则将所有流量导向我们的 TUN 设备，这是很直观且朴素的想法，就像下面的命令一样单纯：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -287,29 +287,29 @@
 </div><p>如果你真的这么写，你就会发现你上不了网了。这是因为出现了环路。</p>
 <p>如果稍微思考一下，你就会发现，虽然我们想要代理所有流量，但是代理客户端与代理服务端的流量却是需要跳过的，如果用上面的路由，就会导致代理客户端发出的流量经过路由然后从 TUN 重新回到了代理客户端，这是一个死环，没有流量可以走出去。流量只近不出，来回转圈，你的文件打开数爆炸，操作系统不再给你分配更多的句柄，数据来回拷贝，你的CPU风扇猛转，电脑开始变卡。</p>
 <p>这是我们不想看到的，需要采取一些措施避免环路的产生。在实践中有不少方法可以避免这种情况的发生，例如通过合理的配置路由规则，使连接代理服务器的流量可以顺利匹配到外部网络接口。只不过这种方法不够灵活，如果代理服务器 IP 发生变化则需要及时改变路由规则，非常麻烦，所以我们接下来介绍其他的方法。</p>
-<h3 id="fake-ip">Fake IP</h3>
+<h3 id="fake-ip"><a href="#fake-ip" class="header-mark headerLink">Fake IP</a></h3>
 <p>Fake IP 就是我们上面例子中用到的方法，这是一种限制进入流量的方法。基本思路是自己实现一个 DNS 服务器，对用户的查询返回一个假的 IP 地址，我们可以将返回的 IP 地址限制为 TUN 设备的网络段，这样应用发起的流量其实便是发给 TUN 网络的流量，自然的被路由匹配，而无需像前面那样路由全部的流量，其余的流量包括代理客户端发起的请求便不会被路由，可以保证不产生环路。</p>
 <p>当代理客户端需要知道应用真正想要请求的地址时，就通过一些接口向自己实现的 DNS 服务器进行反向查询即可。</p>
-<h3 id="策略路由">策略路由</h3>
+<h3 id="策略路由"><a href="#策略路由" class="header-mark headerLink">策略路由</a></h3>
 <p>通过前面的分析，可以发现产生环路是因为代理客户端本身发出的流量被系统路由到 TUN 设备导致的，因此我们可以想办法让代理客户端本身发起的流量不走 TUN 而是从真实的物理网络接口出去。</p>
 <p>在 (类)Unix 系统中，可以对代理客户端的流量打上 fwmark 防火墙标记，然后通过策略路由使带有标记的流量走单独的路由表出去，从而绕过全局的流量捕获。</p>
 <p><strong>cgroup</strong></p>
 <p><code>cgroup</code> 是 Linux 内核的功能，可以用来限制、隔离进程的资源，其中 <code>net_cls</code> 子系统可以限制网络的访问。在网络控制层面，可以通过 <code>class ID</code> 确定流量是否属于某个 cgroup，因此可以对来自特定 cgroup 的流量打上 fwmark，使其能够被策略路由控制。</p>
 <p>我们可以创建一个用于绕过代理的 cgroup ，对该 cgroup 下进程的流量使用默认的路由规则，而不在该 cgroup 的其余进程的流量都要路由到 TUN 设备进行代理。</p>
-<h2 id="一些其他的知识">一些其他的知识</h2>
-<h3 id="tun-与-tap-的区别">TUN 与 TAP 的区别</h3>
+<h2 id="一些其他的知识"><a href="#一些其他的知识" class="header-mark headerLink">一些其他的知识</a></h2>
+<h3 id="tun-与-tap-的区别"><a href="#tun-与-tap-的区别" class="header-mark headerLink">TUN 与 TAP 的区别</a></h3>
 <p>TAP 在2层，读取和写入的数据需要是以太帧结构</p>
 <p>TUN 在3层，读取和写入的数据需要是IP数据包结构</p>
-<h3 id="ip-等配置">IP 等配置</h3>
+<h3 id="ip-等配置"><a href="#ip-等配置" class="header-mark headerLink">IP 等配置</a></h3>
 <p>在给网卡配置IP时，其实是修改内核网络栈中的某些参数，而不是修改网卡。虽然网卡也会有一些可供修改的配置项，但一般情况是通过其他方法进行修改的(驱动程序)。</p>
-<h3 id="物理网卡与虚拟网卡的区别">物理网卡与虚拟网卡的区别</h3>
+<h3 id="物理网卡与虚拟网卡的区别"><a href="#物理网卡与虚拟网卡的区别" class="header-mark headerLink">物理网卡与虚拟网卡的区别</a></h3>
 <p>物理网卡会有 <strong>DMA</strong> 功能，在启用 DMA 时网卡和网络栈(内存中的缓冲区)的通讯由 DMA 控制器管理，因此性能更高延迟也更低。</p>
-<h3 id="如何创建-tun-设备">如何创建 TUN 设备</h3>
+<h3 id="如何创建-tun-设备"><a href="#如何创建-tun-设备" class="header-mark headerLink">如何创建 TUN 设备</a></h3>
 <p>在Linux下一切皆文件，<code>/dev/net/tun</code> 是特殊的字符(char)设备文件，通过打开这个文件获得一个文件句柄，然后通过 <code>ioctl()</code> 系统调用对其进行配置。在这里可以选择打开TUN设备还是TAP设备，可以设置设备名称。</p>
 <p>详见：<a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html#network-device-allocation" target="_blank" rel="noopener noreffer" class="post-link">Network device allocation</a></p>
-<h3 id="与-bpf-的关系">与 BPF 的关系</h3>
+<h3 id="与-bpf-的关系"><a href="#与-bpf-的关系" class="header-mark headerLink">与 BPF 的关系</a></h3>
 <p>BPF 是一种高级数据包过滤器，可以附加到现有的网络接口，但其本身不提供虚拟网络接口。 TUN/TAP 驱动程序提供虚拟网络接口，可以将 BPF 附加到该接口。</p>
-<h2 id="扩展阅读">扩展阅读</h2>
+<h2 id="扩展阅读"><a href="#扩展阅读" class="header-mark headerLink">扩展阅读</a></h2>
 <ul>
 <li><a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.kernel.org/doc/html/latest/networking/tuntap.html</a></li>
 <li><a href="https://github.com/xjasonlyu/tun2socks" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/xjasonlyu/tun2socks</a></li>
@@ -319,7 +319,7 @@
 <li><a href="https://www.wintun.net/" target="_blank" rel="noopener noreffer" class="post-link">https://www.wintun.net/</a></li>
 </ul>
 ]]></description></item><item><title>使用GlobalSSH服务加速境外服务器ssh访问</title><link>https://zu1k.com/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/</link><pubDate>Sun, 12 Apr 2020 16:37:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/</guid><description><![CDATA[<blockquote>
-<h3 id="ucloud已经对加速ip进行限制本文中的方法即时失效">UCloud已经对加速IP进行限制，本文中的方法即时失效</h3>
+<h3 id="ucloud已经对加速ip进行限制本文中的方法即时失效"><a href="#ucloud已经对加速ip进行限制本文中的方法即时失效" class="header-mark headerLink">UCloud已经对加速IP进行限制，本文中的方法即时失效</a></h3>
 <p>通知内容如下：<br>
 尊敬的UCloud用户，您好！<br>
 GlobalSSH产品即日起将暂时限制服务器IP地址范围，<br>
@@ -345,7 +345,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <li>如果科学上网服务器不稳定经常断流就会导致ssh连接断开</li>
 <li>部分客户端不支持设置http或者socks代理</li>
 </ol>
-<h2 id="globalssh">GlobalSSH</h2>
+<h2 id="globalssh"><a href="#globalssh" class="header-mark headerLink">GlobalSSH</a></h2>
 <p>今天发现了一个免费的加速服务，非常方便，推荐给需要的人</p>
 <p>这就是 UCloud 免费提供的 GlobalSSH 加速服务</p>
 <p>官网链接： <a href="https://console.ucloud.cn/upathx/globalssh" target="_blank" rel="noopener noreffer" class="post-link">https://console.ucloud.cn/upathx/globalssh</a></p>
@@ -367,13 +367,13 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </p>
 <p>创建之后会提供一个域名，可以将自己的域名CNAME解析到提供的域名上方便记忆，UCLOUD可以准确识别到是访问哪一台服务器</p>
 <p>在我们使用的客户端上只需要用提供的加速域名和原服务端口号就可以了</p>
-<h2 id="注意事项">注意事项</h2>
+<h2 id="注意事项"><a href="#注意事项" class="header-mark headerLink">注意事项</a></h2>
 <ol>
 <li>自产品实例创建之日起，7日内单个实例累计出向流量小于2MB，加速功能将被停用，所以一开始先多用点吧</li>
 <li>每个源IP只能加速一个端口</li>
 <li>加速流量上限官方未注明，滥用的话会被封</li>
 </ol>
-<h2 id="妙用">妙用</h2>
+<h2 id="妙用"><a href="#妙用" class="header-mark headerLink">妙用</a></h2>
 <p>众所周知，github在国内的访问速度很慢，有时候clone一个库不得不忍受十几k几十k每秒的速度</p>
 <p>而git是可以用ssh协议的，所以我们只需要从 <a href="https://api.github.com/meta" target="_blank" rel="noopener noreffer" class="post-link">https://api.github.com/meta</a> 找到github使用的ip，通过GlobalSSH加速22端口，然后将自己的域名解析到加速的ip，最后使用自己的域名clone就行了</p>
 <p>经过我的尝试效果还不错，可以跑到10Mbps</p>
@@ -400,7 +400,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 ]]></description></item><item><title>给 Git 设置代理</title><link>https://zu1k.com/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，GitHub 的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
 <p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议</p>
 <p>而我们平时使用github一般使用两种协议，一种是http协议，另一种是ssh协议，针对这两种协议有两种不同的代理设置办法</p>
-<h2 id="http协议">http协议</h2>
+<h2 id="http协议"><a href="#http协议" class="header-mark headerLink">http协议</a></h2>
 <p>通常使用的链接形如：<code>https://github.com/git/git.git</code></p>
 <p>针对这种协议，代理设置比较简单</p>
 <div class="highlight"><div class="chroma">
@@ -423,7 +423,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">git config --global --unset https.proxy
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="ssh协议">ssh协议</h2>
+</div><h2 id="ssh协议"><a href="#ssh协议" class="header-mark headerLink">ssh协议</a></h2>
 <p>通常使用的链接形如：<code>git@github.com:git/git.git</code> 或者 <code>ssh://[&lt;username&gt;@]&lt;server&gt;[:&lt;port&gt;]/path/repo.git</code></p>
 <p>对于使用ssh协议的库，上面的代理设置办法就失效了，需要给ssh设置socks代理</p>
 <p>在 <code>~/.ssh/config</code> 文件中添加下面内容， 如果没有这个文件就新建</p>

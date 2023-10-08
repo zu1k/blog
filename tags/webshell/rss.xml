@@ -3,11 +3,11 @@
 这个公众号的文章质量都非常高，推荐大家关注</p>
 </blockquote>
 <p>拿下一个站后总希望自己的后门能够很隐蔽！不让网站管理员或者其他的Hacker发现，网上关于隐藏后门的方法也很多，如加密、包含，解析漏洞、加隐藏系统属性等等，但大部分已经都不实用了，随便找一个查马的程序就能很快的查出来，下面分享我总结的一些经验：</p>
-<h2 id="制作免杀webshell">制作免杀webshell</h2>
+<h2 id="制作免杀webshell"><a href="#制作免杀webshell" class="header-mark headerLink">制作免杀webshell</a></h2>
 <p>隐藏webshell最主要的就是做免杀，免杀做好了，你可以把webshell放在函数库文件中或者在图片马中，太多地方可以放了，只要查杀工具查不到，你的这个webshell就能存活很长时间，毕竟管理员也没有那么多精力挨个代码去查看。</p>
-<h3 id="命令执行的方法">命令执行的方法</h3>
+<h3 id="命令执行的方法"><a href="#命令执行的方法" class="header-mark headerLink">命令执行的方法</a></h3>
 <p>这里使用我们最常用的php的一句话马来给大家做演示，PHP版本是5.6的，在写一句话马之前我们来先分析一下PHP执行命令方法</p>
-<h4 id="直接执行">直接执行</h4>
+<h4 id="直接执行"><a href="#直接执行" class="header-mark headerLink">直接执行</a></h4>
 <p>使用php函数直接运行命令,常见的函数有(eval、system、assert)等，可以直接调用命令执行。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -29,7 +29,7 @@
         
     
 </p>
-<h4 id="动态函数执行">动态函数执行</h4>
+<h4 id="动态函数执行"><a href="#动态函数执行" class="header-mark headerLink">动态函数执行</a></h4>
 <p>我们先把一个函数名当成一个字符串传递给一个变量，在使用变量当作函数去执行</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -51,7 +51,7 @@
         
     
 </p>
-<h4 id="文件包含执行">文件包含执行</h4>
+<h4 id="文件包含执行"><a href="#文件包含执行" class="header-mark headerLink">文件包含执行</a></h4>
 <p>有两个php文件，我们把执行命令的放在文件b中，使用文件a去包含，达到执行的效果</p>
 <p>b.php</p>
 <div class="highlight"><div class="chroma">
@@ -87,7 +87,7 @@
         
     
 </p>
-<h3 id="回调函数">回调函数</h3>
+<h3 id="回调函数"><a href="#回调函数" class="header-mark headerLink">回调函数</a></h3>
 <p>将想要执行命令的函数赋值给一个变量，再用一个可以调用函数执行的函数把变量解析成函数，这么说可能有点绕，看一下array_map函数的用法：array_map函数中将$arr每个元素传给func函数去执行，例子：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -115,7 +115,7 @@
         
     
 </p>
-<h3 id="php-curly-syntax">PHP Curly Syntax</h3>
+<h3 id="php-curly-syntax"><a href="#php-curly-syntax" class="header-mark headerLink">PHP Curly Syntax</a></h3>
 <p>我们可以理解为字符串中掺杂了变量，再使用变量去拼接字符串，达到命令执行的效果</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -141,7 +141,7 @@
         
     
 </p>
-<h3 id="php反序列化">php反序列化</h3>
+<h3 id="php反序列化"><a href="#php反序列化" class="header-mark headerLink">php反序列化</a></h3>
 <p>这是根据php反序列化漏洞来实现命令执行，可以先创建一个反序列化的漏洞文件，再去调用反序列化函数unserialize</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -177,7 +177,7 @@
         
     
 </p>
-<h3 id="phpinput方法">php://input方法</h3>
+<h3 id="phpinput方法"><a href="#phpinput方法" class="header-mark headerLink">php://input方法</a></h3>
 <p>php://input可以访问请求的原始数据的只读流，我们可以理解为我们传post参数，php://input会读取到，这时候我们就可以加以利用了。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -201,7 +201,7 @@
         
     
 </p>
-<h3 id="preg_replace方法">preg_replace方法</h3>
+<h3 id="preg_replace方法"><a href="#preg_replace方法" class="header-mark headerLink">preg_replace方法</a></h3>
 <p>preg_replace函数执行一个正则表达式的搜索和替换。我们可以使用一个命令执行函数去替换正常的字符串，然后去执行命令。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -225,7 +225,7 @@
         
     
 </p>
-<h3 id="ob_start">ob_start</h3>
+<h3 id="ob_start"><a href="#ob_start" class="header-mark headerLink">ob_start</a></h3>
 <p>ob_start函数是打开输出控制缓冲，传入的参数会在使用ob_end_flush函数的时候去调用它执行输出在缓冲区的东西。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -255,7 +255,7 @@
         
     
 </p>
-<h2 id="编写免杀">编写免杀</h2>
+<h2 id="编写免杀"><a href="#编写免杀" class="header-mark headerLink">编写免杀</a></h2>
 <p>上面说了那么多其实都是一句话木马的思路，每一种方式都可以写成一句话木马，而想要免杀常常会多种组合到一起，下面从最简单的木马一步步变形，达到免杀的目的。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -534,7 +534,7 @@
         
     
 </p>
-<h2 id="更好的隐藏webshell一些建议">更好的隐藏webshell一些建议</h2>
+<h2 id="更好的隐藏webshell一些建议"><a href="#更好的隐藏webshell一些建议" class="header-mark headerLink">更好的隐藏webshell一些建议</a></h2>
 <ol>
 <li>
 <p>拿到权限以后,把网站日志中的所有关于webshell的访问记录和渗透时造成的一些网站报错记录全部删除</p>

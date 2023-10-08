@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>学习 - 分类 - zu1k</title><link>https://zu1k.com/categories/learn/</link><description>学啊！为什么不学？这里的知识不会枯燥，快和我一起来学习吧！</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zu1k.com/categories/learn/" rel="self" type="application/rss+xml"/><item><title>Tor洋葱服务如何工作</title><link>https://zu1k.com/posts/learn/how-do-onion-service-work/</link><pubDate>Mon, 25 May 2020 14:13:37 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/how-do-onion-service-work/</guid><description><![CDATA[<p>昨天遇到了点问题，为了研究清楚原理，把Tor客户端与服务端通信的具体流程学习了一下，这篇博文写来记录</p>
-<h2 id="通信流程">通信流程</h2>
+<h2 id="通信流程"><a href="#通信流程" class="header-mark headerLink">通信流程</a></h2>
 <p>这里要描述的通讯是 用户通过 tor浏览器 连接 洋葱服务 的过程</p>
 <p>为了方便表达，这里用Alice表示客户端，Bob表示服务端</p>
-<h3 id="第一步服务端设置自己的介绍节点">第一步：服务端设置自己的介绍节点</h3>
+<h3 id="第一步服务端设置自己的介绍节点"><a href="#第一步服务端设置自己的介绍节点" class="header-mark headerLink">第一步：服务端设置自己的介绍节点</a></h3>
 <p>
 
 
@@ -19,7 +19,7 @@
 <p>首先，Bob从 tor中继节点列表 中挑选几个节点来做自己的 介绍节点，然后与它们建立 长连接(long-term circuits)</p>
 <p>这里的长连接是通过tor网络建立起来的，所以是匿名的，介绍节点不会知道Bob的IP</p>
 <p>同时，Bob会给介绍节点发送一个 身份验证密钥(authentication key)，当有客户端连接这个介绍节点时，通过这个密钥便能判断这个连接是否是找Bob的</p>
-<h3 id="第二步服务端公开自己的信息">第二步：服务端公开自己的信息</h3>
+<h3 id="第二步服务端公开自己的信息"><a href="#第二步服务端公开自己的信息" class="header-mark headerLink">第二步：服务端公开自己的信息</a></h3>
 <p>
 
 
@@ -35,7 +35,7 @@
 <p>Bob 生成一个 描述信息(onion service descriptor)，里面存储了介绍节点列表，包括介绍节点的ip和相应的身份验证密钥</p>
 <p>然后Bob用自己的私钥对这个消息签名，并将这个消息发布到Tor的DHT中</p>
 <p>经过这步操作，tor客户端便可以通过某个key从DHT中获取到这个消息，从而找到Bob的介绍节点</p>
-<h3 id="第三步客户端获取介绍节点列表">第三步：客户端获取介绍节点列表</h3>
+<h3 id="第三步客户端获取介绍节点列表"><a href="#第三步客户端获取介绍节点列表" class="header-mark headerLink">第三步：客户端获取介绍节点列表</a></h3>
 <p>
 
 
@@ -52,7 +52,7 @@
 <p>首先，她向DHT网络请求该域名对应的信息，也就是第二步中Bob发布的那个描述消息</p>
 <p>获取到消息后，Alice对其签名进行验证，验证使用的Bob的公钥其实已经被编码到 xyz.onion 这个域名中了，Alice可以从域名中解码出来</p>
 <p>消息没问题，Alice从消息中解析出Bob的介绍节点列表，选择其中一个介绍节点，Alice将要向Bob介绍自己</p>
-<h3 id="第四步客户端选择一个会合节点">第四步：客户端选择一个会合节点</h3>
+<h3 id="第四步客户端选择一个会合节点"><a href="#第四步客户端选择一个会合节点" class="header-mark headerLink">第四步：客户端选择一个会合节点</a></h3>
 <p>
 
 
@@ -67,7 +67,7 @@
 </p>
 <p>Alice从tor中继节点列表中选择一个节点作为 会合节点(rendezvous point)，然后通过tor与该 会合节点(RP) 建立连接</p>
 <p>同时，Alice会给会合节点发送一个 一次性密码(one-time secret)，这个密码会在回合过程中使用</p>
-<h3 id="第五步客户端向服务端介绍自己">第五步：客户端向服务端介绍自己</h3>
+<h3 id="第五步客户端向服务端介绍自己"><a href="#第五步客户端向服务端介绍自己" class="header-mark headerLink">第五步：客户端向服务端介绍自己</a></h3>
 <p>Alice生成一个消息，包含 会合节点 和 一次性密码，然后用Bob的公钥对消息进行加密</p>
 <p>Alice通过Tor网络连接上 Bob 的一个介绍节点，让该介绍节点把加密后的消息转发给Bob</p>
 <p>
@@ -82,7 +82,7 @@
         
     
 </p>
-<h3 id="第六步服务端与客户端回合">第六步：服务端与客户端回合</h3>
+<h3 id="第六步服务端与客户端回合"><a href="#第六步服务端与客户端回合" class="header-mark headerLink">第六步：服务端与客户端回合</a></h3>
 <p>
 
 
@@ -97,23 +97,23 @@
 </p>
 <p>此时Bob已经收到介绍节点转发过来的消息，知道Alice想要访问自己，并且知道了会合节点的信息</p>
 <p>Bob通过Tor网络连接会合节点，然后将收到的一次性密码发送给会合节点，会合节点由此知道 Bob是要与Alice通信，从而可以将Alice与Bob的消息进行中继</p>
-<h2 id="安全性">安全性</h2>
+<h2 id="安全性"><a href="#安全性" class="header-mark headerLink">安全性</a></h2>
 <p>客户端与服务端最终是通过会合节点通讯的，他们都各自通过tor网络分别连接会合节点，因此既能够保证客户端的隐匿性又能够保证服务端不暴露</p>
 <p>在上面流程中的所有通讯都是用过tor网络建立的，包括 服务端与介绍节点的通讯、客户端与介绍节点的通讯、客户端与会合节点的通讯、服务端与会合节点的通讯</p>
 <p>因此，正常情况下tor客户端与洋葱服务通讯是经过6次中转的，包括客户端连接会合节点的3次和服务端连接会合节点的3次</p>
 <p>如果tor客户端访问的服务不是洋葱服务，那通讯过程就不是上面那个流程了，也只有3次中转了</p>
-<h2 id="参考资料">参考资料</h2>
+<h2 id="参考资料"><a href="#参考资料" class="header-mark headerLink">参考资料</a></h2>
 <p><a href="https://community.torproject.org/onion-services/overview/" target="_blank" rel="noopener noreffer" class="post-link">https://community.torproject.org/onion-services/overview/</a></p>
 ]]></description></item><item><title>DNS中SRV记录</title><link>https://zu1k.com/posts/learn/dns-srv-record/</link><pubDate>Tue, 24 Mar 2020 13:54:03 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/dns-srv-record/</guid><description><![CDATA[<p>SRV记录是服务器资源记录的缩写，是DNS服务器的数据库中支持的一种记录服务器提供的服务资源的记录，主要作用是说明一个服务器能够提供什么样的服务。</p>
 <p>简单来说，SRV记录了哪台计算机提供了哪个服务这么一个简单的信息。</p>
 <p>SRV记录是DNS记录中的新鲜面孔，在RFC2052中才对SRV记录进行了定义，因此很多老版本的DNS服务器并不支持SRV记录。</p>
-<h3 id="rfc2782">RFC2782</h3>
-<h4 id="概述和理由">概述和理由</h4>
+<h3 id="rfc2782"><a href="#rfc2782" class="header-mark headerLink">RFC2782</a></h3>
+<h4 id="概述和理由"><a href="#概述和理由" class="header-mark headerLink">概述和理由</a></h4>
 <p>目前，必须知道服务器的确切地址才能联系它或者广播问题。</p>
 <p>SRV RR允许管理员为单个域名使用多个服务器，轻松地将服务从一个主机移动到另一个主机，并将某些主机指定为服务的主服务器，将其他主机指定为备份。</p>
 <p>客户端要求特定域名的特定服务/协议（这里使用的词汇&quot;域名&quot;是RFC 1034上严格定义的），并获取任何可用服务器的名称。</p>
 <p>请注意，在本文档引用“地址记录”时，它表示A RR，AAAA RR或其最现代的等价物。</p>
-<h4 id="rfc定义的格式">RFC定义的格式</h4>
+<h4 id="rfc定义的格式"><a href="#rfc定义的格式" class="header-mark headerLink">RFC定义的格式</a></h4>
 <p>RFC2782中定义的格式是：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -170,17 +170,17 @@
 </tr>
 </tbody>
 </table>
-<h3 id="srv记录和微软的关系">SRV记录和微软的关系</h3>
+<h3 id="srv记录和微软的关系"><a href="#srv记录和微软的关系" class="header-mark headerLink">SRV记录和微软的关系</a></h3>
 <p>SRV记录在微软的Active Directory中有着重要地位，大家知道在NT4时代域和DNS并没有太多关系。但从Win2000开始，域就离不开DNS的帮助了，为什么呢？因为域内的计算机要依赖DNS的SRV记录来定位域控制器！微软的即时通讯服务器Live Communications Server也可以依靠SRV记录定位即时通讯服务器。</p>
 <p>SRV 记录一般是为Microsoft的活动目录设置时的应用。DNS可以独立于活动目录，但是活动目录必须有DNS的帮助才能工作。为了活动目录能够正常的工作，DNS服务器必须支持服务定位（SRV）资源记录，资源记录把服务名字映射为提供服务的服务器名字。活动目录客户和域控制器使用SRV资源记录决定域控制器的IP地址。</p>
 <p>鉴于SRV记录可以定位特定服务器的位置，我们可以预计，在微软将来的服务器产品中SRV记录将发挥越来越多的作用。</p>
 ]]></description></item><item><title>了解邮件列表</title><link>https://zu1k.com/posts/learn/maillist/</link><pubDate>Wed, 27 Nov 2019 23:22:22 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/maillist/</guid><description><![CDATA[<blockquote>
 <p>之前经常听说或者在新闻里见到邮件列表这个词，知道很多大佬，特别是计算机大佬、某某编程语言之父、某某操作系统之父等一堆大佬都在用邮件列表，就感到十分好奇。近期我特意上网搜索相关资料，亲身实践邮件列表的使用</p>
 </blockquote>
-<h2 id="什么是邮件列表">什么是邮件列表</h2>
+<h2 id="什么是邮件列表"><a href="#什么是邮件列表" class="header-mark headerLink">什么是邮件列表</a></h2>
 <p>邮件列表（Mailing List）的起源可以追溯到1975年，是互联网上最早的社区形式之一，也是Internet上的一种重要工具，用于各种群体之间的信息交流和信息发布</p>
 <p>邮件列表根据不同作用分为不同形式，其实我们生活中也有接触和使用过邮件列表这个东东，只是自己不知道这个东西就要邮件列表而已</p>
-<h3 id="常见的邮件列表有六种形式">常见的邮件列表有六种形式</h3>
+<h3 id="常见的邮件列表有六种形式"><a href="#常见的邮件列表有六种形式" class="header-mark headerLink">常见的邮件列表有六种形式</a></h3>
 <ul>
 <li>电子刊物</li>
 <li>新闻邮件</li>
@@ -189,7 +189,7 @@
 <li>顾客服务/顾客关系邮件</li>
 <li>顾客定制信息</li>
 </ul>
-<h3 id="根据不同的邮件分发方式邮件列表可以分为两大类">根据不同的邮件分发方式，邮件列表可以分为两大类</h3>
+<h3 id="根据不同的邮件分发方式邮件列表可以分为两大类"><a href="#根据不同的邮件分发方式邮件列表可以分为两大类" class="header-mark headerLink">根据不同的邮件分发方式，邮件列表可以分为两大类</a></h3>
 <ul>
 <li>公告型(Announcement list)</li>
 <li>讨论型(Discussion list)</li>
@@ -200,14 +200,14 @@
 <blockquote>
 <p>下面提到的邮件列表一词特指讨论型邮件列表</p>
 </blockquote>
-<h2 id="哪里用到邮件列表">哪里用到邮件列表</h2>
+<h2 id="哪里用到邮件列表"><a href="#哪里用到邮件列表" class="header-mark headerLink">哪里用到邮件列表</a></h2>
 <p>其实很多地方会用到邮件列表，特别是在计算机领域，很多大佬喜欢用。他们认为网页论坛内容杂乱，无法进行深入、高效的交流，内容往往缺乏思考和谨慎。邮件就恰恰相反，发邮件时我们往往会进行慎重思考，深思熟虑之后写一长篇文章，这样最有利于交流</p>
 <p>QQ邮箱中会看到群邮件功能，这其实就是一个讨论型的邮件列表功能。但这一功能实际上只有极少一部分人充分利用了起来，绝大多数群并没有有效的利用。这个功能现大多沦为广告和病毒木马多发地，真是令人惋惜</p>
 <p>Debian、维基百科等大型组织大都自己搭建邮件列表服务，而大部分中小组织都时直接使用Google Group提供的服务，Google Group应该拥有最多的邮件列表</p>
 <p>现在GitHub仓库的Issue功能也与邮件列表差不多了，watching该仓库的人可以收到对应的邮件，也可以通过邮件进行回复</p>
-<h2 id="如何使用邮件列表">如何使用邮件列表</h2>
+<h2 id="如何使用邮件列表"><a href="#如何使用邮件列表" class="header-mark headerLink">如何使用邮件列表</a></h2>
 <p>接下来我们实践如何加入一个邮件列表、在邮件列表中发起讨论、参与邮件列表中已经发起的讨论、退出邮件列表等常用操作</p>
-<h3 id="加入邮件列表">加入邮件列表</h3>
+<h3 id="加入邮件列表"><a href="#加入邮件列表" class="header-mark headerLink">加入邮件列表</a></h3>
 <p>加入一个邮件列表有两种方法:</p>
 <ol>
 <li>通过在<strong>网页</strong>填写自己的邮箱地址加入</li>
@@ -271,21 +271,21 @@
 <blockquote>
 <p>这里介绍的是通用方法，可能与某些邮件列表的方法不符，在尝试加入一个邮件列表之前你需要通过说明页面查看具体的订阅方法</p>
 </blockquote>
-<h3 id="发起讨论">发起讨论</h3>
+<h3 id="发起讨论"><a href="#发起讨论" class="header-mark headerLink">发起讨论</a></h3>
 <p>在邮件列表中发起讨论也是通过发送邮件来实现的，将讨论的内容发送给公共的邮箱地址，例如发送给<strong><a href="mailto:sdusec@googlegroups.com" rel="" class="post-link">sdusec@googlegroups.com</a></strong>，邮件列表服务器就会将你的邮件发送给订阅该列表的每一个人</p>
 <p>注意，不要往主邮箱地址发送垃圾内容，否则会引起大家的反感。同时，在发起讨论前你要精心编辑问题内容和标题，发布高质量的讨论而不是垃圾</p>
-<h3 id="参与讨论">参与讨论</h3>
+<h3 id="参与讨论"><a href="#参与讨论" class="header-mark headerLink">参与讨论</a></h3>
 <p>如果你收到一封邮件，想要参与讨论，只需要回复这封邮件</p>
 <p>一般情况下我们使用的邮件服务会自动将标题重命名为 <code>Re: 原标题</code>或者<code>回复：原标题</code>的格式，同时正文内容中会引用被回复的邮件内容。如果你是用的邮箱系统不支持这个操作，建议切换至Gmail</p>
 <blockquote>
 <p>注意，点击发送前观察你回复的是不是公共邮箱，只有这样其他人所有人才能看到你回复的内容
 如果回复内容只想让部分人可见，需要手动指定回复的邮箱地址</p>
 </blockquote>
-<h3 id="退订邮件列表">退订邮件列表</h3>
+<h3 id="退订邮件列表"><a href="#退订邮件列表" class="header-mark headerLink">退订邮件列表</a></h3>
 <p>与加入方式类似，需要将<strong>subscribe</strong>换成<strong>unsubscribe</strong></p>
-<h2 id="如何用好邮件列表">如何用好邮件列表</h2>
+<h2 id="如何用好邮件列表"><a href="#如何用好邮件列表" class="header-mark headerLink">如何用好邮件列表</a></h2>
 <p>使用邮件列表非常简单，但是想要用好还是得花点功夫。无论是邮件的标题还是内容，都需要精心准备，否则会被列表中的其他人视作垃圾或问题被忽视</p>
-<h3 id="email格式">Email格式</h3>
+<h3 id="email格式"><a href="#email格式" class="header-mark headerLink">Email格式</a></h3>
 <ul>
 <li>设置好签名档</li>
 <li>公务邮箱应该包括姓名, 公司名称, 地址, 传真, 联系方式等</li>
@@ -294,13 +294,13 @@
 <li>可以添加标签, 方便收件人客户端自动分类.如, 通知, 汇报等</li>
 <li>抬头, 落款</li>
 </ul>
-<h3 id="内容表述">内容表述</h3>
+<h3 id="内容表述"><a href="#内容表述" class="header-mark headerLink">内容表述</a></h3>
 <ul>
 <li>倒金字塔叙事</li>
 <li>开头讲清楚概括大意, 讲清楚5W1H</li>
 <li>慢慢展开，旁征博引</li>
 </ul>
-<h4 id="5w1h">5W1H</h4>
+<h4 id="5w1h"><a href="#5w1h" class="header-mark headerLink">5W1H</a></h4>
 <ul>
 <li>who 谁</li>
 <li>When 何时</li>
@@ -309,14 +309,14 @@
 <li>Why 为何会出现这个问题</li>
 <li>How 如何,或进行过怎样的尝试, 以及其他方便他人理解问题的信息</li>
 </ul>
-<h3 id="提问的智慧">提问的智慧</h3>
-<h4 id="提问之前">提问之前</h4>
+<h3 id="提问的智慧"><a href="#提问的智慧" class="header-mark headerLink">提问的智慧</a></h3>
+<h4 id="提问之前"><a href="#提问之前" class="header-mark headerLink">提问之前</a></h4>
 <ul>
 <li>Google it</li>
 <li>询问精通此道的身边人</li>
 <li>三思而后问</li>
 </ul>
-<h4 id="怎样提问">怎样提问</h4>
+<h4 id="怎样提问"><a href="#怎样提问" class="header-mark headerLink">怎样提问</a></h4>
 <ul>
 <li>语法正确, 拼写无误</li>
 <li>精确描述, 信息量大</li>
@@ -325,18 +325,18 @@
 <li>具体参见http://wiki.woodpecker.org.cn/moin/AskForHelp&hellip;</li>
 <li>附件文档请输出为pdf版</li>
 </ul>
-<h3 id="避免邮件出现乱码">避免邮件出现乱码</h3>
+<h3 id="避免邮件出现乱码"><a href="#避免邮件出现乱码" class="header-mark headerLink">避免邮件出现乱码</a></h3>
 <ul>
 <li>注意编码格式，使用utf-8编码, 不要使用GBK之类的编码</li>
 <li>避免中文标点</li>
 <li>使用常见的emoji，避免使用生僻的图标</li>
 </ul>
-<h3 id="防止线索断开">防止线索断开</h3>
+<h3 id="防止线索断开"><a href="#防止线索断开" class="header-mark headerLink">防止线索断开</a></h3>
 <p>在使用邮件列表的过程中，会遇到<strong>线索断开</strong>的情况</p>
 <p>当看到有人提到线索断了的时候，就需要检查自己回复的邮件，标题是否有 <code>RE原邮件</code> ，内容中是否有引用被回复的邮件</p>
 <p>正常情况下你使用的邮件软件会自动完成这些内容，如果没有那你得考虑更换邮件软件或者服务</p>
-<h2 id="一些邮件列表">一些邮件列表</h2>
+<h2 id="一些邮件列表"><a href="#一些邮件列表" class="header-mark headerLink">一些邮件列表</a></h2>
 <p><a href="https://lists.wikimedia.org/mailman/listinfo" target="_blank" rel="noopener noreffer" class="post-link">https://lists.wikimedia.org/mailman/listinfo</a></p>
-<h2 id="附加资料">附加资料</h2>
+<h2 id="附加资料"><a href="#附加资料" class="header-mark headerLink">附加资料</a></h2>
 <p><a href="https://en.wikipedia.org/wiki/Posting_style" target="_blank" rel="noopener noreffer" class="post-link">https://en.wikipedia.org/wiki/Posting_style</a></p>
 ]]></description></item></channel></rss>

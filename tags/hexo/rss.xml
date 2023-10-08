@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Hexo - 标签 - zu1k</title><link>https://zu1k.com/tags/hexo/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 21 Mar 2020 09:24:56 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/hexo/" rel="self" type="application/rss+xml"/><item><title>使用GitHub Actions对Hexo博客自动部署</title><link>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Hexo - 标签 - zu1k</title><link>https://zu1k.com/tags/hexo/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 21 Mar 2020 09:24:56 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/hexo/" rel="self" type="application/rss+xml"/><item><title>使用GitHub Actions对Hexo博客自动部署</title><link>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言"><a href="#前言" class="header-mark headerLink">前言</a></h2>
 <p>很多同学和我一样也在用Hexo搭建自己的博客，通常最后发布的操作是 <code>hexo g</code> 生成静态网页，然后 <code>hexo d</code> 将public目录推送到github、coding、gitee等平台。</p>
 <p>但是很多时候我们都想偷个懒，只管写博客，写完后将git 一 push，后面的生成部署工作让程序自动完成，github actions为我们提供了这个便利。</p>
-<h2 id="操作">操作</h2>
-<h3 id="开启actions功能">开启actions功能</h3>
+<h2 id="操作"><a href="#操作" class="header-mark headerLink">操作</a></h2>
+<h3 id="开启actions功能"><a href="#开启actions功能" class="header-mark headerLink">开启actions功能</a></h3>
 <p>在我们博客的github仓库顶部可以找到 Actions 菜单，在里面我们可以搜索、选择各种预备好的actions模板，也可以点击 <code>Set up a workflow yourself</code> 按钮创建自己的工作流。</p>
 <p>
 
@@ -31,7 +31,7 @@
     
 </p>
 <p>当然，也可以选择在 hexo 根目录下创建 <code>.github/workflows</code> 目录，并在里面编写github actions配置文件的方法来开启这个功能。</p>
-<h3 id="基本部署">基本部署</h3>
+<h3 id="基本部署"><a href="#基本部署" class="header-mark headerLink">基本部署</a></h3>
 <p>首先我们需要将git库的代码检出到github actions提供的容器中，这里使用github提供的checkout步骤</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -103,9 +103,9 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">cname</span><span class="p">:</span><span class="w"> </span><span class="l">g.blog.zu1k.com</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="增加更多功能">增加更多功能</h3>
+</div><h3 id="增加更多功能"><a href="#增加更多功能" class="header-mark headerLink">增加更多功能</a></h3>
 <p>在github actions工作流中，还可以完成更多更复杂的操作，里面可以直接执行shell脚本，可以使用docker镜像提供的特殊环境，大家可以根据自己需求进行修改。</p>
-<h2 id="完整配置文件">完整配置文件</h2>
+<h2 id="完整配置文件"><a href="#完整配置文件" class="header-mark headerLink">完整配置文件</a></h2>
 <p>我的配置文件是适合我自己博客用的，里面还包括了网页、js、css、图片的压缩，cdn链接的替换，自动打release方便绕过jsDelivr的缓存。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

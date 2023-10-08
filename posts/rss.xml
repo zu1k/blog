@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - zu1k</title><link>https://zu1k.com/posts/</link><description>所有文章 | zu1k</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 14 Jun 2023 16:00:00 +0800</lastBuildDate><atom:link href="https://zu1k.com/posts/" rel="self" type="application/rss+xml"/><item><title>从 ASAN Stuck 到 Open Files Limit</title><link>https://zu1k.com/posts/linux/large-nofile-cause-asan-stuck/</link><pubDate>Wed, 14 Jun 2023 16:00:00 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/large-nofile-cause-asan-stuck/</guid><description><![CDATA[<p><a href="https://github.com/google/sanitizers" target="_blank" rel="noopener noreffer" class="post-link">Sanitizers</a> 是好东西，可以帮助程序员检测错误并提供详细的错误报告。但前两天我遇到了一个问题，在我实验室主机的 Docker 容器中，AddressSanitizer 输出几行 Error 概述信息后，无法输出调用堆栈信息以及后续内容，程序会卡在这里，并且一个子进程会占满一个 CPU 核心。这件事我花了两天时间来排查，最终确定竟然是由于打开文件数限制设置太大导致的。请听我道来。</p>
-<h2 id="发现问题">发现问题</h2>
+<h2 id="发现问题"><a href="#发现问题" class="header-mark headerLink">发现问题</a></h2>
 <p>我准备了一个最小的 POC，用来重现本次事件的整个流程。以下是一个简单的 c 程序，如果直接编译运行会出现 SegmentFault，因为出现了越界写。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -138,7 +138,7 @@
 <p>这里可以看到 AddressSanitizer 通过 fork 子进程，然后通过 pipe 的方式与子进程通讯，写 <code>CODE &quot;binary_path&quot; offset\n</code> 来请求查询 <code>binary</code> 的 <code>offset</code> 位置对应的符号信息，如果查询成功会返回源代码、行号、函数名等符号信息。</p>
 <p>我尝试手动运行 llvm-symbolizer，正常输出没有任何问题。</p>
 <p>但是这个时候我是一筹莫展，睡觉前在 <a href="https://twitter.com/zu1k_/status/1668635289433292885" target="_blank" rel="noopener noreffer" class="post-link">Twitter 上求助</a>，看看有没有人也遇到过这个问题。</p>
-<h2 id="深入">深入</h2>
+<h2 id="深入"><a href="#深入" class="header-mark headerLink">深入</a></h2>
 <p>根据网友 <a href="https://twitter.com/whsloef/status/1668636143863369729" target="_blank" rel="noopener noreffer" class="post-link">whsloef 的回复</a>，我打印了阻塞的进程的调用栈，跟我通过 strace 得到的结论相同，是卡 read 系统调用了。</p>
 <p><figure>
 
@@ -253,7 +253,7 @@
 <p>通过在容器内运行 <code>ulimit -n</code> 发现容器内的文件描述符限制是 <code>1073741816</code>，而对比宿主机的限制 <code>1024</code>，这种差异就是我将程序拷贝到宿主机就无法复线问题的重要原因。</p>
 <p>我尝试在运行容器的时候加一个打开文件数限制 <code>--ulimit nofile=1024:1024</code>，问题顺利解决。</p>
 <p>原来网友 <a href="https://twitter.com/lightning1141/status/1668726282811580416" target="_blank" rel="noopener noreffer" class="post-link">lightning1141 的回复</a> 是让我看文件打开数是不是太大的意思啊，我还以为是看看够不够用呢。我之前一直以为这个东西设置的越大越好的，我 too naive too simple.</p>
-<h2 id="思考">思考</h2>
+<h2 id="思考"><a href="#思考" class="header-mark headerLink">思考</a></h2>
 <p>但既然宿主机限制是 <code>1024</code>，那为什么在 Docker 容器里的限制却有 <code>1073741816</code>？</p>
 <p>我根据经验查询了以下文件，发现打开文件数均为默认，并未指定特定数值：</p>
 <ul>
@@ -268,8 +268,8 @@
 </ul>
 <p>在服务文件中均指定 <code>LimitNOFILE=infinity</code>，由此导致打开文件数不受限制，通过 <code>cat /proc/sys/fs/nr_open</code> 查看内核默认的进程打开文件数限制，发现是 <code>1073741816</code>。而在同学的 ubuntu 机器上 nr_open 是 <code>1048576</code>。</p>
 <p>这种发行版的细微差别导致的问题真是难以排查啊！</p>
-<h2 id="解决方案">解决方案</h2>
-<h3 id="修改-containerd-文件描述符限制">修改 Containerd 文件描述符限制</h3>
+<h2 id="解决方案"><a href="#解决方案" class="header-mark headerLink">解决方案</a></h2>
+<h3 id="修改-containerd-文件描述符限制"><a href="#修改-containerd-文件描述符限制" class="header-mark headerLink">修改 Containerd 文件描述符限制</a></h3>
 <p>修改 <code>/usr/lib/systemd/system/containerd.service</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -284,7 +284,7 @@
 </div><p>无需修改 <code>/usr/lib/systemd/system/docker.service</code></p>
 <p>或者在启动容器的时候添加限制 <code>--ulimit nofile=1048576:1048576</code>：</p>
 <p><code>docker run -it --ulimit nofile=1048576:1048576 ubuntu:18.04 /bin/bash</code></p>
-<h3 id="修改-llvm-中逻辑">修改 LLVM 中逻辑</h3>
+<h3 id="修改-llvm-中逻辑"><a href="#修改-llvm-中逻辑" class="header-mark headerLink">修改 LLVM 中逻辑</a></h3>
 <p>可以修改 LLVM 源码，使用 <code>close_range</code> 或者 <code>closefrom</code> 系统调用替换 <code>close</code>.</p>
 <ul>
 <li><code>close_range</code> Linux kernel 5.9 增加, 在 BSD 也可用</li>
@@ -292,7 +292,7 @@
 </ul>
 <p>可惜的是这两个都不是 POSIX 规范定义的系统调用，不过我认为这后面会成为主流的。</p>
 <p>只改了 <a href="https://github.com/zu1k/llvm-project/commit/ba3ac3c9e636b4f32590cda4f44ccf76cb84550d" target="_blank" rel="noopener noreffer" class="post-link">Linux 的版本</a>，并且需要 Kernel 5.9 以上。</p>
-<h2 id="后续">后续</h2>
+<h2 id="后续"><a href="#后续" class="header-mark headerLink">后续</a></h2>
 <p>在 GitHub 上相应仓库提起了 issue，等待改进。虽然自己改了一个 Linux 的可以用了，但是考虑到 LLVM 需要保证兼容性，这里也不敢去提 PR，毕竟要求 Linux 5.9 以上版本可不是一个兼容性好的方案。（我在 ubuntu 18.04 的 docker 里就没办法编译通过，<code>unistd.h</code> 里没有定义 <code>#define __NR_close_range 436</code>）</p>
 <ul>
 <li><a href="https://github.com/llvm/llvm-project/issues/63297" target="_blank" rel="noopener noreffer" class="post-link">llvm/llvm-project/issues/63297</a></li>
@@ -304,12 +304,12 @@
 <p>既然很多发行版单进程最大文件打开数是 1024，那这个问题就好推测了。这个代理程序对每一个连接需要打开两个文件描述符，一进一出嘛，那并发上不了 500，就是因为 1024 太小了。改一下就能解决。</p>
 </blockquote>
 ]]></description></item><item><title>谈谈 Mastodon、Fediverse 和 ActivityPub</title><link>https://zu1k.com/posts/tutorials/p2p/fediverse/</link><pubDate>Thu, 26 Jan 2023 19:29:26 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/p2p/fediverse/</guid><description><![CDATA[<p>埃隆·马斯克 440 亿美元拿下 Twitter 后就开始大刀阔斧进行改革，他要做推特 2.0，但没想到他的举措竟然是大量裁员，施行专政。接下来的一系列举措使 Twitter 俨然已经成为某些人自我营销和推广的个人发布平台，想必是之前通过 Twitter 割虚拟货币韭菜割爽了。我想未来老马利用 Twitter 宣传进入政界也不足为奇。于是很多人便开始考虑脱离专制的 Twitter 平台，寻找一个更加开放自由、权力更加分散的平台，Mastodon 凭借多年的技术积累、好看的 UI 和类 Twitter 的交互逻辑，一举跃入众人的视野。</p>
-<h2 id="mastodon">Mastodon</h2>
+<h2 id="mastodon"><a href="#mastodon" class="header-mark headerLink">Mastodon</a></h2>
 <p><a href="https://www.youtube.com/watch?v=IPSbNdBmWKE" target="_blank" rel="noopener noreffer" class="post-link">Mastodon</a> 又叫长毛象，我是 21 年左右在某个论坛看到 &ldquo;草莓县&rdquo;(cmx.im) 从而接触并了解了 Mastodon。Mastodon 从 16 年就开始开发，在我第一次接触它的时候 UI 就已经很美观了，其在 22 年进入大众视野并受到大家喜爱我一点也不感到奇怪，这么长时间的积累使 Mastodon 的成功成为历史的必然。</p>
 <p>Mastodon 开源、去中心化(联邦制)的特性决定了任何个人和组织都可以搭建自己的 Mastodon 实例，从而加入到这个社交网络中来，人们既可以按照爱好、观念聚集在某个实例中，同时又可以与其他实例的用户进行各种交互，这种小邦大连的社交模式真的深得人心。</p>
 <p>简单来说，作为用户，你可以从众多实例中根据喜好选择其中一个，注册账号，然后你就可以像推特一样发嘟(类比推特的发推)，关注其他用户，查看时间线。与推特不同的一点是，如果你关注的用户注册在其他实例，那你就需要通过用户名加域名的方式来定位他。这有一点需要注意，在不同的实例中可能有多个用户有相同的用户名，所以实例的域名也是非常重要的一部分。因此，如果你想要打造个人品牌，就需要考虑防止有人通过一比一复制你的用户名、头像、介绍等信息来冒充你，也许提供 GPG 公钥是个不错的选择，貌似目前 Mastodon 没有集成成熟的解决方案来避免冒充问题。</p>
 <p>据我所知国内部分高校组建了一个自己的小联邦，这个小联邦中每个学校都是一个独立的 Mastodon 实例，每个学校的实例都由本校学生独立自治，同时加入这个高校联邦的所有实例之间又可以互相交互。这个小联邦叫 <a href="https://closed.social/" target="_blank" rel="noopener noreffer" class="post-link">闭社</a>，感兴趣的同学可以关注一下，搭建自己学校的实例并加入其中。</p>
-<h2 id="fediverse">Fediverse</h2>
+<h2 id="fediverse"><a href="#fediverse" class="header-mark headerLink">Fediverse</a></h2>
 <p>其实 Mastodon 并不是唯一的 Fediverse，Fediverse 这个词也不是 Mastodon 首创，早在 2008 年就有人提出来了这个概念，并构想社交和内容发布平台要满足独立托管、通过标准化协议通讯等概念。仔细想想，这些概念是不是跟 Email 很像？Email 可是在互联网发明之初就流行的协议，看起来互联网的发展过程也是轮回的，分久必合(商业公司中心化体验好)、合久必分(去中心化自由、自治)。这里我推荐阅读这篇文章: <a href="https://checkfirst.network/mastodon-the-rise-of-fediverse/" target="_blank" rel="noopener noreffer" class="post-link">Mastodon, the rise of the Fediverse</a>。</p>
 <p>目前最流行的 Fediverse 当属社交领域的 Mastodon 和即时通讯领域的 Matrix。据我了解，Matrix 的技术生态更加繁荣，有众多服务端和客户端的实现，同时也可以对接 Slack、Discord、Telegram、QQ、WeChat 等众多通讯 APP，但是目前看起来非技术爱好者用的并不多，大部分用户都是开发者和技术爱好者。而 Mastodon 的客户端虽有很多，但服务端只有官方一个实现，称不上技术生态繁荣，但是用户却遍地开花，特别是普通非技术用户。这种现象需要引起思考，技术虽可以改变世界，但技术并不是唯一，更好的UI、更好的交互、更好的体验，这些才是带来产品发展的外部动力的基础。</p>
 <p>目前我的主要社交媒体还是 Twitter，正在慢慢向 Mastodon 转，主要是有很多要关注的人他们并没有在 Mastodon 宇宙安家。即时通讯方面除开熟人通讯必要的 QQ 和微信，陌生人通讯我正在逐渐放弃 Telegram，因为 Telegram 也正在变得封闭、专制、商业化，我在很多 Matrix 实例上都有匿名账户，但是我的朋友并不愿意来到 Matrix 网络，因此目前我的陌生人通讯主力是邮箱，我会对外公开我的邮箱地址，任何人都可以给我发邮件交流。</p>
@@ -321,7 +321,7 @@
 <li><a href="https://joinfediverse.wiki/Main_Page" target="_blank" rel="noopener noreffer" class="post-link">https://joinfediverse.wiki/Main_Page</a></li>
 </ul>
 <p>对了，我还要着重提一个，Rust 语言开发的论坛 Fediverse，<a href="https://github.com/LemmyNet/lemmy" target="_blank" rel="noopener noreffer" class="post-link">Lemmy</a>，可以用来替代 Reddit、HackerNews，轻量好用。</p>
-<h2 id="activitypub-协议">ActivityPub 协议</h2>
+<h2 id="activitypub-协议"><a href="#activitypub-协议" class="header-mark headerLink">ActivityPub 协议</a></h2>
 <p>刚刚提到了 Fediverse 需要标准化协议来进行通讯，而 Mastodon 基于的协议便是 ActivityPub 协议，这个协议历史比 Mastodon 早，并且已经<a href="https://www.w3.org/TR/2018/REC-activitypub-20180123/" target="_blank" rel="noopener noreffer" class="post-link">被 W3C
 在 2018 年推荐作为标准</a>。</p>
 <p>这个协议规范了去中心化社交网络交互细节的各方面，包括用户的交互(收发信息、关注、喜欢)，还有活动(就是内容、推文、嘟文)的发布、更新、删除、喜欢、屏蔽等等。</p>
@@ -355,7 +355,7 @@
 </p>
 <p>通过 Lemmy 的 issue 和 PR 列表我看到 Lemmy 正在做与 Mastodon 的兼容工作，这很伟大，支持！</p>
 <p>同时，一位 GitHub 的员工开发了一个有意思的东西，<a href="https://github.com/davecheney/pub" target="_blank" rel="noopener noreffer" class="post-link">ActivityPub to Mastodon bridge</a>。pub 的目的不是托管 ActivityPub 社区，而是旨在使拥有自己域并因此控制其身份的人能够参与 Fediverse，这意味着你无需搭建 Mastodon 就可以用自己的域名加入到 Mastodon 联邦中了，这就很方便了，轻量好用啊。</p>
-<h2 id="mastodon-性能问题">Mastodon 性能问题</h2>
+<h2 id="mastodon-性能问题"><a href="#mastodon-性能问题" class="header-mark headerLink">Mastodon 性能问题</a></h2>
 <p>Mastodon 目前官方实现使用 Ruby 语言，Ruby 依靠 Rails 框架用来开发 Web 应用简直是不要太快捷，非常适合频繁变化的需求。但是 Ruby 本身的性能并不乐观，去年 <a href="https://shopify.engineering/porting-yjit-ruby-compiler-to-rust" target="_blank" rel="noopener noreffer" class="post-link">Shopify 使用 Rust 开发 YJIT</a> 顺利合入 <a href="https://github.com/ruby/ruby/blob/master/doc/yjit/yjit.md" target="_blank" rel="noopener noreffer" class="post-link">Ruby 上游</a>，并<a href="https://shopify.engineering/ruby-yjit-is-production-ready" target="_blank" rel="noopener noreffer" class="post-link">随 Ruby 3.2 版本正式发布</a>，这<a href="https://speed.yjit.org/benchmarks/bench-2023-01-05-201010" target="_blank" rel="noopener noreffer" class="post-link">将 Ruby 的性能提升了约 40%</a>，但是 Ruby 的性能仍无法与目前流行的 JavaScript 比肩(主要是 V8 引擎的功劳)，更不要提 Golang 和 Rust了。而我经过搜索发现，竟无 Golang 和 Rust 的服务端实现，即使有也已经停止了开发，这使 Mastodon 如何支撑即将到来的上亿用户量？如何与 Twitter 竞争？当然，目前已有的实例都没有这么多的用户量，等未来有这个性能需求的时候，自然会有商业公司出钱出力来解决这个问题。</p>
 <p>不过我倒是不希望这一天的到来，如果某一个 Mastodon 实例的用户量上千万，这其实就成了另外一个 &ldquo;Twitter&rdquo;，大量用户聚集在商业公司运营的单一或几个主流实例上，那联邦制、分布式等概念实际上也就名存实亡了。不要忘记我们逃离 Twitter 来到 Mastodon 的初心啊！</p>
 <p>不过虽然这么说，我还是希望 Mastodon 性能能够更好一点，同时我也看到了一些优化 Mastodon 性能的努力。随着 Mastodon 实例数量的增多，单个 Mastodon 实例往往需要连接众多其他实例来进行交互，这带来了巨大的网络性能压力，使得想要自行搭建 Mastodon 实例的小伙伴不得不花更多钱在服务器费用上。这极大概率会导致部分实例脱离 Fediverse，形成自己封闭的，仅有几个节点的小联邦，这应该并不是我们想要看到的。我已经看到了<a href="https://github.com/yukimochi/Activity-Relay" target="_blank" rel="noopener noreffer" class="post-link">有人开发了 ActivityPub relay</a> <a href="https://github.com/brodi1/activitypub-relays" target="_blank" rel="noopener noreffer" class="post-link">Relay 列表</a>，中继服务器与大量实例连接，聚合内容，然后提供给中小型服务器，从而使中小型服务器无需连接大量实例就可以实现相同规模的信息获取。</p>
@@ -365,7 +365,7 @@
 <blockquote>
 <p>完全新手朋友请先阅读我在 20年写的 <a href="../ipfs/" rel="" class="post-link">《IPFS 新手指北》</a> 这篇文章</p>
 </blockquote>
-<h2 id="搭建网关">搭建网关</h2>
+<h2 id="搭建网关"><a href="#搭建网关" class="header-mark headerLink">搭建网关</a></h2>
 <p>相比较使用公共 IPFS 网关，我更推荐自己在家中搭建，不仅能提供更优的体验，还可以避免在每台电脑安装 IPFS 的麻烦。</p>
 <p>按照普通教程在服务器上安装好 IPFS 后，你需要修改配置文件，对外开放 Api 和 Gateway。</p>
 <blockquote>
@@ -446,12 +446,12 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>为获得更好的 IPFS 使用体验，推荐安装 <a href="https://chrome.google.com/webstore/detail/ipfs-companion/nibjojkomfdiaoajekhjakgkdhaomnch" target="_blank" rel="noopener noreffer" class="post-link">[IPFS 浏览器插件]</a>，或者使用 Brave 浏览器，可以让 IPFS 的使用体验更加原生。</p>
-<h2 id="pin-优化">Pin 优化</h2>
+<h2 id="pin-优化"><a href="#pin-优化" class="header-mark headerLink">Pin 优化</a></h2>
 <p>在发布内容后，马上通过公开的 IPFS 网关访问，通常会很慢很慢，甚至到超时都无法访问，这是由 IPFS 的寻址过程导致的。随着访问内容的用户越来越多，他们的 IPFS 节点上会缓存你内容的数据，这个时候新节点再访问同一份内容，通常就会很快。这就是 IPFS 的特性，就跟 BT 下载的原理类似，数据在网络中存在的副本越多，就越能利用 P2P 网络的性能。</p>
 <p>但是一个 IPFS 节点也不会无限期的缓存你的数据，默认配置下 GC 频率是 1 个小时一次，也就是说你的数据如果用户不访问，在一个小时后就会从他们的节点中被清理掉。为了能够让我们的数据长久的留在 IPFS 网络中，就需要用户 Pin 住你的数据，以防被 GC 掉。我的做法是利用闲置的服务器搭建 IPFS 节点用来 Pin 自己的数据，然后朋友之间互相 Pin 住，算是合作共赢。</p>
 <p>所以大家不妨 Pin 一下我的博客：<code>ipfs pin add /ipns/zu1k.com</code></p>
 <p>如果你使用 IPNS 或者域名的方式对外公开经常修改的内容，就需要设置定时任务来不断 Pin 住新的数据，因为 IPFS 在 Pin 一个 IPNS 的时候，只会 Pin 当前状态对应的 CID ，后面不会自己去更新。</p>
-<h3 id="remote-pinning-service">Remote Pinning Service</h3>
+<h3 id="remote-pinning-service"><a href="#remote-pinning-service" class="header-mark headerLink">Remote Pinning Service</a></h3>
 <p>如果你不想一直运行本机的 IPFS 节点，但又想让别人可以访问到你发布的内容，可以考虑使用 Remote Pinning service，这是由一些中心化的服务商提供的内容 Pinning 服务，其效果与你本机 pin 相当。甚至因为他们的网络质量更好、连接的节点更多，将内容 Pin 在他们的节点上，可以更快的被分发和访问。</p>
 <p>我主要推荐两家，<a href="https://www.pinata.cloud/" target="_blank" rel="noopener noreffer" class="post-link">[Pinata]</a> 和 <a href="https://web3.storage/account/" target="_blank" rel="noopener noreffer" class="post-link">[web3.storage]</a>，具体教程可以看 <a href="https://docs.ipfs.io/how-to/work-with-pinning-services/#use-an-existing-pinning-service" target="_blank" rel="noopener noreffer" class="post-link">官方文档</a></p>
 <div class="highlight"><div class="chroma">
@@ -468,7 +468,7 @@
 </div>
 </div><p>Pinata 是无门槛的，免费提供 1G 的 Pin 容量。</p>
 <p>web3.storage 免费提供 1T，但是 Pin Api 需要发邮件申请，一天以内就会有回复。<a href="https://web3.storage/docs/how-tos/pinning-services-api/" target="_blank" rel="noopener noreffer" class="post-link">[教程]</a></p>
-<h3 id="开放端口">开放端口</h3>
+<h3 id="开放端口"><a href="#开放端口" class="header-mark headerLink">开放端口</a></h3>
 <p>因为 IPFS 需要 P2P 通讯，所以如果你没有公网的 IPFS 节点 Pin 你的内容，就需要保证自己本机的 IPFS 节点可被访问。检查你的路由器，开启 UPnP 功能，必要时建立端口映射，开放你的 4001 端口（如果没有修改过的话）。</p>
 <p>
 
@@ -482,7 +482,7 @@
         
     
 </p>
-<h2 id="资源占用优化">资源占用优化</h2>
+<h2 id="资源占用优化"><a href="#资源占用优化" class="header-mark headerLink">资源占用优化</a></h2>
 <p>如果你没有做任何的配置优化，只是按照常规流程下载安装运行，你会发现 IPFS 在后台会占用大量的 CPU 资源和内存，你的风扇开始狂转；维持了大量的网络连接，导致你的网络卡顿。这是因为 IPFS 的默认配置并没有针对个人小主机进行优化，如果你在一台 2 核的 Linux 服务器上运行，IPFS 甚至能吃满你所有的 CPU，网络的拥挤程度有可能使你连 ssh 登录都成了一个问题。</p>
 <p>
 
@@ -514,13 +514,13 @@
         
     
 </p>
-<h2 id="后言">后言</h2>
+<h2 id="后言"><a href="#后言" class="header-mark headerLink">后言</a></h2>
 <p>20 年 11 月底，我发布了 <a href="../ipfs/" rel="" class="post-link">《IPFS 新手指北》</a> 这篇文章，期待 IPFS 能够迅猛发展，成为下一代 Web 基础设施。不知不觉已经过去一年半了，就目前情况来看 IPFS 虽然仍在不断发展，但还是在半死不活的状态，这一点让我非常失望。</p>
 <p>但仔细一想，期待某门技术成为下一个主流本身就是不合理的。任何技术都应该是在广泛的需求之下才有可能成长为广泛应用的主流，而不是说你有某些好的特性就一定能够被广泛接受。从需求上讲，我们确实需要基于 P2P 的内容发布，也需要基于内容的寻址方式，这些都具有非常好的优点，但并不能满足我们对互联网的全部需求。我们在期望内容不可变、内容不被删除的同时，也会希望能够拥有删除或者修改某个内容的权利；我们喜欢 P2P 的去中心化内容分发方式，但不能否认任何人都希望延迟更低、速度更快；我们还会希望对内容具有更多控制权，包括细致的访问控制、更灵活的表达形式&hellip;&hellip;</p>
 <p>基于以上想法，我不认为 IPFS 就是下一代 Web，也就是都在说的 Web3。但我不否认 IPFS 有巨大的潜力，在下一代 Web 中充当非常重要的角色，只是这个角色并不是全部。而基于 P2P 的内容分发方式早就不是什么新技术，BitTorrent 和 基于 BT 技术的 BtSync、BTFS 也都非常具有竞争力，IPFS 想要与其竞争需要更加努力，使其更加的易用和平民化。</p>
 <p>我自己也已经使用 IPFS 接近两年，这两年的时间我自己的感觉是 IPFS 本身没有太大的突破性发展，而围绕其进行的各种营销和唬人活动层出不穷，文件挖矿、NFT 等等，不过这些也的确让更多人关注起 IPFS，并为 IPFS 网络贡献了大量节点和存储空间，但我总觉得怪怪的，这不是发展的长远之道啊。</p>
 <p>不过看近几年互联网越发封闭，内容审查越发严格，想必 IPFS 这类分布式内容发布方式会被更多非技术人关注，期待在这个需求激增的关头，有更多优秀的应用浮现，将 IPFS 推展开来，让更多普通人能够更加方便的使用这些新技术，享受新技术带来的权利，那些我们本该拥有但被剥夺的权利。</p>
-]]></description></item><item><title>谁不想要 2^64 个 IP 的代理池 ？</title><link>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</link><pubDate>Sat, 07 May 2022 19:21:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>谁不想要 2^64 个 IP 的代理池 ？</title><link>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</link><pubDate>Sat, 07 May 2022 19:21:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/</guid><description><![CDATA[<h2 id="前言"><a href="#前言" class="header-mark headerLink">前言</a></h2>
 <p>昨天我舍友为了爬虫购买了昂贵的 IP 代理池，我在旁边突然萌生了一个想法，现在各大 ISP/IDC 动不动就给你分配一整个 64 位前缀的 IPv6 网段，我们能不能好好利用一下这庞大的 IPv6 IP 资源呢？</p>
 <p>有了这个想法我就睡不着了，今天一大早（9点半）我就起来着手研究，最终成功实现每一个请求从一个单独的 IPv6 地址发出。</p>
 <p>先看效果，我把写好的程序放在服务器上跑了一会，下面是 Cloudflare 统计的访问信息，可以看到独立访问者 (独立 IP) 数量达到了我的小博客前所未有的数量，基本上是一个请求一个独立 IP，效果非常不错。</p>
@@ -536,7 +536,7 @@
         
     
 </p>
-<h2 id="教程">教程</h2>
+<h2 id="教程"><a href="#教程" class="header-mark headerLink">教程</a></h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
 <p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[AFF 链接]</a>.</p>
 <p>你可以通过 <code>ip a</code> 命令查看网络接口的地址，从而获取你的 IPv6 子网信息：</p>
@@ -645,7 +645,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以看到，能够按照我们指定的任意 IP 进行请求</p>
-<h2 id="http-代理">Http 代理</h2>
+<h2 id="http-代理"><a href="#http-代理" class="header-mark headerLink">Http 代理</a></h2>
 <p>为了方便使用，使用 Rust 写了一个 http 代理服务端，每一个请求会走指定 IPv6 子网下随机 IP，算是一个基础 demo</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -688,7 +688,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
-<h2 id="碎碎念">碎碎念</h2>
+<h2 id="碎碎念"><a href="#碎碎念" class="header-mark headerLink">碎碎念</a></h2>
 <!-- ### Proxypool 项目
 
 舍友要买代理池，我就去 GitHub 上搜了一下，没想到我之前早已停更的项目竟然排在第一位。
@@ -696,7 +696,7 @@
 ![GitHub 搜 proxypool](github-proxypool.png)
 
 排名第二的是专门给爬虫准备的代理池，作者是我的师兄，他对爬虫有非常深入的研究，推荐给大家。 -->
-<h3 id="一开始的想法">一开始的想法</h3>
+<h3 id="一开始的想法"><a href="#一开始的想法" class="header-mark headerLink">一开始的想法</a></h3>
 <p>其实我一开始的想法并不是直接给接口附加整个 IP 段的。一开始我并不知道网络接口可以直接附加一整个 IP 段，考虑到这个 IPv6 段数量过于庞大，通过枚举给接口附加多个静态 IP 显然不现实，所以我就在想办法去自己封装 IP 包然后进行注入。</p>
 <p>我想到了两个注入数据包的方案：</p>
 <ol>
@@ -710,14 +710,14 @@
 <p>因为前面稍微了解过 TUN (可以看我之前写的文章<a href="../../coding/tun-mode/" rel="" class="post-link">[使用 TUN 的模式]</a>)，所以自然而然我就会有这个想法，并且我深信这是可行的。我之所以认为这样可行，是因为之前搞过 <a href="../../coding/set-ipv6-for-every-docker-container/" rel="" class="post-link">[给每一个 Docker 容器一个独立的 IP]</a>，同样是充分利用丰富的 IPv6 资源，感兴趣的同学可以看一下。</p>
 <p>通过搜索资料，最后确定使用 TUN 不可行，至少要用 TAP，<a href="https://serverfault.com/questions/949945/ipv6-on-Linux-tun-tap-ndp-not-working" target="_blank" rel="noopener noreffer" class="post-link">[因为要处理 NDP 协议]</a>，具体后面的细节我也没有深入研究。</p>
 <p>幸亏后面搜资料发现了本文方便的方法，才避免了我陷入这些迷途。反思一下，即自己的知识不够，对 Linux 内核及其提供的众多功能了解不够深入，导致人家原本就有的功能自己根本不知道，所以想不出合适的方案。</p>
-<h3 id="waf">WAF</h3>
+<h3 id="waf"><a href="#waf" class="header-mark headerLink">WAF</a></h3>
 <p>我也不是非常了解，现在的 WAF 是不是就是单纯根据 IP 来进行限流限速 ？如果真是这样，那利用这庞大的 IPv6 资源岂不是轻松绕过封禁。</p>
 <p>如果是会直接封禁或者限制整个子网，会不会有很严重的误杀，毕竟不是所有 ISP 都会这么大方的给一整个 IP 段。</p>
 <p>有了解的小伙伴欢迎评论交流。</p>
 ]]></description></item><item><title>DeepL Api 设计中的欺骗战术</title><link>https://zu1k.com/posts/thinking/deception-tactics-in-deepl-api-design/</link><pubDate>Sat, 02 Apr 2022 12:28:18 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/thinking/deception-tactics-in-deepl-api-design/</guid><description><![CDATA[<p>这篇博文本应该在去年完成 DeepL 客户端逆向的时候发布，但考虑到相关细节一旦公开，恐怕会被广泛采用而被 DeepL 官方封杀，因此迟迟未开始。前段时间我发布了 <a href="https://hub.docker.com/r/zu1k/deepl" target="_blank" rel="noopener noreffer" class="post-link">DeepL Free Api 的 Docker 镜像</a>，也在 <a href="https://github.com/zu1k/deepl-api-rs" target="_blank" rel="noopener noreffer" class="post-link">GitHub 上公开了相关二进制程序</a>，就下载量来看已经有不少人在使用了，相信 DeepL 不久就会有动作，因此我认为现在已经可以公开相关细节。</p>
 <p>我逆向的是 DeepL 的 Windows 客户端，因为是 <code>C#</code> 开发依附于 <code>.net</code>，也未进行任何混淆和加壳，可以轻松逆出源码。通过前段时间与一些其他研究者交流，我认为已经有不少感兴趣的同学也进行了逆向，也许是一种默契，都害怕 DeepL 在发觉后进行修改，所以大家也都没有对外公开，目前网络中搜不到任何相关的内容。本文的目的是给相关小伙伴一点思路，不过希望大家还是不要直接公开代码，以继续欺骗 DeepL，让其相信还没有人发现他们的把戏。</p>
 <p>在我实现 DeepL Free Api 的过程中，我发现 DeepL 并没有像之前见到的一些接口设计那样，通过签名等手段来避免接口滥用，相反，他们使用了一些欺骗战术来混淆视听，从而尝试让抓包分析者放弃，本文将围绕此进行讨论。</p>
-<h2 id="过程">过程</h2>
+<h2 id="过程"><a href="#过程" class="header-mark headerLink">过程</a></h2>
 <p>进入研究生阶段，为了方便阅读论文，为自己开发了划词翻译工具，在众多翻译引擎中 DeepL 的效果尤为出色。DeepL 官方的 Api 需要绑定信用卡进行认证，但其并未在中国大陆经营业务，所以并不支持国内的信用卡。我也尝试过从淘宝购买别人用国外信用卡认证过的帐号，价格贵不说，在没有滥用的情况下，DeepL 在两个月内封禁了我的帐号，因此我决定用一些其他手段。</p>
 <p>考虑到 DeepL 有提供免费版本的翻译服务，支持 Web，Windows、Android 和 iOS 都有相应的客户端，我便想使用这些客户端使用的免费接口。不出所料，在广泛使用打包和混淆技术的当下，DeepL 的 Web 端 js 代码也不是人看的东西，但通过简单的抓包，我发现其接口参数非常清晰，根本没有额外的签名、token等认证技术，我觉得自己又行了，几行 Python 代码便完成了接口对接工作。</p>
 <p>但测试下来，我发现当修改翻译内容，有极大概率遇到 429 <code>Too many requests</code>，并且一旦出现 429，后续的所有请求便都是 429 了。</p>
@@ -786,7 +786,7 @@
 <p>第二天，突然想起他的 Windows 客户端，稍微一分析惊喜的发现是 <code>C#</code>，还没加壳，果断扔进 <code>dnSpy</code>，发现也没混淆，真是柳暗花明又一村啊。分析之后，也就一切都清楚明白了，原来 DeepL 根本一开始就在想方设法让你觉得你行啊。</p>
 <p>看前面那个接口的参数，我之所以觉得我行，就是因为这个接口它太简单了。接口的参数少，参数含义又非常明确，它并不像某些厂那样用一些不知所以然的缩写，这里的每一个参数，它的名称都在告诉我它的含义、它是干什么的以及它是怎么生成的。</p>
 <p><code>jsonrpc</code> 是版本号，<code>method</code> 是方法，一个固定的字符串。<code>params</code> 里面 <code>texts</code> 是多段待翻译的文本，<code>lang</code> 里面是翻译的语言选项，是枚举类型。<code>timestamp</code> 是 UNIX 风格的时间戳，<code>id</code> 就是序号。大眼一看，这里面只有 <code>id</code> 是最可疑的，这也确实是我最初犯的错误。</p>
-<h2 id="真相">真相</h2>
+<h2 id="真相"><a href="#真相" class="header-mark headerLink">真相</a></h2>
 <p>现在我来告诉你，DeepL 到底是怎么认证的。（下面并不是 DeepL 客户端的代码，是我写的 Rust 利用代码，但逻辑不变）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -842,12 +842,12 @@
 </div>
 </div><p>怎么样？我觉得我一开始就被玩弄了，人家的 <code>id</code> 就是纯粹的随机数，只不过后续的请求会在第一次的随机 <code>id</code> 基础上加一，但是这个 <code>id</code> 还决定了文本中一个小小的、微不足道的空格。</p>
 <p>按照正常的思路，为了方便人类阅读和分析，拿到请求的第一时间，我都会先扔编辑器里格式化一下 Json，我怎么会想到，这恰恰会破坏掉人家用来认证的特征，因此无论我如何努力都难以发现。</p>
-<h2 id="总结">总结</h2>
+<h2 id="总结"><a href="#总结" class="header-mark headerLink">总结</a></h2>
 <p>在我以往的经验中，接口防滥用，要不就是用户专属的 token，要不就是对请求进行签名或者加密，这些对抗滥用的方法都是明面上的，就是明白告诉你我有一个签名，怎么签的，你去分析去吧，但是我代码混淆了，你看看你是要头发还是要算法。</p>
 <p>要不就是高级点的，更具技术性的，利用某些客户端特有的实现造成的特征进行认证，我印象中最深刻的就是 <a href="https://www.zackwu.com/posts/2021-03-14-why-i-always-get-503-with-golang/" target="_blank" rel="noopener noreffer" class="post-link">Go 的 SSL 协商过程中的算法顺序</a>。这类方法要求更高的技术，当然分析起来也肯定更加困难，并且找到这样一种方法本身也不容易。</p>
 <p>从 DeepL 的方法中，我找到了另外一种思路。利用人心理的弱点，一开始让其感觉非常简单，但是无论如何都无法得到想要的结果，给分析者造成心理上的打击和自我怀疑，让其浅尝辄止自行放弃分析。同时利用人行为上的惯式，使其自行破坏掉某些关键信息，从而给分析造成难以发现的阻碍。</p>
 <p>原来，除了技术以外，还有这样一条道路啊，真是有趣！</p>
-]]></description></item><item><title>我爱 Rust 过程宏</title><link>https://zu1k.com/posts/coding/i-love-rust-proc_macro/</link><pubDate>Thu, 31 Mar 2022 18:09:45 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/i-love-rust-proc_macro/</guid><description><![CDATA[<h2 id="需求">需求</h2>
+]]></description></item><item><title>我爱 Rust 过程宏</title><link>https://zu1k.com/posts/coding/i-love-rust-proc_macro/</link><pubDate>Thu, 31 Mar 2022 18:09:45 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/i-love-rust-proc_macro/</guid><description><![CDATA[<h2 id="需求"><a href="#需求" class="header-mark headerLink">需求</a></h2>
 <p>今天遇到一个需求，需要随机的生成一个枚举类型的实例。</p>
 <p>不像 Python 那样方便，用 Rust 需要实现特定的 Trait，最简单的想法就是给枚举类型不同的成员编个号，然后生成一个随机数，实例化对应的成员，如果成员拥有数据，就递归的随机生成这些数据。</p>
 <div class="highlight"><div class="chroma">
@@ -904,10 +904,10 @@
     </a><figcaption class="image-caption">庞大的枚举类型</figcaption>
     </figure></p>
 <p>我非常讨厌这种简单却繁重的工作的，我想到了 Rust 过程宏。</p>
-<h2 id="过程宏">过程宏</h2>
+<h2 id="过程宏"><a href="#过程宏" class="header-mark headerLink">过程宏</a></h2>
 <p>当初学 Rust 的时候，了解过 <code>宏</code> 相关的内容，其中 <code>声明宏</code> 技术我已经在其他项目中实践过了，因为其本身就是个模板生成代码，所以无法满足我这次的需求。而过程宏可以通过编写函数，对代码本身进行解析和处理，在抽象语法树的基础上进行操作，所以可以实现非常复杂的逻辑，是代码生成方面的绝佳工具。</p>
 <p>过程宏的编写比较费脑子，写一个自动生成代码的过程宏可能会让我掉几根头发。但相比较写几千行枯燥代码浪费生命，我还是更愿意舍弃掉这几根头发。并且我还惊奇的发现，<code>rand</code> 库在 <code>0.5</code> 版本的时候曾经实现过类似的过程宏，可以给任意的结构、元组和枚举实现 <code>Rand</code>，虽然已经不维护了，但是可以给我借鉴。</p>
-<h3 id="定义derive宏">定义<code>#[derive]</code>宏</h3>
+<h3 id="定义derive宏"><a href="#定义derive宏" class="header-mark headerLink">定义<code>#[derive]</code>宏</a></h3>
 <p>我的需求是根据 <code>Instruction</code> 的成员信息，自动实现 <code>impl Distribution&lt;Instruction&gt; for Standard</code>，这里就需要写一个 <code>#[derive]</code>宏，使其作用在 <code>Instruction</code> 上。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -941,7 +941,7 @@
 </div><blockquote>
 <p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer" class="post-link">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer" class="post-link">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
 </blockquote>
-<h3 id="解析与生成">解析与生成</h3>
+<h3 id="解析与生成"><a href="#解析与生成" class="header-mark headerLink">解析与生成</a></h3>
 <p>在拿到抽象语法树后，顶层便是 <code>Instruction</code>，根据思路我们应该遍历其所有的成员，分析成员的类型并根据相关信息生成代码。</p>
 <p>成员可能有三种类型:</p>
 <ul>
@@ -1049,7 +1049,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">};</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="我讨厌递归">我讨厌递归</h3>
+</div><h3 id="我讨厌递归"><a href="#我讨厌递归" class="header-mark headerLink">我讨厌递归</a></h3>
 <p>紧接着就会发现，上面在 <code>Named</code> 和 <code>Unamed</code> 的部分进行递归 <code>__rng.gen()</code>，需要其使用的类型也实现相应的 trait。除去已有的对基本类型的实现外，剩下的类型就需要我们手动实现，这也就要求我们的过程宏也能应用在其他结构上。</p>
 <p>因此我们的函数需要进行修改，以处理其他非枚举类型：结构体和元组（元组在我的需求中没用到，就不实现了）。</p>
 <div class="highlight"><div class="chroma">
@@ -1151,7 +1151,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>测试，全部通过！开心！</p>
-<h2 id="总结">总结</h2>
+<h2 id="总结"><a href="#总结" class="header-mark headerLink">总结</a></h2>
 <p>学习过程宏，写过程宏、写测试用例，到最后测试通过，着实花了不小功夫。原本还挺有成就感的，直到刚刚，我发现虽然 <code>rand</code> 不再维护这个 <code>derive</code>宏了，但是有一个第三方维护的版本，测试了一下，除了有几个测试用例过不了，在我目前的需求上完全可用。真是痛苦，如果早点发现就好了，又是造轮子的下午。不过幸亏最终结果是好的，通过编写过程宏，用 100 行代码完成了需要 2k+ 行代码的任务，最重要的是不再枯燥。</p>
 <p>Rust 的宏机制真的强大，利用好可以做很多有意思的事。例如目前的变长参数函数还有序列化反序列化，在Rust中都是通过过程宏实现的。通过过程宏可以将其他语言中很多需要在运行时进行的工作提前到编译期进行，明显的提高了Rust程序的性能和灵活性，为我们提供了强大的表达和实现能力。</p>
 <p>我突然想到，可以用宏来做代码混淆和字面量加密，后面尝试一下。</p>
@@ -1170,9 +1170,9 @@
 </li>
 </ul>
 <p>简单来说，VPN 不需要解析 IP 包的 payload，而代理程序需要解析出传输层信息并处理，特别是像 TCP 这样复杂的协议，对其处理更是需要非常小心和严谨。对于代理程序这样的需求，如果我们使用 TUN 技术，通常有两种模式：在用户态实现网络栈，或者直接利用操作系统网络栈实现。</p>
-<h2 id="用户态网络栈">用户态网络栈</h2>
+<h2 id="用户态网络栈"><a href="#用户态网络栈" class="header-mark headerLink">用户态网络栈</a></h2>
 <p>第一种选择是在用户态实现网络栈，这是不小的工程啊，特别是实现 TCP 协议，因为其协议非常复杂，实现起来有很多细节需要注意，所以自己实现非常容易犯错。所以我们一般会直接找现成的实现来用，现有不少比较成熟且高效的实现，我相信肯定比我自己写的要好几个数量级。</p>
-<h3 id="网络栈实现">网络栈实现</h3>
+<h3 id="网络栈实现"><a href="#网络栈实现" class="header-mark headerLink">网络栈实现</a></h3>
 <ul>
 <li>
 <p>如果使用 <strong>C</strong> 语言，<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="noopener noreffer" class="post-link"><strong>lwIP</strong></a> 是一个非常不错的选择，由瑞典计算机科学研究所科学院开源，这是一个轻量级的 TCP/IP 栈实现，在占用超少内存的情况下，实现了完整的 TCP，被广泛应用到嵌入式设备中，稳定性有保证。同时，lwIP 有很多其他语言的绑定，包括 go 和 rust，这使我们在使用其他语言开发时也可以选择 lwIP 作为用户态网络栈实现。</p>
@@ -1187,9 +1187,9 @@
 <p>当然，我觉得还有一个可以期待的实现，就是 Google 为 Fuchsia 操作系统开发的 <a href="https://cs.opensource.google/fuchsia/fuchsia/&#43;/master:src/connectivity/network/netstack3/" target="_blank" rel="noopener noreffer" class="post-link"><strong>Netstack3</strong></a>，之前是由 Go 实现的，不过现在 Google 用 Rust 重新实现了一个新的，谷歌背书，可以期待。</p>
 </li>
 </ul>
-<h3 id="使用流程">使用流程</h3>
+<h3 id="使用流程"><a href="#使用流程" class="header-mark headerLink">使用流程</a></h3>
 <p>在看完可供选择的实现后，我们来看一下在用户空间实现的网络栈如何使用。虽然不同在不同实现下，各个库有不同的编程接口和使用方法，但基本的思路都是一致的，这里我们便仅讨论基本使用流程。</p>
-<h4 id="基本思路">基本思路</h4>
+<h4 id="基本思路"><a href="#基本思路" class="header-mark headerLink">基本思路</a></h4>
 <p>从原理上来讲，用户态网络栈就是要不断通过协议解析，从 IPv4 数据包中不断解析出 TCP 流中的载荷数据；将传输层载荷通过不断的协议封装，拿到最终的 IPv4 数据包。</p>
 <p><strong>从 TUN 往外读</strong></p>
 <p>从 TUN 设备所对应的句柄中读出了一段字节序列，便是需要处理的IP数据包，一般是 IPv4 协议，不过还是需要先根据字节序列的第一个字节进行判断。</p>
@@ -1198,14 +1198,14 @@
 <p><strong>向 TUN 写数据</strong></p>
 <p>写的过程其实就是读的过程反过来，拿到的是某个传输层协议的 payload，就拿UDP为例，根据该数据报的元信息，构建出完整的 UDP Header，然后将 payload 内容拼接进去。</p>
 <p>接下来构建 IPv4 Header，然后将 UDP 报文拼接进 IPv4 payload 中。在拿到 IPv4 数据包后，即可序列化为字节序列，写入 TUN 句柄了。</p>
-<h4 id="实际使用">实际使用</h4>
+<h4 id="实际使用"><a href="#实际使用" class="header-mark headerLink">实际使用</a></h4>
 <p>上面的读、写过程看起来简单，但实际需要考虑的东西非常多，包括但不限于分片、丢包、重传、流量控制等等，TCP 作为一个极其复杂的传输层协议，有巨多情况需要考虑，很明显用上面的基本思路是非常繁琐并且难以使用的。</p>
 <p>众多用户态网络栈肯定考虑到了这一点，实现都提供了非常友好且直接的接口，可以直接创建一个 TCP/IP 网络栈实例，拿到两个句柄，一端负责读取和写入网络层 IP 数据包，另一端负责接收和写入传输层载荷，中间的复杂转换关系和特殊情况都被内部屏蔽掉了。</p>
-<h2 id="操作系统网络栈">操作系统网络栈</h2>
+<h2 id="操作系统网络栈"><a href="#操作系统网络栈" class="header-mark headerLink">操作系统网络栈</a></h2>
 <p>根据我们的需求，实际就是在 IPv4 和 TCP payload 之间进行转换，而操作系统的网络栈正好就有这个功能，我们无法简单的直接使用操作系统的网络栈代码，但是可以想办法复用操作系统网络栈提供的功能。TUN 在网络层已经打开了一个口子，还需要在传输层也打开一个口子，其实可以利用操作系统提供的 socket。</p>
 <p>我们使用操作系统提供的 Socket 创建一个传输层的 Listener，将某个 IPv4 数据包的目标 IP 和目标端口修改为我们监听的 IP 和端口，然后通过 TUN 将该 IPv4 数据包注入到操作系统的网络栈中，操作系统就会自动的进行相应的解析，并将所需要的传输层 payload 通过前面创建的 Socket 发送给 Listener，由此便利用操作系统网络栈完成了 “往外读” 的操作。</p>
 <p>对于“向里写”的操作，只需要向刚刚创建的传输层连接句柄写入即可，操作系统的网络栈同样会进行相应的封包，最后形成 IPv4 数据包。很明显，需要考虑反向的数据包，当向传输层连接的句柄中写入数据、操作系统的网络栈封包时，源 IP 和源端口会被视为新的目标 IP 和目标端口，因为我们需要使返回的 IPv4 数据包能够被 TUN 接口捕获到，在上面步骤中就不能只修改目标 IP 和目标端口，同时还要修改源 IP 和源端口，源 IP 应该限制为 TUN 网段中的 IP。</p>
-<h3 id="工作流程">工作流程</h3>
+<h3 id="工作流程"><a href="#工作流程" class="header-mark headerLink">工作流程</a></h3>
 <p>在利用操作系统网络栈时，通常是以下步骤，这里拿 TCP 协议举例。</p>
 <p>在我们的例子中， TUN网络的配置为 <code>198.10.0.1/16</code>，主机IP为 <code>198.10.0.1</code>，代理客户端监听 <code>198.10.0.1:1313</code>，App想要访问 <code>google.com:80</code>，自定义的DNS服务返回<code>google.com</code>的 Fake IP <code>198.10.2.2</code>。</p>
 <p><strong>1. Proxy 创建 TCP Socket Listener</strong></p>
@@ -1230,14 +1230,14 @@
 <p><strong>6. App 拿到返回数据</strong></p>
 <div class="mermaid" id="id-5"></div>
 <p>上面的过程便是利用操作系统网络栈完成 IPv4 到 TCP 载荷数据及其反方向转变的过程。通过这种办法，可以充分利用操作系统的实现，都是饱经检验，质量可靠，且满足各种复杂情况。但是也有缺点，数据需要拷贝多次，增加了性能损耗和延迟。</p>
-<h3 id="nat-策略">NAT 策略</h3>
+<h3 id="nat-策略"><a href="#nat-策略" class="header-mark headerLink">NAT 策略</a></h3>
 <blockquote>
 <p>我这里想说的 NAT 策略不是指常说的那四种 NAT 类型，当然你可以去实现不同的NAT类型来满足各种各样的需求，但那是更深入的话题，不在本文讨论。</p>
 </blockquote>
 <p>在刚刚的流程的第3步中，你应该发现对源 IP 和源端口的修改是有限制的，我们需要将 IP 限定为 TUN 网段，从而使返回的数据包可以重新被 TUN 设备捕获。但是这种限制是非常宽松的，在我们的例子对 TUN 设备网段的配置中，你有 2^16 个 IP 可供选择，每一个 IP 又有 2^16 个端口可供选择。</p>
 <p>但是如果你仔细观察，你会发现上面的例子并没有充分利用这些资源，我们仅仅是将 Fake IP 作为源 IP、真实目标端口作为源端口，而这个 IP 的其他端口都被闲置了。同时我也在其他人写的某些程序中发现，他们仅选择一个 IP 设置为源 IP，通过合理的分配该 IP 的端口作为源端口，在这种情况下， TUN 网段中其余的 IP 资源就被浪费了。</p>
 <p>以上两种 NAT 策略在个人电脑上没啥问题，但是如果代理客户端运行在网关上，网络中访问的 IP 数量超过网段中 IP 数量上限，或者 hash(ip:port) 数量超过端口总数(2^16)，就会难以继续分配 NAT 项。因此我们应该专门编写一个 NAT 管理组件，合理分配 IP 和端口资源，争取做到利用最大化。</p>
-<h2 id="防止环路">防止环路</h2>
+<h2 id="防止环路"><a href="#防止环路" class="header-mark headerLink">防止环路</a></h2>
 <p>抛开事实不谈，如果我们想要代理全部流量，就是要通过路由规则将所有流量导向我们的 TUN 设备，这是很直观且朴素的想法，就像下面的命令一样单纯：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1250,29 +1250,29 @@
 </div><p>如果你真的这么写，你就会发现你上不了网了。这是因为出现了环路。</p>
 <p>如果稍微思考一下，你就会发现，虽然我们想要代理所有流量，但是代理客户端与代理服务端的流量却是需要跳过的，如果用上面的路由，就会导致代理客户端发出的流量经过路由然后从 TUN 重新回到了代理客户端，这是一个死环，没有流量可以走出去。流量只近不出，来回转圈，你的文件打开数爆炸，操作系统不再给你分配更多的句柄，数据来回拷贝，你的CPU风扇猛转，电脑开始变卡。</p>
 <p>这是我们不想看到的，需要采取一些措施避免环路的产生。在实践中有不少方法可以避免这种情况的发生，例如通过合理的配置路由规则，使连接代理服务器的流量可以顺利匹配到外部网络接口。只不过这种方法不够灵活，如果代理服务器 IP 发生变化则需要及时改变路由规则，非常麻烦，所以我们接下来介绍其他的方法。</p>
-<h3 id="fake-ip">Fake IP</h3>
+<h3 id="fake-ip"><a href="#fake-ip" class="header-mark headerLink">Fake IP</a></h3>
 <p>Fake IP 就是我们上面例子中用到的方法，这是一种限制进入流量的方法。基本思路是自己实现一个 DNS 服务器，对用户的查询返回一个假的 IP 地址，我们可以将返回的 IP 地址限制为 TUN 设备的网络段，这样应用发起的流量其实便是发给 TUN 网络的流量，自然的被路由匹配，而无需像前面那样路由全部的流量，其余的流量包括代理客户端发起的请求便不会被路由，可以保证不产生环路。</p>
 <p>当代理客户端需要知道应用真正想要请求的地址时，就通过一些接口向自己实现的 DNS 服务器进行反向查询即可。</p>
-<h3 id="策略路由">策略路由</h3>
+<h3 id="策略路由"><a href="#策略路由" class="header-mark headerLink">策略路由</a></h3>
 <p>通过前面的分析，可以发现产生环路是因为代理客户端本身发出的流量被系统路由到 TUN 设备导致的，因此我们可以想办法让代理客户端本身发起的流量不走 TUN 而是从真实的物理网络接口出去。</p>
 <p>在 (类)Unix 系统中，可以对代理客户端的流量打上 fwmark 防火墙标记，然后通过策略路由使带有标记的流量走单独的路由表出去，从而绕过全局的流量捕获。</p>
 <p><strong>cgroup</strong></p>
 <p><code>cgroup</code> 是 Linux 内核的功能，可以用来限制、隔离进程的资源，其中 <code>net_cls</code> 子系统可以限制网络的访问。在网络控制层面，可以通过 <code>class ID</code> 确定流量是否属于某个 cgroup，因此可以对来自特定 cgroup 的流量打上 fwmark，使其能够被策略路由控制。</p>
 <p>我们可以创建一个用于绕过代理的 cgroup ，对该 cgroup 下进程的流量使用默认的路由规则，而不在该 cgroup 的其余进程的流量都要路由到 TUN 设备进行代理。</p>
-<h2 id="一些其他的知识">一些其他的知识</h2>
-<h3 id="tun-与-tap-的区别">TUN 与 TAP 的区别</h3>
+<h2 id="一些其他的知识"><a href="#一些其他的知识" class="header-mark headerLink">一些其他的知识</a></h2>
+<h3 id="tun-与-tap-的区别"><a href="#tun-与-tap-的区别" class="header-mark headerLink">TUN 与 TAP 的区别</a></h3>
 <p>TAP 在2层，读取和写入的数据需要是以太帧结构</p>
 <p>TUN 在3层，读取和写入的数据需要是IP数据包结构</p>
-<h3 id="ip-等配置">IP 等配置</h3>
+<h3 id="ip-等配置"><a href="#ip-等配置" class="header-mark headerLink">IP 等配置</a></h3>
 <p>在给网卡配置IP时，其实是修改内核网络栈中的某些参数，而不是修改网卡。虽然网卡也会有一些可供修改的配置项，但一般情况是通过其他方法进行修改的(驱动程序)。</p>
-<h3 id="物理网卡与虚拟网卡的区别">物理网卡与虚拟网卡的区别</h3>
+<h3 id="物理网卡与虚拟网卡的区别"><a href="#物理网卡与虚拟网卡的区别" class="header-mark headerLink">物理网卡与虚拟网卡的区别</a></h3>
 <p>物理网卡会有 <strong>DMA</strong> 功能，在启用 DMA 时网卡和网络栈(内存中的缓冲区)的通讯由 DMA 控制器管理，因此性能更高延迟也更低。</p>
-<h3 id="如何创建-tun-设备">如何创建 TUN 设备</h3>
+<h3 id="如何创建-tun-设备"><a href="#如何创建-tun-设备" class="header-mark headerLink">如何创建 TUN 设备</a></h3>
 <p>在Linux下一切皆文件，<code>/dev/net/tun</code> 是特殊的字符(char)设备文件，通过打开这个文件获得一个文件句柄，然后通过 <code>ioctl()</code> 系统调用对其进行配置。在这里可以选择打开TUN设备还是TAP设备，可以设置设备名称。</p>
 <p>详见：<a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html#network-device-allocation" target="_blank" rel="noopener noreffer" class="post-link">Network device allocation</a></p>
-<h3 id="与-bpf-的关系">与 BPF 的关系</h3>
+<h3 id="与-bpf-的关系"><a href="#与-bpf-的关系" class="header-mark headerLink">与 BPF 的关系</a></h3>
 <p>BPF 是一种高级数据包过滤器，可以附加到现有的网络接口，但其本身不提供虚拟网络接口。 TUN/TAP 驱动程序提供虚拟网络接口，可以将 BPF 附加到该接口。</p>
-<h2 id="扩展阅读">扩展阅读</h2>
+<h2 id="扩展阅读"><a href="#扩展阅读" class="header-mark headerLink">扩展阅读</a></h2>
 <ul>
 <li><a href="https://www.kernel.org/doc/html/latest/networking/tuntap.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.kernel.org/doc/html/latest/networking/tuntap.html</a></li>
 <li><a href="https://github.com/xjasonlyu/tun2socks" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/xjasonlyu/tun2socks</a></li>
@@ -1321,41 +1321,41 @@
 <p>在面临“我应该弃坑吗？”这样的抉择面前，第一件事并不是要赶快反省甚至批判、贬低自己已经完成工作的价值，而是要好好审视一下自己的内心，“我最初到底是想要什么？”，然后根据这个标准，认真评价当前工作是否还在按照实现初心的路径前进。如果因为一些其他的外界事情干扰，工作偏离了航线，则需要判断是否有挽回的机会，毕竟就此放弃是人都会有不甘。如果最终判断这件事确实已经完全偏离了初心，其价值无法满足自己的期望，则应该坚定的终止。除此之外，还应该找个没人的地方，好好的捋一下，看看到底是一开始就错了，还是中途出现的偏离，为未来的决定收集好经验。</p>
 <p>到这里，这篇博文算是可以结束了。至于我为什么要写这样一大段文字，主要是我最近看到跟我差不多年纪的年轻人，应该是比我小一点吧，也在沉迷于自己的项目中，没日没夜的维护、解决问题、开发新功能，这些工作耗尽了他几近全部的时间，以至于一直没有时间供他回过头来审视一下。我仿佛从他的身上看到了自己当初的影子，希望他不会像我一样，在某些地方浪费太多的精力，浪费自己大好的青春年华。（这么说好像我年龄好大了一样，我还很年轻好嘛）</p>
 ]]></description></item><item><title>2021年终总结</title><link>https://zu1k.com/posts/thinking/2021/</link><pubDate>Fri, 31 Dec 2021 19:59:57 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/thinking/2021/</guid><description><![CDATA[<p>现在是2021年12月31号晚8点，还有几个小时就要迈进2022的大门。是时候回过头来，再看看我经历过的最不普通的一年了。</p>
-<h2 id="个人相关总结">个人相关总结</h2>
-<h3 id="学业">学业</h3>
+<h2 id="个人相关总结"><a href="#个人相关总结" class="header-mark headerLink">个人相关总结</a></h2>
+<h3 id="学业"><a href="#学业" class="header-mark headerLink">学业</a></h3>
 <p>首先我要祝贺自己，在2021年6月，顺利结束了大学四年本科生涯，并在今年9月份，开启了研究生新篇章。</p>
 <p>我所在的实验室叫“二进制分析实验室”，主要做二进制漏洞自动化发现相关的工作，还有两个师姐在做恶意流量识别的相关内容。在这个人工智能水论文的大潮流下，在我所处的学院，这个实验室应该是唯一一个能够逃离人工智能技术的地方，其实我的师兄师姐大部分也在用人工智能相关技术，但是我的导师给了我足够宽的选择空间，研究方向和使用的技术从我的爱好出发，因此从我的角度而言，无论最终会不会顺利产生成果，能够顺应自己的爱好，这样的研究生3年，应该是不会枯燥和痛苦。</p>
 <p>然后是实验室的氛围。我发现周围的实验室好多都好压抑，大家每天在自己的工位上戴着耳机，几乎没有交流，除了卷王就是几乎啥都不会的“搞人工智能调参的那群人”，那样的实验室我是一秒钟也不想待。我们实验室就没有那么压抑，大家每天啥都讨论，无论是学术还是未来就业还是谈女朋友还有八卦新闻，最常谈论的话题就是中午吃什么，隔壁实验室的舍友羡慕我们每天实验室几个人一起出去小聚餐，惬意的很。我的师兄师姐也很关心和照顾我，真不错。</p>
-<h3 id="友情">友情</h3>
+<h3 id="友情"><a href="#友情" class="header-mark headerLink">友情</a></h3>
 <p>本科毕业，我与众多好友迎来了分别，他们有的进入企业开始自己的职业生涯，有的保研或考研至其他学校，这一别不知还要多久才能再次相见，江湖路远，期待我们都有光明的前途。</p>
 <p>我仍然记得晚8点去软件园散步或慢跑的那些夜晚，更记得结束后去麦当劳来个甜筒、去老金来顿烧烤、去美莲整点水果的惬意，那些日子有你们陪伴，真好!</p>
 <p>我的本科舍友，黄、尹、李，考研全部成功上岸，祝贺你们。其中尹、李和我在同一校区，黄在另一校区，真是幸运，我们还能继续在科研的道路上共同前进。</p>
 <p>9月，我认识了我研究生时期的新舍友，汪、黄、甫，都是非常不错的伙伴，希望我们可以共同奋进，给研究生的3年画卷涂上绚烂的色彩。</p>
-<h3 id="家庭">家庭</h3>
+<h3 id="家庭"><a href="#家庭" class="header-mark headerLink">家庭</a></h3>
 <p>这一年，很明显能够看出父母亲又年老了。我很惭愧，对我的家庭非常惭愧，已经二十多岁的人了，还没有成为家里的顶梁柱，父亲还是需要在冰冷的海水里赚钱养家，母亲的腰也因为每天的操劳而生病甚至需要因此做手术。</p>
 <p>不过21年也仍然是幸福的一年，家庭仍然温馨和睦。上研究生以来发了不少奖金，每个月也有不少生活补助，无需再跟家里要钱，还给家里打了几万块钱，给父亲买了新手机。我自己倒还没有换新手机，暂时觉得没有必要，毕竟再战3年可不是说着玩的。</p>
 <p>好久没给爷爷奶奶打过电话了，不过再过不久就可以回家了，想必爷爷奶奶也想我了。</p>
-<h3 id="我的生日">我的生日</h3>
+<h3 id="我的生日"><a href="#我的生日" class="header-mark headerLink">我的生日</a></h3>
 <p>小时候每年都要过生日，长大后其实对这个就不在意了，上研究生后我也没有告诉任何人。加上正好是考试月，忙着复习，今年我自己也给忘记了，直到生日前一天我都没有发现。</p>
 <p>父母仍然记着，提起一天发来了祝福和红包。</p>
-<h3 id="我的感情">我的感情</h3>
+<h3 id="我的感情"><a href="#我的感情" class="header-mark headerLink">我的感情</a></h3>
 <p>对我自己说，很抱歉，还没有女朋友</p>
 <p>上半年，尝试追一女同学，开始时交流了很多，也感觉亲近了很多，时常半夜聊到凌晨两三点，后来淡了</p>
 <p>算是失败了，我也被之前的舍友亲切的称为“天勾”，草！</p>
 <p>我反思自己，第一，不能自卑，第二，要主动一点，第三，要大胆一点，反思完毕。</p>
-<h3 id="开始用rust写程序">开始用Rust写程序</h3>
+<h3 id="开始用rust写程序"><a href="#开始用rust写程序" class="header-mark headerLink">开始用Rust写程序</a></h3>
 <p>20年因为某些机缘巧合了解到Rust并且开始想要学习，但尝试了好几次都没有坚持下去，再加上那段时间我对Go情有独钟，这个事就一拖再拖。</p>
 <p>今年2月份Rust基金会成立，看到了相关新闻，Mozilla、AWS、Google、微软、华为等顶级企业或组织是其第一批成员，这坚定了我使用rust的信念。事实证明我的决定没问题，连挑剔的Linus都接受了Rust对内核开发的涉足，这是cpp都没有的待遇。</p>
 <p>刚看了一下我的仓库列表，今年在9个项目中主力使用Rust开发，根据wakatime统计的数据，写rust时长接近200小时，总行数超过4w行(只计算了增加的行数，没有计算删除的行数)。</p>
 <p>Rust已经成为我最喜欢的编程语言了，这是事实，虽然一次性小脚本我还是会用py，需要并发的临时小工具我还是会用go，和同学合作我还是会用java，但是我新开启的项目已经首选rust了。Rust的性能和表达能力都很优秀，就业岗位暂时不是很多意味着还没有很卷，大企业和Linux对rust的关注代表着它的前途，希望身边还没有开始Rust的同学马上开始行动。（我就是Rust吹，宣传小能手，身边3个同学开始动身学习rust了）</p>
-<h3 id="参与开源项目">参与开源项目</h3>
+<h3 id="参与开源项目"><a href="#参与开源项目" class="header-mark headerLink">参与开源项目</a></h3>
 <p>参加了今年的“开源软件供应链点亮计划”，体验不错。项目用的go，需求比较简单，主要代码一两个晚上搞定，然后根据社区导师的建议小修小补。感谢社区导师@xuanwo, 给我提供了不少帮助。推荐学弟学妹们参加这个活动，有钱！中等难度项目9000块，赚的非常轻松。</p>
 <p>在某群看到了SOFAStack社区发布的小任务，就给他们的Layotto项目做了两个PR，顺便学习了wasm相关知识，特别是使用wasm写插件系统时，能力引入(导入表)和变长参数传递相关内容有了更加深入的了解。拿到了证书和马克杯，感谢。</p>
 <p>写copy-translator项目时，给egui库做了几个小贡献，没想到头像居然出现在前10了，还被同样在学习rust的好朋友发现了，真不错。</p>
 <p>今年总共有3个项目曾进入过GitHub Trending，分别是 Golang写的proxypool（一个已经弃坑的项目，没想到还这么受欢迎）、copy-translator、good-mitm，后两个都是rust写的。</p>
 <p>GitHub Followers数目在2021年突破1k。</p>
 <p>参与开源的感觉真心不错，22年再接再励！</p>
-<h3 id="被邀请实习">被邀请实习</h3>
+<h3 id="被邀请实习"><a href="#被邀请实习" class="header-mark headerLink">被邀请实习</a></h3>
 <p>这里开始吹嘘自己</p>
 <p>因为写了<a href="/posts/tutorials/p2p/ipfs/" rel="" class="post-link">《IPFS新手指北》</a>，Protocol Labs问有没有兴趣&quot;working internally with Protocol Labs&quot;。（那必须的，我很感兴趣，我喜欢这些东西！）</p>
 <p>因为写了copy-translator，某IM初创团队私信问我&quot;有没有兴趣一起做一些有挑战的事情&quot;。（曾经真的有一段时间我特别想做一款IM，我很感兴趣！）</p>
@@ -1363,25 +1363,25 @@
 <p>可能是从GitHub Trending看到了我，收到了Shopee Singapore的HR发来的邮件，真不错，以后有机会想run去新加坡。</p>
 <p>他们都是非常有吸引力的团队，我也非常希望自己能够参与其中。但是因为某些原因，我暂时没有办法集中精力投入自己的全身心，这里只能说一声抱歉，希望未来的某一天，我们可以一起为同一个目标努力。</p>
 <p>同时，我也想告诉我身边的同学和我的朋友，写博客和做开源项目真的可以起到宣传自己的作用哈哈哈。</p>
-<h3 id="内卷的加重">内卷的加重</h3>
+<h3 id="内卷的加重"><a href="#内卷的加重" class="header-mark headerLink">内卷的加重</a></h3>
 <p>这部分看过我<a href="/posts/thinking/fuck-involution/" rel="" class="post-link">《干！有人在卷我》</a>这篇文章的同学能够看懂。</p>
 <p>还是那个任课老师，听同学说，他今年在课上，说起字数的问题，“去年没有说字数的问题，很多同学问字数的问题，今年强调一下，我们没有字数限制。。。。”</p>
 <p>然后，我那那篇文章，实验室一同学在某节课讨论时，被不小心传播开了。哈哈，听说他们今年已经开始1w起步了，身边有人已经写1w7了，这就是内卷的加重啊</p>
 <p>然后，学校旁边的羊汤店，还在卷，饼可以免费不限量吃了。</p>
-<h2 id="行业相关总结">行业相关总结</h2>
+<h2 id="行业相关总结"><a href="#行业相关总结" class="header-mark headerLink">行业相关总结</a></h2>
 <p>我是比较关注新闻的，特别是计算机、互联网相关行业，今年看到不少新闻，也不知道是今年不太平还是我之前不够关注这方面</p>
-<h3 id="裁员">裁员</h3>
+<h3 id="裁员"><a href="#裁员" class="header-mark headerLink">裁员</a></h3>
 <p>就是近两个月，已经接连听到国内二十多家互联网公司大幅裁员的新闻，我已经工作的朋友之间传着即将迎来“互联网寒冬”的话，也看到了国外某企业通过zoom会议裁员被喷的故事。</p>
 <p>已经工作的好友想赚够留学的钱然后润(run)去欧州读PhD</p>
 <p>同时，今年我还见证了一纸文书毁灭整个课外辅导、在线教育行业。今年年初，我还在和朋友谈论某某本科同学顺利拿到猿辅导SSP，总包60W，而就在今年，也不知道他来没来得及转正，反正肯定被裁了，太倒霉了。</p>
-<h3 id="大佬去世">大佬去世</h3>
+<h3 id="大佬去世"><a href="#大佬去世" class="header-mark headerLink">大佬去世</a></h3>
 <p>Redox OS活跃贡献者jD91mZM2今年在不正常的离线时间后，被证实去世，证据指向精神健康事件后的自杀，Redox官方发文呼吁要<a href="https://www.redox-os.org/news/open-source-mental-health/" target="_blank" rel="noopener noreffer" class="post-link">《关注开源贡献者的心理健康》</a>。</p>
 <p>&ldquo;The code doesn’t write itself, and the person writing the code needs even more maintenance than the “open source” itself.&rdquo;</p>
 <p>这个月，前段时间，听说腾讯天美一员工自杀，后来证实是毛星云大佬，也不知道是不是心理健康原因。让我震惊的是腾讯对消息的封锁，在腾讯工作的同学说，内部谈论这个事是被禁止的，所以即使是他们也只能从外部途径才知道去世的是毛星云，真是讽刺。</p>
 <p>对了，我们也不能忘记，21年二十多位院士逝世，他们献身科研，一生为国尽瘁，让我们向他们致敬。</p>
-<h3 id="劳动者权益">劳动者权益</h3>
+<h3 id="劳动者权益"><a href="#劳动者权益" class="header-mark headerLink">劳动者权益</a></h3>
 <p>这是前段时间看到的新闻，南山必胜客败诉给一个员工，根据劳动法等相关法律。说明我们不能怂</p>
-<h3 id="漏洞">漏洞</h3>
+<h3 id="漏洞"><a href="#漏洞" class="header-mark headerLink">漏洞</a></h3>
 <p>Apache Log4j RCE漏洞，全球很多顶级的企业<a href="https://github.com/YfryTchsGD/Log4jAttackSurface" target="_blank" rel="noopener noreffer" class="post-link">受影响</a></p>
 <p>这个事件我们看到：</p>
 <ol>
@@ -1397,28 +1397,28 @@
 <li>Log4j这个洞出来后，马上出现了在某些段写payload的方式攻击Ghidra</li>
 </ul>
 <p>我还想说，国内的安全研究环境越来越差了，特别是政策方面</p>
-<h3 id="讨论的消亡">讨论的消亡</h3>
+<h3 id="讨论的消亡"><a href="#讨论的消亡" class="header-mark headerLink">讨论的消亡</a></h3>
 <p>最近吃的瓜有点多，无论是娱乐圈还是政圈</p>
 <p>有的瓜被证实了，有的瓜却迟迟没有&quot;辟谣&quot;，也不知道是真谣还是假谣</p>
 <p>肉眼可见的是豆瓣、知乎、微博等平台，评论的收紧、限制等措施</p>
 <p>然后，今天看到的新闻：阿里巴巴出售旗下weibo的全部股份，微薄将成为30%国资媒体。新新闻，不多评论了</p>
 <p>推荐一篇文章：<a href="https://www.gcores.com/articles/121924" target="_blank" rel="noopener noreffer" class="post-link">中文互联网中“讨论”的消亡</a></p>
-<h3 id="互联网中心化的脆弱性">互联网中心化的脆弱性</h3>
+<h3 id="互联网中心化的脆弱性"><a href="#互联网中心化的脆弱性" class="header-mark headerLink">互联网中心化的脆弱性</a></h3>
 <p>fastly炸掉，全球顶级网站几乎全部不可用</p>
 <p>不得不反思，当互联网走向集中化，当巨头控制绝大多数资源，当选择变得唯一，一切都会变得极其脆弱。</p>
 <p>IPFS所倡导的分布式web会是未来吗？我不知道答案，但是尝试总是好的</p>
-<h3 id="github-copilot">GitHub Copilot</h3>
+<h3 id="github-copilot"><a href="#github-copilot" class="header-mark headerLink">GitHub Copilot</a></h3>
 <p>GitHub用其托管的代码训练的人工智能，能够有效协助写代码，特别是py,js等。</p>
 <p>但是当我使用Rust时，它的自动补全甚至成为了我的累赘，不断的自以为是打断我的思路，因此我把它关闭了。</p>
-<h3 id="炒币挖矿元宇宙">炒币、挖矿、元宇宙</h3>
+<h3 id="炒币挖矿元宇宙"><a href="#炒币挖矿元宇宙" class="header-mark headerLink">炒币、挖矿、元宇宙</a></h3>
 <p>舍友沉迷炒币、挖矿、元宇宙</p>
 <p>我不看好，但是不介意在这个没有监管的地方捞一笔</p>
-<h3 id="疫情的现状">疫情的现状</h3>
+<h3 id="疫情的现状"><a href="#疫情的现状" class="header-mark headerLink">疫情的现状</a></h3>
 <p>变异的病毒在传播，情况不容乐观</p>
 <p>我也没深究，听说mRNA疫苗修改起来简单，可快速开发适合变异后病毒的疫苗，真是厉害啊，一开始他们就想到这一步了吗？如果是，还是得努力追赶啊。</p>
 <p>最近又听说已经有特效药了，厉害啊。</p>
 <p>看到最近西安相关新闻，我跟我妈妈说要稍微屯点东西。</p>
-<h2 id="思考">思考</h2>
+<h2 id="思考"><a href="#思考" class="header-mark headerLink">思考</a></h2>
 <p>这一年，因为看到、听到、经历到的各种事情，我也开始对人生、对理想、对未来、对社会、对人进行了更加深入的思考。这些思考还未形成文字，很多只是心里的一个想法，还需要后面的人生经历进行巩固和验证。</p>
 <p>有几点比较自私的想法，我想记录在2021年，供未来的我思考和批判</p>
 <ol>
@@ -1431,7 +1431,7 @@
 <p>2022，你好！</p>
 ]]></description></item><item><title>从最近披露的Pink僵尸网络想到的</title><link>https://zu1k.com/posts/events/pinkbot/</link><pubDate>Wed, 27 Oct 2021 13:00:45 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/pinkbot/</guid><description><![CDATA[<p>昨天上课的时候无聊刷<a href="https://www.v2ex.com/t/810633" target="_blank" rel="noopener noreffer" class="post-link">V2EX</a>，读到 360 Netlab 发布的文章<a href="https://blog.netlab.360.com/pinkbot/" target="_blank" rel="noopener noreffer" class="post-link">《一个藏在我们身边的巨型僵尸网络 Pink》</a>，披露了2019年底到2020年春节前后的一个名为&quot;<strong>Pink</strong>&ldquo;的巨型僵尸网络从被发现到攻防博弈过程的一些细节</p>
 <p>文中的攻防过程令我很是激动，因为我想起了在2020年初的一件事</p>
-<h2 id="光猫升级事件">光猫升级事件</h2>
+<h2 id="光猫升级事件"><a href="#光猫升级事件" class="header-mark headerLink">光猫升级事件</a></h2>
 <p>2020年1月初，访问某些http协议(80端口)的网站，会被劫持到一个联通光猫升级页面</p>
 <p><figure>
 
@@ -1463,7 +1463,7 @@
             <div class="admonition-content">对这个页面的源码在gist上进行了<a href="https://gist.github.com/zu1k/7120d1f71797153eb8c867bb09323eae" target="_blank" rel="noopener noreffer" class="post-link">备份</a>，感兴趣的同学可以看一下 <a href="https://gist.github.com/zu1k/7120d1f71797153eb8c867bb09323eae#L9923" target="_blank" rel="noopener noreffer" class="post-link">9923</a> 行</div>
         </div>
     </div>
-<h3 id="官方后门">官方后门</h3>
+<h3 id="官方后门"><a href="#官方后门" class="header-mark headerLink">官方后门</a></h3>
 <p>通过查看请求和页面源码可以发现这个页面通过向 <code>192.168.1.1</code> 的某个接口进行 <strong>jsonp</strong> 请求来执行命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1581,7 +1581,7 @@
 <p>为什么上来第一句就要阻断到所有目标443端口的tcp连接？当初的一个想法是防止用户用https协议，这样用户只能使用80端口的http明文协议，可以进行监听或者劫持等操作。这样也不合理啊，HSTS也不是吃干饭的，再说联通如果通过更新屏蔽掉到443端口的所有请求，不怕用户集体反馈和投诉吗？反正当初是没想通这个谜之操作</p>
 <p>再看第二句，也莫名其妙，udp 123端口是NTP服务，找你惹你了，犯不着全部屏蔽掉吧。还是想不明白</p>
 <p>往后的命令就比较常规了，下载了一个二进制程序，权限修改为<code>777</code>，然后直接执行</p>
-<h3 id="怀疑被攻击">怀疑被攻击</h3>
+<h3 id="怀疑被攻击"><a href="#怀疑被攻击" class="header-mark headerLink">怀疑被攻击</a></h3>
 <p>通过对上面升级执行的命令进行分析，我觉得这些操作很不符合常理，将这些已知信息在小群里交流之后，怀疑可能是一起攻击事件，通过劫持用户的http访问，利用光猫的后门(可能是漏洞，虽然我不信)植入恶意程序</p>
 <p>遂决定对<code>sdsjw</code>程序进行逆向分析，分析的枯燥过程这里省略了，最后结果就是没有发现什么异常的点，到这里对这个事件的分析便不了了之了（当初的二进制程序我找不到了，现在也下载不到了）</p>
 <div class="details admonition info open">
@@ -1597,7 +1597,7 @@
 </div>
         </div>
     </div>
-<h3 id="联通工作人员上门升级">联通工作人员上门升级</h3>
+<h3 id="联通工作人员上门升级"><a href="#联通工作人员上门升级" class="header-mark headerLink">联通工作人员上门升级</a></h3>
 <p>2020年5月10号下午，联通工作人员上门进行光猫升级。具体升级方法就是把一块板子通过光猫侧面的口插到主板上，然后通过手机上的app进行固件刷写</p>
 <p>在交流的过程中，他透漏光猫大批量被控，有对外攻击流量，接上面要求需要对所有光猫进行升级。我家的光猫在线升级失败，只能到户手动完成。我看了一下他需要上门的名单，看样子我们这个区域关闭了在线管理接口的用户还不少啊哈哈哈</p>
 <p><figure>
@@ -1622,11 +1622,11 @@
         
     </a><figcaption class="image-caption">联通工作人员上门升级</figcaption>
     </figure></p>
-<h2 id="我在第一层人家在第5层">我在第一层，人家在第5层</h2>
+<h2 id="我在第一层人家在第5层"><a href="#我在第一层人家在第5层" class="header-mark headerLink">我在第一层，人家在第5层</a></h2>
 <p>虽然这个事已经过去一年多了，但现在想起来还是有那么一些感触，在运营商与黑客的一轮又一轮攻防博弈中，我有幸记录下其中某个小小的过程。在信息还未对外揭露之前，我无法理解那些莫名其妙的升级指令，甚至怀疑那是一起攻击事件，利用自己微不足道的知识尝试分析却不得结果。当保密期过去之时，我们得以看到整个事件的原貌，不禁感叹，我还是太年轻了啊（好像听到了“长者”的话）</p>
-<h3 id="关于看待事情">关于看待事情</h3>
+<h3 id="关于看待事情"><a href="#关于看待事情" class="header-mark headerLink">关于看待事情</a></h3>
 <p>所谓“管中窥豹，略见一斑”，从这件事我学到的第一点便是，要有大局观，要广泛的收集信息，看待某件事时要把时间线放长，这样才能去尽力触及事情的真相</p>
-<h3 id="关于现代网络攻击">关于现代网络攻击</h3>
+<h3 id="关于现代网络攻击"><a href="#关于现代网络攻击" class="header-mark headerLink">关于现代网络攻击</a></h3>
 <p>我学到的第二点是关于现代网络攻击。我觉得我对网络攻击的印象还停留在早年的那些简单的漏洞利用，虽然近几年通过网络也吃了不少现代网络攻击事件的瓜，但是并未意识到真正的网络攻击就潜伏在你我身边</p>
 <p>通过本次事件我们可以清晰的看出，现代的网络攻击使用的技术更加先进，对隐匿性的要求也更高，如果不是有广泛的监控难以发现。在遇到厂商的狙杀时攻击者能够在第一时间绕过和阻拦，甚至能够在多轮对抗中取得优势将厂商直接阻拦在门外，夺取绝对的控制权，逼迫厂商只能线下进行上门修复</p>
 <p>简单列几句文中的原话：</p>
@@ -1642,11 +1642,11 @@
 </ul>
 <p>被发现近2年，竟然还没有清除干净，这存活能力得有多强，难以想象</p>
 <p>结论：攻击者能力很强，未来遭遇的攻击会更加专业和可怕</p>
-<h3 id="关于个人安全">关于个人安全</h3>
+<h3 id="关于个人安全"><a href="#关于个人安全" class="header-mark headerLink">关于个人安全</a></h3>
 <p>关于个人安全，其实我没有发言权，毕竟我也曾踩过别人的水坑</p>
 <p>但是我还是要说一句，就是保持差异化，默认的配置只会给攻击者创造便利</p>
 <p>再加一句，不要把自己的安全完全托付在别人手中</p>
-<h2 id="参考链接">参考链接</h2>
+<h2 id="参考链接"><a href="#参考链接" class="header-mark headerLink">参考链接</a></h2>
 <ul>
 <li><a href="https://www.v2ex.com/t/810633" target="_blank" rel="noopener noreffer" class="post-link">运营商收回公网 IP 的原因之一</a></li>
 <li><a href="https://blog.netlab.360.com/pinkbot/" target="_blank" rel="noopener noreffer" class="post-link">一个藏在我们身边的巨型僵尸网络 Pink</a></li>
@@ -1654,12 +1654,12 @@
 </ul>
 ]]></description></item><item><title>虚假的安全感</title><link>https://zu1k.com/posts/thinking/false-sense-of-security/</link><pubDate>Tue, 05 Oct 2021 10:30:00 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/thinking/false-sense-of-security/</guid><description><![CDATA[<p>凌晨3点，一阵凉风把我吹醒</p>
 <p>我点亮手机屏幕，一条推送新闻映入眼帘：“<strong>苹果公司让iCloud Safari书签也实现端到端加密</strong>”</p>
-<h2 id="端到端加密">端到端加密</h2>
+<h2 id="端到端加密"><a href="#端到端加密" class="header-mark headerLink">端到端加密</a></h2>
 <p>“<strong>端到端加密</strong>”，他们总喜欢用这样一些看起来高大上的词汇</p>
 <p>我对这个词颇为熟悉，原本不想多说，但为了本文的部分读者，我还是稍微解释一下为好</p>
 <p>所谓的“<strong>端</strong>”，即指你的<strong>客户端</strong>，该新闻中指你的苹果设备</p>
 <p>“<strong>端到端加密</strong>”就是说你的数据在对外传输之前会进行加密，<strong>只会在接收的客户端进行解密</strong>，而在网络传输和苹果的数据库存储这些<strong>中间过程中不进行任何解密操作</strong>，这就能保证你的数据只有你可见，其他中间人看到的都只是加密的数据，从而保证你的数据安全</p>
-<h2 id="安全吗">安全吗？</h2>
+<h2 id="安全吗"><a href="#安全吗" class="header-mark headerLink">安全吗？</a></h2>
 <p>很明显，苹果此举是为了保证你的数据安全，但这样是不是就保证了你的数据除了你之外没有人可以看到呢？</p>
 <p>先别急着回答，让我们先来捋一下：</p>
 <ol>
@@ -1673,7 +1673,7 @@
 <p><strong>这意味着任何人，甚至是苹果，都无法访问用户保存的 Safari 书签。</strong></p>
 </blockquote>
 <p>新闻中都这样说了，不管懂不懂，反正我们便要相信它了</p>
-<h2 id="真的如此吗">真的如此吗？</h2>
+<h2 id="真的如此吗"><a href="#真的如此吗" class="header-mark headerLink">真的如此吗？</a></h2>
 <p>等等！！！真的如此吗？</p>
 <p>我在苹果的ToS中发现了这样一段话：</p>
 <blockquote>
@@ -1725,12 +1725,12 @@
 <p>实验可能难以真正实施，但是可以采取一些其他的折中手段，比如假装自己失忆，说一些谎言啥的</p>
 <p>无论用了什么办法（证明自己身份、找司法机关帮助、和库克是好朋友等等），如果你可以成功恢复你的数据，那代表着你的数据不是真正的安全</p>
 <p>你应该能明白这意味着什么，暂且不说司法部门等合法要求解密数据，只要服务商有途径解密数据，入侵者就有可能不经过你的同意获得你数据的明文</p>
-<h2 id="虚假的安全感">虚假的安全感</h2>
+<h2 id="虚假的安全感"><a href="#虚假的安全感" class="header-mark headerLink">虚假的安全感</a></h2>
 <p>我们都相信“没有绝对的安全”，但我更有理由相信，比知道“不安全”更可怕的情况是，<strong>认为</strong>自己处于“安全”的位置，我称其为“虚假的安全感”</p>
 <p>就像前面新闻中提到的那样，如果读者对相关知识和加密方案没有了解，就会被文中的词汇迷惑，完全相信文中那些并非由服务商自己说出的承诺（即使是服务商自己承诺的，也不完全可信）</p>
 <p>在这种情况下，如果你相信自己交给服务商的数据完全安全，就有可能在未来的某一天被其反噬</p>
 <p>其实，这种“虚假的安全感”在很多地方都有可能发生，我可以给大家讲一个发生在我自己身上的真实故事，相关细节我会进行模糊处理</p>
-<h3 id="被攻击的真实案例">被攻击的真实案例</h3>
+<h3 id="被攻击的真实案例"><a href="#被攻击的真实案例" class="header-mark headerLink">被攻击的真实案例</a></h3>
 <p>某天上午，我同时接到导员和党委书记的电话，说学校网络管理部来了两个工作人员，让我带着电脑过去给他们提供一点帮助。我<strong>没有多想</strong>，背着电脑包屁颠屁颠的过去了，却发现不是学校网管，而是某部门来了两个人</p>
 <p>他们详细询问了我近一个月的网络活动，询问我是否与某列表中国外某些黑客组织有联系，并检查了我的笔记本电脑。反正我也没做坏事，按照流程走下来也没发现什么异常，但他们给我看的某个网址给我留下了印象</p>
 <p>回去后，我找到了那个网页，那是FreeBuf中的一篇文章，内容是Google纰漏的一起APT攻击的相关情报。我根据其内容找到了Google原文并找到了更多信息，当晚我根据相关思路对我的电脑进行了细致的检查，最终发现了一个异常进程</p>
@@ -1741,27 +1741,27 @@
 <p>这个事件到这里并没有结束，我想说的关键才刚刚开始</p>
 <p>被攻击的时间点前两周我刚重装了系统，最新的Windows10打上所有安全补丁，最新的Chrome浏览器。通常认知下，将系统和软件更新到最新并打上安全补丁，应对基本的网页浏览是基本可以放心的</p>
 <p>但实际情况就这样狠狠的打了脸，事实证明，那些我以为的最新版带来的安全感都是“虚假的安全感”，在真正的攻击面前毫无招架之力</p>
-<h2 id="夸大危险也许更加可怕">夸大危险也许更加可怕</h2>
+<h2 id="夸大危险也许更加可怕"><a href="#夸大危险也许更加可怕" class="header-mark headerLink">夸大危险也许更加可怕</a></h2>
 <p>我不想我的读者读了我上面的内容，产生“反正世界上没有绝对的安全，无论怎么努力都仍暴露在危险之下，那还努力个啥？”的想法</p>
 <p>我上面的内容的确夸大了大家面临的危险，绝大多数人都没有被攻击的价值</p>
 <p>相比“虚假的安全感”，“夸大危险”也许更加可怕，因为认为危险无法避免而放弃抵抗的案例比比皆是</p>
 <p>举一个身边最真实最普遍的例子，大家在拥有了安全研究经验后，往往会发现几乎所有现有的杀毒软件等难以发现和阻拦最新的0day攻击，所以大家往往干脆不安装杀毒软件</p>
 <p>要知道，即使是最小的防御措施也能够起到一定的阻拦作用，虽然无法阻拦最新的0day，但是面对各种脚本小子还是能够轻易防护的，无论如何都比没有强</p>
 <p>夸大的危险极易使人放弃抵抗，从而使自己暴露在更大的危险之下，这比“虚假的安全感”更加可怕</p>
-<h2 id="我的态度">我的态度</h2>
+<h2 id="我的态度"><a href="#我的态度" class="header-mark headerLink">我的态度</a></h2>
 <p>我还年轻，经验太少</p>
 <p>我面对危险和安全的态度也许会随着之后的人生经历而产生变化，但无论如何我还是记录以下我现有的想法吧</p>
-<h3 id="资产梳理">资产梳理</h3>
+<h3 id="资产梳理"><a href="#资产梳理" class="header-mark headerLink">资产梳理</a></h3>
 <p>我的第一个想法是资产梳理，对自己有价值的东西进行梳理，包括各类物理可接触的东西和虚拟不可接触的数据</p>
 <p>正所谓“知己知彼，百战不殆”，如果自己都不知道自己拥有那些有价值的东西，那几乎就等于将这些遗忘的东西拱手让人</p>
-<h3 id="价值分级">价值分级</h3>
+<h3 id="价值分级"><a href="#价值分级" class="header-mark headerLink">价值分级</a></h3>
 <p>然后是价值分级，按照资产的价值高低对所拥有的东西和数据进行划分不同等级</p>
 <p>这很好理解，高价值的东西采取高安全性的措施，低价值的东西可以稍微放松一点</p>
 <p>毕竟较高的安全性往往带来复杂性的增加，而人的精力有限，无法对所有内容都采取最高安全措施</p>
-<h3 id="谦虚与谨慎">谦虚与谨慎</h3>
+<h3 id="谦虚与谨慎"><a href="#谦虚与谨慎" class="header-mark headerLink">谦虚与谨慎</a></h3>
 <p>我看到上面案例中的两个人，他们习惯于用随身携带的笔记本记录内容，习惯于使用不可多次写入的CD光盘来传输数据，习惯于用手随时遮挡正在书写的内容</p>
 <p>虽然他们的安全技能高出常人许多，但他们对各种小细节都保持者最大的谦虚和谨慎，我认为这是保证安全性的最基本也是最重要的东西</p>
-<h2 id="拓展阅读">拓展阅读</h2>
+<h2 id="拓展阅读"><a href="#拓展阅读" class="header-mark headerLink">拓展阅读</a></h2>
 <ul>
 <li><a href="https://blog.cryptographyengineering.com/2012/04/05/icloud-who-holds-key/" target="_blank" rel="noopener noreffer" class="post-link">iCloud: Who holds the key?</a></li>
 <li><a href="https://www.base64decode.org/" target="_blank" rel="noopener noreffer" class="post-link">NkkySjVweW81NXFHNVlXMTVaS000b0NkNTRpeDZMQ0I2TENCNG9DZDZZTzk1WStxNUx5YTViaW01cDJsNXB1MDVhU2E1NXFFNVkyeDZabXA=</a></li>
@@ -1771,7 +1771,7 @@
 <p>然而那个研究生学长却没听说过该老师，算是踩了个大坑。他的学习态度我是见过的，很努力很刻苦，最后给他不到70分的成绩和倒数的名次给谁也接受不了，我建议其申请成绩复议。后来他跟我说，那个老师给他发了第一名97分的文档，人家提交了21页，足足有1万5千字。而他只提交了3000字。</p>
 <p>所以我知道了，我应该也被狠狠的卷了，因为我也只提交了3000字。但我拿到了80分（草，没过平均线），虽然没有什么用。我拿到了那份21页的文档，原来也是提前选修的同学，是个女生，见过几面，挺温柔的，所以我不想批判她。（我劝各位读者不要他妈多想）</p>
 <p>亲身经历过内卷（是被卷的一方），这段时期又刮起一阵反内卷风，B站各种《内卷的名义》等反内卷题材小短片，“躺平”这个词被大众广泛接受（我不喜欢内卷，但也不支持躺平），我就想，是时候写点东西了。可能不是很深刻，但也算是我在这个时期的一扑棱，毕竟还是有同学和陌生人来看我写的文字的，感谢大家。</p>
-<h2 id="我参与过内卷吗">我参与过内卷吗？</h2>
+<h2 id="我参与过内卷吗"><a href="#我参与过内卷吗" class="header-mark headerLink">我参与过内卷吗？</a></h2>
 <p>在开始之前，我想先回答这个问题：“我参与过内卷吗？”。毕竟大家都不喜欢内卷（我想至少我的读者应该是这样的），我不想一开始就成为大家口中的“内卷人”。</p>
 <p>对于这个问题，我想，应该没有吧。</p>
 <p>但是我想让大家来评判，请看以下两个例子，算是学生阶段能够遇到的两个最典型最容易产生内卷的场合：</p>
@@ -1785,25 +1785,25 @@
 <li>期末考试，那不得提前两个月甚至半个学期就开始复习和刷题了。课后题啥的做不到完全背过那答案总得背过吧。光看课本和PPT那怎么行，吉米多维奇不得刷他个3遍以上，然后历年考试题也得整一下吧。到考试了，全他妈是吉米多维奇上的原题，这不得写他个两种甚至三种解法。（也是真事，这些人也真是，我可不想为了八十分与九十分的差距付出这个时间）</li>
 </ol>
 <p>所以，你说我参与过内卷吗？这样看来我是不是很正常吧。</p>
-<h2 id="是什么造成了内卷">是什么造成了内卷？</h2>
+<h2 id="是什么造成了内卷"><a href="#是什么造成了内卷" class="header-mark headerLink">是什么造成了内卷？</a></h2>
 <p>内卷的产生不是偶然，内卷的环境+不合理的评判标准+竞争的人导致了内卷的必然发生，至少我是这样认为的。</p>
 <p>所谓内卷的环境，那必然要是金字塔形状，底层占绝大多数，只有少数人可以上升，这样就会形成竞争的原因。甚至要严格限制上升的人数，这样才能使竞争更加激烈，才会孵化出各种竞争手段。</p>
 <p>有了引起竞争的条件，形成的是竞争的行为，如果评判标准合理，最终的结果是通过健康的竞争选拔出真正有实力的人，这应该是一个正向的积极的过程。可惜，绝大多数情况这个评判标准并不合理，更有为了利益为了压榨故意采用恶心人的标准的，比如企业里面单纯通过工作时长来评判、比如老师单纯通过字数来评判等等。</p>
 <p>这就是恶心人的地方，拥有决定权的人通过设立不合理的评判标准，故意引起底层内卷，从而满足自己的利益。而作为内卷的主要参与者———竞争的人，却是这三个条件中最可怜的那一部分，不仅需要付出大量努力、时间等参与到内卷中，还有很大几率无法在内卷中脱颖而出，从而白白浪费了自己的时间精力等；他们还需要承受内卷同仁的满满的恶意，竞争者之间往往就是这样，在内卷局中的人难以看清形势，难以把矛头对准真正掌握规则、真正引起内卷的上层管理者和标准制定者，他们只会在底层互相伤害。真是可悲啊。</p>
-<h2 id="如何摆脱内卷">如何摆脱内卷？</h2>
+<h2 id="如何摆脱内卷"><a href="#如何摆脱内卷" class="header-mark headerLink">如何摆脱内卷？</a></h2>
 <p>这个问题我无法给出答案，因为我也不知道。毕竟就目前的形势而言，只要内卷的条件还存在，就总会有人参与其中。我个人认为要打破这个局，还是需要从上而下的反内卷，底层难以闹出风浪。</p>
 <p>但就目前情况来看，貌似上面并不想真正反内卷。可能迫于底层舆论压力，他们会增加反内卷的宣传。可这有什么用，不打破内卷的条件，只要内卷的环境和不合理的评判标准还存在，内卷就不会减轻。他们可真是坏啊，他们想要从底层的内卷中获利。</p>
 <p>也许，真正的社会主义社会是划破黑暗的那一束光，她会是吗？</p>
-<h2 id="我是否曾从内卷中获利">我是否曾从内卷中获利？</h2>
+<h2 id="我是否曾从内卷中获利"><a href="#我是否曾从内卷中获利" class="header-mark headerLink">我是否曾从内卷中获利？</a></h2>
 <p>这个问题我必须回答“是”，甚至还有点小开心。因为我不是以内卷者的身份参与其中，不需要付出任何努力，通过他们的内卷和恶性竞争，我作为一个旁观者可以直接获利。</p>
 <p>不说当年的各种打车软件之间恶性竞争、疯狂烧钱，打一次车只需要一分钱，那个时候我还上初中，哪懂什么内卷。</p>
 <p>就看大学这两年，校外那条小吃街。起初只有一家羊肉汤店，算是这条街羊肉汤方面的绝对垄断，价高味不美，肉还不多。去年其隔壁新开了另一家羊肉汤店，一开始还只是两家的老板娘到店门口招呼人进各自的店，慢慢的两家开始让利，一家店搞抽奖送饮料送凉菜，另一家店直接进店即送葱油饼。</p>
 <p>两家店卷起来了，我们这些看热闹的吃客可开心的很，免费的饼吃着，免费的饮料喝着，连碗里的羊肉也变多了。</p>
 <p>你说内卷好不好？老板娘肯定烦得很，但我们这些从中获利的人怎么会放过她们。</p>
-<h2 id="卷我可以请换种方式">卷我可以，请换种方式</h2>
+<h2 id="卷我可以请换种方式"><a href="#卷我可以请换种方式" class="header-mark headerLink">卷我可以，请换种方式</a></h2>
 <p>这个环境就是这样一个环境，大家都是底层，都想要更高的名次、更好的待遇、更多的钱，那就总有人要付出更多的努力和汗水。对于这些努力的人，我选择原谅他们上进的心，但我绝对不原谅他们卷我采用的手段和方式。我看不起你刷更多的题而没有把时间投入到自己真正感兴趣的领域，我看不起你拼凑更多的文字却没有包含自己丁点的思考，用这种方式来卷我简直就是在侮辱我，在侮辱每一个共同学习一起进步互相竞争的同伴。</p>
 <p>如果你真想卷我，请换种方式。我希望你的内容包含更深刻的理解，或者在追寻更尖端的研究热点；我希望你的工作有更高的技术含量，或者给更多的人带来便利；我希望你的答案有更深入的思考，或者有你自己的东西在里面。请让被卷的我感受到来自竞争者的尊重，让我输的心服口服，让我能够去尊重你。</p>
-<h2 id="最后可乐">最后，可乐</h2>
+<h2 id="最后可乐"><a href="#最后可乐" class="header-mark headerLink">最后，可乐</a></h2>
 <p>这个也是前段时间看到的，你说可口可乐和百事可乐也是在竞争，为啥可乐的价钱不下跌呢？</p>
 <p>之前也没思考过这个问题，一开始也就想已经把价格压到一个比较低的价位了，再降价可能不太值？毕竟一些国产汽水的价格也不低。</p>
 <p>现在想想肯定没有这么简单，已经是完善的大规模工业化生产流程了，生产瓶汽水平均成本很低，这个价应该还有不低的利润空间，那他们为何不通过降价来抢夺市场，为啥不像国内之前打车软件那样甚至不惜倒贴钱来竞争呢？</p>
@@ -1812,7 +1812,7 @@
 ]]></description></item><item><title>垃圾校园网，我忍不了了</title><link>https://zu1k.com/posts/tutorials/campus-network-speed-overlay/</link><pubDate>Sun, 11 Apr 2021 17:11:00 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/campus-network-speed-overlay/</guid><description><![CDATA[<p>记得大一刚入学时，免费的校园网是上下行对等的100Mbps带宽，虽然赶不上家里的速度，但是用起来还是比较舒服的</p>
 <p>万万没想到，当别的学校都在忙着升级成千兆网络的时候，自己学校竟然来了个反向操作，30Mbps限速，真TMD鬼，不知道怎么想的</p>
 <p>这垃圾校园网，我是忍不了了，考虑到每个人都能多个设备同时登录，肯定就有多拨的可能，那就搞起来！</p>
-<h2 id="linux下手工操作">Linux下手工操作</h2>
+<h2 id="linux下手工操作"><a href="#linux下手工操作" class="header-mark headerLink">Linux下手工操作</a></h2>
 <p>本着学习的态度，上来肯定要先在Linux下手动操作一遍（其实我是先用iKuai验证可行后，才尝试用Linux手工配的</p>
 <p>我们的基本思路是：</p>
 <ol>
@@ -1821,7 +1821,7 @@
 <li>进行负载均衡</li>
 </ol>
 <p>以下所有操作都需要root权限</p>
-<h3 id="利用macvlan获取多个ip">利用macvlan获取多个IP</h3>
+<h3 id="利用macvlan获取多个ip"><a href="#利用macvlan获取多个ip" class="header-mark headerLink">利用macvlan获取多个IP</a></h3>
 <p>首先要创建多个虚拟网络接口，利用不同的Mac地址进行DHCP获取多个不同的IP地址</p>
 <p>在Linux下，内核提供的macvlan就可以实现我们的需求，从Linux Kernel 3.9开始就支持了貌似，所以只要不是安装非常老的系统都是支持的</p>
 <p>查看一下你的系统是否支持：</p>
@@ -1896,7 +1896,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>然后需要获取到多个IP，直接执行 <code>dhclient</code> 即可</p>
-<h3 id="进行联网认证">进行联网认证</h3>
+<h3 id="进行联网认证"><a href="#进行联网认证" class="header-mark headerLink">进行联网认证</a></h3>
 <p>我们学校用的是深澜的认证系统，对其认证流程分析后，写了一个小工具:<a href="/posts/tutorials/campus-network-speed-overlay/sdu-srun.zip" rel="" class="post-link">多账号登录认证工具</a></p>
 <div class="details admonition info open">
         <div class="details-summary admonition-title">
@@ -1945,11 +1945,11 @@
             <div class="admonition-content">认证成功后即可进行下面的步骤，如果认证失败需要检查账号密码是否正确，本工具也不能保证后续系统更新后仍能使用，必要时可登录认证后台手工添加mac认证白名单</div>
         </div>
     </div>
-<h3 id="进行路由级别的分流">进行路由级别的分流</h3>
+<h3 id="进行路由级别的分流"><a href="#进行路由级别的分流" class="header-mark headerLink">进行路由级别的分流</a></h3>
 <p>经过上面的步骤，其实现在已经有多个可以上网的接口了，每一个接口都限速30Mbps，可以通过修改路由表验证，但是测速发现还是总速度还是30Mbps，速度并没有叠加</p>
 <p>这其实是因为你的主机只有一个默认网关，流量实际上只走了一条线，所以还是受单接口限速的限制。我们的目的是让流量能够分别走多个接口，从而达到速度叠加的效果，也就是常说的负载均衡</p>
 <p>思路是：通过iptables规则给数据包打上标记，然后通过策略路由根据标记来选择走哪个接口出去。需要注意不同包之间的关系，追踪连接状态并恢复标记，否则的话同一个连接的不同包走了不同的接口，会被丢弃掉。</p>
-<h4 id="创建路由表">创建路由表</h4>
+<h4 id="创建路由表"><a href="#创建路由表" class="header-mark headerLink">创建路由表</a></h4>
 <p>首先创建多个路由表，因为每一个路由表只能默认走一个接口，所以刚刚创建了多少虚拟网络接口，这里就要增加几个路由表，我按照2个接口来演示</p>
 <p>编辑 <code>/etc/iproute2/rt_tables</code> 文件，在文件末尾增加两个路由表</p>
 <div class="highlight"><div class="chroma">
@@ -1986,7 +1986,7 @@
 </span></span><span class="line"><span class="cl">ip route add 0/0 dev vmac1 table vmac1
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="配置iptables">配置iptables</h4>
+</div><h4 id="配置iptables"><a href="#配置iptables" class="header-mark headerLink">配置iptables</a></h4>
 <p>分别创建多个新的链</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2021,7 +2021,7 @@
 </span></span><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="配置策略路由">配置策略路由</h4>
+</div><h4 id="配置策略路由"><a href="#配置策略路由" class="header-mark headerLink">配置策略路由</a></h4>
 <p>下面需要配置策略路由，根据我们设置的策略，流量分别由多个路由表进行路由，所以就可以走多个网络接口了</p>
 <p>我们让防火墙标记为<code>0x100</code>的用<code>vmac0</code>路由表，标记为<code>0x101</code>流量的用<code>vmac1</code>路由表</p>
 <div class="highlight"><div class="chroma">
@@ -2046,7 +2046,7 @@
 </span></span><span class="line"><span class="cl">ip rule add from &lt;vmac1-ip&gt; table vmac1
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="用作路由器">用作路由器</h4>
+</div><h4 id="用作路由器"><a href="#用作路由器" class="header-mark headerLink">用作路由器</a></h4>
 <p>如果这台Linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 <code>192.168/16</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2081,11 +2081,11 @@
 </div>
         </div>
     </div>
-<h2 id="使用openwrtmwan3">使用OpenWrt+mwan3</h2>
+<h2 id="使用openwrtmwan3"><a href="#使用openwrtmwan3" class="header-mark headerLink">使用OpenWrt+mwan3</a></h2>
 <p>我比较推荐在宿舍里搞个软路由，普通的路由刷OpenWrt或者弄个树莓派刷OpenWrt都行，可以考虑买个二手矿渣 <code>newifi 3</code> 或者 <code>R2S</code></p>
 <p>因为在OpenWrt里面有现成的插件，可以非常方便的创建多个虚拟网络接口，并能够利用图形界面配置更加强大的分流策略。</p>
 <p>主要涉及到两个插件：kmod-macvlan和mwan3</p>
-<h3 id="添加设备获取ip">添加设备，获取IP</h3>
+<h3 id="添加设备获取ip"><a href="#添加设备获取ip" class="header-mark headerLink">添加设备，获取IP</a></h3>
 <p>首先在正确配置好网络的基础上，先创建网络设备，类型是macvlan，在学习了Linux下手工操作的基础上，这里的配置项都好理解</p>
 <p>
 
@@ -2126,7 +2126,7 @@
     
 </p>
 <p>接口添加好后，进行连接就会自动获取IP了，然后与上面手工方式一样，把所有IP都认证一下</p>
-<h3 id="配置mwan3分流">配置mwan3分流</h3>
+<h3 id="配置mwan3分流"><a href="#配置mwan3分流" class="header-mark headerLink">配置mwan3分流</a></h3>
 <p>在mwan的管理界面，首先添加接口，与网络里面刚刚配置的接口一一对应</p>
 <p>
 
@@ -2221,7 +2221,7 @@
             <div class="admonition-content">mwan3代码在：<a href="https://github.com/openwrt/packages/tree/master/net/mwan3" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/openwrt/packages/tree/master/net/mwan3</a></div>
         </div>
     </div>
-<h2 id="爱快分流很强大">爱快，分流很强大</h2>
+<h2 id="爱快分流很强大"><a href="#爱快分流很强大" class="header-mark headerLink">爱快，分流很强大</a></h2>
 <p>正好我在的实验室里有老旧的台式机，又有多个网卡，我就安装了以分流著称的iKuai系统</p>
 <p>爱快路由系统对性能要求很高，64位甚至要求4G运存才能安装，不太建议宿舍用，不过实话实话这个是真的爽</p>
 <p>首先在网路设置中，选择正确的物理网卡，接入方式选<code>基于物理网卡的混合模式</code>，在DHCP模式下添加多个虚拟网络接口，mac地址自己指定</p>
@@ -2265,7 +2265,7 @@
     
 </p>
 <p>对！就是这么简单，iKuai就是牛，已经把网速叠加成功了</p>
-<h2 id="新发现">新发现</h2>
+<h2 id="新发现"><a href="#新发现" class="header-mark headerLink">新发现</a></h2>
 <p>在与同学的交流中，发现校园网还可以用任意手机号验证码登录，登陆后的权限是访客，不过与学生权限一样，如此看来可以利用多个手机号突破5台设备的限制了</p>
 <p>注意，登录成功后一定要修改密码，否则第二次登录的时候会提示创建新账号失败，是后台的BUG，日</p>
 <p>最后，向大家推荐一个讲iptables的视频，可以在Youtube或者Bilibili搜索<code>坏人的iptables小讲堂</code>，讲的真的很不错</p>
@@ -2273,25 +2273,25 @@
 <p>为了能够更快速、更高效的获取知识，很多人会选择直接学习别人总结提炼过的内容。这种行为非常常见，学生购买的各种总结性资料例如学长笔记、知识点提纲、公式定理小手册，程序员阅读总结性文章等。</p>
 <p>这种通过直接学习提炼过的内容的方法比普通的循规蹈矩的方法速度快很多，在绝大多数情况下解决问题也比传统方法更加有效，因为其能够直接指出关键点，能够直接给出解决方案，因此非常受大家喜爱。</p>
 <p>在我看来，如果仅仅是要对某一方面知识进行粗略了解，这种方法行之有效，但如果想要在某一领域深入，甚至以后想要通过该领域养活自己，就必须避免使用这种捷径方法。</p>
-<h3 id="提炼的知识丢失了很多细节">提炼的知识丢失了很多细节</h3>
+<h3 id="提炼的知识丢失了很多细节"><a href="#提炼的知识丢失了很多细节" class="header-mark headerLink">提炼的知识丢失了很多细节</a></h3>
 <p>进行内容提炼必定会丢失细节，这是毫无疑问的。抱着学习的态度，我们还要考虑更多因素，包括进行内容提炼的人他自己的水平，还有提炼者自己的研究是否侧重于某个特定方向，从而可能导致内容的偏向性和不全面。</p>
-<h3 id="提炼的知识只包含结果丢失了过程">提炼的知识只包含结果，丢失了过程</h3>
+<h3 id="提炼的知识只包含结果丢失了过程"><a href="#提炼的知识只包含结果丢失了过程" class="header-mark headerLink">提炼的知识只包含结果，丢失了过程</a></h3>
 <p>从初高中一直到大学，看过一些总结性内容，包括学长笔记、考点汇总等等。我发现这些内容为了能够更直接的传达内容，往往只包含结果，而丢失了这个内容是如何来的或者为什么如此的过程。</p>
 <p>不是说这些总结提炼的内容不好，我反对的是为了省事而跳过对知识的由来和证明的学习。</p>
 <p>从问题的提出到分析再到最后解决从而总结出知识的过程，比学习这个知识本身更有价值。很多知识我们后面的人生中可能根本用不到，但在这个过程中用到的方法我们如果掌握了，就可以迁移到其他新问题的解决中，这可能比某个知识本身更有价值。</p>
-<h3 id="提炼的知识影响了拓展思维">提炼的知识影响了拓展思维</h3>
+<h3 id="提炼的知识影响了拓展思维"><a href="#提炼的知识影响了拓展思维" class="header-mark headerLink">提炼的知识影响了拓展思维</a></h3>
 <p>提到影响拓展思维，其实我想表达的是，直接学习提炼的内容，目的性太强，以至于难以进行胡思乱想。</p>
 <p>我从小在学习新事物的时候总会进行各种奇奇怪怪的联想，我不认为这会导致我的注意力分散，相反，我认为这种联想应该是必不可少的，能够为以后的发展拓宽思维，避免陷入木偶人生。</p>
-<h2 id="应该在学习过程中掌握的能力">应该在学习过程中掌握的能力</h2>
+<h2 id="应该在学习过程中掌握的能力"><a href="#应该在学习过程中掌握的能力" class="header-mark headerLink">应该在学习过程中掌握的能力</a></h2>
 <p>实话实说，我早已没有了小时候那个学遍所有可以接触到的知识的幻想，知识的种类和覆盖的范围如此广泛，在计算机和网络盛行的时代，掌握知识的数量早已不是衡量一个人能力高低的标准，学富五车也敌不过随时查一下互联网。</p>
 <p>那我们学习知识是为了啥？在我看来，学会如何进行学习，学会如何进行提升，这个能力才能保证自己的不断进步，才是在学习基础知识的过程中必须掌握的能力，是比知识本身更为重要和珍贵的东西。</p>
-<h3 id="发现问题的能力">发现问题的能力</h3>
+<h3 id="发现问题的能力"><a href="#发现问题的能力" class="header-mark headerLink">发现问题的能力</a></h3>
 <p>越来越发现，能够发现问题的确是需要特殊培养的能力。很多情况下，明明一个非常新颖的问题就在眼前，可就是没有那个去发现它的慧眼，白白把机会让给了别人。一个典型的例子就是牛顿被苹果砸了一下然后经过研究发现了万有引力，我从心底里相信这个故事是特意编出来的，但是还是应该反思一下自己，小时候自己提出过类似的问题吗？</p>
 <p>在学习的过程中，如果能够去了解一下古人如何提出一个问题，就会慢慢的学习到如何去看待一个新发现的事物，甚至能够从日常可见的已经习以为常的事物中发现新的问题，这是非常了不起的能力。</p>
-<h3 id="分析问题的能力">分析问题的能力</h3>
+<h3 id="分析问题的能力"><a href="#分析问题的能力" class="header-mark headerLink">分析问题的能力</a></h3>
 <p>面对一个新问题，要有去分析的能力，知道该从哪里入手分析，知道分析的方法，能够评估自己的方法。</p>
 <p>能够提出自己的想法，即使最终无法完美的解决问题，但这个过程是非常重要的。</p>
-]]></description></item><item><title>IPFS 新手指北</title><link>https://zu1k.com/posts/tutorials/p2p/ipfs/</link><pubDate>Sun, 29 Nov 2020 22:21:44 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/p2p/ipfs/</guid><description><![CDATA[<h2 id="ipfs简介">IPFS简介</h2>
+]]></description></item><item><title>IPFS 新手指北</title><link>https://zu1k.com/posts/tutorials/p2p/ipfs/</link><pubDate>Sun, 29 Nov 2020 22:21:44 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/tutorials/p2p/ipfs/</guid><description><![CDATA[<h2 id="ipfs简介"><a href="#ipfs简介" class="header-mark headerLink">IPFS简介</a></h2>
 <p><strong>IPFS</strong>全称<code>InterPlanetary File System</code>，中文名叫<strong>星际文件系统</strong>，听起来非常酷炫。</p>
 <p>它是是一个旨在创建<strong>持久</strong>且<strong>分布式</strong>存储和<strong>共享</strong>文件的网络传输协议，是一种内容可寻址的对等超媒体分发协议。在IPFS网络中的<strong>全球所有</strong>节点将构成<strong>一个</strong>分布式文件系统，全球中的每一个人都可以通过IPFS网关存储和访问IPFS里面的文件。</p>
 <p>这个酷炫的项目最初由Juan Benet设计，自2014年开始由Protocol Labs在开源社区的帮助下发展，是一个<strong>完全开源</strong>的项目。</p>
@@ -2299,8 +2299,8 @@
 <li><a href="https://ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS官网</a></li>
 <li><a href="https://github.com/ipfs" target="_blank" rel="noopener noreffer" class="post-link">GitHub</a></li>
 </ul>
-<h2 id="ipfs的优点">IPFS的优点</h2>
-<h3 id="与现有web比较">与现有Web比较</h3>
+<h2 id="ipfs的优点"><a href="#ipfs的优点" class="header-mark headerLink">IPFS的优点</a></h2>
+<h3 id="与现有web比较"><a href="#与现有web比较" class="header-mark headerLink">与现有Web比较</a></h3>
 <p>
 
 
@@ -2308,7 +2308,7 @@
 
     
 </p>
-<h4 id="现有的网络技术效率低下成本高昂">现有的网络技术效率低下、成本高昂</h4>
+<h4 id="现有的网络技术效率低下成本高昂"><a href="#现有的网络技术效率低下成本高昂" class="header-mark headerLink">现有的网络技术效率低下、成本高昂</a></h4>
 <p>HTTP一次从一台计算机下载文件，而不是同时从多台计算机获取文件。点对点IPFS<strong>节省了大量的带宽</strong>，视频高达60%，这使得无需重复地高效地分发大量数据成为可能。</p>
 <p>
 
@@ -2317,7 +2317,7 @@
 
     
 </p>
-<h4 id="现有的网络无法保存人类的历史">现有的网络无法保存人类的历史</h4>
+<h4 id="现有的网络无法保存人类的历史"><a href="#现有的网络无法保存人类的历史" class="header-mark headerLink">现有的网络无法保存人类的历史</a></h4>
 <p>一个网页的平均寿命是100天，然后就永远消失了。我们这个时代的主要媒介还不够脆弱。IPFS<strong>保留文件的每一个版本</strong>，并使为镜像数据建立弹性网络变得简单。</p>
 <p>
 
@@ -2326,7 +2326,7 @@
 
     
 </p>
-<h4 id="现有的网络是集中的限制了机会">现有的网络是集中的，限制了机会</h4>
+<h4 id="现有的网络是集中的限制了机会"><a href="#现有的网络是集中的限制了机会" class="header-mark headerLink">现有的网络是集中的，限制了机会</a></h4>
 <p>互联网作为人类历史上最伟大的均衡器之一，推动了创新的发展，但日益巩固的集权控制威胁着这一进步。IPFS通过分布式技术来避免这一点。</p>
 <p>
 
@@ -2335,9 +2335,9 @@
 
     
 </p>
-<h4 id="现有的网络深度依赖主干网">现有的网络深度依赖主干网</h4>
+<h4 id="现有的网络深度依赖主干网"><a href="#现有的网络深度依赖主干网" class="header-mark headerLink">现有的网络深度依赖主干网</a></h4>
 <p>IPFS支持创建多样化的弹性网络，以实现<strong>持久可用性</strong>，无论是否有Internet主干网连接。这意味着发展中国家在自然灾害期间，或者在咖啡厅的wi-fi上时，能够更好地连接。</p>
-<h3 id="ipfs做的更好">IPFS做的更好</h3>
+<h3 id="ipfs做的更好"><a href="#ipfs做的更好" class="header-mark headerLink">IPFS做的更好</a></h3>
 <p>IPFS宣称，无论你现在在用已有的Web技术干什么，IPFS都可以做到更好。</p>
 <p>
 
@@ -2391,7 +2391,7 @@
 <p>IPFS充分体现了网络的自由和独立精神，可以帮助您以更低的成本交付内容</p>
 </li>
 </ul>
-<h2 id="工作原理">工作原理</h2>
+<h2 id="工作原理"><a href="#工作原理" class="header-mark headerLink">工作原理</a></h2>
 <p>让我们通过向IPFS添加一个文件这个过程，来简单看一下IPFS是如何工作的</p>
 <p>
 
@@ -2471,8 +2471,8 @@
     
 </p>
 <p>如果你无法记住IPFS中存储的文件的指纹Hash(是一段非常长的字符串)，实际上你也无须记住这个Hash，IPFS提供了<strong>IPNS</strong>来提供<strong>人类可读名字</strong>到<strong>指纹Hash</strong>之间的映射，你只需要记住你添加在IPNS中的人类可读名字即可。</p>
-<h2 id="基本使用">基本使用</h2>
-<h3 id="安装">安装</h3>
+<h2 id="基本使用"><a href="#基本使用" class="header-mark headerLink">基本使用</a></h2>
+<h3 id="安装"><a href="#安装" class="header-mark headerLink">安装</a></h3>
 <p>设置环境变量<code>IPFS_PATH</code>，这个目录在后面进行初始化和使用的时候会作为IPFS的本地仓库。如果这里不进行设置，IPFS默认会使用用户目录下的<code>.ipfs</code>文件夹作为本地仓库。</p>
 <p>
 
@@ -2486,7 +2486,7 @@
         
     
 </p>
-<h4 id="初始化">初始化</h4>
+<h4 id="初始化"><a href="#初始化" class="header-mark headerLink">初始化</a></h4>
 <p>运行命令 <code>ipfs init</code> 进行初始化，这一步会初始化密钥对，并在刚刚指定的<code>IPFS_PATH</code>目录创建初始文件。</p>
 <p>
 
@@ -2500,10 +2500,10 @@
         
     
 </p>
-<h4 id="查看节点id信息">查看节点ID信息</h4>
+<h4 id="查看节点id信息"><a href="#查看节点id信息" class="header-mark headerLink">查看节点ID信息</a></h4>
 <p>运行命令 <code>ipfs id</code> 即可查看自己IPFS节点ID信息，包含了节点ID、公钥、地址、代理版本、协议版本、支持的协议等信息</p>
 <p>可以通过 <code>ipfs id 别人的ID</code>来查看别人的节点ID信息</p>
-<h4 id="检查可用性">检查可用性</h4>
+<h4 id="检查可用性"><a href="#检查可用性" class="header-mark headerLink">检查可用性</a></h4>
 <p>通过显示的命令来检查可用性，这里使用<code>ipfs cat</code>命令来查看指定的<code>CID</code>对应的内容。</p>
 <p>
 
@@ -2517,7 +2517,7 @@
         
     
 </p>
-<h4 id="开启守护进程">开启守护进程</h4>
+<h4 id="开启守护进程"><a href="#开启守护进程" class="header-mark headerLink">开启守护进程</a></h4>
 <p>运行下面命令开启守护进程</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2527,11 +2527,11 @@
 <pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">ipfs</span> <span class="n">daemon</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="获取文件夹">获取文件(夹)</h3>
+</div><h3 id="获取文件夹"><a href="#获取文件夹" class="header-mark headerLink">获取文件(夹)</a></h3>
 <p>IPFS获取文件的方式是隐式的，我们可以通过查看、下载等命令，告诉IPFS你要去获取我想要的文件</p>
-<h4 id="查看文本">查看文本</h4>
+<h4 id="查看文本"><a href="#查看文本" class="header-mark headerLink">查看文本</a></h4>
 <p>查看文本使用 <code>ipfs cat</code>命令来进行，就如前面检查可用性的使用一样</p>
-<h4 id="下载二进制">下载二进制</h4>
+<h4 id="下载二进制"><a href="#下载二进制" class="header-mark headerLink">下载二进制</a></h4>
 <p>对于图片、视频等文件，无法使用<code>cat</code>命令来查看（cat出来是一堆乱码），此时我们可以使用<code>ipfs get cid</code>的方式来将文件下载到本地。不过这样直接下载文件名会是指定的CID，一个长字符串不具有识别性，我们可以重定向到指定的文件，<code>ipfs get cid -o newname.png</code></p>
 <p>
 
@@ -2545,7 +2545,7 @@
         
     
 </p>
-<h4 id="列出目录">列出目录</h4>
+<h4 id="列出目录"><a href="#列出目录" class="header-mark headerLink">列出目录</a></h4>
 <p>通过<code>ipfs ls</code>命令来列出一个目录</p>
 <p>
 
@@ -2559,7 +2559,7 @@
         
     
 </p>
-<h3 id="添加文件夹">添加文件(夹)</h3>
+<h3 id="添加文件夹"><a href="#添加文件夹" class="header-mark headerLink">添加文件(夹)</a></h3>
 <p>通过<code>ipfs add 文件名</code>命令来将文件添加到IPFS</p>
 <p>如果需要添加文件夹，需要添加<code>-r</code>参数来使其递归处理</p>
 <p>
@@ -2574,15 +2574,15 @@
         
     
 </p>
-<h2 id="相关概念">相关概念</h2>
+<h2 id="相关概念"><a href="#相关概念" class="header-mark headerLink">相关概念</a></h2>
 <p>在进行深一步学习之前，先让我们来看一下关于IPFS几个不得不知道的概念，这些概念是IPFS的基础组成部分，对后续的使用至关重要</p>
-<h3 id="peer">Peer</h3>
+<h3 id="peer"><a href="#peer" class="header-mark headerLink">Peer</a></h3>
 <p><strong>Peer</strong>是对等节点，因为IPFS是基于P2P技术实现的，所以没有服务器客户端这一说，每个人都同时是服务器和客户端，人人为我，我为人人。</p>
-<h3 id="cid">CID</h3>
+<h3 id="cid"><a href="#cid" class="header-mark headerLink">CID</a></h3>
 <p><strong>内容标识符</strong>（CID）是一个用于指向IPFS中的内容的标签。它不指示内容存储在哪里，但它根据内容数据本身形成一种地址。无论它指向的内容有多大，CID都很短</p>
 <p>详细内容见：<a href="https://docs.ipfs.io/concepts/content-addressing/" target="_blank" rel="noopener noreffer" class="post-link">IPFS官方文档：Content addressing and CIDs</a></p>
 <p>在线的CID查看器：<a href="https://cid.ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">CID Inspector</a></p>
-<h3 id="gateway">Gateway</h3>
+<h3 id="gateway"><a href="#gateway" class="header-mark headerLink">Gateway</a></h3>
 <ul>
 <li>IPFS官方提供的Gateway: <a href="https://ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">https://ipfs.io/</a></li>
 <li>Cloudflare提供的IPFS Gateway服务：https://cf-ipfs.com</li>
@@ -2590,15 +2590,15 @@
 </ul>
 <p><a href="https://www.cloudflare.com/distributed-web-gateway/" target="_blank" rel="noopener noreffer" class="post-link">https://www.cloudflare.com/distributed-web-gateway/</a></p>
 <p>具体见：<a href="https://docs.ipfs.io/concepts/ipfs-gateway/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：Gateway</a></p>
-<h3 id="ipns">IPNS</h3>
+<h3 id="ipns"><a href="#ipns" class="header-mark headerLink">IPNS</a></h3>
 <p>IPFS使用基于内容的寻址方式，简单说就是IPFS根据文件数据的Hash来生成CID，这个CID只与文件内容有关，这也就导致了如果我们修改这个文件的内容，这个CID也会改变。如果我们通过IPFS给别人分享文件，则每次更新内容时都需要给此人一个新链接。</p>
 <p>为了解决这个问题，星际名称系统（IPNS）通过创建一个可以更新的地址来解决这个问题。</p>
 <p>具体见：<a href="https://docs.ipfs.io/concepts/ipns/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：IPNS</a></p>
-<h3 id="ipld">IPLD</h3>
+<h3 id="ipld"><a href="#ipld" class="header-mark headerLink">IPLD</a></h3>
 <p><a href="https://docs.ipfs.io/concepts/ipld/" target="_blank" rel="noopener noreffer" class="post-link">https://docs.ipfs.io/concepts/ipld/</a></p>
-<h2 id="在ipfs部署网站">在IPFS部署网站</h2>
+<h2 id="在ipfs部署网站"><a href="#在ipfs部署网站" class="header-mark headerLink">在IPFS部署网站</a></h2>
 <p>既然IPFS宣称能够构建新一代分布式Web，那我们便想要把自己的网站部署到IPFS上去，一起体验一下去中心化、分布式的Web3.0技术</p>
-<h3 id="将文件添加到ipfs中">将文件添加到IPFS中</h3>
+<h3 id="将文件添加到ipfs中"><a href="#将文件添加到ipfs中" class="header-mark headerLink">将文件添加到IPFS中</a></h3>
 <p>我使用的是Hugo静态网站生成器生成我的博客，生成的内容存放在<code>public</code>目录下，所以首先我需要将<code>public</code>目录及其里面的所有内容添加到IPFS中。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2639,9 +2639,9 @@
 </span></span><span class="line"><span class="cl"><span class="n">QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="通过ipfs网关访问">通过IPFS网关访问</h3>
+</div><h3 id="通过ipfs网关访问"><a href="#通过ipfs网关访问" class="header-mark headerLink">通过IPFS网关访问</a></h3>
 <p>在刚刚添加完成的最后，名称为<code>public</code>的那串Hash便是public目录的CID，我们现在可以通过这个CID在IPFS网关上访问我们刚刚的添加的内容。</p>
-<h4 id="本机网关访问">本机网关访问</h4>
+<h4 id="本机网关访问"><a href="#本机网关访问" class="header-mark headerLink">本机网关访问</a></h4>
 <p>我们先通过本机的IPFS网关来访问一下，看看有没有添加成功。注意这一步需要你本地已经开启了IPFS守护进程。</p>
 <p>访问：<a href="http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj" target="_blank" rel="noopener noreffer" class="post-link">http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</a></p>
 <p>然后浏览器会自动进行跳转，可以看到能够正常访问我们的页面</p>
@@ -2682,7 +2682,7 @@
     
 </p>
 <p>这是因为使用的是<strong>绝对地址</strong>，我们需要使用<strong>相对地址</strong>的形式，如果你和我一样使用Hugo，那么只需要在你的配置文件中增加 <code>relativeURLs = true</code> 即可</p>
-<h4 id="远程网关访问">远程网关访问</h4>
+<h4 id="远程网关访问"><a href="#远程网关访问" class="header-mark headerLink">远程网关访问</a></h4>
 <p>刚刚我们通过本机的IPFS网关成功访问到了IPFS中的网站，现在我们找一个公开的其他的IPFS网关来访问试一下</p>
 <p>这里我选择IPFS官方维护的网关：https://ipfs.io，访问：https://ipfs.io/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</p>
 <p>需要注意的是，此时网站还只存在于我们本机上，其他IPFS网关从IPFS网络中找到我们的网站文件需要一段时间，我们需要保证此时IPFS守护进程不关闭并已经连接了成百上千的其他节点，这样有利于IPFS官方Gateway尽快找到我们。</p>
@@ -2699,7 +2699,7 @@
         
     
 </p>
-<h3 id="使用ipns进行映射">使用IPNS进行映射</h3>
+<h3 id="使用ipns进行映射"><a href="#使用ipns进行映射" class="header-mark headerLink">使用IPNS进行映射</a></h3>
 <p>使用命令 <code>ipfs name publish CID</code> 来发布一个IPNS，这里可能需要等待一会</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2734,7 +2734,7 @@
 </div>
         </div>
     </div>
-<h3 id="解析域名">解析域名</h3>
+<h3 id="解析域名"><a href="#解析域名" class="header-mark headerLink">解析域名</a></h3>
 <p>IPNS不是在IPFS上创建可变地址的唯一方法，我们还可以使用<strong>DNSLink</strong>，它目前比IPNS<strong>快得多</strong>，还使用<strong>人类可读</strong>的名称。</p>
 <p>例如我想要给刚刚发布在IPFS上的网站绑定<code>ipfs.zu1k.com</code>这个域名，那我就需要创建<code>_dnslink.ipfs.zu1k.com</code>的<strong>TXT</strong>记录</p>
 <p>
@@ -2763,17 +2763,17 @@
     
 </p>
 <p>详细文档见：<a href="https://docs.ipfs.io/concepts/dnslink/#publish-using-a-subdomain" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：DNSLink</a></p>
-<h3 id="更新内容">更新内容</h3>
+<h3 id="更新内容"><a href="#更新内容" class="header-mark headerLink">更新内容</a></h3>
 <p>更新内容时，只需要再添加一次，然后重新发布IPNS，如果你是使用DNSLink的方式，还需要修改DNS记录</p>
-<h2 id="底层技术">底层技术</h2>
-<h3 id="merkle有向无环图dag">Merkle有向无环图（DAG）</h3>
+<h2 id="底层技术"><a href="#底层技术" class="header-mark headerLink">底层技术</a></h2>
+<h3 id="merkle有向无环图dag"><a href="#merkle有向无环图dag" class="header-mark headerLink">Merkle有向无环图（DAG）</a></h3>
 <p>每个Merkle都是一个有向无环图 ，因为每个节点都通过其名称访问。每个Merkle分支都是其本地内容的哈希，它们的子节点使用它们的哈希而非完整内容来命名。因此，在创建后将不能编辑节点。这可以防止循环（假设没有哈希碰撞），因为无法将第一个创建的节点链接到最后一个节点从而创建最后一个引用。</p>
 <p>对任何Merkle来说，要创建一个新的分支或验证现有分支，通常需要在本地内容的某些组合体（例如列表的子哈希和其他字节）上使用一种哈希算法。IPFS中有多种散列算法可用。</p>
 <p>输入到散列算法中的数据的描述见 <a href="https://github.com/ipfs/go-ipfs/tree/master/merkledag" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/ipfs/go-ipfs/tree/master/merkledag</a></p>
 <p>具体见：<a href="https://docs.ipfs.io/concepts/merkle-dag/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：Merkle</a></p>
-<h3 id="分布式散列表dht">分布式散列表DHT</h3>
+<h3 id="分布式散列表dht"><a href="#分布式散列表dht" class="header-mark headerLink">分布式散列表DHT</a></h3>
 <p>具体见：<a href="https://docs.ipfs.io/concepts/dht/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：DHT</a></p>
-<h2 id="上层应用">上层应用</h2>
+<h2 id="上层应用"><a href="#上层应用" class="header-mark headerLink">上层应用</a></h2>
 <p>IPFS作为一个文件系统，本质就是用来存储文件，基于这个文件系统的一些特性，有很多上层应用涌现出来。</p>
 <p>
 
@@ -2787,7 +2787,7 @@
         
     
 </p>
-<h2 id="filecoin">Filecoin</h2>
+<h2 id="filecoin"><a href="#filecoin" class="header-mark headerLink">Filecoin</a></h2>
 <p>
 
 
@@ -2800,21 +2800,21 @@
         
     
 </p>
-<h2 id="基于ipfs构建应用">基于IPFS构建应用</h2>
+<h2 id="基于ipfs构建应用"><a href="#基于ipfs构建应用" class="header-mark headerLink">基于IPFS构建应用</a></h2>
 <p>IPFS提供了IPFS协议的<strong>Golang</strong>和<strong>JavaScript</strong>实现，可以非常方便的将IPFS集成到我们的应用当中，充分利用IPFS的各种优势。</p>
-<h2 id="未来的期望">未来的期望</h2>
+<h2 id="未来的期望"><a href="#未来的期望" class="header-mark headerLink">未来的期望</a></h2>
 <p>对于P2P：https://t.zu1k.com/post/618818179793371136/%E5%85%B3%E4%BA%8Eresilio-sync</p>
-<h2 id="一些问题">一些问题</h2>
-<h3 id="ipfs可以永久存储文件">IPFS可以永久存储文件？</h3>
+<h2 id="一些问题"><a href="#一些问题" class="header-mark headerLink">一些问题</a></h2>
+<h3 id="ipfs可以永久存储文件"><a href="#ipfs可以永久存储文件" class="header-mark headerLink">IPFS可以永久存储文件？</a></h3>
 <p>很多人误认为IPFS可以永久存储文件，从使用的技术来讲的确更有利于永久存储内容，但是还需不断需要有人访问、Pin、传播该内容，否则待全网所有节点都将该内容数据GC掉，数据还是会丢失。</p>
-<h3 id="ipfs是匿名的">IPFS是匿名的？</h3>
+<h3 id="ipfs是匿名的"><a href="#ipfs是匿名的" class="header-mark headerLink">IPFS是匿名的？</a></h3>
 <p>有人认为P2P就是匿名的，就像Tor一样，就像以太坊一样。实际上绝大部分P2P应用都不是匿名的，IPFS也不是匿名的，所以当你在发布敏感信息的时候，需要保护好自己。IPFS目前还不支持Tor网络。</p>
-<h3 id="ipfs速度快延迟低">IPFS速度快，延迟低？</h3>
+<h3 id="ipfs速度快延迟低"><a href="#ipfs速度快延迟低" class="header-mark headerLink">IPFS速度快，延迟低？</a></h3>
 <p>从理论上来讲，只要节点数量足够多，基于P2P技术的IPFS速度能够跑满你的带宽，延迟也有可能比中心化的Web低。但实际上，就目前情况而言，使用IPFS的人并不多，你链接的IPFS节点最多也就1000个左右（至少目前阶段我最多也就撑死连1000个以内），所以并不能达到理论的理想状态，所以现在IPFS的速度并不是很快，并且很少人访问的冷数据延迟很高，还有大概率找不到。</p>
-<h3 id="ipfs是骗局filecoin是骗局">IPFS是骗局，Filecoin是骗局？</h3>
+<h3 id="ipfs是骗局filecoin是骗局"><a href="#ipfs是骗局filecoin是骗局" class="header-mark headerLink">IPFS是骗局，Filecoin是骗局？</a></h3>
 <p>的确，目前有很多投机的人，他们想要通过销售所谓的IPFS矿机（其实就是普通的电脑接上大硬盘）来盈利，所以他们故意去混淆IPFS、Filecoin、比特币、区块链等概念，打着永久存储的伪概念，用区块链这个热点来欺骗啥都不懂的老人，这种行为非常无耻。</p>
 <p>实际上，IPFS本身并不是骗局，基于IPFS产生的激励层Filecoin也不是骗局，从我的使用来看，任何人都<strong>无需</strong>特意去购买任何所谓的IPFS矿机，只需要在自己的电脑运行时，后台跑一个IPFS守护进程就可以了。不要被所谓的<strong>币</strong>冲昏了头脑。</p>
-<h2 id="参考资料">参考资料</h2>
+<h2 id="参考资料"><a href="#参考资料" class="header-mark headerLink">参考资料</a></h2>
 <ul>
 <li><a href="https://ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS官网</a></li>
 <li><a href="https://docs.ipfs.io/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档</a></li>
@@ -2822,7 +2822,7 @@
 <li><a href="https://zh.wikipedia.org/wiki/%E6%98%9F%E9%99%85%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener noreffer" class="post-link">维基百科：星际文件系统</a></li>
 <li><a href="https://io-oi.me/tech/host-your-blog-on-ipfs/" target="_blank" rel="noopener noreffer" class="post-link">将博客部署到星际文件系统（IPFS）</a></li>
 </ul>
-<h2 id="资源分享">资源分享</h2>
+<h2 id="资源分享"><a href="#资源分享" class="header-mark headerLink">资源分享</a></h2>
 <ul>
 <li>机械工业出版社294G原版PDF：<a href="https://ipfs.io/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c/" target="_blank" rel="noopener noreffer" class="post-link">/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c</a></li>
 </ul>
@@ -2927,7 +2927,7 @@
 ]]></description></item><item><title>将博客部署到CF Workers Site</title><link>https://zu1k.com/posts/coding/deploy-blog-to-cf-workers-site/</link><pubDate>Wed, 25 Nov 2020 12:06:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/deploy-blog-to-cf-workers-site/</guid><description><![CDATA[<p>前几天Cloudflare将Workers KV增加了免费额度，还不得搞起来？</p>
 <p>利用Workers KV存储网页内容，通过Workers将内容返回给用户，就等于将自己的网站直接部署到CF成千上万的边缘节点当中，全球访问速度和TTFB都应该不错</p>
 <p><a href="https://blog.cloudflare.com/workers-sites/" target="_blank" rel="noopener noreffer" class="post-link">https://blog.cloudflare.com/workers-sites/</a></p>
-<h2 id="安装wrangler">安装Wrangler</h2>
+<h2 id="安装wrangler"><a href="#安装wrangler" class="header-mark headerLink">安装Wrangler</a></h2>
 <p><a href="https://developers.cloudflare.com/workers/cli-wrangler/install-update" target="_blank" rel="noopener noreffer" class="post-link">官方文档</a></p>
 <p>Wrangler有两种安装方式，通过NPM或者Cargo安装都可以，任选其一即可</p>
 <p>准备好NodeJS和NPM环境，然后执行下面命令，NPM方式是下载预编译好的二进制程序，安装速度比较快</p>
@@ -2954,9 +2954,9 @@
 </span></span><span class="line"><span class="cl">cargo install wrangler --features sys-openssl
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="部署">部署</h2>
+</div><h2 id="部署"><a href="#部署" class="header-mark headerLink">部署</a></h2>
 <p>我自己博客使用的是Hugo，下面所有内容都是按照Hugo的方式来，其他静态站点生成器方法类似</p>
-<h3 id="登录">登录</h3>
+<h3 id="登录"><a href="#登录" class="header-mark headerLink">登录</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -2971,7 +2971,7 @@
 </span></span><span class="line"><span class="cl">wrangler config
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="初始化">初始化</h3>
+</div><h3 id="初始化"><a href="#初始化" class="header-mark headerLink">初始化</a></h3>
 <p>进入自己站点的目录，执行下面命令进行初始化。这里Wrangler会自动安装cargo-generate工具，在本目录下创建一个<code>workers-site</code>项目目录，然后生成一个<code>wrangler.toml</code>配置文件</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3011,7 +3011,7 @@
 </span></span><span class="line"><span class="cl"><span class="nx">entry-point</span> <span class="p">=</span> <span class="s2">&#34;workers-site&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="预览">预览</h3>
+</div><h3 id="预览"><a href="#预览" class="header-mark headerLink">预览</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -3020,7 +3020,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wrangler preview --watch
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="发布">发布</h3>
+</div><h3 id="发布"><a href="#发布" class="header-mark headerLink">发布</a></h3>
 <p>在Cloudflare中增加一条DNS记录，需要打开CF代理</p>
 <p>
 
@@ -3043,9 +3043,9 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wrangler publish
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="使用github-actions持续集成">使用GitHub Actions持续集成</h2>
+</div><h2 id="使用github-actions持续集成"><a href="#使用github-actions持续集成" class="header-mark headerLink">使用GitHub Actions持续集成</a></h2>
 <p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用GitHub Actions将博客内容部署到CF Workers Site</p>
-<h3 id="添加认证信息">添加认证信息</h3>
+<h3 id="添加认证信息"><a href="#添加认证信息" class="header-mark headerLink">添加认证信息</a></h3>
 <p>在github仓库设置一个secret，名字为<code>CF_API_TOKEN</code>，值为Wrangler的token</p>
 <p>
 
@@ -3059,7 +3059,7 @@
         
     
 </p>
-<h3 id="workflows">Workflows</h3>
+<h3 id="workflows"><a href="#workflows" class="header-mark headerLink">Workflows</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -3137,7 +3137,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div>]]></description></item><item><title>Golang逆向资料</title><link>https://zu1k.com/posts/security/reverse/golang-reverse/</link><pubDate>Mon, 05 Oct 2020 20:11:24 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/reverse/golang-reverse/</guid><description><![CDATA[<p>前段时间从逆向xray开始入门Golang逆向，打算深入学习一下Golang逆向方法，这几天看了很多相关的文章，原本想要自己总结一文，但无奈大佬们的总结太全面了，我就直接扔链接吧</p>
-<h2 id="go二进制文件逆向分析从基础到进阶">Go二进制文件逆向分析从基础到进阶</h2>
+<h2 id="go二进制文件逆向分析从基础到进阶"><a href="#go二进制文件逆向分析从基础到进阶" class="header-mark headerLink">Go二进制文件逆向分析从基础到进阶</a></h2>
 <p>J!4Yu大佬的系列文章太全面了，他写的<a href="https://github.com/0xjiayu/go_parser" target="_blank" rel="noopener noreffer" class="post-link">go_parser</a>相当好用</p>
 <ul>
 <li><a href="https://www.anquanke.com/post/id/214940" target="_blank" rel="noopener noreffer" class="post-link">综述</a></li>
@@ -3146,7 +3146,7 @@
 <li><a href="https://www.anquanke.com/post/id/218377" target="_blank" rel="noopener noreffer" class="post-link">itab与strings</a></li>
 <li><a href="https://www.anquanke.com/post/id/218674" target="_blank" rel="noopener noreffer" class="post-link">Tips与实战案例</a></li>
 </ul>
-<h2 id="英文文章">英文文章</h2>
+<h2 id="英文文章"><a href="#英文文章" class="header-mark headerLink">英文文章</a></h2>
 <ul>
 <li><a href="https://rednaga.io/2016/09/21/reversing_go_binaries_like_a_pro/" target="_blank" rel="noopener noreffer" class="post-link">Reversing GO binaries like a pro</a></li>
 <li><a href="https://github.com/strazzere/golang_loader_assist/blob/master/Bsides-GO-Forth-And-Reverse.pdf" target="_blank" rel="noopener noreffer" class="post-link">Bsides-GO-Forth-And-Reverse</a></li>
@@ -3154,7 +3154,7 @@
 <li><a href="https://www.pnfsoftware.com/blog/analyzing-golang-executables/" target="_blank" rel="noopener noreffer" class="post-link">JEB Analyzing Golang Executables</a></li>
 <li><a href="https://dr-knz.net/go-calling-convention-x86-64.html" target="_blank" rel="noopener noreffer" class="post-link">The Go low-level calling convention on x86-64</a></li>
 </ul>
-<h2 id="操作文章和总结">操作文章和总结</h2>
+<h2 id="操作文章和总结"><a href="#操作文章和总结" class="header-mark headerLink">操作文章和总结</a></h2>
 <ul>
 <li><a href="https://www.anquanke.com/post/id/85694" target="_blank" rel="noopener noreffer" class="post-link">手把手教你如何专业地逆向GO二进制程序</a></li>
 <li><a href="https://bbs.pediy.com/thread-247232.htm" target="_blank" rel="noopener noreffer" class="post-link">inctf(ultimateGo)</a></li>
@@ -3163,7 +3163,7 @@
 <li><a href="https://www.cnxct.com/why-golang-elf-binary-file-is-large-than-c/" target="_blank" rel="noopener noreffer" class="post-link">golang语言编译的二进制可执行文件为什么比 C 语言大</a></li>
 <li><a href="http://blog.wuwenxiang.net/Go-Questions" target="_blank" rel="noopener noreffer" class="post-link">Go-逆向学习问题总结</a></li>
 </ul>
-<h2 id="工具和插件">工具和插件</h2>
+<h2 id="工具和插件"><a href="#工具和插件" class="header-mark headerLink">工具和插件</a></h2>
 <ul>
 <li><a href="https://github.com/strazzere/golang_loader_assist" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/strazzere/golang_loader_assist</a></li>
 <li><a href="https://github.com/sibears/IDAGolangHelper" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/sibears/IDAGolangHelper</a></li>
@@ -3180,11 +3180,11 @@
 这个公众号的文章质量都非常高，推荐大家关注</p>
 </blockquote>
 <p>拿下一个站后总希望自己的后门能够很隐蔽！不让网站管理员或者其他的Hacker发现，网上关于隐藏后门的方法也很多，如加密、包含，解析漏洞、加隐藏系统属性等等，但大部分已经都不实用了，随便找一个查马的程序就能很快的查出来，下面分享我总结的一些经验：</p>
-<h2 id="制作免杀webshell">制作免杀webshell</h2>
+<h2 id="制作免杀webshell"><a href="#制作免杀webshell" class="header-mark headerLink">制作免杀webshell</a></h2>
 <p>隐藏webshell最主要的就是做免杀，免杀做好了，你可以把webshell放在函数库文件中或者在图片马中，太多地方可以放了，只要查杀工具查不到，你的这个webshell就能存活很长时间，毕竟管理员也没有那么多精力挨个代码去查看。</p>
-<h3 id="命令执行的方法">命令执行的方法</h3>
+<h3 id="命令执行的方法"><a href="#命令执行的方法" class="header-mark headerLink">命令执行的方法</a></h3>
 <p>这里使用我们最常用的php的一句话马来给大家做演示，PHP版本是5.6的，在写一句话马之前我们来先分析一下PHP执行命令方法</p>
-<h4 id="直接执行">直接执行</h4>
+<h4 id="直接执行"><a href="#直接执行" class="header-mark headerLink">直接执行</a></h4>
 <p>使用php函数直接运行命令,常见的函数有(eval、system、assert)等，可以直接调用命令执行。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3206,7 +3206,7 @@
         
     
 </p>
-<h4 id="动态函数执行">动态函数执行</h4>
+<h4 id="动态函数执行"><a href="#动态函数执行" class="header-mark headerLink">动态函数执行</a></h4>
 <p>我们先把一个函数名当成一个字符串传递给一个变量，在使用变量当作函数去执行</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3228,7 +3228,7 @@
         
     
 </p>
-<h4 id="文件包含执行">文件包含执行</h4>
+<h4 id="文件包含执行"><a href="#文件包含执行" class="header-mark headerLink">文件包含执行</a></h4>
 <p>有两个php文件，我们把执行命令的放在文件b中，使用文件a去包含，达到执行的效果</p>
 <p>b.php</p>
 <div class="highlight"><div class="chroma">
@@ -3264,7 +3264,7 @@
         
     
 </p>
-<h3 id="回调函数">回调函数</h3>
+<h3 id="回调函数"><a href="#回调函数" class="header-mark headerLink">回调函数</a></h3>
 <p>将想要执行命令的函数赋值给一个变量，再用一个可以调用函数执行的函数把变量解析成函数，这么说可能有点绕，看一下array_map函数的用法：array_map函数中将$arr每个元素传给func函数去执行，例子：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3292,7 +3292,7 @@
         
     
 </p>
-<h3 id="php-curly-syntax">PHP Curly Syntax</h3>
+<h3 id="php-curly-syntax"><a href="#php-curly-syntax" class="header-mark headerLink">PHP Curly Syntax</a></h3>
 <p>我们可以理解为字符串中掺杂了变量，再使用变量去拼接字符串，达到命令执行的效果</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3318,7 +3318,7 @@
         
     
 </p>
-<h3 id="php反序列化">php反序列化</h3>
+<h3 id="php反序列化"><a href="#php反序列化" class="header-mark headerLink">php反序列化</a></h3>
 <p>这是根据php反序列化漏洞来实现命令执行，可以先创建一个反序列化的漏洞文件，再去调用反序列化函数unserialize</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3354,7 +3354,7 @@
         
     
 </p>
-<h3 id="phpinput方法">php://input方法</h3>
+<h3 id="phpinput方法"><a href="#phpinput方法" class="header-mark headerLink">php://input方法</a></h3>
 <p>php://input可以访问请求的原始数据的只读流，我们可以理解为我们传post参数，php://input会读取到，这时候我们就可以加以利用了。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3378,7 +3378,7 @@
         
     
 </p>
-<h3 id="preg_replace方法">preg_replace方法</h3>
+<h3 id="preg_replace方法"><a href="#preg_replace方法" class="header-mark headerLink">preg_replace方法</a></h3>
 <p>preg_replace函数执行一个正则表达式的搜索和替换。我们可以使用一个命令执行函数去替换正常的字符串，然后去执行命令。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3402,7 +3402,7 @@
         
     
 </p>
-<h3 id="ob_start">ob_start</h3>
+<h3 id="ob_start"><a href="#ob_start" class="header-mark headerLink">ob_start</a></h3>
 <p>ob_start函数是打开输出控制缓冲，传入的参数会在使用ob_end_flush函数的时候去调用它执行输出在缓冲区的东西。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3432,7 +3432,7 @@
         
     
 </p>
-<h2 id="编写免杀">编写免杀</h2>
+<h2 id="编写免杀"><a href="#编写免杀" class="header-mark headerLink">编写免杀</a></h2>
 <p>上面说了那么多其实都是一句话木马的思路，每一种方式都可以写成一句话木马，而想要免杀常常会多种组合到一起，下面从最简单的木马一步步变形，达到免杀的目的。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3711,7 +3711,7 @@
         
     
 </p>
-<h2 id="更好的隐藏webshell一些建议">更好的隐藏webshell一些建议</h2>
+<h2 id="更好的隐藏webshell一些建议"><a href="#更好的隐藏webshell一些建议" class="header-mark headerLink">更好的隐藏webshell一些建议</a></h2>
 <ol>
 <li>
 <p>拿到权限以后,把网站日志中的所有关于webshell的访问记录和渗透时造成的一些网站报错记录全部删除</p>

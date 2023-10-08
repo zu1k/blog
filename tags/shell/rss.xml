@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Shell - 标签 - zu1k</title><link>https://zu1k.com/tags/shell/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 24 Mar 2020 15:50:07 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/shell/" rel="self" type="application/rss+xml"/><item><title>Linux Shell中的重定向</title><link>https://zu1k.com/posts/linux/redirect-in-shell/</link><pubDate>Tue, 24 Mar 2020 15:50:07 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/redirect-in-shell/</guid><description><![CDATA[<p>经常会看到别人的shell脚本后面有一个 <code>2&gt;&amp;1</code> ，一直没去深究，今天这个话题就以这个为出发点进行展开，学习一下Linux shell中重定向的话题。</p>
-<h2 id="特殊的东西">特殊的东西</h2>
+<h2 id="特殊的东西"><a href="#特殊的东西" class="header-mark headerLink">特殊的东西</a></h2>
 <p>先来看一点Linux中特殊的东西，为后面的内容打下基础</p>
-<h3 id="特殊的文件">特殊的文件</h3>
+<h3 id="特殊的文件"><a href="#特殊的文件" class="header-mark headerLink">特殊的文件</a></h3>
 <ul>
 <li><code>/dev/null</code> 空，可以将垃圾内容导入其中，就会消失</li>
 <li><code>/dev/zero</code> 零，可以从中读出无穷无尽的0</li>
@@ -23,7 +23,7 @@
 </span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stdout -&gt; /proc/self/fd/1
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="特殊的文件描述符">特殊的文件描述符</h3>
+</div><h3 id="特殊的文件描述符"><a href="#特殊的文件描述符" class="header-mark headerLink">特殊的文件描述符</a></h3>
 <p>在Linux shell中有三个特殊的文件描述符（<code>File descriptor</code> or <code>fd</code>）:</p>
 <ul>
 <li>fd<code>0</code> 是标准输入: <code>stdin</code></li>
@@ -31,7 +31,7 @@
 <li>fd<code>2</code> 是标准错误输出: <code>stderr</code></li>
 </ul>
 <p>通过这三个特殊的文件描述符我们可以控制输入输出流</p>
-<h2 id="重定向">重定向</h2>
+<h2 id="重定向"><a href="#重定向" class="header-mark headerLink">重定向</a></h2>
 <p>我们经常会接触到 <code>&gt;</code> 这个符号，叫做重定向，其实还有另一个符号 <code>&gt;&gt;</code> 有着类似的功能，他们之间有一点小区别：</p>
 <ul>
 <li><code>&gt;</code> 是覆盖的方式</li>
@@ -40,8 +40,8 @@
 <blockquote>
 <p>下面的内容将全部以 <code>&gt;</code> 为例，<code>&gt;&gt;</code> 除了内容是追加之外没有其他区别，就不赘述</p>
 </blockquote>
-<h2 id="使用重定向">使用重定向</h2>
-<h3 id="重定向到文件">重定向到文件</h3>
+<h2 id="使用重定向"><a href="#使用重定向" class="header-mark headerLink">使用重定向</a></h2>
+<h3 id="重定向到文件"><a href="#重定向到文件" class="header-mark headerLink">重定向到文件</a></h3>
 <p>先来看一下最基本的重定向的使用方法，我们将 <code>echo</code> 命令的输出重定向到一个文件中</p>
 <p><code>echo &quot;hello&quot; &gt; a.txt</code></p>
 <p>执行结果：</p>
@@ -76,7 +76,7 @@
 </div>
 </div><p>这里我们看到重定向符号 <code>&gt;</code> 默认是将 <code>stdout</code> 也就是 fd<code>1</code> 重定向到别处</p>
 <p>如果我们想要将标准错误输出<code>stderr</code>进行重定向，只需要将上面命令中的文件描述符<code>1</code>修改为标准错误输出的文件描述符<code>2</code>即可</p>
-<h3 id="重定向到文件描述符">重定向到文件描述符</h3>
+<h3 id="重定向到文件描述符"><a href="#重定向到文件描述符" class="header-mark headerLink">重定向到文件描述符</a></h3>
 <p>有些情况下 <code>stderr</code> 是会被程序控制写入错误日志的，如果我们想要在命令运行的时候将错误显示在屏幕上，就需要将错误输出重定向到标准输出流中</p>
 <p>我们先来尝试一下, 这里我们没有找到一个合适的命令，就拿 <code>ls</code> 命令查看一个不存在的目录，这样会产生错误输出</p>
 <blockquote>
@@ -161,7 +161,7 @@
 </div><blockquote>
 <p>这种写法我还没有学习，等我后面学会了再进行更新</p>
 </blockquote>
-<h3 id="格式化输出">格式化输出</h3>
+<h3 id="格式化输出"><a href="#格式化输出" class="header-mark headerLink">格式化输出</a></h3>
 <p>来点高端点的用法</p>
 <p>用于格式化输出, 将标准输出和错误输出两个流重定向到不同的处理中，最后汇总</p>
 <p><code>((ls -ld /tmp /tnt |sed 's/^/O: /' &gt;&amp;9 ) 2&gt;&amp;1 |sed 's/^/E: /') 9&gt;&amp;1| cat -n</code></p>
@@ -191,10 +191,10 @@
 </span></span><span class="line"><span class="cl">     <span class="m">2</span>  E: ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="合并文件">合并文件</h3>
+</div><h3 id="合并文件"><a href="#合并文件" class="header-mark headerLink">合并文件</a></h3>
 <p>将输出文件 m 和 n 合并: <code>n &gt;&amp; m</code></p>
 <p>将输入文件 m 和 n 合并: <code>n &lt;&amp; m</code></p>
-<h3 id="输入边界">输入边界</h3>
+<h3 id="输入边界"><a href="#输入边界" class="header-mark headerLink">输入边界</a></h3>
 <p>将开始标记 tag 和结束标记 tag 之间的内容作为输入: <code>&lt;&lt; tag</code></p>
 <p>例如：</p>
 <div class="highlight"><div class="chroma">
@@ -223,7 +223,7 @@
 <li>开始的delimiter前后的空格会被忽略掉</li>
 </ul>
 </blockquote>
-<h2 id="有关覆盖">有关覆盖</h2>
+<h2 id="有关覆盖"><a href="#有关覆盖" class="header-mark headerLink">有关覆盖</a></h2>
 <p>如果我们用 <code>set -o noclobber</code> 设置bash，那bash将不会覆盖任何已经存在的文件，但是我们可以通过 <code>&gt;|</code> 绕过这个限制</p>
 <p><strong>先来看一下默认的情况</strong></p>
 <div class="highlight"><div class="chroma">
@@ -311,8 +311,8 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# rm <span class="nv">$testfile</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="其他的小点">其他的小点</h2>
-<h3 id="重定向到一处">重定向到一处</h3>
+</div><h2 id="其他的小点"><a href="#其他的小点" class="header-mark headerLink">其他的小点</a></h2>
+<h3 id="重定向到一处"><a href="#重定向到一处" class="header-mark headerLink">重定向到一处</a></h3>
 <p>如果我们要将 <code>stdout</code> 和 <code>stderr</code> 重定向到同一个地方，该怎么写呢？</p>
 <p>下面两种哪种是对的？</p>
 <ol>
@@ -353,7 +353,7 @@
 </div><p>我们可以看到第二种写法是正确的</p>
 <p>同理，下面这种写法也正确</p>
 <p><code>ls -ld /tmp /tnt 2&gt;b.txt 1&gt;&amp;2</code></p>
-<h3 id="套个娃a">套个娃a</h3>
+<h3 id="套个娃a"><a href="#套个娃a" class="header-mark headerLink">套个娃a</a></h3>
 <p>来点奇葩的，如果我们将 <code>stderr</code> 重定向到 <code>stdout</code>, 同时又将 <code>stdout</code> 重定向到 <code>stderr</code> 会发生什么？</p>
 <p>如此套娃会不会导致回环卡死？</p>
 <p>试一下</p>
@@ -387,7 +387,7 @@
 <blockquote>
 <p>也就是说 <code>a&gt;&amp;b b&gt;&amp;a</code> 这种套娃写法中， b才是出口</p>
 </blockquote>
-<h2 id="阅读更多内容">阅读更多内容</h2>
+<h2 id="阅读更多内容"><a href="#阅读更多内容" class="header-mark headerLink">阅读更多内容</a></h2>
 <p>如果你想了解功能，通过下面的命令查看官方文档吧</p>
 <p><code>man -Len -Pless\ +/^REDIRECTION bash</code></p>
 <p>本文的参考资料： <a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean" target="_blank" rel="noopener noreffer" class="post-link">stack overflow</a></p>

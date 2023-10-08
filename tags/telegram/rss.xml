@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Telegram - 标签 - zu1k</title><link>https://zu1k.com/tags/telegram/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 26 Nov 2019 19:03:35 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/telegram/" rel="self" type="application/rss+xml"/><item><title>Telegram关键词自动回复机器人</title><link>https://zu1k.com/posts/coding/telegram-keyword-reply-bot/</link><pubDate>Tue, 26 Nov 2019 19:03:35 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/telegram-keyword-reply-bot/</guid><description><![CDATA[<!-- ## 前言
 
 高中时期了解了telegram，大学期间正式开始使用。自己的频道最多的时候有上万人关注，聊天群组里人数也很多，但是时间久了我发现了一个问题。因为telegram在国内并不常用，新加入的成员往往都是新手，通常会问一些琐碎的、相似的问题，例如：如何汉化tg、+86号码无法私聊别人，等等相关的问题是在不想重复回答，便产生了制作一个关键词回复机器人的想法。 -->
-<h2 id="功能">功能</h2>
+<h2 id="功能"><a href="#功能" class="header-mark headerLink">功能</a></h2>
 <p>下面简单说一下机器人实现的一些功能，具体还是推荐你亲身进行体验。</p>
 <ul>
 <li>首先为了满足最初的需求，机器人需要能够对特定关键词回复特定的文字内容。</li>
@@ -12,14 +12,14 @@
 <li>除了关键词功能外，我还给机器人增加了群管命令、获取用户id信息、禁言游戏、加群欢迎、退群送别、一键呼叫所有管理员等功能。</li>
 </ul>
 <p>下面我将演示一些基本的功能配置和使用方法。</p>
-<h2 id="使用示例">使用示例</h2>
+<h2 id="使用示例"><a href="#使用示例" class="header-mark headerLink">使用示例</a></h2>
 <ul>
 <li>关键词规则的使用</li>
 <li>添加规则使用 /add 关键词===回复内容</li>
 <li>删除规则使用 /del 关键词</li>
 <li>查看规则在群组里使用 /list</li>
 </ul>
-<h3 id="回复文本内容">回复文本内容</h3>
+<h3 id="回复文本内容"><a href="#回复文本内容" class="header-mark headerLink">回复文本内容</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -38,7 +38,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/add <span class="nv">testmd</span><span class="o">===</span>md::加粗**bold**
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="回复图片">回复图片</h3>
+</div><h3 id="回复图片"><a href="#回复图片" class="header-mark headerLink">回复图片</a></h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -61,7 +61,7 @@
 </span></span><span class="line"><span class="cl">/add 小可爱===photo::https://t.me/peekfun/1000
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="回复动图视频文件">回复动图\视频\文件</h3>
+</div><h3 id="回复动图视频文件"><a href="#回复动图视频文件" class="header-mark headerLink">回复动图\视频\文件</a></h3>
 <p>机器人除了回复图片外，还支持回复动图、视频、文件，如果你已经学会了回复图片，那这些种类也没有问题。</p>
 <ul>
 <li>动图 <code>/add 关键词===gif::动图链接</code></li>
@@ -69,7 +69,7 @@
 <li>文件 <code>/add 关键词===file::文件链接</code></li>
 </ul>
 <p>需要注意的是，各种链接要么是tg上公开群组或者频道的链接（私有群组不行），要么是互联网上的资源链接，注意链接需要与发送的种类对应好。</p>
-<h3 id="图片文件添加文字">图片\文件添加文字</h3>
+<h3 id="图片文件添加文字"><a href="#图片文件添加文字" class="header-mark headerLink">图片\文件添加文字</a></h3>
 <p>在手动发送图片等的时候我们可以添加描述信息，机器人回复规则也可以。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -95,7 +95,7 @@
 <blockquote>
 <p>注意：图片和文件的介绍文字默认开启markdown语法</p>
 </blockquote>
-<h3 id="正则表达式进行匹配">正则表达式进行匹配</h3>
+<h3 id="正则表达式进行匹配"><a href="#正则表达式进行匹配" class="header-mark headerLink">正则表达式进行匹配</a></h3>
 <p>现在你已经会使用关键词来回复特定内容了，但是为了更加灵活的回复，而不是令机器人看起来傻乎乎的<br>
 事实上机器人聪明与否完全看你设置的关键词规则是否灵活，你需要学习简单的正则表达式并且利用正则来进行匹配。</p>
 <p>使用正则匹配非常简单，只需要将原来的关键词替换为 <code>re:正则规则</code> 即可。</p>
@@ -111,7 +111,7 @@
 <blockquote>
 <p>需要说明的是，机器人的所有关键词使用方法均支持正则，你可以随意进行尝试。</p>
 </blockquote>
-<h3 id="一次回复多条消息">一次回复多条消息</h3>
+<h3 id="一次回复多条消息"><a href="#一次回复多条消息" class="header-mark headerLink">一次回复多条消息</a></h3>
 <p>有些时候一条消息无法满足回复的需求，需要机器人同时返回多个消息，这也是支持的。</p>
 <p>你只需要用 || 将多个回复内容间隔开就可以了。</p>
 <div class="highlight"><div class="chroma">
@@ -143,7 +143,7 @@
 </span></span><span class="line"><span class="cl">            file::文件链接
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="回复随机消息">回复随机消息</h3>
+</div><h3 id="回复随机消息"><a href="#回复随机消息" class="header-mark headerLink">回复随机消息</a></h3>
 <p>有一个群组提出了这样一个特定需求，想要从设置好的回复内容中随机回复一个，这也是支持的。</p>
 <p>使用方法：<br>
 random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符号间隔。</p>
@@ -195,7 +195,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">            file::文件的链接
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="自动删除消息">自动删除消息</h3>
+</div><h3 id="自动删除消息"><a href="#自动删除消息" class="header-mark headerLink">自动删除消息</a></h3>
 <p>大多数时候我们需要屏蔽一些关键词，防止用户讨论相关内容，比如说政治、色情、黑产等内容。<br>
 机器人既然可以识别关键词，就可以进行相关消息删除操作，你需要给机器人删除消息的管理员权限。</p>
 <div class="highlight"><div class="chroma">
@@ -220,7 +220,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <blockquote>
 <p>注意：delete一定要放在最后，否则回复消息发送不出来。</p>
 </blockquote>
-<h3 id="自动禁言踢人">自动禁言\踢人</h3>
+<h3 id="自动禁言踢人"><a href="#自动禁言踢人" class="header-mark headerLink">自动禁言\踢人</a></h3>
 <p>只删除还不过瘾，有人刷消息？禁言和踢人同样支持。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -251,7 +251,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>你还是可以结合上面的内容进行优化，因为delete、ban、kick也是回复种类之一，所以跟文字、照片、视频、文件等的使用方法相同，也就可以进行组合。</p>
-<h3 id="屏蔽特定后缀文件">屏蔽特定后缀文件</h3>
+<h3 id="屏蔽特定后缀文件"><a href="#屏蔽特定后缀文件" class="header-mark headerLink">屏蔽特定后缀文件</a></h3>
 <p>有人发送exe\com\bat等后缀的病毒？不用再去找其他机器人了，使用自定义规则即可完成屏蔽和禁言。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -265,7 +265,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <blockquote>
 <p>关键词功能可以根据每个群组添加的不同的关键词规则实现一些简单的回复或者更加复杂的操作，通过组合等方式来实现相应功能完全看你的规则，所以发挥你的脑洞吧。</p>
 </blockquote>
-<h3 id="进群欢迎和退群欢送">进群欢迎和退群欢送</h3>
+<h3 id="进群欢迎和退群欢送"><a href="#进群欢迎和退群欢送" class="header-mark headerLink">进群欢迎和退群欢送</a></h3>
 <p>机器人可以设置欢迎和欢送文字</p>
 <p>需要使用 <code>/welcome</code> 和 <code>/goodbye</code> 命令分别开启</p>
 <div class="highlight"><div class="chroma">
@@ -293,7 +293,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 使用 $userid 自动替换 用户id, $username 自动替换用户名
 使用 $groupid 自动替换 群组id， $groupname 自动替换群组名</p>
 </blockquote>
-<h3 id="回复按钮">回复按钮</h3>
+<h3 id="回复按钮"><a href="#回复按钮" class="header-mark headerLink">回复按钮</a></h3>
 <blockquote>
 <p>看样子很多人需要这个功能，就加上了</p>
 </blockquote>
@@ -345,7 +345,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">}
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="命令列表">命令列表</h2>
+</div><h2 id="命令列表"><a href="#命令列表" class="header-mark headerLink">命令列表</a></h2>
 <ul>
 <li>help - 查看帮助</li>
 <li>add - 添加规则</li>
@@ -368,7 +368,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <li>deleteallrules - 清空本群所有关键词规则</li>
 <li>deleteallmessage - 删除48小时内所有消息</li>
 </ul>
-<h2 id="开源">开源</h2>
+<h2 id="开源"><a href="#开源" class="header-mark headerLink">开源</a></h2>
 <p>开源地址： <a href="https://github.com/zu1k/tg-keyword-reply-bot" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/tg-keyword-reply-bot</a></p>
 <!-- ## 赞助
 

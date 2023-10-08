@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Git - 标签 - zu1k</title><link>https://zu1k.com/tags/git/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 27 Mar 2020 15:45:02 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/git/" rel="self" type="application/rss+xml"/><item><title>给 Git 设置代理</title><link>https://zu1k.com/posts/coding/set-proxy-for-git/</link><pubDate>Fri, 27 Mar 2020 15:45:02 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-proxy-for-git/</guid><description><![CDATA[<p>近期，GitHub 的直连速度一直不理想，甚至被墙或者MITM，最好的解决办法就是挂代理</p>
 <p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议</p>
 <p>而我们平时使用github一般使用两种协议，一种是http协议，另一种是ssh协议，针对这两种协议有两种不同的代理设置办法</p>
-<h2 id="http协议">http协议</h2>
+<h2 id="http协议"><a href="#http协议" class="header-mark headerLink">http协议</a></h2>
 <p>通常使用的链接形如：<code>https://github.com/git/git.git</code></p>
 <p>针对这种协议，代理设置比较简单</p>
 <div class="highlight"><div class="chroma">
@@ -24,7 +24,7 @@
 </span></span><span class="line"><span class="cl">git config --global --unset https.proxy
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="ssh协议">ssh协议</h2>
+</div><h2 id="ssh协议"><a href="#ssh协议" class="header-mark headerLink">ssh协议</a></h2>
 <p>通常使用的链接形如：<code>git@github.com:git/git.git</code> 或者 <code>ssh://[&lt;username&gt;@]&lt;server&gt;[:&lt;port&gt;]/path/repo.git</code></p>
 <p>对于使用ssh协议的库，上面的代理设置办法就失效了，需要给ssh设置socks代理</p>
 <p>在 <code>~/.ssh/config</code> 文件中添加下面内容， 如果没有这个文件就新建</p>
@@ -50,13 +50,13 @@
 </span></span><span class="line"><span class="cl">ProxyCommand connect -S 127.0.0.1:1080 %h %p
 </span></span></code></pre></td></tr></table>
 </div>
-</div>]]></description></item><item><title>一些我刚学到的GIT技巧</title><link>https://zu1k.com/posts/learn/some-git-skills/</link><pubDate>Sun, 01 Dec 2019 20:32:44 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/some-git-skills/</guid><description><![CDATA[<h3 id="git-reflog">git reflog</h3>
+</div>]]></description></item><item><title>一些我刚学到的GIT技巧</title><link>https://zu1k.com/posts/learn/some-git-skills/</link><pubDate>Sun, 01 Dec 2019 20:32:44 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/some-git-skills/</guid><description><![CDATA[<h3 id="git-reflog"><a href="#git-reflog" class="header-mark headerLink">git reflog</a></h3>
 <p>git reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录，而且跟进结果可以回退道某一个修改</p>
 <p>有时候想要删除reflog记录，可以使用下面的命令</p>
 <p>首先确保所有分支都没有引用该提交，包括HEAD也不指向这个提交。</p>
 <p>然后 git reflog expire &ndash;expire=now &ndash;all (这会清除分支变更历史)</p>
 <p>然后 git gc &ndash;prune=now (不用调整时间，加上&ndash;prune=now命令即可)</p>
-<h3 id="git-rebase">git rebase</h3>
+<h3 id="git-rebase"><a href="#git-rebase" class="header-mark headerLink">git rebase</a></h3>
 <p>参考文章：http://jartto.wang/2018/12/11/git-rebase/</p>
 <p>可以合并多次提交记录: git rebase -i HEAD~4</p>
 <p>可以合并分支而不产生merge记录</p>
