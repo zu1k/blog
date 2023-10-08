@@ -729,25 +729,28 @@ class Theme {
         try {
             this.checkMobile();
             this.initSwitchTheme();
-            this.initSearch();
             this.initDetails();
-            this.initLightGallery();
             this.initHighlight();
             this.initTable();
             this.initHeaderLink();
             this.initSmoothScroll();
-            this.initMermaid();
         } catch (err) {
             console.error(err);
         }
 
         window.setTimeout(() => {
             this.initToc();
-            this.initComment();
             this.onScroll();
             this.onResize();
             this.onClickMask();
+            this.initSearch();
+            this.initMermaid();
+            this.initLightGallery();
         }, 100);
+
+        window.setTimeout(() => {
+            this.initComment();
+        }, 1000);
     }
 }
 
