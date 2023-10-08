@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>树莓派 - 标签 - zu1k</title><link>https://zu1k.com/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 14 Oct 2018 18:17:18 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="self" type="application/rss+xml"/><item><title>树莓派开机发送IP到指定邮箱的脚本</title><link>https://zu1k.com/posts/linux/raspberry-pi-boot-script-to-send-ip-to-specified-email/</link><pubDate>Sun, 14 Oct 2018 18:17:18 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/raspberry-pi-boot-script-to-send-ip-to-specified-email/</guid><description><![CDATA[<p>本脚本使用的是腾讯企业邮的smtp服务，可以根据需求进行相应修改</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -159,6 +159,6 @@
 </span></span><span class="line"><span class="cl">    <span class="n">my</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="s2">&#34;PI IP&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">my</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#u&#34;C:\Documents and Settings\Administrator\Desktop\日报.doc&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">my</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div>]]></description></item></channel></rss>

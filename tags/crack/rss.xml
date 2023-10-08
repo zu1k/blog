@@ -10,7 +10,7 @@
 <h3 id="查看帮助"><a href="#查看帮助" class="header-mark headerLink">查看帮助</a></h3>
 <p>使用 <code>-h</code> 查看帮助</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -33,12 +33,12 @@
 </span></span><span class="line"><span class="cl">        生成一个永久license，需要指定用户名
 </span></span><span class="line"><span class="cl">  -p string
 </span></span><span class="line"><span class="cl">        解析官方证书，需要指定证书路径
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="生成证书"><a href="#生成证书" class="header-mark headerLink">生成证书</a></h3>
 <p>使用 <code>-g username</code> 生成永久证书</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -49,12 +49,12 @@
 </span></span><span class="line"><span class="cl">破解xray高级版证书，使用 -h 参数查看使用帮助
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">证书已写入文件：xray-license.lic
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="破解-xray"><a href="#破解-xray" class="header-mark headerLink">破解 xray</a></h3>
 <p>使用 <code>-c path-to-xray</code> 修改 xray 内置公钥</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -67,7 +67,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">public key index: <span class="m">16741321</span>
 </span></span><span class="line"><span class="cl">文件写入成功： .<span class="se">\x</span>ray_windows_amd64.exe
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>工具虽然是 windows 平台下运行，但是照样可以破解其他平台 xray<br>
@@ -76,7 +76,7 @@
 <h2 id="破解效果"><a href="#破解效果" class="header-mark headerLink">破解效果</a></h2>
 <p>使用修改版 xray 和永久证书后，效果如下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -119,7 +119,7 @@
 </span></span><span class="line"><span class="cl">User Name: 我叫啥/00000000000000000000000000000000
 </span></span><span class="line"><span class="cl">Not Valid Before: 2020-06-12 00:00:00
 </span></span><span class="line"><span class="cl">Not Valid After: 2099-09-09 08:00:00
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="部分细节"><a href="#部分细节" class="header-mark headerLink">部分细节</a></h2>
 <blockquote>
@@ -128,7 +128,7 @@
 <p>这里只给出使用的关键函数和关键流程，一些重要参数细节需要自己探索，可以动态单步调试获得</p>
 <h3 id="aes-解密"><a href="#aes-解密" class="header-mark headerLink">AES 解密</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -153,18 +153,18 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nx">licensePlainJsonBytes</span> <span class="o">:=</span> <span class="nx">aesDecData</span><span class="p">[</span><span class="mh">0x102</span><span class="p">:]</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="rsa-签名验证"><a href="#rsa-签名验证" class="header-mark headerLink">RSA 签名验证</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">sum</span> <span class="o">:=</span> <span class="nx">sha256</span><span class="p">.</span><span class="nf">Sum256</span><span class="p">(</span><span class="nx">licensePlainJsonBytes</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nx">err</span> <span class="p">=</span> <span class="nx">rsa</span><span class="p">.</span><span class="nf">VerifyPSS</span><span class="p">(</span><span class="nx">pubKey</span><span class="p">,</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">SHA256</span><span class="p">,</span> <span class="nx">sum</span><span class="p">[:],</span> <span class="nx">aesDecData</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mh">0x102</span><span class="p">],</span> <span class="kc">nil</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="2020年8月27日-补充"><a href="#2020年8月27日-补充" class="header-mark headerLink">2020年8月27日 补充</a></h2>
 <p>xray 官方在 1.3.0 版本中更换了授权验证机制，所以破解仅支持到 1.2.0 版本，本文使用代码现在开源： <a href="https://github.com/zu1k/xray-crack" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/xray-crack</a></p>
@@ -175,7 +175,7 @@
 <p>证书生成验证整体的思路没有大的改动，还是先 AES 解密，然后 RSA 签名验证，只是前后增加了两处简单的变换</p>
 <p>在解密前有一个简单的交换，开始和最后的两个两个没有参与运算（开始第一个字节是证书版本号）</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -194,20 +194,20 @@
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">base64DecodeData</span><span class="p">[</span><span class="nx">l</span><span class="p">],</span> <span class="nx">base64DecodeData</span><span class="p">[</span><span class="nx">r</span><span class="p">]</span> <span class="p">=</span> <span class="nx">base64DecodeData</span><span class="p">[</span><span class="nx">r</span><span class="p">],</span> <span class="nx">base64DecodeData</span><span class="p">[</span><span class="nx">l</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>然后进行 aes 解密，密钥是写死的，IV 是附加在证书里面的，刚刚的变换结束后，除去第一个字节是版本号，紧接着的 16 个字节是 AES 的 IV</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="nx">aesDecData</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">Decrypt</span><span class="p">(</span><span class="nx">base64DecodeData</span><span class="p">[</span><span class="mi">17</span><span class="p">:],</span> <span class="nx">base64DecodeData</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">17</span><span class="p">])</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>AES 解密后就会遇到另一个变换，是简单的异或处理</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -216,7 +216,7 @@
 <pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">aesDecData</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">aesDecData</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">aesDecData</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">^</span> <span class="mh">0x44</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>然后后面的部分就跟之前一样了</p>
 <h3 id="公钥"><a href="#公钥" class="header-mark headerLink">公钥</a></h3>
@@ -226,7 +226,7 @@
 <p>从这一方面出发，我只能变换一下思路，不能去硬刚</p>
 <p>Golang 中 RSA 签名验证代码如下：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -241,7 +241,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;签名验证 成功&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>很明显，是通过判断返回值是否为空来确定签名验证是否成功的，在汇编中一般为<code>test eax,eax</code>，然后<code>setnz</code>或者<code>setz</code>，所以我可以修改这里</p>
 <p>但是这种方法我只能手工修改，目前没有实现用程序来自动化</p>

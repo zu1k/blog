@@ -2,7 +2,7 @@
 <h2 id="发现问题"><a href="#发现问题" class="header-mark headerLink">发现问题</a></h2>
 <p>我准备了一个最小的 POC，用来重现本次事件的整个流程。以下是一个简单的 c 程序，如果直接编译运行会出现 SegmentFault，因为出现了越界写。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -13,7 +13,7 @@
 </span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="s">&#34;abc&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">str</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;z&#39;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>使用 clang 编译并开启 AddressSanitizer: <code>clang -g -fsanitize=address -fno-omit-frame-pointer -o target_asan poc.c</code></p>
 <p>正常情况下运行应该很快输出调用堆栈信息，如图：</p>
@@ -211,7 +211,7 @@
 <p>附加子进程，发现卡在一个 for 循环上，通过调用栈信息，从 GitHub 上下载了源码，开始分析原因。</p>
 <p>通过 LLVM compiler-rt 源码，定位到 <a href="https://github.com/llvm/llvm-project/blob/f9d0bf06319203a8cbb47d89c2f39d2c782f3887/compiler-rt/lib/sanitizer_common/sanitizer_posix_libcdep.cpp#L465" target="_blank" rel="noopener noreffer" class="post-link"><code>compiler-rt/lib/sanitizer_common/sanitizer_posix_libcdep.cpp#L465</code></a>，我把 <code>StartSubprocess</code> 简化为以下流程：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -246,7 +246,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">pid</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这是一个典型的启动子进程的方法，先 <code>fork</code>，然后在子进程中关闭不必要的文件描述符，最后通过 <code>execve</code> 启动目标程序。</p>
 <p>但 LLVM 这里通过 <code>int fd = sysconf(_SC_OPEN_MAX)</code> 获取最大文件打开数，然后循环关闭，在文件打开数限制很大的情况下就会进行很多不必要的系统调用，从而导致耗时又占 CPU，最终导致我出现我上面那种假死的情况，实际上进程正在忙着关闭不存在的文件描述符。</p>
@@ -272,14 +272,14 @@
 <h3 id="修改-containerd-文件描述符限制"><a href="#修改-containerd-文件描述符限制" class="header-mark headerLink">修改 Containerd 文件描述符限制</a></h3>
 <p>修改 <code>/usr/lib/systemd/system/containerd.service</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[Service]                                                                                                                     
 </span></span><span class="line"><span class="cl">LimitNOFILE=1048576
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>无需修改 <code>/usr/lib/systemd/system/docker.service</code></p>
 <p>或者在启动容器的时候添加限制 <code>--ulimit nofile=1048576:1048576</code>：</p>
@@ -307,7 +307,7 @@
 <p>今天遇到一个需求，需要随机的生成一个枚举类型的实例。</p>
 <p>不像 Python 那样方便，用 Rust 需要实现特定的 Trait，最简单的想法就是给枚举类型不同的成员编个号，然后生成一个随机数，实例化对应的成员，如果成员拥有数据，就递归的随机生成这些数据。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -334,7 +334,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>需求本身确实简单，问题在于这个枚举类型的成员太多了，足足有 459 个，按照传统的思路，保守估计至少要写半天，并且很枯燥。图中可以看出，要对该枚举类型实现一个简单的函数都需要上千行。</p>
 <p><figure>
@@ -366,18 +366,18 @@
 <h3 id="定义derive宏"><a href="#定义derive宏" class="header-mark headerLink">定义<code>#[derive]</code>宏</a></h3>
 <p>我的需求是根据 <code>Instruction</code> 的成员信息，自动实现 <code>impl Distribution&lt;Instruction&gt; for Standard</code>，这里就需要写一个 <code>#[derive]</code>宏，使其作用在 <code>Instruction</code> 上。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-Rust" data-lang="Rust"><span class="line"><span class="cl"><span class="cp">#[derive(Debug, Rand)]</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">pub</span><span class="w"> </span><span class="k">enum</span> <span class="nc">Instruction</span><span class="w"> </span><span class="p">{</span><span class="o">..</span><span class="p">.}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>首先定义名为 <code>Rand</code> 的 <code>#[derive]</code>过程宏。在这个函数里，我们可以拿到 <code>Instruction</code> 的 token 序列，然后将其解析为抽象语法树 (AST)，最后通过 AST 和我们的逻辑生成新的 token 序列，即最终生成的代码。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -392,7 +392,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">impl_rand_derive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ast</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">TokenStream</span>::<span class="n">from</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer" class="post-link">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer" class="post-link">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
@@ -408,7 +408,7 @@
 <p>对于 Named 和 Unamed 两种类型，都需要遍历其所有元素，递归的生成代码，用 <code>__rng.gen()</code> 来初始化数据。</p>
 <p>最后判断枚举类型成员数量，生成 <code>match</code> 语句。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -503,13 +503,13 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">unimplemented!</span><span class="p">()</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">};</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="我讨厌递归"><a href="#我讨厌递归" class="header-mark headerLink">我讨厌递归</a></h3>
 <p>紧接着就会发现，上面在 <code>Named</code> 和 <code>Unamed</code> 的部分进行递归 <code>__rng.gen()</code>，需要其使用的类型也实现相应的 trait。除去已有的对基本类型的实现外，剩下的类型就需要我们手动实现，这也就要求我们的过程宏也能应用在其他结构上。</p>
 <p>因此我们的函数需要进行修改，以处理其他非枚举类型：结构体和元组（元组在我的需求中没用到，就不实现了）。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -544,12 +544,12 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">unimplemented!</span><span class="p">(),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">};</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>测试，发现 459 个成员通过了 458 个，剩下的那一个成员是 <code>Cow</code> 类型的。是真的烦，没办法给 Cow 实现这个 trait，甚至理论上根本没办法生成一个随机的 <code>Cow</code>，因为其根本不拥有数据，它只有指针。</p>
 <p>我马上想到了一个解决方案，牺牲一点性能，用 <code>Vec</code> 替换掉 <code>Cow</code>。虽然我们仍然无法给 <code>Vec</code> 实现这个 trait（因为 <code>Vec</code> 是外部定义的），但是我可以在解析的时候判断一下类型，如果是 <code>Vec</code> 就手动生成随机长度的随机数据，我真是个小机灵鬼。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -604,7 +604,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kc">false</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>测试，全部通过！开心！</p>
 <h2 id="总结"><a href="#总结" class="header-mark headerLink">总结</a></h2>
@@ -696,12 +696,12 @@
 <h2 id="防止环路"><a href="#防止环路" class="header-mark headerLink">防止环路</a></h2>
 <p>抛开事实不谈，如果我们想要代理全部流量，就是要通过路由规则将所有流量导向我们的 TUN 设备，这是很直观且朴素的想法，就像下面的命令一样单纯：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo route add -net 0.0.0.0/0 dev tun0
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果你真的这么写，你就会发现你上不了网了。这是因为出现了环路。</p>
 <p>如果稍微思考一下，你就会发现，虽然我们想要代理所有流量，但是代理客户端与代理服务端的流量却是需要跳过的，如果用上面的路由，就会导致代理客户端发出的流量经过路由然后从 TUN 重新回到了代理客户端，这是一个死环，没有流量可以走出去。流量只近不出，来回转圈，你的文件打开数爆炸，操作系统不再给你分配更多的句柄，数据来回拷贝，你的CPU风扇猛转，电脑开始变卡。</p>
@@ -745,16 +745,16 @@
 <p>Wrangler有两种安装方式，通过NPM或者Cargo安装都可以，任选其一即可</p>
 <p>准备好NodeJS和NPM环境，然后执行下面命令，NPM方式是下载预编译好的二进制程序，安装速度比较快</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">npm i @cloudflare/wrangler -g
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>或者准备好Rust环境，然后执行下面命令，Cargo方式是在本机从源码编译，安装速度比较慢</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -765,13 +765,13 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 使用系统OpenSSL库，生成的二进制会小一些</span>
 </span></span><span class="line"><span class="cl">cargo install wrangler --features sys-openssl
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="部署"><a href="#部署" class="header-mark headerLink">部署</a></h2>
 <p>我自己博客使用的是Hugo，下面所有内容都是按照Hugo的方式来，其他静态站点生成器方法类似</p>
 <h3 id="登录"><a href="#登录" class="header-mark headerLink">登录</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -782,24 +782,24 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 手动设置token</span>
 </span></span><span class="line"><span class="cl">wrangler config
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="初始化"><a href="#初始化" class="header-mark headerLink">初始化</a></h3>
 <p>进入自己站点的目录，执行下面命令进行初始化。这里Wrangler会自动安装cargo-generate工具，在本目录下创建一个<code>workers-site</code>项目目录，然后生成一个<code>wrangler.toml</code>配置文件</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wrangler init --site
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>打开<code>wrangler.toml</code>文件，按照自己的信息进行修改</p>
 <p><code>account_id</code>和<code>zone_id</code>都可以从Cloudflare官网上找到，<code>route</code>是路由到Workers的规则，这里写你需要绑定的域名，不要忘记后面的<code>/*</code></p>
 <p><code>bucket</code>是网站的目录，因为我用的是Hugo，所以这个目录默认是<code>public</code></p>
 <p><code>entry-point</code>是部署到Workers的js代码目录，这里不需要修改，因为刚刚初始化的时候生成的项目目录名已经自动填写上了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -822,16 +822,16 @@
 </span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">site</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="nx">bucket</span> <span class="p">=</span> <span class="s2">&#34;public&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nx">entry-point</span> <span class="p">=</span> <span class="s2">&#34;workers-site&#34;</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="预览"><a href="#预览" class="header-mark headerLink">预览</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wrangler preview --watch
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="发布"><a href="#发布" class="header-mark headerLink">发布</a></h3>
 <p>在Cloudflare中增加一条DNS记录，需要打开CF代理</p>
@@ -849,12 +849,12 @@
 </p>
 <p>执行下面命令进行部署</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wrangler publish
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="使用github-actions持续集成"><a href="#使用github-actions持续集成" class="header-mark headerLink">使用GitHub Actions持续集成</a></h2>
 <p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用GitHub Actions将博客内容部署到CF Workers Site</p>
@@ -874,7 +874,7 @@
 </p>
 <h3 id="workflows"><a href="#workflows" class="header-mark headerLink">Workflows</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -947,7 +947,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">cloudflare/wrangler-action@1.3.0</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">apiToken</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.CF_API_TOKEN }}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div>]]></description></item><item><title>Nali IP地理信息和CDN服务商查询</title><link>https://zu1k.com/posts/coding/nali-golang/</link><pubDate>Fri, 17 Jul 2020 13:39:47 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/nali-golang/</guid><description><![CDATA[<p><a href="https://github.com/zu1k/nali" target="_blank" rel="noopener noreffer" class="post-link">Nali</a></p>
 <blockquote>
@@ -974,52 +974,52 @@
 <h3 id="从源码安装"><a href="#从源码安装" class="header-mark headerLink">从源码安装</a></h3>
 <p>Nali 需要预先安装 Go. 安装后可以从源码安装软件:</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ go get -u -v github.com/zu1k/nali
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="下载预编译的可执行程序"><a href="#下载预编译的可执行程序" class="header-mark headerLink">下载预编译的可执行程序</a></h3>
 <p>可以从Release页面下载预编译好的可执行程序: <a href="https://github.com/zu1k/nali/releases" target="_blank" rel="noopener noreffer" class="post-link">Release</a></p>
 <p>你需要选择适合你系统和硬件架构的版本下载，解压后可直接运行</p>
 <h3 id="使用-docker-版本"><a href="#使用-docker-版本" class="header-mark headerLink">使用 Docker 版本</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">docker pull docker.pkg.github.com//zu1k/nali/nali:latest
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="使用说明"><a href="#使用说明" class="header-mark headerLink">使用说明</a></h2>
 <p><a href="https://asciinema.org/a/RFVaZ3Pwy0Qbr27msFcDYhwcD" target="_blank"></a></p>
 <h3 id="查询一个ip的地理信息"><a href="#查询一个ip的地理信息" class="header-mark headerLink">查询一个IP的地理信息</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ nali 1.2.3.4
 </span></span><span class="line"><span class="cl">1.2.3.4 [澳大利亚 APNIC Debogon-prefix网络]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="或者-使用-管道"><a href="#或者-使用-管道" class="header-mark headerLink">或者 使用 <code>管道</code></a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ echo IP 6.6.6.6 | nali
 </span></span><span class="line"><span class="cl">IP 6.6.6.6 [美国 亚利桑那州华楚卡堡市美国国防部网络中心]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="同时查询多个ip的地理信息"><a href="#同时查询多个ip的地理信息" class="header-mark headerLink">同时查询多个IP的地理信息</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1030,12 +1030,12 @@
 </span></span><span class="line"><span class="cl">1.2.3.4 [澳大利亚 APNIC Debogon-prefix网络]
 </span></span><span class="line"><span class="cl">4.3.2.1 [美国 新泽西州纽瓦克市Level3Communications]
 </span></span><span class="line"><span class="cl">123.23.3.0 [越南 越南邮电集团公司]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="交互式查询"><a href="#交互式查询" class="header-mark headerLink">交互式查询</a></h3>
 <p>使用 <code>exit</code> 或  <code>quit</code> 退出查询</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1054,12 +1054,12 @@
 </span></span><span class="line"><span class="cl">8.8.8.8
 </span></span><span class="line"><span class="cl">8.8.8.8 [美国 加利福尼亚州圣克拉拉县山景市谷歌公司DNS服务器]
 </span></span><span class="line"><span class="cl">quit
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="与-dig-命令配合使用"><a href="#与-dig-命令配合使用" class="header-mark headerLink">与 <code>dig</code> 命令配合使用</a></h3>
 <p>需要你系统中已经安装好 dig 程序</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1070,12 +1070,12 @@
 </span></span><span class="line"><span class="cl">104.28.2.115 [美国 CloudFlare公司CDN节点]
 </span></span><span class="line"><span class="cl">104.28.3.115 [美国 CloudFlare公司CDN节点]
 </span></span><span class="line"><span class="cl">172.67.135.48 [美国 CloudFlare节点]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="与-nslookup-命令配合使用"><a href="#与-nslookup-命令配合使用" class="header-mark headerLink">与 <code>nslookup</code> 命令配合使用</a></h3>
 <p>需要你系统中已经安装好 nslookup 程序</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1100,23 +1100,23 @@
 </span></span><span class="line"><span class="cl">Address: 104.28.2.115 [美国 CloudFlare公司CDN节点]
 </span></span><span class="line"><span class="cl">Name:   nali.zu1k.com
 </span></span><span class="line"><span class="cl">Address: 172.67.135.48 [美国 CloudFlare节点]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="与任意程序配合使用"><a href="#与任意程序配合使用" class="header-mark headerLink">与任意程序配合使用</a></h3>
 <p>因为 nali 支持管道处理，所以可以和任意程序配合使用</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">bash abc.sh | nali
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Nali 将在 IP后面插入IP地理信息，CDN域名后面插入CDN服务提供商信息</p>
 <h3 id="支持ipv6"><a href="#支持ipv6" class="header-mark headerLink">支持IPv6</a></h3>
 <p>和 IPv4 用法完全相同</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1137,13 +1137,13 @@
 </span></span><span class="line"><span class="cl">Address: 216.58.211.110 [美国 Google全球边缘网络]
 </span></span><span class="line"><span class="cl">Name:   google.com
 </span></span><span class="line"><span class="cl">Address: 2a00:1450:400e:809::200e [荷兰Amsterdam Google Inc. 服务器网段]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="查询-cdn-服务提供商"><a href="#查询-cdn-服务提供商" class="header-mark headerLink">查询 CDN 服务提供商</a></h3>
 <p>因为 CDN 服务通常使用 CNAME 的域名解析方式，所以推荐与 <code>nslookup</code> 或者 <code>dig</code> 配合使用，在已经知道 CNAME 后可单独使用</p>
 <h4 id="只查询-cdn-服务提供商"><a href="#只查询-cdn-服务提供商" class="header-mark headerLink">只查询 CDN 服务提供商</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1176,11 +1176,11 @@
 </span></span><span class="line"><span class="cl">Address: 2001:428:6402:21b::6
 </span></span><span class="line"><span class="cl">Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
 </span></span><span class="line"><span class="cl">Address: 2001:428:6402:21b::5
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="查询所有信息"><a href="#查询所有信息" class="header-mark headerLink">查询所有信息</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1209,22 +1209,22 @@
 </span></span><span class="line"><span class="cl">Address: 2001:428:6402:21b::5 [美国Louisiana州Monroe Qwest Communications Company, LLC (CenturyLink)]
 </span></span><span class="line"><span class="cl">Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
 </span></span><span class="line"><span class="cl">Address: 2001:428:6402:21b::6 [美国Louisiana州Monroe Qwest Communications Company, LLC (CenturyLink)]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="单独使用"><a href="#单独使用" class="header-mark headerLink">单独使用</a></h4>
 <p>需要提前查询到 CNAME 域名</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ nali cdn cdn.somecdncname.com
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="用户交互"><a href="#用户交互" class="header-mark headerLink">用户交互</a></h2>
 <h3 id="查看帮助"><a href="#查看帮助" class="header-mark headerLink">查看帮助</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1259,11 +1259,11 @@
 </span></span><span class="line"><span class="cl">  -t, --toggle   Help message for toggle
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Use &#34;nali [command] --help&#34; for more information about a command.
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="更新纯真数据库"><a href="#更新纯真数据库" class="header-mark headerLink">更新纯真数据库</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1272,7 +1272,7 @@
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ nali update
 </span></span><span class="line"><span class="cl">2020/07/17 12:53:46 正在下载最新纯真 IP 库...
 </span></span><span class="line"><span class="cl">2020/07/17 12:54:05 已将最新的纯真 IP 库保存到本地 /root/.nali/qqwry.dat
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="使用-geoip2-数据库"><a href="#使用-geoip2-数据库" class="header-mark headerLink">使用 Geoip2 数据库</a></h3>
 <p>需要设置环境变量： <code>NALI_DB</code></p>
@@ -1284,46 +1284,46 @@
 <h4 id="windows平台"><a href="#windows平台" class="header-mark headerLink">Windows平台</a></h4>
 <h5 id="使用geoip数据库"><a href="#使用geoip数据库" class="header-mark headerLink">使用geoip数据库</a></h5>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">set NALI_DB=geoip
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h5 id="使用ipip数据库"><a href="#使用ipip数据库" class="header-mark headerLink">使用ipip数据库</a></h5>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">set NALI_DB=ipip
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="linux平台"><a href="#linux平台" class="header-mark headerLink">Linux平台</a></h4>
 <h5 id="使用geoip数据库-1"><a href="#使用geoip数据库-1" class="header-mark headerLink">使用geoip数据库</a></h5>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">export</span> <span class="n">NALI_DB</span><span class="o">=</span><span class="n">geoip</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h5 id="使用ipip数据库-1"><a href="#使用ipip数据库-1" class="header-mark headerLink">使用ipip数据库</a></h5>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">export</span> <span class="n">NALI_DB</span><span class="o">=</span><span class="n">ipip</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="更换数据库目录"><a href="#更换数据库目录" class="header-mark headerLink">更换数据库目录</a></h3>
 <p>如果未指定数据库存放目录，数据库默认将存放在 <code>~/.nali</code></p>
 <p>设置环境变量 <code>NALI_DB_HOME</code> 来指定数据库目录</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1336,7 +1336,7 @@
 </span></span><span class="line"><span class="cl">or
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">export NALI_DB_HOME=/home/nali
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="感谢列表"><a href="#感谢列表" class="header-mark headerLink">感谢列表</a></h2>
 <ul>
@@ -1392,7 +1392,7 @@
 <p>通过实验发现如果不切换浏览器标签，使用另一个浏览器窗口或者切换其他软件都不会触发这个记录</p>
 <p>相关代码如下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1435,13 +1435,13 @@
 </span></span><span class="line"><span class="cl">        <span class="p">},</span> <span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">},</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>没有看代码之前我还猜想检查切屏可以通过focus来检查，看了代码后发现使用的是vue的 onchange 进行触发，然就在方法内检查document是否hidden</p>
 <p>这样是无法检测到切换不同应用的，简直是自欺欺人啊</p>
 <p>注意到检测到切标签后会触发 <code>e.uploadUnnormal(12)</code> 方法，进去看一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1462,14 +1462,14 @@
 </span></span><span class="line"><span class="cl">        <span class="nx">e</span><span class="p">.</span><span class="nx">$message</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&#34;发生错误&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>其中 <code>API.feed_add1</code> 是 <code>/online_proctor/stu/monitor/feed/add</code> 这个路径</p>
 <p>也就是说切标签后会 POST 一个标号为12的action记录，抓包后也发现的确如此，也仅仅而已</p>
 <h2 id="照片上传"><a href="#照片上传" class="header-mark headerLink">照片上传</a></h2>
 <p>查看请求发现图片是先上传到七牛云，然后将返回的连接发给服务器</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1512,10 +1512,10 @@
 </span></span><span class="line"><span class="cl">        <span class="p">})</span>
 </span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">},</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1562,10 +1562,10 @@
 </span></span><span class="line"><span class="cl">        <span class="nx">c</span><span class="p">.</span><span class="nx">a</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">upload</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="s2">&#34;image&#34;</span><span class="p">,</span> <span class="o">!</span><span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">},</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1594,7 +1594,7 @@
 </span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{})</span>
 </span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{})</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="如何绕过"><a href="#如何绕过" class="header-mark headerLink">如何绕过</a></h2>
 <p>那啥，就几个有用的url，反正都是后台请求，当做广告拦截了就行，这样老师那边就没有切屏警告和异常照片了</p>
@@ -1614,7 +1614,7 @@
 <p>用户的浏览器效率比较低，无法及时处理后端返回的所有评论，从而导致浏览器卡死，如此只需要一个用户不断发送评论包，所有用户都会受到dos攻击</p>
 <p>评论代码如下：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1805,35 +1805,35 @@
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>可能是360也发现这个dos了，过了不到一个周便修复了，增加了评论速率的限制</p>
 ]]></description></item><item><title>Linux添加swap</title><link>https://zu1k.com/posts/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-add-swap/</guid><description><![CDATA[<p>给 Linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
 <h2 id="查看当前swap"><a href="#查看当前swap" class="header-mark headerLink">查看当前swap</a></h2>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo swapon --show
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果没有输出说明没有swap</p>
 <p>也可以通过free命令来查看</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">free -h
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="添加swap"><a href="#添加swap" class="header-mark headerLink">添加swap</a></h2>
 <p>添加swap基本步骤： 创建一个大文件 -&gt; 初始化文件为swap交换文件格式 -&gt; 启用这个文件</p>
 <h3 id="创建大文件"><a href="#创建大文件" class="header-mark headerLink">创建大文件</a></h3>
 <p>先找一个剩余空间大点的地方创建一个大文件，这里以1G的大小为例，一般swap空间大小以真实物理内存1-2倍大小</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1844,45 +1844,45 @@
 </span></span><span class="line"><span class="cl">sudo fallocate -l 1G /swapfile
 </span></span><span class="line"><span class="cl"><span class="c1"># 如果没有安装可以用dd命令，比较慢</span>
 </span></span><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/swapfile <span class="nv">bs</span><span class="o">=</span><span class="m">1024</span> <span class="nv">count</span><span class="o">=</span><span class="m">1048576</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>修改文件的权限</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod <span class="m">600</span> /swapfile
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="初始化文件"><a href="#初始化文件" class="header-mark headerLink">初始化文件</a></h3>
 <p>创建完文件后需要将文件进行初始化，标记为swap文件格式</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkswap /swapfile
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="启用swap"><a href="#启用swap" class="header-mark headerLink">启用swap</a></h3>
 <p>接下来使用 命令启用这个swap交换文件</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo swapon /swapfile
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>要让创建好的 swap 分区永久生效，可以将 swapfile 路径内容写入到 <code>/etc/fstab</code> 文件当中：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/swapfile swap swap defaults <span class="m">0</span> <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="检查"><a href="#检查" class="header-mark headerLink">检查</a></h3>
 <p>用一开始的命令检查一下swap是否启用正常</p>
@@ -1891,52 +1891,52 @@
 <h3 id="取消swap"><a href="#取消swap" class="header-mark headerLink">取消swap</a></h3>
 <p>首先输入以下命令停用 SWAP 空间：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo swapoff -v /swapfile
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在 <code>/etc/fstab</code> 文件中删除有效 swap 的行。</p>
 <h3 id="删除文件"><a href="#删除文件" class="header-mark headerLink">删除文件</a></h3>
 <p>最后执行以下命令删除 swapfile 文件：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo rm /swapfile
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="调整swappiness值"><a href="#调整swappiness值" class="header-mark headerLink">调整Swappiness值</a></h2>
 <p>Swappiness 是一个 Linux 内核属性，用于定义 Linux 系统使用 SWAP 空间的频率。Swappiness 值可以从 0 至 100，较低的值会让内核尽可能少的使用 SWAP 空间，而较高的值将让 Linux Kernel 能够更加积极地使用 SWAP 分区。</p>
 <p>Ubuntu 18.04 默认的 Swappiness 值为 60，您可以使用如下命令来查看：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /proc/sys/vm/swappiness
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>值为 60 对于 Ubuntu 18.04 桌面还算行，但对于 Ubuntu Server 来说，SWAP 的使用频率就比较高了，所以您可能需要设置较低的值。例如，要将 swappiness 值设置为 40，请执行：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo sysctl vm.swappiness<span class="o">=</span><span class="m">40</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果要让设置在系统重启后依然有效，则必要在 /etc/sysctl.conf 文件中添加以下内容：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vm.swappiness<span class="o">=</span><span class="m">40</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>最佳 swappiness 值取决于您系统的工作负载以及内存的使用方式，您应该以小增量的方式来调整此参数，以查到最佳值。</p>
 ]]></description></item><item><title>使用GlobalSSH服务加速境外服务器ssh访问</title><link>https://zu1k.com/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/</link><pubDate>Sun, 12 Apr 2020 16:37:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/</guid><description><![CDATA[<blockquote>
@@ -2000,7 +2000,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>经过我的尝试效果还不错，可以跑到10Mbps</p>
 <p>我用的域名为 <code>githubssh.xyz</code> ，大家可以拿去用，使用方法如下：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2013,7 +2013,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">替换后
 </span></span><span class="line"><span class="cl">git clone git@githubssh.xyz:moby/moby.git
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>为了能够自动更新ip，我写了一个程序，每天会检查github新的ip，创建新的globalssh，然后自动解析到域名githubssh.xyz上，由cloudflare进行DNS层面的负载均衡</p>
 <p>开源地址为： <a href="https://github.com/zu1k/globalssh4github" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/globalssh4github</a></p>
@@ -2036,26 +2036,26 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>举个例子：</p>
 <p>所有用户的密码保存在 <code>/etc/shadow</code> 文件中，但是这个文件只有root用户能够进行写操作</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@kali:~# ls -l /etc/shadow
 </span></span><span class="line"><span class="cl">-rw-r----- <span class="m">1</span> root shadow <span class="m">1639</span> Jan <span class="m">27</span> 12:50 /etc/shadow
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>那如果普通用户想要修改自己的密码，是否需要让root用户帮着修改呢？</p>
 <p>显然不需要，修改密码用到了 <code>/usr/bin/passwd</code> 这个程序，我们来看一下它的权限</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@kali:~# ls -l /usr/bin/passwd
 </span></span><span class="line"><span class="cl">-rwsr-xr-x <span class="m">1</span> root root <span class="m">63944</span> Dec <span class="m">20</span> 10:39 /usr/bin/passwd
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>可以看到，这个程序的所有者是root用户，但是所有用户都有执行权限，并且设置了s位（怎么看出来的后面会说）</p>
 <p>这样SUID机制就会在程序执行的时候发生作用，让普通用户可以用root权限修改<code>/etc/shadow</code>文件</p>
@@ -2064,7 +2064,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <h3 id="查看suid"><a href="#查看suid" class="header-mark headerLink">查看SUID</a></h3>
 <p>通过命令 <code>ls -l</code> 即可看到文件的详细信息，包括权限表 <code>-rwxrwxrwx</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -2089,7 +2089,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">如果文件所有者权限的 x 换成 s 就代表设置了SUID
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">同理如果组内用户权限的 x 换成了 s 就代表设置了SGID
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="设置suid"><a href="#设置suid" class="header-mark headerLink">设置SUID</a></h3>
 <p>使用 <code>chmod 4000 filename</code> 可以设置SUID位</p>
@@ -2105,7 +2105,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>因为SUID位让程序在执行的时候有了所有者的权限，所以可以利用这点来提权</p>
 <p>示例：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2116,7 +2116,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">nmap --interactive
 </span></span><span class="line"><span class="cl"><span class="c1"># 执行sh，提权成功</span>
 </span></span><span class="line"><span class="cl">!sh
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/Linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.leavesongs.com/PENETRATION/Linux-suid-privilege-escalation.html</a></p>
 <h2 id="suid在脚本中失效"><a href="#suid在脚本中失效" class="header-mark headerLink">SUID在脚本中失效</a></h2>
@@ -2130,7 +2130,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>通常使用的链接形如：<code>https://github.com/git/git.git</code></p>
 <p>针对这种协议，代理设置比较简单</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2147,33 +2147,33 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="c1"># 取消代理</span>
 </span></span><span class="line"><span class="cl">git config --global --unset http.proxy
 </span></span><span class="line"><span class="cl">git config --global --unset https.proxy
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="ssh协议"><a href="#ssh协议" class="header-mark headerLink">ssh协议</a></h2>
 <p>通常使用的链接形如：<code>git@github.com:git/git.git</code> 或者 <code>ssh://[&lt;username&gt;@]&lt;server&gt;[:&lt;port&gt;]/path/repo.git</code></p>
 <p>对于使用ssh协议的库，上面的代理设置办法就失效了，需要给ssh设置socks代理</p>
 <p>在 <code>~/.ssh/config</code> 文件中添加下面内容， 如果没有这个文件就新建</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
 </span></span><span class="line"><span class="cl">ProxyCommand nc -X <span class="m">5</span> -x 127.0.0.1:1080 %h %p
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里使用的是nc命令，Linux需要安装netcat(一般自带了)，windows需要单独下载</p>
 <p>windows如果安装了<code>mingw</code>也可以使用<code>connect</code>命令来替代<code>nc</code>命令</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
 </span></span><span class="line"><span class="cl">ProxyCommand connect -S 127.0.0.1:1080 %h %p
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div>]]></description></item><item><title>Linux Shell中的重定向</title><link>https://zu1k.com/posts/linux/redirect-in-shell/</link><pubDate>Tue, 24 Mar 2020 15:50:07 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/redirect-in-shell/</guid><description><![CDATA[<p>经常会看到别人的shell脚本后面有一个 <code>2&gt;&amp;1</code> ，一直没去深究，今天这个话题就以这个为出发点进行展开，学习一下Linux shell中重定向的话题。</p>
 <h2 id="特殊的东西"><a href="#特殊的东西" class="header-mark headerLink">特殊的东西</a></h2>
@@ -2189,7 +2189,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </ul>
 <p>我们可以看到后三个文件其实是个链接，指向内核的文件描述符 0\1\2</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2198,7 +2198,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stderr -&gt; /proc/self/fd/2
 </span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stdin -&gt; /proc/self/fd/0
 </span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stdout -&gt; /proc/self/fd/1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="特殊的文件描述符"><a href="#特殊的文件描述符" class="header-mark headerLink">特殊的文件描述符</a></h3>
 <p>在Linux shell中有三个特殊的文件描述符（<code>File descriptor</code> or <code>fd</code>）:</p>
@@ -2223,7 +2223,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p><code>echo &quot;hello&quot; &gt; a.txt</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2232,13 +2232,13 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt; a.txt
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里是将 <strong>stdout</strong> 重定向到文件 <strong>a.txt</strong> 中，与下面的命令等价</p>
 <p><code>echo &quot;hello&quot; 1&gt; a.txt</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2249,7 +2249,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> 1&gt; a.txt
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里我们看到重定向符号 <code>&gt;</code> 默认是将 <code>stdout</code> 也就是 fd<code>1</code> 重定向到别处</p>
 <p>如果我们想要将标准错误输出<code>stderr</code>进行重定向，只需要将上面命令中的文件描述符<code>1</code>修改为标准错误输出的文件描述符<code>2</code>即可</p>
@@ -2262,7 +2262,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p><code>ls error 2&gt;1</code></p>
 <p>这里我们的猜想是将 <code>stderr</code> 重定向到 <code>stdout</code>, 所以写了 <code>2&gt;1</code>, 我们来看一下会不会成功？</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2277,7 +2277,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="m">1</span>
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat <span class="m">1</span>
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;error&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们看到了，并没有输出，而是在当前目录下生成了一个文件 <code>1</code>, 这说明如果我们只写 <code>&gt;1</code> 会被当做重定向到文件 <code>1</code> 中</p>
 <p>此时，我们的 <code>&amp;</code> 就要上场了</p>
@@ -2285,14 +2285,14 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p><code>ls error 2&gt;&amp;1</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls error 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;error&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>到这里我们就可以自主发挥了</p>
@@ -2302,29 +2302,29 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>甚至我们可以玩点复杂的</p>
 <p><code>(echo &quot;hello&quot; &gt;&amp;9) 9&gt;&amp;2 2&gt;&amp;1</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="o">(</span><span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt;<span class="p">&amp;</span>9<span class="o">)</span> 9&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里的文件描述符<code>9</code>会自动生成，但是去除括号就会提示错误了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt;<span class="p">&amp;</span><span class="m">9</span> 9&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">bash: 9: Bad file descriptor
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在 bash &gt;4.0 的版本中，又出了新的重定向语法</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2333,7 +2333,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ls -ld /tmp /tnt 2&gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> &gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/O: /&#39;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">O: drwxrwxrwt <span class="m">17</span> root root <span class="m">28672</span> Nov  <span class="m">5</span> 23:00 /tmp
 </span></span><span class="line"><span class="cl">E: ls: cannot access /tnt: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>这种写法我还没有学习，等我后面学会了再进行更新</p>
@@ -2343,7 +2343,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>用于格式化输出, 将标准输出和错误输出两个流重定向到不同的处理中，最后汇总</p>
 <p><code>((ls -ld /tmp /tnt |sed 's/^/O: /' &gt;&amp;9 ) 2&gt;&amp;1 |sed 's/^/E: /') 9&gt;&amp;1| cat -n</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2352,12 +2352,12 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="o">((</span>ls -ld /tmp /tnt <span class="p">|</span>sed <span class="s1">&#39;s/^/O: /&#39;</span> &gt;<span class="p">&amp;</span><span class="m">9</span> <span class="o">)</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> 9&gt;<span class="p">&amp;</span>1<span class="p">|</span> cat -n
 </span></span><span class="line"><span class="cl">     <span class="m">1</span>  O: drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">22</span> 18:59 /tmp
 </span></span><span class="line"><span class="cl">     <span class="m">2</span>  E: ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>相同作用的新版语法</p>
 <p><code>cat -n &lt;(ls -ld /tmp /tnt 2&gt; &gt;(sed 's/^/E: /') &gt; &gt;(sed 's/^/O: /'))</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2366,7 +2366,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# cat -n &lt;<span class="o">(</span>ls -ld /tmp /tnt 2&gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> &gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/O: /&#39;</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">     <span class="m">1</span>  O: drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">22</span> 18:59 /tmp
 </span></span><span class="line"><span class="cl">     <span class="m">2</span>  E: ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="合并文件"><a href="#合并文件" class="header-mark headerLink">合并文件</a></h3>
 <p>将输出文件 m 和 n 合并: <code>n &gt;&amp; m</code></p>
@@ -2375,7 +2375,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>将开始标记 tag 和结束标记 tag 之间的内容作为输入: <code>&lt;&lt; tag</code></p>
 <p>例如：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2390,7 +2390,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span></span><span class="line"><span class="cl"><span class="s">    document line 3
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
 </span></span><span class="line"><span class="cl"><span class="m">3</span> //表明收到3行输入
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>它的作用是将两个 EOF 之间的内容(document) 作为输入传递给 command。</p>
 <blockquote>
@@ -2404,7 +2404,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>如果我们用 <code>set -o noclobber</code> 设置bash，那bash将不会覆盖任何已经存在的文件，但是我们可以通过 <code>&gt;|</code> 绕过这个限制</p>
 <p><strong>先来看一下默认的情况</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2421,14 +2421,14 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:05:56 PM CST
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt; <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:06:13 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如预期的一样，每一次重定向都覆盖了原文件</p>
 <p><strong>下面我们设置 <code>noclobber</code> 标志</strong></p>
 <p><code>set -o noclobber</code></p>
 <p>然后重复上面的操作试一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2443,12 +2443,12 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt; <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">bash: /tmp/testNoClobberDate-yKVkaY: cannot overwrite existing file
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:06:13 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们看到了bash的提示，不能覆盖已存在的文件，实际结果也是一样</p>
 <p>如何进行绕过呢? 我们来试一下用 <code>&gt;|</code> 代替 <code>&gt;</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2459,23 +2459,23 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:10:45 PM CST
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt;<span class="p">|</span> <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:10:49 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现此时可以覆盖已经存在的文件，我们查看一下目前的设置</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">set</span> -o <span class="p">|</span> grep noclobber
 </span></span><span class="line"><span class="cl">noclobber       on
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><code>noclobber</code> 的确是开启的，所以 <code>&gt;|</code> 的确可以绕过这一限制</p>
 <p>使用 <code>set +o noclobber</code> 关闭这个限制，防止对我们后面的使用造成影响</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2486,7 +2486,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">set</span> -o <span class="p">|</span> grep noclobber
 </span></span><span class="line"><span class="cl">noclobber       off
 </span></span><span class="line"><span class="cl">root@ubuntu:~# rm <span class="nv">$testfile</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="其他的小点"><a href="#其他的小点" class="header-mark headerLink">其他的小点</a></h2>
 <h3 id="重定向到一处"><a href="#重定向到一处" class="header-mark headerLink">重定向到一处</a></h3>
@@ -2499,7 +2499,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>验证一下</p>
 <p><strong>第一种写法</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2510,11 +2510,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><strong>第二种写法</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2525,7 +2525,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat b.txt
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们可以看到第二种写法是正确的</p>
 <p>同理，下面这种写法也正确</p>
@@ -2535,7 +2535,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>如此套娃会不会导致回环卡死？</p>
 <p>试一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2544,12 +2544,12 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls -ld /tmp /tnt 2&gt;<span class="p">&amp;</span><span class="m">1</span> 1&gt;<span class="p">&amp;</span><span class="m">2</span>  <span class="p">|</span> sed -e s/^/++/
 </span></span><span class="line"><span class="cl">++ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">++drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现都会从标准输出出来</p>
 <p>反过来呢？</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2558,7 +2558,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls -ld /tmp /tnt 1&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>  <span class="p">|</span> sed -e s/^/++/
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现都没有从标准输出出来，都是从标准错误输出出来的</p>
 <blockquote>
@@ -2583,7 +2583,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </ol>
 <h4 id="mysql的concat函数可以连接一个或者多个字符串"><a href="#mysql的concat函数可以连接一个或者多个字符串" class="header-mark headerLink">MySQL的concat函数可以连接一个或者多个字符串</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -2614,11 +2614,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="p">|</span> <span class="m">112233</span> <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="mysql的concat函数在连接字符串的时候只要其中一个是null那么将返回null"><a href="#mysql的concat函数在连接字符串的时候只要其中一个是null那么将返回null" class="header-mark headerLink">MySQL的concat函数在连接字符串的时候，只要其中一个是NULL,那么将返回NULL</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2635,7 +2635,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="p">|</span> NULL   <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="concat_wsseparatorstr1str2"><a href="#concat_wsseparatorstr1str2" class="header-mark headerLink">CONCAT_WS(separator,str1,str2,…)</a></h3>
 <p>CONCAT_WS() 代表 CONCAT With Separator ，是CONCAT()的特殊形式。第一个参数是其它参数的分隔符。分隔符的位置放在要连接的两个字符串之间。分隔符可以是一个字符串，也可以是其它参数。</p>
@@ -2645,7 +2645,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <li>如果分隔符为 NULL，则结果为 NULL。函数会忽略任何分隔符参数后的 NULL 值。（只保留非空值）</li>
 </ol>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2662,11 +2662,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="p">|</span> <span class="m">33</span>                       <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+--------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.04 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="如连接后以逗号分隔"><a href="#如连接后以逗号分隔" class="header-mark headerLink">如连接后以逗号分隔</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2683,11 +2683,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="p">|</span> 11,22,33 <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+-------------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="和mysql中concat函数不同的是-concat_ws函数在执行的时候不会因为null值而返回null"><a href="#和mysql中concat函数不同的是-concat_ws函数在执行的时候不会因为null值而返回null" class="header-mark headerLink">和MySQL中concat函数不同的是, concat_ws函数在执行的时候,不会因为NULL值而返回NULL</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2704,20 +2704,20 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="p">|</span> 11,22 <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+-------------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="group_concat-函数"><a href="#group_concat-函数" class="header-mark headerLink">GROUP_CONCAT() 函数</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">group_concat</span><span class="p">([</span><span class="k">DISTINCT</span><span class="p">]</span><span class="w"> </span><span class="err">要连接的字段</span><span class="w"> </span><span class="p">[</span><span class="k">Order</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ASC</span><span class="o">/</span><span class="k">DESC</span><span class="w"> </span><span class="err">排序字段</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">Separator</span><span class="w"> </span><span class="err">‘分隔符’</span><span class="p">])</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="基本查询"><a href="#基本查询" class="header-mark headerLink">基本查询</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -2744,11 +2744,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> <span class="m">500</span>   <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------+------+
 </span></span><span class="line"><span class="cl"><span class="m">6</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="以id分组把name字段的值打印在一行逗号分隔默认"><a href="#以id分组把name字段的值打印在一行逗号分隔默认" class="header-mark headerLink">以id分组，把name字段的值打印在一行，逗号分隔(默认)</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2769,11 +2769,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> 200,500<span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------+--------------------+
 </span></span><span class="line"><span class="cl"><span class="m">3</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="以id分组把去冗余的name字段的值打印在一行逗号分隔"><a href="#以id分组把去冗余的name字段的值打印在一行逗号分隔" class="header-mark headerLink">以id分组，把去冗余的name字段的值打印在一行，逗号分隔</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2794,11 +2794,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> 200,500 <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------+-----------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">3</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="以id分组把name字段的值打印在一行逗号分隔以name排倒序"><a href="#以id分组把name字段的值打印在一行逗号分隔以name排倒序" class="header-mark headerLink">以id分组，把name字段的值打印在一行，逗号分隔，以name排倒序</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2819,7 +2819,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> 500,200<span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------+---------------------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">3</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="区别"><a href="#区别" class="header-mark headerLink">区别</a></h2>
 <p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer" class="post-link">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
@@ -2882,7 +2882,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <h3 id="基本部署"><a href="#基本部署" class="header-mark headerLink">基本部署</a></h3>
 <p>首先我们需要将git库的代码检出到github actions提供的容器中，这里使用github提供的checkout步骤</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2891,11 +2891,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl">- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@master</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">submodules</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>因为hexo需要依赖node.js环境，所以我们还要安装node环境</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2904,11 +2904,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl">- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/setup-node@master</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">node-version</span><span class="p">:</span><span class="w"> </span><span class="m">12.</span><span class="l">x</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>有了node环境后我们需要安装各种依赖包</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2919,22 +2919,22 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
 </span></span></span><span class="line"><span class="cl"><span class="sd">    npm install
 </span></span></span><span class="line"><span class="cl"><span class="sd">    npm install -g hexo-cli</span><span class="w">    
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>依赖装好后就可以执行命令生成静态网站了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl">- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Generate</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">hexo clean &amp;&amp; hexo g</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>最后一步就是将生成的public目录推到github仓库的page分支上，这样github pages就会将最新的网站自动部署了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2949,14 +2949,14 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">github_token</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.GITHUB_TOKEN }}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">publish_dir</span><span class="p">:</span><span class="w"> </span><span class="l">./public</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">cname</span><span class="p">:</span><span class="w"> </span><span class="l">g.blog.zu1k.com</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="增加更多功能"><a href="#增加更多功能" class="header-mark headerLink">增加更多功能</a></h3>
 <p>在github actions工作流中，还可以完成更多更复杂的操作，里面可以直接执行shell脚本，可以使用docker镜像提供的特殊环境，大家可以根据自己需求进行修改。</p>
 <h2 id="完整配置文件"><a href="#完整配置文件" class="header-mark headerLink">完整配置文件</a></h2>
 <p>我的配置文件是适合我自己博客用的，里面还包括了网页、js、css、图片的压缩，cdn链接的替换，自动打release方便绕过jsDelivr的缓存。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -3049,7 +3049,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="l">Automatic generated</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">prerelease</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>在github actions将page专用分支更新后，zeit\netlify\github pages三个平台都会自动将最新的内容部署上，这样我就只需要关注博客内容，后续操作都不需要管了</p>
@@ -3065,25 +3065,25 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <h3 id="安装-gulp"><a href="#安装-gulp" class="header-mark headerLink">安装 gulp</a></h3>
 <p>在自己本机安装</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install gulp -g
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>为了 GitHub Action 或其他 CI\CD 平台也能够进行安装，这里推荐</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install gulp --save-dev
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们还需要一些依赖</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -3108,12 +3108,12 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>            imagemin-svgo <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>            imagemin-gifsicle <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>            imagemin-optipng
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="创建配置文件"><a href="#创建配置文件" class="header-mark headerLink">创建配置文件</a></h3>
 <p>在博客 hexo 的根目录下，新建 <code>gulpfile.js</code> 配置文件</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -3262,7 +3262,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">    <span class="nx">gulp</span><span class="p">.</span><span class="nx">parallel</span><span class="p">(</span><span class="s2">&#34;minify-html&#34;</span><span class="p">,</span> <span class="s2">&#34;minify-css&#34;</span><span class="p">,</span> <span class="s2">&#34;minify-js&#34;</span><span class="p">,</span> <span class="s2">&#34;minify-images&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="使用方法"><a href="#使用方法" class="header-mark headerLink">使用方法</a></h3>
 <p>在使用 <code>hexo g</code> 生成静态网站后， 运行 <code>gulp</code> 进行压缩</p>
@@ -3280,7 +3280,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <h3 id="链接格式"><a href="#链接格式" class="header-mark headerLink">链接格式</a></h3>
 <p>jsDelivr 针对 GitHub 资源有众多 URL 格式</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -3297,11 +3297,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery/
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>考虑到 jsDelivr 默认缓存时间是 7 天，如果我们想要修改实时生效而不需要等到缓存过期，最适合的是</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -3310,7 +3310,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/ github用户名 / 库名 @ 版本号或者tag / 路径/文件名
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们可以通过打 tag 来访问同一个资源文件的不同版本，而不需要考虑缓存时间</p>
 <h3 id="替换链接"><a href="#替换链接" class="header-mark headerLink">替换链接</a></h3>
@@ -3406,7 +3406,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </blockquote>
 <p>_config.yml</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -3415,11 +3415,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">cdn</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l">https://cdn.jsdelivr.net/gh/zu1k/blog@0.0.1.2</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>用到的地方</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -3438,7 +3438,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">&lt;% } %&gt;
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">其他的地方同样的方法
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="加载时文字可见"><a href="#加载时文字可见" class="header-mark headerLink">加载时文字可见</a></h2>
 <p>无论怎样优化，字体加载的时间无法忽略，这段时间的网页文字显示为空，这给用户带来卡顿感</p>
@@ -3477,16 +3477,16 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>对于图片，我使用了 <code>hexo-lazyload-image</code> 这个插件</p>
 <p>安装</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install hexo-lazyload-image --save
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>配置文件中添加</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -3497,22 +3497,22 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">  enable: <span class="nb">true</span>
 </span></span><span class="line"><span class="cl">  onlypost: <span class="nb">false</span>
 </span></span><span class="line"><span class="cl">  loadingImg: https://cdn.jsdelivr.net/gh/zu1k/blog@0.0.1.2/images/loading.png
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>顺便给懒加载添加了 cdn 功能，可以替换成 cdn 链接来加速</p>
 </blockquote>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install hexo-lazyload-image-cdn --save
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>配置文件中添加</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -3529,14 +3529,14 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">  cdn:
 </span></span><span class="line"><span class="cl">    enabled: <span class="nb">false</span>
 </span></span><span class="line"><span class="cl">    url: https://cdn.com
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="评论懒加载"><a href="#评论懒加载" class="header-mark headerLink">评论懒加载</a></h3>
 <p>对于评论区，很多情况下用户根本不会划到页面底部（文章写得太烂没人看得下去）。</p>
 <p>所以我这里对 disqus 的加载使用懒加载技术，参考 <a href="https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/" target="_blank" rel="noopener noreffer" class="post-link">https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/</a></p>
 <p>我使用的是 disqusJS, 下面给出加载的 js 代码</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -3611,7 +3611,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">  <span class="p">);</span>
 </span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="err">/script&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="o">&lt;%</span> <span class="p">}</span> <span class="o">%&gt;</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="终极大招"><a href="#终极大招" class="header-mark headerLink">终极大招</a></h2>
 <p>如果经过上面的优化，你还对博客的加载速度不满意，那一定是 github pages 服务器在美国的原因，200+ms 的延迟导致首字节返回时间不短</p>
@@ -3698,7 +3698,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 <p>使用 <code>netplan try</code> 检查配置是否正确，如果正确自动应用生效</p>
 <h3 id="配置iptables规则"><a href="#配置iptables规则" class="header-mark headerLink">配置iptables规则</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -3727,7 +3727,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">//添加伪装
 </span></span><span class="line"><span class="cl">iptables -t nat -A POSTROUTING -s 10.1.2.0/24 -j MASQUERADE
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="win7-设置"><a href="#win7-设置" class="header-mark headerLink">win7 设置</a></h2>
 <p>修改网卡配置如图</p>
@@ -3802,7 +3802,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 <p>执行 <code>perl Configure VC-WIN64A no-asm no-shared --prefix=&quot;D:\Project\opensslwork\openssl\build&quot; --openssldir=&quot;D:\Project\opensslwork\openssl\build\ssl&quot;</code></p>
 <h3 id="进行编译并测试和安装"><a href="#进行编译并测试和安装" class="header-mark headerLink">进行编译并测试和安装</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -3811,7 +3811,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">nmake
 </span></span><span class="line"><span class="cl">nmake <span class="nb">test</span>
 </span></span><span class="line"><span class="cl">nmake install
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>此时已经有了我们需要的头文件和静态链接lib库</p>
 <p>
@@ -3863,7 +3863,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 <h3 id="添加头文件"><a href="#添加头文件" class="header-mark headerLink">添加头文件</a></h3>
 <p>因为需要md5,rsa,base64等操作，这里需要导入openssl四个相关的头文件</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -3874,11 +3874,11 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;openssl/pem.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;openssl/md5.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;openssl/bio.h&gt;</span><span class="cp">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="使用md5对字符串生成摘要"><a href="#使用md5对字符串生成摘要" class="header-mark headerLink">使用MD5对字符串生成摘要</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -3897,11 +3897,11 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span><span class="line"><span class="cl">    <span class="n">MD5</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="n">md</span><span class="p">);</span> <span class="c1">//调用openssl的md5方法
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="生成rsa密钥对并以pem格式写入文件"><a href="#生成rsa密钥对并以pem格式写入文件" class="header-mark headerLink">生成rsa密钥对并以pem格式写入文件</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -3942,11 +3942,11 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">PEM_write_bio_RSAPublicKey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">rsa</span><span class="p">);</span> <span class="c1">//公钥写入文件
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">rsa</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="对数据进行base64编码base64在bio中有"><a href="#对数据进行base64编码base64在bio中有" class="header-mark headerLink">对数据进行base64编码，base64在BIO中有</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -3983,11 +3983,11 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span><span class="line"><span class="cl">    <span class="n">BIO_free_all</span><span class="p">(</span><span class="n">bio</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="最后通过main函数读入字符串并将三个过程连起来"><a href="#最后通过main函数读入字符串并将三个过程连起来" class="header-mark headerLink">最后通过main函数读入字符串并将三个过程连起来</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -4042,7 +4042,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">b64text</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>因为是课程作业，就没有对出现的错误情况进行处理，实际使用时需要考虑到</p>
@@ -4098,7 +4098,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 这里我下载的是 <a href="http://ftp.gnu.org/gnu/gmp/gmp-5.0.1.tar.bz2" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/gmp/gmp-5.0.1.tar.bz2</a></p>
 <p>解压后从源码编译安装</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -4111,13 +4111,13 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span><span class="line"><span class="cl">sudo ./configure --prefix<span class="o">=</span>/opt/gmp
 </span></span><span class="line"><span class="cl">sudo make
 </span></span><span class="line"><span class="cl">sudo make install
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="安装mpfr"><a href="#安装mpfr" class="header-mark headerLink">安装mpfr</a></h3>
 <p>从 <a href="http://ftp.gnu.org/gnu/mpfr/" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/mpfr/</a> 下载一个稳定版本<br>
 我选择的是 <a href="http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.4.tar.bz2" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.4.tar.bz2</a></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -4134,13 +4134,13 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>      --with-gmp-include<span class="o">=</span>/opt/gmp/include
 </span></span><span class="line"><span class="cl">sudo make
 </span></span><span class="line"><span class="cl">sudo make install
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="安装mpc"><a href="#安装mpc" class="header-mark headerLink">安装mpc</a></h3>
 <p>从 <a href="http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz</a> 下载<br>
 我选择的是http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -4161,36 +4161,36 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>      --with-mpfr-include<span class="o">=</span>/opt/mpfr/include
 </span></span><span class="line"><span class="cl">sudo make
 </span></span><span class="line"><span class="cl">sudo make install
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>上面依赖安装顺序不能错</p>
 </blockquote>
 <p>后来听曹老师说可以用 apt 直接安装，血亏</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt install libmpc-dev libmpfr-dev libgmp-dev libgmp3-dev
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>又一个后来，发现 gcc 源码中有脚本可以一键下载安装这些依赖</p>
 </blockquote>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sh ./contrib/download_prerequisites
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="编译"><a href="#编译" class="header-mark headerLink">编译</a></h2>
 <p>然后进入gcc目录</p>
 <p>配置编译配置</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -4201,7 +4201,7 @@ Due to that, we cannot deploy the commit e80751b.</p>
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>  --enable-checking<span class="o">=</span>release <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>  --enable-languages<span class="o">=</span>c,c++ <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>  --disable-multilib
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>执行 <code>make -j8</code> 然后去喝功夫茶</p>
 ]]></description></item><item><title>一些我刚学到的GIT技巧</title><link>https://zu1k.com/posts/learn/some-git-skills/</link><pubDate>Sun, 01 Dec 2019 20:32:44 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/some-git-skills/</guid><description><![CDATA[<h3 id="git-reflog"><a href="#git-reflog" class="header-mark headerLink">git reflog</a></h3>

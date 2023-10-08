@@ -21,36 +21,36 @@
 </ul>
 <h3 id="回复文本内容"><a href="#回复文本内容" class="header-mark headerLink">回复文本内容</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 汉化===tg支持语言包功能，点击【链接】即可修改为中文。
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>添加这条规则之后，机器人就会对每一条包含有“汉化”关键词的消息回复“tg支持语言包功能，点击【链接】即可修改为中文。”这个特定内容。</p>
 <p>回复文字支持markdown语法，添加前缀 <code>md::</code> 即可使用</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/add <span class="nv">testmd</span><span class="o">===</span>md::加粗**bold**
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="回复图片"><a href="#回复图片" class="header-mark headerLink">回复图片</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 关键词===photo::图片链接
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>图片链接需要时互联网上tg服务器可以访问到的图片，可以是tg上公开群组或者频道的图片消息链接或者互联网上任意图片资源链接</p>
 <p>例如：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -59,7 +59,7 @@
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 小白兔===photo::https://img.cdn.com/tupian.jpg
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">/add 小可爱===photo::https://t.me/peekfun/1000
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="回复动图视频文件"><a href="#回复动图视频文件" class="header-mark headerLink">回复动图\视频\文件</a></h3>
 <p>机器人除了回复图片外，还支持回复动图、视频、文件，如果你已经学会了回复图片，那这些种类也没有问题。</p>
@@ -72,7 +72,7 @@
 <h3 id="图片文件添加文字"><a href="#图片文件添加文字" class="header-mark headerLink">图片\文件添加文字</a></h3>
 <p>在手动发送图片等的时候我们可以添加描述信息，机器人回复规则也可以。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -89,7 +89,7 @@
 </span></span><span class="line"><span class="cl">/add 小白兔===
 </span></span><span class="line"><span class="cl">            photo::https://img.cdn.com/tupian.jpg  ::
 </span></span><span class="line"><span class="cl">            这里是描述文字，例如原来你也喜欢小白兔呀
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>文件的使用也是类似，就不再重复</p>
 <blockquote>
@@ -100,12 +100,12 @@
 事实上机器人聪明与否完全看你设置的关键词规则是否灵活，你需要学习简单的正则表达式并且利用正则来进行匹配。</p>
 <p>使用正则匹配非常简单，只需要将原来的关键词替换为 <code>re:正则规则</code> 即可。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add re:(如何|怎样).*(激活|使用)===请查看这个说明
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在这个例子里面，使用了正则表达式进行了匹配，此时用户发送 “有谁知道怎样进行账号的激活吗？”也可以匹配上，这大大提高了规则的灵活性。</p>
 <blockquote>
@@ -115,16 +115,16 @@
 <p>有些时候一条消息无法满足回复的需求，需要机器人同时返回多个消息，这也是支持的。</p>
 <p>你只需要用 || 将多个回复内容间隔开就可以了。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 关键词===回复文字1||回复文字2||回复文字3
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>不同种类的回复内容也可以混合在一起，请随意混搭</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -141,14 +141,14 @@
 </span></span><span class="line"><span class="cl">            video::视频链接  ||
 </span></span><span class="line"><span class="cl">            如果需要更多内容，你可以下载软件  ||
 </span></span><span class="line"><span class="cl">            file::文件链接
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="回复随机消息"><a href="#回复随机消息" class="header-mark headerLink">回复随机消息</a></h3>
 <p>有一个群组提出了这样一个特定需求，想要从设置好的回复内容中随机回复一个，这也是支持的。</p>
 <p>使用方法：<br>
 random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符号间隔。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -165,12 +165,12 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">                photo::PHOTO_URL  $$
 </span></span><span class="line"><span class="cl">                另一条消息
 </span></span><span class="line"><span class="cl">            }
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在这个关键词规则里，机器人将自动从三条消息中选择一个发出。</p>
 <p>你可以结合上面一个使用方法，让规则更加灵活</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -193,28 +193,28 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">            }  ||
 </span></span><span class="line"><span class="cl">            如果喜欢可以下载软件获取更多图片  ||
 </span></span><span class="line"><span class="cl">            file::文件的链接
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="自动删除消息"><a href="#自动删除消息" class="header-mark headerLink">自动删除消息</a></h3>
 <p>大多数时候我们需要屏蔽一些关键词，防止用户讨论相关内容，比如说政治、色情、黑产等内容。<br>
 机器人既然可以识别关键词，就可以进行相关消息删除操作，你需要给机器人删除消息的管理员权限。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 日站===delete
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这样机器人就会将含有 日站 二字的消息自动删除，起到屏蔽的作用，你可以使用正则进行更加灵活的匹配。</p>
 <p>直接删除可能不太友好，你可以结合前面的内容进行优化，比如结合多个回复内容进行添加提示语。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 日站===本群禁止讨论黑产相关内容||delete
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这样的规则机器人就会先回复“本群禁止讨论黑产相关内容”，然后再进行删除。</p>
 <blockquote>
@@ -223,7 +223,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <h3 id="自动禁言踢人"><a href="#自动禁言踢人" class="header-mark headerLink">自动禁言\踢人</a></h3>
 <p>只删除还不过瘾，有人刷消息？禁言和踢人同样支持。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -248,18 +248,18 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">踢人
 </span></span><span class="line"><span class="cl">/add <span class="nv">日站</span><span class="o">===</span>kick
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>你还是可以结合上面的内容进行优化，因为delete、ban、kick也是回复种类之一，所以跟文字、照片、视频、文件等的使用方法相同，也就可以进行组合。</p>
 <h3 id="屏蔽特定后缀文件"><a href="#屏蔽特定后缀文件" class="header-mark headerLink">屏蔽特定后缀文件</a></h3>
 <p>有人发送exe\com\bat等后缀的病毒？不用再去找其他机器人了，使用自定义规则即可完成屏蔽和禁言。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add re:(\.exe|\.scr|\.cpl|\.com|\.cmd|\.bat|\.vbs)$===ban
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这样带有exe\src\cpl\com\cmd\bat\vbs等可执行后缀的文件就会被自动删除，相关发送者就会被禁言。</p>
 <blockquote>
@@ -269,7 +269,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <p>机器人可以设置欢迎和欢送文字</p>
 <p>需要使用 <code>/welcome</code> 和 <code>/goodbye</code> 命令分别开启</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -286,7 +286,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">/goodbye
 </span></span><span class="line"><span class="cl">开启后，可以设置内容
 </span></span><span class="line"><span class="cl">/setgoodbyetext <span class="nv">$username离开了我们群</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>注意：加群欢迎和退群欢送文字默认开启markdown语法
@@ -299,16 +299,16 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </blockquote>
 <p>示例：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add test===button::{&#34;text&#34;: &#34;测试按钮消息，支持_Markdown_&#34;,&#34;buttons&#34;: [[{&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},{&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;},{&#34;text&#34;:&#34;拾取&#34;,&#34;url&#34;:&#34;http://t.me/peekfun&#34;}],[{&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},{&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;}]]}
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>button::后面的json格式如下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -343,7 +343,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">        ]
 </span></span><span class="line"><span class="cl">    ]
 </span></span><span class="line"><span class="cl">}
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="命令列表"><a href="#命令列表" class="header-mark headerLink">命令列表</a></h2>
 <ul>

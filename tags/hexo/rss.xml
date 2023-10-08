@@ -34,7 +34,7 @@
 <h3 id="基本部署"><a href="#基本部署" class="header-mark headerLink">基本部署</a></h3>
 <p>首先我们需要将git库的代码检出到github actions提供的容器中，这里使用github提供的checkout步骤</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -43,11 +43,11 @@
 <pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl">- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@master</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">submodules</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>因为hexo需要依赖node.js环境，所以我们还要安装node环境</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -56,11 +56,11 @@
 <pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl">- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/setup-node@master</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">node-version</span><span class="p">:</span><span class="w"> </span><span class="m">12.</span><span class="l">x</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>有了node环境后我们需要安装各种依赖包</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -71,22 +71,22 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
 </span></span></span><span class="line"><span class="cl"><span class="sd">    npm install
 </span></span></span><span class="line"><span class="cl"><span class="sd">    npm install -g hexo-cli</span><span class="w">    
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>依赖装好后就可以执行命令生成静态网站了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl">- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Generate</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">hexo clean &amp;&amp; hexo g</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>最后一步就是将生成的public目录推到github仓库的page分支上，这样github pages就会将最新的网站自动部署了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -101,14 +101,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">github_token</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.GITHUB_TOKEN }}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">publish_dir</span><span class="p">:</span><span class="w"> </span><span class="l">./public</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">cname</span><span class="p">:</span><span class="w"> </span><span class="l">g.blog.zu1k.com</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="增加更多功能"><a href="#增加更多功能" class="header-mark headerLink">增加更多功能</a></h3>
 <p>在github actions工作流中，还可以完成更多更复杂的操作，里面可以直接执行shell脚本，可以使用docker镜像提供的特殊环境，大家可以根据自己需求进行修改。</p>
 <h2 id="完整配置文件"><a href="#完整配置文件" class="header-mark headerLink">完整配置文件</a></h2>
 <p>我的配置文件是适合我自己博客用的，里面还包括了网页、js、css、图片的压缩，cdn链接的替换，自动打release方便绕过jsDelivr的缓存。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -201,7 +201,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="l">Automatic generated</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">prerelease</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>在github actions将page专用分支更新后，zeit\netlify\github pages三个平台都会自动将最新的内容部署上，这样我就只需要关注博客内容，后续操作都不需要管了</p>

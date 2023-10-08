@@ -3,34 +3,34 @@
 <p>需要开启25端口</p>
 <h3 id="安装sendmail"><a href="#安装sendmail" class="header-mark headerLink">安装sendmail</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum  -y  install sendmail  sendmail-cf
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="安装mta功能测试用软件"><a href="#安装mta功能测试用软件" class="header-mark headerLink">安装MTA功能测试用软件</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum -y install  mailx   php
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="切换系统的邮件发送接口"><a href="#切换系统的邮件发送接口" class="header-mark headerLink">切换系统的邮件发送接口</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">alternatives --config mta
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>画面显示：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -49,12 +49,12 @@
 </span></span><span class="line"><span class="cl">*  <span class="m">2</span>           /usr/sbin/sendmail.sendmail
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Enter to keep the current selection<span class="o">[</span>+<span class="o">]</span>, or <span class="nb">type</span> selection number: <span class="m">2</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>输入2后回车即把MTA功能切换到sendmail上，+号会显示在sendmail的行头。</p>
 <h3 id="配置sendmail"><a href="#配置sendmail" class="header-mark headerLink">配置sendmail</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -73,13 +73,13 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf
 </span></span><span class="line"><span class="cl">生成正式的配置文件。
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="重启并测试功能"><a href="#重启并测试功能" class="header-mark headerLink">重启并测试功能</a></h3>
 <p><code>reboot -f</code></p>
 <p>重启完成后确认MTA程序已经切换到sendmail</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -108,11 +108,11 @@
 </span></span><span class="line"><span class="cl">      root       <span class="m">1161</span>  0.0  0.0 <span class="m">112660</span>   <span class="m">968</span> pts/1    R+   11:04   0:00 grep --color<span class="o">=</span>auto postfix
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">      postfix的相关进程都没有开启
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="用php函数发送邮件"><a href="#用php函数发送邮件" class="header-mark headerLink">用PHP函数发送邮件</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -125,7 +125,7 @@
 </span></span><span class="line"><span class="cl"><span class="nx">在PHP的交互界面下输入以下函数</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nx">mail</span><span class="p">(</span><span class="s1">&#39;test@sohu.com&#39;</span><span class="p">,</span> <span class="s2">&#34;Test email content&#34;</span><span class="p">,</span> <span class="s2">&#34;sendmail title&#34;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s2">&#34;-f testname@sendmail.com&#34;</span><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><ul>
 <li>使用PHP接口做测试的好处是可以随意指定发送方的邮件地址，即mail函数的最后一个参数。</li>
@@ -137,7 +137,7 @@
 <p>这样的邮件域名会被大多数邮箱如163，QQ拒收。</p>
 <p>查看邮件发送log会发现以下错误</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -146,7 +146,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cat /var/log/maillog
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">      <span class="nv">dsn</span><span class="o">=</span>4.1.8, <span class="nv">stat</span><span class="o">=</span>Deferred: <span class="m">450</span> 4.1.8 &lt;root@localhost.localdomain&gt;: Sender address rejected: Domain not found
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>修改HOSTNAME</p>
 <p><code>vi  /etc/hosts</code></p>
@@ -174,7 +174,7 @@
 <p><code>reboot -f</code></p>
 <p>重启后查看进程看到postfix相关的进程已经启动</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -195,12 +195,12 @@
 </span></span><span class="line"><span class="cl">      postfix    <span class="m">1238</span>  0.0  0.4  <span class="m">89652</span>  <span class="m">4024</span> ?        S    09:08   0:00 trivial-rewrite -n rewrite -t unix -u
 </span></span><span class="line"><span class="cl">      postfix    <span class="m">1239</span>  0.0  0.4  <span class="m">89856</span>  <span class="m">4272</span> ?        S    09:08   0:00 smtp -t unix -u
 </span></span><span class="line"><span class="cl">      root       <span class="m">1274</span>  0.0  0.0 <span class="m">112660</span>   <span class="m">972</span> pts/1    R+   09:09   0:00 grep --color<span class="o">=</span>auto postfix
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>系统的hostname已经在sendmail配置的第六步中完成了配置，这里就直接使用PHP与mail命令</p>
 <p>两种方法做测试。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -215,7 +215,7 @@
 </span></span><span class="line"><span class="cl">* php的mail函数可以随意指定发送地址
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;test mail&#34;</span><span class="p">|</span>mail -s <span class="s2">&#34;postfix mail title&#34;</span> test@sohu.com
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div>]]></description></item><item><title>md5缺陷0e</title><link>https://zu1k.com/posts/security/web-security/md5-compare-0e/</link><pubDate>Sun, 14 Oct 2018 18:09:46 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/md5-compare-0e/</guid><description><![CDATA[<p>PHP在处理哈希字符串时，会利用”!=”或”==”来对哈希值进行比较，它把每一个以”0E”开头的哈希值都解释为0，所以如果两个不同的密码经过哈希以后，其哈希值都是以”0E”开头的，那么PHP将会认为他们相同，都是0。</p>
 <p>关于PHP hash比较缺陷详细介绍：http://www.freebuf.com/news/67007.html</p>

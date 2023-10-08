@@ -103,7 +103,7 @@
 <p>通常使用的链接形如：<code>https://github.com/git/git.git</code></p>
 <p>针对这种协议，代理设置比较简单</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -120,33 +120,33 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 取消代理</span>
 </span></span><span class="line"><span class="cl">git config --global --unset http.proxy
 </span></span><span class="line"><span class="cl">git config --global --unset https.proxy
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="ssh协议"><a href="#ssh协议" class="header-mark headerLink">ssh协议</a></h2>
 <p>通常使用的链接形如：<code>git@github.com:git/git.git</code> 或者 <code>ssh://[&lt;username&gt;@]&lt;server&gt;[:&lt;port&gt;]/path/repo.git</code></p>
 <p>对于使用ssh协议的库，上面的代理设置办法就失效了，需要给ssh设置socks代理</p>
 <p>在 <code>~/.ssh/config</code> 文件中添加下面内容， 如果没有这个文件就新建</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
 </span></span><span class="line"><span class="cl">ProxyCommand nc -X <span class="m">5</span> -x 127.0.0.1:1080 %h %p
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里使用的是nc命令，Linux需要安装netcat(一般自带了)，windows需要单独下载</p>
 <p>windows如果安装了<code>mingw</code>也可以使用<code>connect</code>命令来替代<code>nc</code>命令</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
 </span></span><span class="line"><span class="cl">ProxyCommand connect -S 127.0.0.1:1080 %h %p
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div>]]></description></item><item><title>GitHub等大面积https劫持</title><link>https://zu1k.com/posts/events/mitm-https-hijack-github/</link><pubDate>Fri, 27 Mar 2020 08:47:11 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/mitm-https-hijack-github/</guid><description><![CDATA[<p>昨天下午两点多，突然在一个站长群里听到有人说 GitHub Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子</p>
 <p>当天晚上再次刷V2EX的时候发现部分cloudflare的IP和京东主站部分IP也出现相似的劫持事件</p>
@@ -195,7 +195,7 @@
 <details>
   <summary>点击展开</summary>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -380,14 +380,14 @@
 </span></span><span class="line"><span class="cl">    Extended master secret: yes
 </span></span><span class="line"><span class="cl">---
 </span></span><span class="line"><span class="cl">DONE
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div></details>
 <h3 id="香港阿里云"><a href="#香港阿里云" class="header-mark headerLink">香港阿里云</a></h3>
 <details>
   <summary>点击展开</summary>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">  1
 </span><span class="lnt">  2
 </span><span class="lnt">  3
@@ -606,7 +606,7 @@
 </span></span><span class="line"><span class="cl">Verify <span class="k">return</span> code: <span class="m">0</span> <span class="o">(</span>ok<span class="o">)</span>
 </span></span><span class="line"><span class="cl">---
 </span></span><span class="line"><span class="cl">DONE
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div></details>
 <h2 id="实施手段"><a href="#实施手段" class="header-mark headerLink">实施手段</a></h2>
@@ -663,7 +663,7 @@
 <h3 id="基本部署"><a href="#基本部署" class="header-mark headerLink">基本部署</a></h3>
 <p>首先我们需要将git库的代码检出到github actions提供的容器中，这里使用github提供的checkout步骤</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -672,11 +672,11 @@
 <pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl">- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@master</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">submodules</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>因为hexo需要依赖node.js环境，所以我们还要安装node环境</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -685,11 +685,11 @@
 <pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl">- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/setup-node@master</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">node-version</span><span class="p">:</span><span class="w"> </span><span class="m">12.</span><span class="l">x</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>有了node环境后我们需要安装各种依赖包</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -700,22 +700,22 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
 </span></span></span><span class="line"><span class="cl"><span class="sd">    npm install
 </span></span></span><span class="line"><span class="cl"><span class="sd">    npm install -g hexo-cli</span><span class="w">    
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>依赖装好后就可以执行命令生成静态网站了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl">- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Generate</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">hexo clean &amp;&amp; hexo g</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>最后一步就是将生成的public目录推到github仓库的page分支上，这样github pages就会将最新的网站自动部署了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -730,14 +730,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">github_token</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.GITHUB_TOKEN }}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">publish_dir</span><span class="p">:</span><span class="w"> </span><span class="l">./public</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">cname</span><span class="p">:</span><span class="w"> </span><span class="l">g.blog.zu1k.com</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="增加更多功能"><a href="#增加更多功能" class="header-mark headerLink">增加更多功能</a></h3>
 <p>在github actions工作流中，还可以完成更多更复杂的操作，里面可以直接执行shell脚本，可以使用docker镜像提供的特殊环境，大家可以根据自己需求进行修改。</p>
 <h2 id="完整配置文件"><a href="#完整配置文件" class="header-mark headerLink">完整配置文件</a></h2>
 <p>我的配置文件是适合我自己博客用的，里面还包括了网页、js、css、图片的压缩，cdn链接的替换，自动打release方便绕过jsDelivr的缓存。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -830,7 +830,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="l">Automatic generated</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">prerelease</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>在github actions将page专用分支更新后，zeit\netlify\github pages三个平台都会自动将最新的内容部署上，这样我就只需要关注博客内容，后续操作都不需要管了</p>
@@ -846,25 +846,25 @@
 <h3 id="安装-gulp"><a href="#安装-gulp" class="header-mark headerLink">安装 gulp</a></h3>
 <p>在自己本机安装</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install gulp -g
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>为了 GitHub Action 或其他 CI\CD 平台也能够进行安装，这里推荐</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install gulp --save-dev
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们还需要一些依赖</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -889,12 +889,12 @@
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>            imagemin-svgo <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>            imagemin-gifsicle <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>            imagemin-optipng
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="创建配置文件"><a href="#创建配置文件" class="header-mark headerLink">创建配置文件</a></h3>
 <p>在博客 hexo 的根目录下，新建 <code>gulpfile.js</code> 配置文件</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1043,7 +1043,7 @@
 </span></span><span class="line"><span class="cl">    <span class="nx">gulp</span><span class="p">.</span><span class="nx">parallel</span><span class="p">(</span><span class="s2">&#34;minify-html&#34;</span><span class="p">,</span> <span class="s2">&#34;minify-css&#34;</span><span class="p">,</span> <span class="s2">&#34;minify-js&#34;</span><span class="p">,</span> <span class="s2">&#34;minify-images&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="使用方法"><a href="#使用方法" class="header-mark headerLink">使用方法</a></h3>
 <p>在使用 <code>hexo g</code> 生成静态网站后， 运行 <code>gulp</code> 进行压缩</p>
@@ -1061,7 +1061,7 @@
 <h3 id="链接格式"><a href="#链接格式" class="header-mark headerLink">链接格式</a></h3>
 <p>jsDelivr 针对 GitHub 资源有众多 URL 格式</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1078,11 +1078,11 @@
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery/
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>考虑到 jsDelivr 默认缓存时间是 7 天，如果我们想要修改实时生效而不需要等到缓存过期，最适合的是</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1091,7 +1091,7 @@
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/ github用户名 / 库名 @ 版本号或者tag / 路径/文件名
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们可以通过打 tag 来访问同一个资源文件的不同版本，而不需要考虑缓存时间</p>
 <h3 id="替换链接"><a href="#替换链接" class="header-mark headerLink">替换链接</a></h3>
@@ -1187,7 +1187,7 @@
 </blockquote>
 <p>_config.yml</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1196,11 +1196,11 @@
 <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">cdn</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l">https://cdn.jsdelivr.net/gh/zu1k/blog@0.0.1.2</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>用到的地方</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1219,7 +1219,7 @@
 </span></span><span class="line"><span class="cl">&lt;% } %&gt;
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">其他的地方同样的方法
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="加载时文字可见"><a href="#加载时文字可见" class="header-mark headerLink">加载时文字可见</a></h2>
 <p>无论怎样优化，字体加载的时间无法忽略，这段时间的网页文字显示为空，这给用户带来卡顿感</p>
@@ -1258,16 +1258,16 @@
 <p>对于图片，我使用了 <code>hexo-lazyload-image</code> 这个插件</p>
 <p>安装</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install hexo-lazyload-image --save
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>配置文件中添加</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1278,22 +1278,22 @@
 </span></span><span class="line"><span class="cl">  enable: <span class="nb">true</span>
 </span></span><span class="line"><span class="cl">  onlypost: <span class="nb">false</span>
 </span></span><span class="line"><span class="cl">  loadingImg: https://cdn.jsdelivr.net/gh/zu1k/blog@0.0.1.2/images/loading.png
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>顺便给懒加载添加了 cdn 功能，可以替换成 cdn 链接来加速</p>
 </blockquote>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install hexo-lazyload-image-cdn --save
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>配置文件中添加</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1310,14 +1310,14 @@
 </span></span><span class="line"><span class="cl">  cdn:
 </span></span><span class="line"><span class="cl">    enabled: <span class="nb">false</span>
 </span></span><span class="line"><span class="cl">    url: https://cdn.com
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="评论懒加载"><a href="#评论懒加载" class="header-mark headerLink">评论懒加载</a></h3>
 <p>对于评论区，很多情况下用户根本不会划到页面底部（文章写得太烂没人看得下去）。</p>
 <p>所以我这里对 disqus 的加载使用懒加载技术，参考 <a href="https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/" target="_blank" rel="noopener noreffer" class="post-link">https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/</a></p>
 <p>我使用的是 disqusJS, 下面给出加载的 js 代码</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1392,7 +1392,7 @@
 </span></span><span class="line"><span class="cl">  <span class="p">);</span>
 </span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="err">/script&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="o">&lt;%</span> <span class="p">}</span> <span class="o">%&gt;</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="终极大招"><a href="#终极大招" class="header-mark headerLink">终极大招</a></h2>
 <p>如果经过上面的优化，你还对博客的加载速度不满意，那一定是 github pages 服务器在美国的原因，200+ms 的延迟导致首字节返回时间不短</p>

@@ -2,7 +2,7 @@
 <p>今天遇到一个需求，需要随机的生成一个枚举类型的实例。</p>
 <p>不像 Python 那样方便，用 Rust 需要实现特定的 Trait，最简单的想法就是给枚举类型不同的成员编个号，然后生成一个随机数，实例化对应的成员，如果成员拥有数据，就递归的随机生成这些数据。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -29,7 +29,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>需求本身确实简单，问题在于这个枚举类型的成员太多了，足足有 459 个，按照传统的思路，保守估计至少要写半天，并且很枯燥。图中可以看出，要对该枚举类型实现一个简单的函数都需要上千行。</p>
 <p><figure>
@@ -61,18 +61,18 @@
 <h3 id="定义derive宏"><a href="#定义derive宏" class="header-mark headerLink">定义<code>#[derive]</code>宏</a></h3>
 <p>我的需求是根据 <code>Instruction</code> 的成员信息，自动实现 <code>impl Distribution&lt;Instruction&gt; for Standard</code>，这里就需要写一个 <code>#[derive]</code>宏，使其作用在 <code>Instruction</code> 上。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-Rust" data-lang="Rust"><span class="line"><span class="cl"><span class="cp">#[derive(Debug, Rand)]</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">pub</span><span class="w"> </span><span class="k">enum</span> <span class="nc">Instruction</span><span class="w"> </span><span class="p">{</span><span class="o">..</span><span class="p">.}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>首先定义名为 <code>Rand</code> 的 <code>#[derive]</code>过程宏。在这个函数里，我们可以拿到 <code>Instruction</code> 的 token 序列，然后将其解析为抽象语法树 (AST)，最后通过 AST 和我们的逻辑生成新的 token 序列，即最终生成的代码。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -87,7 +87,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">impl_rand_derive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ast</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">TokenStream</span>::<span class="n">from</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer" class="post-link">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer" class="post-link">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
@@ -103,7 +103,7 @@
 <p>对于 Named 和 Unamed 两种类型，都需要遍历其所有元素，递归的生成代码，用 <code>__rng.gen()</code> 来初始化数据。</p>
 <p>最后判断枚举类型成员数量，生成 <code>match</code> 语句。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -198,13 +198,13 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">unimplemented!</span><span class="p">()</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">};</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="我讨厌递归"><a href="#我讨厌递归" class="header-mark headerLink">我讨厌递归</a></h3>
 <p>紧接着就会发现，上面在 <code>Named</code> 和 <code>Unamed</code> 的部分进行递归 <code>__rng.gen()</code>，需要其使用的类型也实现相应的 trait。除去已有的对基本类型的实现外，剩下的类型就需要我们手动实现，这也就要求我们的过程宏也能应用在其他结构上。</p>
 <p>因此我们的函数需要进行修改，以处理其他非枚举类型：结构体和元组（元组在我的需求中没用到，就不实现了）。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -239,12 +239,12 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">unimplemented!</span><span class="p">(),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">};</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>测试，发现 459 个成员通过了 458 个，剩下的那一个成员是 <code>Cow</code> 类型的。是真的烦，没办法给 Cow 实现这个 trait，甚至理论上根本没办法生成一个随机的 <code>Cow</code>，因为其根本不拥有数据，它只有指针。</p>
 <p>我马上想到了一个解决方案，牺牲一点性能，用 <code>Vec</code> 替换掉 <code>Cow</code>。虽然我们仍然无法给 <code>Vec</code> 实现这个 trait（因为 <code>Vec</code> 是外部定义的），但是我可以在解析的时候判断一下类型，如果是 <code>Vec</code> 就手动生成随机长度的随机数据，我真是个小机灵鬼。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -299,7 +299,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kc">false</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>测试，全部通过！开心！</p>
 <h2 id="总结"><a href="#总结" class="header-mark headerLink">总结</a></h2>

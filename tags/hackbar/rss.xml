@@ -74,7 +74,7 @@
 <h3 id="分析授权验证"><a href="#分析授权验证" class="header-mark headerLink">分析授权验证</a></h3>
 <p>我们先将插件这个目录复制出来，然后用编辑器打开，其中授权验证相关代码在 <code>theme\js\hackbar-panel.js</code> 这个js文件中</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -187,7 +187,7 @@
 </span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Please input valid license!&#39;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="进行破解"><a href="#进行破解" class="header-mark headerLink">进行破解</a></h3>
 <p>通过上面对授权验证代码的分析，我们可以找到很多破解的思路，核心有一下几点：</p>

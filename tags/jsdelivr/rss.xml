@@ -9,25 +9,25 @@
 <h3 id="安装-gulp"><a href="#安装-gulp" class="header-mark headerLink">安装 gulp</a></h3>
 <p>在自己本机安装</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install gulp -g
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>为了 GitHub Action 或其他 CI\CD 平台也能够进行安装，这里推荐</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install gulp --save-dev
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们还需要一些依赖</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -52,12 +52,12 @@
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>            imagemin-svgo <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>            imagemin-gifsicle <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>            imagemin-optipng
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="创建配置文件"><a href="#创建配置文件" class="header-mark headerLink">创建配置文件</a></h3>
 <p>在博客 hexo 的根目录下，新建 <code>gulpfile.js</code> 配置文件</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -206,7 +206,7 @@
 </span></span><span class="line"><span class="cl">    <span class="nx">gulp</span><span class="p">.</span><span class="nx">parallel</span><span class="p">(</span><span class="s2">&#34;minify-html&#34;</span><span class="p">,</span> <span class="s2">&#34;minify-css&#34;</span><span class="p">,</span> <span class="s2">&#34;minify-js&#34;</span><span class="p">,</span> <span class="s2">&#34;minify-images&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="使用方法"><a href="#使用方法" class="header-mark headerLink">使用方法</a></h3>
 <p>在使用 <code>hexo g</code> 生成静态网站后， 运行 <code>gulp</code> 进行压缩</p>
@@ -224,7 +224,7 @@
 <h3 id="链接格式"><a href="#链接格式" class="header-mark headerLink">链接格式</a></h3>
 <p>jsDelivr 针对 GitHub 资源有众多 URL 格式</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -241,11 +241,11 @@
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery/
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>考虑到 jsDelivr 默认缓存时间是 7 天，如果我们想要修改实时生效而不需要等到缓存过期，最适合的是</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -254,7 +254,7 @@
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">https://cdn.jsdelivr.net/gh/ github用户名 / 库名 @ 版本号或者tag / 路径/文件名
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们可以通过打 tag 来访问同一个资源文件的不同版本，而不需要考虑缓存时间</p>
 <h3 id="替换链接"><a href="#替换链接" class="header-mark headerLink">替换链接</a></h3>
@@ -350,7 +350,7 @@
 </blockquote>
 <p>_config.yml</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -359,11 +359,11 @@
 <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">cdn</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l">https://cdn.jsdelivr.net/gh/zu1k/blog@0.0.1.2</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>用到的地方</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -382,7 +382,7 @@
 </span></span><span class="line"><span class="cl">&lt;% } %&gt;
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">其他的地方同样的方法
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="加载时文字可见"><a href="#加载时文字可见" class="header-mark headerLink">加载时文字可见</a></h2>
 <p>无论怎样优化，字体加载的时间无法忽略，这段时间的网页文字显示为空，这给用户带来卡顿感</p>
@@ -421,16 +421,16 @@
 <p>对于图片，我使用了 <code>hexo-lazyload-image</code> 这个插件</p>
 <p>安装</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install hexo-lazyload-image --save
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>配置文件中添加</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -441,22 +441,22 @@
 </span></span><span class="line"><span class="cl">  enable: <span class="nb">true</span>
 </span></span><span class="line"><span class="cl">  onlypost: <span class="nb">false</span>
 </span></span><span class="line"><span class="cl">  loadingImg: https://cdn.jsdelivr.net/gh/zu1k/blog@0.0.1.2/images/loading.png
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>顺便给懒加载添加了 cdn 功能，可以替换成 cdn 链接来加速</p>
 </blockquote>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install hexo-lazyload-image-cdn --save
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>配置文件中添加</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -473,14 +473,14 @@
 </span></span><span class="line"><span class="cl">  cdn:
 </span></span><span class="line"><span class="cl">    enabled: <span class="nb">false</span>
 </span></span><span class="line"><span class="cl">    url: https://cdn.com
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="评论懒加载"><a href="#评论懒加载" class="header-mark headerLink">评论懒加载</a></h3>
 <p>对于评论区，很多情况下用户根本不会划到页面底部（文章写得太烂没人看得下去）。</p>
 <p>所以我这里对 disqus 的加载使用懒加载技术，参考 <a href="https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/" target="_blank" rel="noopener noreffer" class="post-link">https://blog.skk.moe/post/prevent-disqus-from-slowing-your-site/</a></p>
 <p>我使用的是 disqusJS, 下面给出加载的 js 代码</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -555,7 +555,7 @@
 </span></span><span class="line"><span class="cl">  <span class="p">);</span>
 </span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="err">/script&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="o">&lt;%</span> <span class="p">}</span> <span class="o">%&gt;</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="终极大招"><a href="#终极大招" class="header-mark headerLink">终极大招</a></h2>
 <p>如果经过上面的优化，你还对博客的加载速度不满意，那一定是 github pages 服务器在美国的原因，200+ms 的延迟导致首字节返回时间不短</p>

@@ -19,7 +19,7 @@
 <p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[AFF 链接]</a>.</p>
 <p>你可以通过 <code>ip a</code> 命令查看网络接口的地址，从而获取你的 IPv6 子网信息：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -38,14 +38,14 @@
 </span></span><span class="line"><span class="cl">       valid_lft 2591171sec preferred_lft 603971sec
 </span></span><span class="line"><span class="cl">    inet6 fe80::b155:e257:a8f7:6940/64 scope link stable-privacy 
 </span></span><span class="line"><span class="cl">       valid_lft forever preferred_lft forever
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>可以看到，默认给你的 IPv6 地址是动态的，这是由 SLAAC 协议根据前缀和 Mac 地址自动生成的; 还有一个 <code>fe80</code> 开头的 IPv6 地址，这也是自动分配的本地链路地址。这很好，通过这些无状态地址配置协议，使 IPv6 避免的手动配置，即插即用。</p>
 <p>在我的试验中，我拿到的子网为 <code>2001:19f0:6001:48e4::/64</code>，下面都以此为基础。</p>
 <p><strong>绑定和路由</strong></p>
 <p>在拿到 IPv6 子网后，需要添加路由。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -56,23 +56,23 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 纠正：无需添加地址，这一行只能添加一个地址。我们通过 ip_nonlocal_bind 来允许绑定</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">ip route add <span class="nb">local</span> 2001:19f0:6001:48e4::/64 dev enp1s0
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>为了能够绑定任意 IP，我们需要开启内核的 <code>ip_nonlocal_bind</code> 特性：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sysctl net.ipv6.ip_nonlocal_bind<span class="o">=</span><span class="m">1</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><strong>NDP</strong></p>
 <p>类似于 IPv4 中 ARP 协议的作用，IPv6 中需要使用 <code>ND</code> 协议来发现邻居并确定可用路径。我们需要开启一个 <code>ND</code> 代理：</p>
 <p>安装 <code>ndppd</code>: <code>apt install ndppd</code></p>
 <p>编辑 <code>/etc/ndppd.conf</code> 文件:</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -93,7 +93,7 @@
 </span></span><span class="line"><span class="cl">        static
 </span></span><span class="line"><span class="cl">    }
 </span></span><span class="line"><span class="cl">}
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>启动 <code>ndppd</code>: <code>systemctl start ndppd</code></p>
 <div class="details admonition note open">
@@ -109,7 +109,7 @@
 <p><strong>验证</strong></p>
 <p>接下来你可以验证一下了，用 <code>curl --interface</code> 指定出口 IP：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -120,21 +120,21 @@
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4::1
 </span></span><span class="line"><span class="cl">$ curl --interface 2001:19f0:6001:48e4::2 ipv6.ip.sb
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4::2
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>可以看到，能够按照我们指定的任意 IP 进行请求</p>
 <h2 id="http-代理"><a href="#http-代理" class="header-mark headerLink">Http 代理</a></h2>
 <p>为了方便使用，使用 Rust 写了一个 http 代理服务端，每一个请求会走指定 IPv6 子网下随机 IP，算是一个基础 demo</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">./http-proxy-ipv6-pool -b 127.0.0.1:51080 -i 2001:19f0:6001:48e4::/64
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -163,7 +163,7 @@
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4:aa26:3bf9:6598:9e82
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4:be6b:6a62:f8f7:a14d
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4:b598:409d:b946:17c
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
 <h2 id="碎碎念"><a href="#碎碎念" class="header-mark headerLink">碎碎念</a></h2>
@@ -277,12 +277,12 @@
 <h2 id="防止环路"><a href="#防止环路" class="header-mark headerLink">防止环路</a></h2>
 <p>抛开事实不谈，如果我们想要代理全部流量，就是要通过路由规则将所有流量导向我们的 TUN 设备，这是很直观且朴素的想法，就像下面的命令一样单纯：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo route add -net 0.0.0.0/0 dev tun0
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果你真的这么写，你就会发现你上不了网了。这是因为出现了环路。</p>
 <p>如果稍微思考一下，你就会发现，虽然我们想要代理所有流量，但是代理客户端与代理服务端的流量却是需要跳过的，如果用上面的路由，就会导致代理客户端发出的流量经过路由然后从 TUN 重新回到了代理客户端，这是一个死环，没有流量可以走出去。流量只近不出，来回转圈，你的文件打开数爆炸，操作系统不再给你分配更多的句柄，数据来回拷贝，你的CPU风扇猛转，电脑开始变卡。</p>
@@ -335,7 +335,7 @@
 <p>在Linux下，内核提供的macvlan就可以实现我们的需求，从Linux Kernel 3.9开始就支持了貌似，所以只要不是安装非常老的系统都是支持的</p>
 <p>查看一下你的系统是否支持：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -344,33 +344,33 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># modprobe macvlan</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># lsmod | grep macvlan</span>
 </span></span><span class="line"><span class="cl">macvlan                <span class="m">24576</span>  <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果显示类似上面的内容就表示支持</p>
 <p>添加一个macvlan类型的网络接口：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip link add link &lt;physical-network-interface-name&gt; &lt;new-network-interface-name&gt; <span class="nb">type</span> macvlan
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>例如，通过 <code>ip addr</code> 或者 <code>ifconfig</code> 查看到物理网卡名为 <code>eth0</code>，新网络接口名我们用 <code>vmac0</code> <code>vmac1</code> 这样的表示，命令如下：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip link add link eth0 vmac0 <span class="nb">type</span> macvlan
 </span></span><span class="line"><span class="cl">ip link add link eth0 vmac1 <span class="nb">type</span> macvlan
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这样就创建了两个新的网络接口，依附于物理接口 <code>eth0</code>，两个新网络接口的mac地址是自动分配的，每一次新建都会随机生成。</p>
 <p>如果想要手动指定mac地址，可以使用下面的命令:</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -379,7 +379,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip link add link &lt;physical-network-interface-name&gt; &lt;new-network-interface-name&gt; address &lt;mac-address&gt; <span class="nb">type</span> macvlan
 </span></span><span class="line"><span class="cl">例如：
 </span></span><span class="line"><span class="cl">ip link add link eth0 vmac0 address 11:22:33:44:55:66 <span class="nb">type</span> macvlan
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="details admonition tip open">
         <div class="details-summary admonition-title">
@@ -391,7 +391,7 @@
     </div>
 <p>经过上面这一步，就就可以通过 <code>ip link</code> 看到多了两个网络接口</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -402,7 +402,7 @@
 </span></span><span class="line"><span class="cl">    link/ether 5a:5d:f9:1e:b8:19 brd ff:ff:ff:ff:ff:ff
 </span></span><span class="line"><span class="cl">5: vmac1@eth0: &lt;BROADCAST,MULTICAST&gt; mtu <span class="m">1500</span> qdisc noop state DOWN group default qlen <span class="m">1000</span>
 </span></span><span class="line"><span class="cl">    link/ether 66:50:b5:23:d8:ce brd ff:ff:ff:ff:ff:ff
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>然后需要获取到多个IP，直接执行 <code>dhclient</code> 即可</p>
 <h3 id="进行联网认证"><a href="#进行联网认证" class="header-mark headerLink">进行联网认证</a></h3>
@@ -421,7 +421,7 @@
 <p>在启动前先修改配置文件，username为学号，password为上网认证的密码，ip分别写刚刚 macvlan 获取到的IP</p>
 <p>学校限制的每个人最多5台设备同时在线，新登录的设备会把前面的设备顶下去，所以最好联合舍友用多个人的账号进行认证</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -444,7 +444,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"> </span>- <span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l">201XXXXX2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">user2-password</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="nt">ip</span><span class="p">:</span><span class="w"> </span><span class="m">10.0.0.3</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="details admonition note open">
         <div class="details-summary admonition-title">
@@ -462,7 +462,7 @@
 <p>首先创建多个路由表，因为每一个路由表只能默认走一个接口，所以刚刚创建了多少虚拟网络接口，这里就要增加几个路由表，我按照2个接口来演示</p>
 <p>编辑 <code>/etc/iproute2/rt_tables</code> 文件，在文件末尾增加两个路由表</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -471,34 +471,34 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 新增的路由表</span>
 </span></span><span class="line"><span class="cl"><span class="m">100</span>      vmac0
 </span></span><span class="line"><span class="cl"><span class="m">101</span>      vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>保证新路由表中没有条目，先清空一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip route flush table vmac0
 </span></span><span class="line"><span class="cl">ip route flush table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>分别为两个路由表增加默认路由项，分别走不同的网络接口</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip route add 0/0 dev vmac0 table vmac0
 </span></span><span class="line"><span class="cl">ip route add 0/0 dev vmac1 table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="配置iptables"><a href="#配置iptables" class="header-mark headerLink">配置iptables</a></h4>
 <p>分别创建多个新的链</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -515,11 +515,11 @@
 </span></span><span class="line"><span class="cl">iptables -t mangle -N VMAC1
 </span></span><span class="line"><span class="cl">iptables -t mangle -A VMAC1 -j MARK --set-mark 0x101
 </span></span><span class="line"><span class="cl">iptables -t mangle -A VMAC1 -j CONNMARK --save-mark
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>配置打标记的规则，每两个包（只看新建的连接）中第一个交给<code>VMAC0</code>处理，第二个交给<code>VMAC1</code>处理</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -528,37 +528,37 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
 </span></span><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
 </span></span><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="配置策略路由"><a href="#配置策略路由" class="header-mark headerLink">配置策略路由</a></h4>
 <p>下面需要配置策略路由，根据我们设置的策略，流量分别由多个路由表进行路由，所以就可以走多个网络接口了</p>
 <p>我们让防火墙标记为<code>0x100</code>的用<code>vmac0</code>路由表，标记为<code>0x101</code>流量的用<code>vmac1</code>路由表</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip rule add fwmark 0x100 table vmac0
 </span></span><span class="line"><span class="cl">ip rule add fwmark 0x101 table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>此时会出现一个问题，就是从外部发起的连接在进来后并没有打上防火墙标记，所以返回的包只能走默认的路由表。假如我们的默认路由表的默认路由是走<code>vmac0</code>，那来自<code>vmac1</code>的请求的响应包也会走<code>vmac0</code>出去，因为不属于同一个连接，这个包就会被丢掉。</p>
 <p>我们的解决方法是再增加两条规则，来自哪个网卡的包的响应就从该网卡出</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip rule add from &lt;vmac0-ip&gt; table vmac0
 </span></span><span class="line"><span class="cl">ip rule add from &lt;vmac1-ip&gt; table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="用作路由器"><a href="#用作路由器" class="header-mark headerLink">用作路由器</a></h4>
 <p>如果这台Linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 <code>192.168/16</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -567,16 +567,16 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
 </span></span><span class="line"><span class="cl">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
 </span></span><span class="line"><span class="cl">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>同时需要对内网流量进行SNAT</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">iptables -t nat -A POSTROUTING -o vmac+ -j MASQUERADE
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>经过上面的步骤，已经能够利用多个网络接口了。不过我们本质上是通过连接分流的，同一个连接的所有包会走同一个接口出去，所以如果你的程序是单线程网络，就看不到加速效果。可以通过speedtest多线程来进行测试，可以看到明显的网速叠加。</p>
 <div class="details admonition note open">
@@ -839,7 +839,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>经过我的尝试效果还不错，可以跑到10Mbps</p>
 <p>我用的域名为 <code>githubssh.xyz</code> ，大家可以拿去用，使用方法如下：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -852,7 +852,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">替换后
 </span></span><span class="line"><span class="cl">git clone git@githubssh.xyz:moby/moby.git
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>为了能够自动更新ip，我写了一个程序，每天会检查github新的ip，创建新的globalssh，然后自动解析到域名githubssh.xyz上，由cloudflare进行DNS层面的负载均衡</p>
 <p>开源地址为： <a href="https://github.com/zu1k/globalssh4github" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/globalssh4github</a></p>
@@ -864,7 +864,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>通常使用的链接形如：<code>https://github.com/git/git.git</code></p>
 <p>针对这种协议，代理设置比较简单</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -881,33 +881,33 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="c1"># 取消代理</span>
 </span></span><span class="line"><span class="cl">git config --global --unset http.proxy
 </span></span><span class="line"><span class="cl">git config --global --unset https.proxy
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="ssh协议"><a href="#ssh协议" class="header-mark headerLink">ssh协议</a></h2>
 <p>通常使用的链接形如：<code>git@github.com:git/git.git</code> 或者 <code>ssh://[&lt;username&gt;@]&lt;server&gt;[:&lt;port&gt;]/path/repo.git</code></p>
 <p>对于使用ssh协议的库，上面的代理设置办法就失效了，需要给ssh设置socks代理</p>
 <p>在 <code>~/.ssh/config</code> 文件中添加下面内容， 如果没有这个文件就新建</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
 </span></span><span class="line"><span class="cl">ProxyCommand nc -X <span class="m">5</span> -x 127.0.0.1:1080 %h %p
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里使用的是nc命令，Linux需要安装netcat(一般自带了)，windows需要单独下载</p>
 <p>windows如果安装了<code>mingw</code>也可以使用<code>connect</code>命令来替代<code>nc</code>命令</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
 </span></span><span class="line"><span class="cl">ProxyCommand connect -S 127.0.0.1:1080 %h %p
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div>]]></description></item><item><title>使用iptables将ubuntu配置为路由器</title><link>https://zu1k.com/posts/linux/ubuntu-iptables-nat/</link><pubDate>Wed, 18 Mar 2020 13:15:40 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/ubuntu-iptables-nat/</guid><description><![CDATA[<h2 id="实验环境"><a href="#实验环境" class="header-mark headerLink">实验环境</a></h2>
 <blockquote>
@@ -982,7 +982,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>使用 <code>netplan try</code> 检查配置是否正确，如果正确自动应用生效</p>
 <h3 id="配置iptables规则"><a href="#配置iptables规则" class="header-mark headerLink">配置iptables规则</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1011,7 +1011,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">//添加伪装
 </span></span><span class="line"><span class="cl">iptables -t nat -A POSTROUTING -s 10.1.2.0/24 -j MASQUERADE
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="win7-设置"><a href="#win7-设置" class="header-mark headerLink">win7 设置</a></h2>
 <p>修改网卡配置如图</p>
@@ -1034,7 +1034,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>首先，给docker engine开启ipv6支持, 参考： <a href="https://docs.docker.com/config/daemon/ipv6/" target="_blank" rel="noopener noreffer" class="post-link">https://docs.docker.com/config/daemon/ipv6/</a></p>
 <p>配置/etc/docker/daemon.json文件如下。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1045,13 +1045,13 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;ipv6&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;fixed-cidr-v6&#34;</span><span class="p">:</span> <span class="s2">&#34;2001🔢5001🔢:/64&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>执行 <code>systemctl reload docker</code> 重载Docker Engine的配置文件</p>
 <p>这样docker默认的bridge网络就会给容器分配随机的ipv6地址了。</p>
 <p>但是我们通常需要固定的ipv6地址，所以需要添加自定义网桥网络</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1066,11 +1066,11 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    --gateway<span class="o">=</span><span class="s2">&#34;2001🔢5001🔢6666::1&#34;</span> <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    --subnet<span class="o">=</span>172.28.0.0/16 <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    --gateway<span class="o">=</span>172.28.0.1 ipv6
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>然后启动docker容器时候指定ipv6网桥和ipv6地址</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1083,29 +1083,29 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    --network<span class="o">=</span>ipv6 <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name<span class="o">=</span>ipv6test <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    ubuntu:18.04 /bin/bash
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>此时容器已经有独立的ipv6地址了，我们发现向外访问可以访问，但是外界访问不到docker后面隐藏的container
 这是因为ipv6使用NDP协议，我们需要在容器的宿主机上设置 ndp代理</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sysctl net.ipv6.conf.ens3.proxy_ndp<span class="o">=</span><span class="m">1</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>ens3是我的宿主机外网网卡，这里需要替换成你自己的</p>
 </blockquote>
 <p>这里每一个docker分配的ipv6地址都需要添加这样一条规则</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip -6 neigh add proxy 2001🔢5001🔢6666::101 dev ens3
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div>]]></description></item><item><title>屏蔽一个国家所有IP</title><link>https://zu1k.com/posts/linux/block-all-ips-in-a-country/</link><pubDate>Mon, 03 Dec 2018 17:55:28 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/block-all-ips-in-a-country/</guid><description><![CDATA[<p>搭建了一个MTProxy，分享出去，最后发现网速跑满，连接ip数高达600多，并且还在不断增加。
 查看ip来源后发现九成以上是伊朗人，后来知道原来tg在他们国家被封了，所以才导致如此。</p>
@@ -1116,7 +1116,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p><code>wget http://www.ipdeny.com/ipblocks/data/countries/ir.zone</code></p>
 <p>2.使用脚本批量添加iptables规则</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1187,7 +1187,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl"><span class="k">done</span>
 </span></span><span class="line"><span class="cl">iptables-save
 </span></span><span class="line"><span class="cl"><span class="nb">exit</span> <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="使用ipset添加ip集合"><a href="#使用ipset添加ip集合" class="header-mark headerLink">使用ipset添加ip集合</a></h2>
 <p>发现用iptables直接添加ip实在低效，可以用其扩展ipset直接添加一个集合。</p>
@@ -1227,7 +1227,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <code>$ sudo ipset restore -f banthis.txt</code></p>
 <h2 id="自用脚本"><a href="#自用脚本" class="header-mark headerLink">自用脚本</a></h2>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1264,7 +1264,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">iptables-save
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nb">exit</span> <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="参考文章"><a href="#参考文章" class="header-mark headerLink">参考文章：</a></h2>
 <p><a href="https://www.jb51.net/Linuxjishu/339309.html" target="_blank" rel="noopener noreffer" class="post-link">在Linux下实现批量屏蔽IP地址的方法</a></p>

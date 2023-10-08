@@ -116,12 +116,12 @@
 <h4 id="rfc定义的格式"><a href="#rfc定义的格式" class="header-mark headerLink">RFC定义的格式</a></h4>
 <p>RFC2782中定义的格式是：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">_Service._Proto.Name TTL Class SRV Priority Weight Port Target
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>各字段详细说明：</p>
 <div class="table-wrapper"><table>

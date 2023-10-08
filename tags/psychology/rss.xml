@@ -6,7 +6,7 @@
 <p>考虑到 DeepL 有提供免费版本的翻译服务，支持 Web，Windows、Android 和 iOS 都有相应的客户端，我便想使用这些客户端使用的免费接口。不出所料，在广泛使用打包和混淆技术的当下，DeepL 的 Web 端 js 代码也不是人看的东西，但通过简单的抓包，我发现其接口参数非常清晰，根本没有额外的签名、token等认证技术，我觉得自己又行了，几行 Python 代码便完成了接口对接工作。</p>
 <p>但测试下来，我发现当修改翻译内容，有极大概率遇到 429 <code>Too many requests</code>，并且一旦出现 429，后续的所有请求便都是 429 了。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -23,13 +23,13 @@
 </span></span><span class="line"><span class="cl">        <span class="nt">&#34;message&#34;</span><span class="p">:</span><span class="s2">&#34;Too many requests.&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在 GitHub 搜索之后，我发现已经有前人尝试利用过 DeepL 的免费接口了，早在 2018 年他们就已经遇到了这个 429 问题，并且到现在都没有解决。</p>
 <p>我尝试转向客户端的免费接口，苹果设备可以轻松 MITM，于是我便在 iPad 上对 DeepL 客户端进行抓包，让我意想不到的是，客户端的请求竟然比 Web 端的简单不少，接口参数数量仅有必须的几个，非常有利于利用。于是我又觉得自己行了，两三行 Python 代码完成接口对接。</p>
 <p>简单测试，我又傻眼了。伪造的请求明明跟客户端发起的完全相同，但只要一更换翻译的内容，返回马上就变成 429。干！我都开始怀疑自己了。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -62,7 +62,7 @@
 </span></span><span class="line"><span class="cl">    <span class="p">},</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">12345</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>你自己看看，这个接口多么清楚明白，但怎么就伪造不了呢？</p>
 <p>我想了又想，这里面也就 <code>id</code> 比较可疑，因为这个参数我不知道它是怎么生成的，是随机的还是根据某种规则计算出来的，我们无从知道。但从目前结果来看，随机的 <code>id</code> 无法被服务器认可。</p>
@@ -73,7 +73,7 @@
 <h2 id="真相"><a href="#真相" class="header-mark headerLink">真相</a></h2>
 <p>现在我来告诉你，DeepL 到底是怎么认证的。（下面并不是 DeepL 客户端的代码，是我写的 Rust 利用代码，但逻辑不变）</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -96,14 +96,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u128</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ts</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">i_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i_count</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>哈哈！没想到吧！人家的时间戳不是真的！</p>
 <p>DeepL 先计算了文本中所有 <code>i</code> 的数量，然后对真正的时间戳进行一个小小的运算 <code>ts - ts % i_count + i_count</code>，这个运算差不多仅会改变时间戳的毫秒部分，这个改变如果用人眼来验证根本无法发现，人类看来就是一个普通的时间戳，不会在意毫秒级的差别。</p>
 <p>但是 DeepL 拿到这个修改后的时间戳，既可以与真实时间对比(误差毫秒级)，又可以通过简单的运算（是否是 <code>i_count</code> 的整倍数）判断是否是伪造的请求。真是精妙啊！</p>
 <p>还有更绝的！你接着看：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -122,7 +122,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;</span><span class="se">\&#34;</span><span class="s">method</span><span class="se">\&#34;</span><span class="s">: </span><span class="se">\&#34;</span><span class="s">&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">},</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>怎么样？我觉得我一开始就被玩弄了，人家的 <code>id</code> 就是纯粹的随机数，只不过后续的请求会在第一次的随机 <code>id</code> 基础上加一，但是这个 <code>id</code> 还决定了文本中一个小小的、微不足道的空格。</p>
 <p>按照正常的思路，为了方便人类阅读和分析，拿到请求的第一时间，我都会先扔编辑器里格式化一下 Json，我怎么会想到，这恰恰会破坏掉人家用来认证的特征，因此无论我如何努力都难以发现。</p>

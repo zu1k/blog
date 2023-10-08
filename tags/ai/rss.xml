@@ -59,7 +59,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </ol>
 <h4 id="实现代码"><a href="#实现代码" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -108,7 +108,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&#34;image&#34;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="2-利用opencv进行视频人脸检测并进行标注"><a href="#2-利用opencv进行视频人脸检测并进行标注" class="header-mark headerLink">2. 利用<strong>OpenCV</strong>进行<strong>视频</strong>人脸检测并进行标注</a></h3>
 <blockquote>
@@ -116,7 +116,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </blockquote>
 <h4 id="实现代码-1"><a href="#实现代码-1" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -169,7 +169,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="3-利用dlib进行图片人脸检测并标注"><a href="#3-利用dlib进行图片人脸检测并标注" class="header-mark headerLink">3. 利用<strong>Dlib</strong>进行<strong>图片</strong>人脸检测并标注</a></h3>
 <blockquote>
@@ -178,7 +178,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </blockquote>
 <h4 id="实现代码-2"><a href="#实现代码-2" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -225,7 +225,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="4-利用dlib进行视频人脸检测并进行标注"><a href="#4-利用dlib进行视频人脸检测并进行标注" class="header-mark headerLink">4. 利用<strong>Dlib</strong>进行<strong>视频</strong>人脸检测并进行标注</a></h3>
 <blockquote>
@@ -233,7 +233,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </blockquote>
 <h4 id="实现代码-3"><a href="#实现代码-3" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -286,7 +286,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>在两个视频中人脸检测中，我们发现<br>
@@ -302,7 +302,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <h3 id="1-检测人脸的5个关键点和68个关键点并显示出来"><a href="#1-检测人脸的5个关键点和68个关键点并显示出来" class="header-mark headerLink">1. 检测人脸的5个关键点和68个关键点并显示出来</a></h3>
 <h4 id="实现代码-4"><a href="#实现代码-4" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -357,7 +357,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>上人脸识别的主菜</p>
@@ -365,7 +365,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <h3 id="2-利用face_recognition进行人脸识别"><a href="#2-利用face_recognition进行人脸识别" class="header-mark headerLink">2. 利用<strong>face_recognition</strong>进行人脸识别</a></h3>
 <h4 id="实现代码-5"><a href="#实现代码-5" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -460,12 +460,12 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="3-利用face_recognition进行人脸轮廓绘制"><a href="#3-利用face_recognition进行人脸轮廓绘制" class="header-mark headerLink">3. 利用<strong>face_recognition</strong>进行人脸轮廓绘制</a></h3>
 <h4 id="代码实现"><a href="#代码实现" class="header-mark headerLink">代码实现</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -520,7 +520,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">facial_feature</span> <span class="ow">in</span> <span class="n">facial_features</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">face_landmarks</span><span class="p">[</span><span class="n">facial_feature</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">pil_image</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="4-利用keras实现性别识别"><a href="#4-利用keras实现性别识别" class="header-mark headerLink">4. 利用<strong>keras</strong>实现性别识别</a></h3>
 <blockquote>
@@ -529,7 +529,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </blockquote>
 <h4 id="实现代码-6"><a href="#实现代码-6" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -594,12 +594,12 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&#34;Image&#34;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="5-利用keras实现表情识别"><a href="#5-利用keras实现表情识别" class="header-mark headerLink">5. 利用<strong>keras</strong>实现表情识别</a></h3>
 <h4 id="实现代码-7"><a href="#实现代码-7" class="header-mark headerLink">实现代码</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -694,7 +694,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&#34;Image&#34;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="四利用gpu加速dlib提高效率"><a href="#四利用gpu加速dlib提高效率" class="header-mark headerLink">四、利用GPU加速Dlib提高效率</a></h2>
 <blockquote>
@@ -729,7 +729,7 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 <h3 id="6-验证新编译好的dlib是否支持cuda"><a href="#6-验证新编译好的dlib是否支持cuda" class="header-mark headerLink">6. 验证新编译好的Dlib是否支持CUDA</a></h3>
 <p><strong>python脚本运行</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -740,6 +740,6 @@ python安装依赖可以选择在线安装，如 <code>pip install 依赖名</co
 </span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">__</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">DLIB_USE_CUDA</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">dlib</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_num_devices</span><span class="p">())</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="人脸检测和识别学习就告一段落了感谢观看"><a href="#人脸检测和识别学习就告一段落了感谢观看" class="header-mark headerLink">人脸检测和识别学习就告一段落了，感谢观看</a></h2>]]></description></item></channel></rss>

@@ -15,7 +15,7 @@
 <p>在Linux下，内核提供的macvlan就可以实现我们的需求，从Linux Kernel 3.9开始就支持了貌似，所以只要不是安装非常老的系统都是支持的</p>
 <p>查看一下你的系统是否支持：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -24,33 +24,33 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># modprobe macvlan</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># lsmod | grep macvlan</span>
 </span></span><span class="line"><span class="cl">macvlan                <span class="m">24576</span>  <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果显示类似上面的内容就表示支持</p>
 <p>添加一个macvlan类型的网络接口：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip link add link &lt;physical-network-interface-name&gt; &lt;new-network-interface-name&gt; <span class="nb">type</span> macvlan
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>例如，通过 <code>ip addr</code> 或者 <code>ifconfig</code> 查看到物理网卡名为 <code>eth0</code>，新网络接口名我们用 <code>vmac0</code> <code>vmac1</code> 这样的表示，命令如下：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip link add link eth0 vmac0 <span class="nb">type</span> macvlan
 </span></span><span class="line"><span class="cl">ip link add link eth0 vmac1 <span class="nb">type</span> macvlan
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这样就创建了两个新的网络接口，依附于物理接口 <code>eth0</code>，两个新网络接口的mac地址是自动分配的，每一次新建都会随机生成。</p>
 <p>如果想要手动指定mac地址，可以使用下面的命令:</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -59,7 +59,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip link add link &lt;physical-network-interface-name&gt; &lt;new-network-interface-name&gt; address &lt;mac-address&gt; <span class="nb">type</span> macvlan
 </span></span><span class="line"><span class="cl">例如：
 </span></span><span class="line"><span class="cl">ip link add link eth0 vmac0 address 11:22:33:44:55:66 <span class="nb">type</span> macvlan
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="details admonition tip open">
         <div class="details-summary admonition-title">
@@ -71,7 +71,7 @@
     </div>
 <p>经过上面这一步，就就可以通过 <code>ip link</code> 看到多了两个网络接口</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -82,7 +82,7 @@
 </span></span><span class="line"><span class="cl">    link/ether 5a:5d:f9:1e:b8:19 brd ff:ff:ff:ff:ff:ff
 </span></span><span class="line"><span class="cl">5: vmac1@eth0: &lt;BROADCAST,MULTICAST&gt; mtu <span class="m">1500</span> qdisc noop state DOWN group default qlen <span class="m">1000</span>
 </span></span><span class="line"><span class="cl">    link/ether 66:50:b5:23:d8:ce brd ff:ff:ff:ff:ff:ff
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>然后需要获取到多个IP，直接执行 <code>dhclient</code> 即可</p>
 <h3 id="进行联网认证"><a href="#进行联网认证" class="header-mark headerLink">进行联网认证</a></h3>
@@ -101,7 +101,7 @@
 <p>在启动前先修改配置文件，username为学号，password为上网认证的密码，ip分别写刚刚 macvlan 获取到的IP</p>
 <p>学校限制的每个人最多5台设备同时在线，新登录的设备会把前面的设备顶下去，所以最好联合舍友用多个人的账号进行认证</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -124,7 +124,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"> </span>- <span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l">201XXXXX2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">user2-password</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="nt">ip</span><span class="p">:</span><span class="w"> </span><span class="m">10.0.0.3</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="details admonition note open">
         <div class="details-summary admonition-title">
@@ -142,7 +142,7 @@
 <p>首先创建多个路由表，因为每一个路由表只能默认走一个接口，所以刚刚创建了多少虚拟网络接口，这里就要增加几个路由表，我按照2个接口来演示</p>
 <p>编辑 <code>/etc/iproute2/rt_tables</code> 文件，在文件末尾增加两个路由表</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -151,34 +151,34 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 新增的路由表</span>
 </span></span><span class="line"><span class="cl"><span class="m">100</span>      vmac0
 </span></span><span class="line"><span class="cl"><span class="m">101</span>      vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>保证新路由表中没有条目，先清空一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip route flush table vmac0
 </span></span><span class="line"><span class="cl">ip route flush table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>分别为两个路由表增加默认路由项，分别走不同的网络接口</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip route add 0/0 dev vmac0 table vmac0
 </span></span><span class="line"><span class="cl">ip route add 0/0 dev vmac1 table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="配置iptables"><a href="#配置iptables" class="header-mark headerLink">配置iptables</a></h4>
 <p>分别创建多个新的链</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -195,11 +195,11 @@
 </span></span><span class="line"><span class="cl">iptables -t mangle -N VMAC1
 </span></span><span class="line"><span class="cl">iptables -t mangle -A VMAC1 -j MARK --set-mark 0x101
 </span></span><span class="line"><span class="cl">iptables -t mangle -A VMAC1 -j CONNMARK --save-mark
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>配置打标记的规则，每两个包（只看新建的连接）中第一个交给<code>VMAC0</code>处理，第二个交给<code>VMAC1</code>处理</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -208,37 +208,37 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
 </span></span><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
 </span></span><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="配置策略路由"><a href="#配置策略路由" class="header-mark headerLink">配置策略路由</a></h4>
 <p>下面需要配置策略路由，根据我们设置的策略，流量分别由多个路由表进行路由，所以就可以走多个网络接口了</p>
 <p>我们让防火墙标记为<code>0x100</code>的用<code>vmac0</code>路由表，标记为<code>0x101</code>流量的用<code>vmac1</code>路由表</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip rule add fwmark 0x100 table vmac0
 </span></span><span class="line"><span class="cl">ip rule add fwmark 0x101 table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>此时会出现一个问题，就是从外部发起的连接在进来后并没有打上防火墙标记，所以返回的包只能走默认的路由表。假如我们的默认路由表的默认路由是走<code>vmac0</code>，那来自<code>vmac1</code>的请求的响应包也会走<code>vmac0</code>出去，因为不属于同一个连接，这个包就会被丢掉。</p>
 <p>我们的解决方法是再增加两条规则，来自哪个网卡的包的响应就从该网卡出</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip rule add from &lt;vmac0-ip&gt; table vmac0
 </span></span><span class="line"><span class="cl">ip rule add from &lt;vmac1-ip&gt; table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="用作路由器"><a href="#用作路由器" class="header-mark headerLink">用作路由器</a></h4>
 <p>如果这台Linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 <code>192.168/16</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -247,16 +247,16 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
 </span></span><span class="line"><span class="cl">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
 </span></span><span class="line"><span class="cl">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>同时需要对内网流量进行SNAT</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">iptables -t nat -A POSTROUTING -o vmac+ -j MASQUERADE
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>经过上面的步骤，已经能够利用多个网络接口了。不过我们本质上是通过连接分流的，同一个连接的所有包会走同一个接口出去，所以如果你的程序是单线程网络，就看不到加速效果。可以通过speedtest多线程来进行测试，可以看到明显的网速叠加。</p>
 <div class="details admonition note open">
@@ -531,7 +531,7 @@
 <p>使用 <code>netplan try</code> 检查配置是否正确，如果正确自动应用生效</p>
 <h3 id="配置iptables规则"><a href="#配置iptables规则" class="header-mark headerLink">配置iptables规则</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -560,7 +560,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">//添加伪装
 </span></span><span class="line"><span class="cl">iptables -t nat -A POSTROUTING -s 10.1.2.0/24 -j MASQUERADE
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="win7-设置"><a href="#win7-设置" class="header-mark headerLink">win7 设置</a></h2>
 <p>修改网卡配置如图</p>
@@ -586,7 +586,7 @@
 <p><code>wget http://www.ipdeny.com/ipblocks/data/countries/ir.zone</code></p>
 <p>2.使用脚本批量添加iptables规则</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -657,7 +657,7 @@
 </span></span><span class="line"><span class="cl"><span class="k">done</span>
 </span></span><span class="line"><span class="cl">iptables-save
 </span></span><span class="line"><span class="cl"><span class="nb">exit</span> <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="使用ipset添加ip集合"><a href="#使用ipset添加ip集合" class="header-mark headerLink">使用ipset添加ip集合</a></h2>
 <p>发现用iptables直接添加ip实在低效，可以用其扩展ipset直接添加一个集合。</p>
@@ -697,7 +697,7 @@
 <code>$ sudo ipset restore -f banthis.txt</code></p>
 <h2 id="自用脚本"><a href="#自用脚本" class="header-mark headerLink">自用脚本</a></h2>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -734,7 +734,7 @@
 </span></span><span class="line"><span class="cl">iptables-save
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nb">exit</span> <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="参考文章"><a href="#参考文章" class="header-mark headerLink">参考文章：</a></h2>
 <p><a href="https://www.jb51.net/Linuxjishu/339309.html" target="_blank" rel="noopener noreffer" class="post-link">在Linux下实现批量屏蔽IP地址的方法</a></p>

@@ -2,7 +2,7 @@
 <p>今天遇到一个需求，需要随机的生成一个枚举类型的实例。</p>
 <p>不像 Python 那样方便，用 Rust 需要实现特定的 Trait，最简单的想法就是给枚举类型不同的成员编个号，然后生成一个随机数，实例化对应的成员，如果成员拥有数据，就递归的随机生成这些数据。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -29,7 +29,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>需求本身确实简单，问题在于这个枚举类型的成员太多了，足足有 459 个，按照传统的思路，保守估计至少要写半天，并且很枯燥。图中可以看出，要对该枚举类型实现一个简单的函数都需要上千行。</p>
 <p><figure>
@@ -61,18 +61,18 @@
 <h3 id="定义derive宏"><a href="#定义derive宏" class="header-mark headerLink">定义<code>#[derive]</code>宏</a></h3>
 <p>我的需求是根据 <code>Instruction</code> 的成员信息，自动实现 <code>impl Distribution&lt;Instruction&gt; for Standard</code>，这里就需要写一个 <code>#[derive]</code>宏，使其作用在 <code>Instruction</code> 上。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-Rust" data-lang="Rust"><span class="line"><span class="cl"><span class="cp">#[derive(Debug, Rand)]</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">pub</span><span class="w"> </span><span class="k">enum</span> <span class="nc">Instruction</span><span class="w"> </span><span class="p">{</span><span class="o">..</span><span class="p">.}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>首先定义名为 <code>Rand</code> 的 <code>#[derive]</code>过程宏。在这个函数里，我们可以拿到 <code>Instruction</code> 的 token 序列，然后将其解析为抽象语法树 (AST)，最后通过 AST 和我们的逻辑生成新的 token 序列，即最终生成的代码。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -87,7 +87,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">impl_rand_derive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ast</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">TokenStream</span>::<span class="n">from</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>对于将 token 序列解析为 AST，社区普遍使用的是 <code>syn</code> 库，而将 AST 的数据结构还原成 token 序列一般使用 <code>quote</code> 库，今天搜的时候我惊奇的发现这两个库都是 <a href="https://github.com/dtolnay" target="_blank" rel="noopener noreffer" class="post-link">David Tolnay</a> 开发的。看了一下 <a href="https://crates.io/users/dtolnay?sort=downloads" target="_blank" rel="noopener noreffer" class="post-link">他在crates.io发布的库</a>，真是强者恒强，建议自己去看一下，然后疯狂膜拜</p>
@@ -103,7 +103,7 @@
 <p>对于 Named 和 Unamed 两种类型，都需要遍历其所有元素，递归的生成代码，用 <code>__rng.gen()</code> 来初始化数据。</p>
 <p>最后判断枚举类型成员数量，生成 <code>match</code> 语句。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -198,13 +198,13 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">unimplemented!</span><span class="p">()</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">};</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="我讨厌递归"><a href="#我讨厌递归" class="header-mark headerLink">我讨厌递归</a></h3>
 <p>紧接着就会发现，上面在 <code>Named</code> 和 <code>Unamed</code> 的部分进行递归 <code>__rng.gen()</code>，需要其使用的类型也实现相应的 trait。除去已有的对基本类型的实现外，剩下的类型就需要我们手动实现，这也就要求我们的过程宏也能应用在其他结构上。</p>
 <p>因此我们的函数需要进行修改，以处理其他非枚举类型：结构体和元组（元组在我的需求中没用到，就不实现了）。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -239,12 +239,12 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">unimplemented!</span><span class="p">(),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">};</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>测试，发现 459 个成员通过了 458 个，剩下的那一个成员是 <code>Cow</code> 类型的。是真的烦，没办法给 Cow 实现这个 trait，甚至理论上根本没办法生成一个随机的 <code>Cow</code>，因为其根本不拥有数据，它只有指针。</p>
 <p>我马上想到了一个解决方案，牺牲一点性能，用 <code>Vec</code> 替换掉 <code>Cow</code>。虽然我们仍然无法给 <code>Vec</code> 实现这个 trait（因为 <code>Vec</code> 是外部定义的），但是我可以在解析的时候判断一下类型，如果是 <code>Vec</code> 就手动生成随机长度的随机数据，我真是个小机灵鬼。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -299,7 +299,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kc">false</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>测试，全部通过！开心！</p>
 <h2 id="总结"><a href="#总结" class="header-mark headerLink">总结</a></h2>
@@ -391,12 +391,12 @@
 <h2 id="防止环路"><a href="#防止环路" class="header-mark headerLink">防止环路</a></h2>
 <p>抛开事实不谈，如果我们想要代理全部流量，就是要通过路由规则将所有流量导向我们的 TUN 设备，这是很直观且朴素的想法，就像下面的命令一样单纯：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo route add -net 0.0.0.0/0 dev tun0
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果你真的这么写，你就会发现你上不了网了。这是因为出现了环路。</p>
 <p>如果稍微思考一下，你就会发现，虽然我们想要代理所有流量，但是代理客户端与代理服务端的流量却是需要跳过的，如果用上面的路由，就会导致代理客户端发出的流量经过路由然后从 TUN 重新回到了代理客户端，这是一个死环，没有流量可以走出去。流量只近不出，来回转圈，你的文件打开数爆炸，操作系统不再给你分配更多的句柄，数据来回拷贝，你的CPU风扇猛转，电脑开始变卡。</p>
@@ -457,52 +457,52 @@
 <h3 id="从源码安装"><a href="#从源码安装" class="header-mark headerLink">从源码安装</a></h3>
 <p>Nali 需要预先安装 Go. 安装后可以从源码安装软件:</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ go get -u -v github.com/zu1k/nali
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="下载预编译的可执行程序"><a href="#下载预编译的可执行程序" class="header-mark headerLink">下载预编译的可执行程序</a></h3>
 <p>可以从Release页面下载预编译好的可执行程序: <a href="https://github.com/zu1k/nali/releases" target="_blank" rel="noopener noreffer" class="post-link">Release</a></p>
 <p>你需要选择适合你系统和硬件架构的版本下载，解压后可直接运行</p>
 <h3 id="使用-docker-版本"><a href="#使用-docker-版本" class="header-mark headerLink">使用 Docker 版本</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">docker pull docker.pkg.github.com//zu1k/nali/nali:latest
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="使用说明"><a href="#使用说明" class="header-mark headerLink">使用说明</a></h2>
 <p><a href="https://asciinema.org/a/RFVaZ3Pwy0Qbr27msFcDYhwcD" target="_blank"></a></p>
 <h3 id="查询一个ip的地理信息"><a href="#查询一个ip的地理信息" class="header-mark headerLink">查询一个IP的地理信息</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ nali 1.2.3.4
 </span></span><span class="line"><span class="cl">1.2.3.4 [澳大利亚 APNIC Debogon-prefix网络]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="或者-使用-管道"><a href="#或者-使用-管道" class="header-mark headerLink">或者 使用 <code>管道</code></a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ echo IP 6.6.6.6 | nali
 </span></span><span class="line"><span class="cl">IP 6.6.6.6 [美国 亚利桑那州华楚卡堡市美国国防部网络中心]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="同时查询多个ip的地理信息"><a href="#同时查询多个ip的地理信息" class="header-mark headerLink">同时查询多个IP的地理信息</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -513,12 +513,12 @@
 </span></span><span class="line"><span class="cl">1.2.3.4 [澳大利亚 APNIC Debogon-prefix网络]
 </span></span><span class="line"><span class="cl">4.3.2.1 [美国 新泽西州纽瓦克市Level3Communications]
 </span></span><span class="line"><span class="cl">123.23.3.0 [越南 越南邮电集团公司]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="交互式查询"><a href="#交互式查询" class="header-mark headerLink">交互式查询</a></h3>
 <p>使用 <code>exit</code> 或  <code>quit</code> 退出查询</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -537,12 +537,12 @@
 </span></span><span class="line"><span class="cl">8.8.8.8
 </span></span><span class="line"><span class="cl">8.8.8.8 [美国 加利福尼亚州圣克拉拉县山景市谷歌公司DNS服务器]
 </span></span><span class="line"><span class="cl">quit
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="与-dig-命令配合使用"><a href="#与-dig-命令配合使用" class="header-mark headerLink">与 <code>dig</code> 命令配合使用</a></h3>
 <p>需要你系统中已经安装好 dig 程序</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -553,12 +553,12 @@
 </span></span><span class="line"><span class="cl">104.28.2.115 [美国 CloudFlare公司CDN节点]
 </span></span><span class="line"><span class="cl">104.28.3.115 [美国 CloudFlare公司CDN节点]
 </span></span><span class="line"><span class="cl">172.67.135.48 [美国 CloudFlare节点]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="与-nslookup-命令配合使用"><a href="#与-nslookup-命令配合使用" class="header-mark headerLink">与 <code>nslookup</code> 命令配合使用</a></h3>
 <p>需要你系统中已经安装好 nslookup 程序</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -583,23 +583,23 @@
 </span></span><span class="line"><span class="cl">Address: 104.28.2.115 [美国 CloudFlare公司CDN节点]
 </span></span><span class="line"><span class="cl">Name:   nali.zu1k.com
 </span></span><span class="line"><span class="cl">Address: 172.67.135.48 [美国 CloudFlare节点]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="与任意程序配合使用"><a href="#与任意程序配合使用" class="header-mark headerLink">与任意程序配合使用</a></h3>
 <p>因为 nali 支持管道处理，所以可以和任意程序配合使用</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">bash abc.sh | nali
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Nali 将在 IP后面插入IP地理信息，CDN域名后面插入CDN服务提供商信息</p>
 <h3 id="支持ipv6"><a href="#支持ipv6" class="header-mark headerLink">支持IPv6</a></h3>
 <p>和 IPv4 用法完全相同</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -620,13 +620,13 @@
 </span></span><span class="line"><span class="cl">Address: 216.58.211.110 [美国 Google全球边缘网络]
 </span></span><span class="line"><span class="cl">Name:   google.com
 </span></span><span class="line"><span class="cl">Address: 2a00:1450:400e:809::200e [荷兰Amsterdam Google Inc. 服务器网段]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="查询-cdn-服务提供商"><a href="#查询-cdn-服务提供商" class="header-mark headerLink">查询 CDN 服务提供商</a></h3>
 <p>因为 CDN 服务通常使用 CNAME 的域名解析方式，所以推荐与 <code>nslookup</code> 或者 <code>dig</code> 配合使用，在已经知道 CNAME 后可单独使用</p>
 <h4 id="只查询-cdn-服务提供商"><a href="#只查询-cdn-服务提供商" class="header-mark headerLink">只查询 CDN 服务提供商</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -659,11 +659,11 @@
 </span></span><span class="line"><span class="cl">Address: 2001:428:6402:21b::6
 </span></span><span class="line"><span class="cl">Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
 </span></span><span class="line"><span class="cl">Address: 2001:428:6402:21b::5
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="查询所有信息"><a href="#查询所有信息" class="header-mark headerLink">查询所有信息</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -692,22 +692,22 @@
 </span></span><span class="line"><span class="cl">Address: 2001:428:6402:21b::5 [美国Louisiana州Monroe Qwest Communications Company, LLC (CenturyLink)]
 </span></span><span class="line"><span class="cl">Name:   zgovweb.v.bsgslb.cn [白山云 CDN]
 </span></span><span class="line"><span class="cl">Address: 2001:428:6402:21b::6 [美国Louisiana州Monroe Qwest Communications Company, LLC (CenturyLink)]
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="单独使用"><a href="#单独使用" class="header-mark headerLink">单独使用</a></h4>
 <p>需要提前查询到 CNAME 域名</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ nali cdn cdn.somecdncname.com
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="用户交互"><a href="#用户交互" class="header-mark headerLink">用户交互</a></h2>
 <h3 id="查看帮助"><a href="#查看帮助" class="header-mark headerLink">查看帮助</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -742,11 +742,11 @@
 </span></span><span class="line"><span class="cl">  -t, --toggle   Help message for toggle
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Use &#34;nali [command] --help&#34; for more information about a command.
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="更新纯真数据库"><a href="#更新纯真数据库" class="header-mark headerLink">更新纯真数据库</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -755,7 +755,7 @@
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ nali update
 </span></span><span class="line"><span class="cl">2020/07/17 12:53:46 正在下载最新纯真 IP 库...
 </span></span><span class="line"><span class="cl">2020/07/17 12:54:05 已将最新的纯真 IP 库保存到本地 /root/.nali/qqwry.dat
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="使用-geoip2-数据库"><a href="#使用-geoip2-数据库" class="header-mark headerLink">使用 Geoip2 数据库</a></h3>
 <p>需要设置环境变量： <code>NALI_DB</code></p>
@@ -767,46 +767,46 @@
 <h4 id="windows平台"><a href="#windows平台" class="header-mark headerLink">Windows平台</a></h4>
 <h5 id="使用geoip数据库"><a href="#使用geoip数据库" class="header-mark headerLink">使用geoip数据库</a></h5>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">set NALI_DB=geoip
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h5 id="使用ipip数据库"><a href="#使用ipip数据库" class="header-mark headerLink">使用ipip数据库</a></h5>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">set NALI_DB=ipip
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="linux平台"><a href="#linux平台" class="header-mark headerLink">Linux平台</a></h4>
 <h5 id="使用geoip数据库-1"><a href="#使用geoip数据库-1" class="header-mark headerLink">使用geoip数据库</a></h5>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">export</span> <span class="n">NALI_DB</span><span class="o">=</span><span class="n">geoip</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h5 id="使用ipip数据库-1"><a href="#使用ipip数据库-1" class="header-mark headerLink">使用ipip数据库</a></h5>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">export</span> <span class="n">NALI_DB</span><span class="o">=</span><span class="n">ipip</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="更换数据库目录"><a href="#更换数据库目录" class="header-mark headerLink">更换数据库目录</a></h3>
 <p>如果未指定数据库存放目录，数据库默认将存放在 <code>~/.nali</code></p>
 <p>设置环境变量 <code>NALI_DB_HOME</code> 来指定数据库目录</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -819,7 +819,7 @@
 </span></span><span class="line"><span class="cl">or
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">export NALI_DB_HOME=/home/nali
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="感谢列表"><a href="#感谢列表" class="header-mark headerLink">感谢列表</a></h2>
 <ul>
@@ -875,7 +875,7 @@
 <p>通过实验发现如果不切换浏览器标签，使用另一个浏览器窗口或者切换其他软件都不会触发这个记录</p>
 <p>相关代码如下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -918,13 +918,13 @@
 </span></span><span class="line"><span class="cl">        <span class="p">},</span> <span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">},</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>没有看代码之前我还猜想检查切屏可以通过focus来检查，看了代码后发现使用的是vue的 onchange 进行触发，然就在方法内检查document是否hidden</p>
 <p>这样是无法检测到切换不同应用的，简直是自欺欺人啊</p>
 <p>注意到检测到切标签后会触发 <code>e.uploadUnnormal(12)</code> 方法，进去看一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -945,14 +945,14 @@
 </span></span><span class="line"><span class="cl">        <span class="nx">e</span><span class="p">.</span><span class="nx">$message</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&#34;发生错误&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>其中 <code>API.feed_add1</code> 是 <code>/online_proctor/stu/monitor/feed/add</code> 这个路径</p>
 <p>也就是说切标签后会 POST 一个标号为12的action记录，抓包后也发现的确如此，也仅仅而已</p>
 <h2 id="照片上传"><a href="#照片上传" class="header-mark headerLink">照片上传</a></h2>
 <p>查看请求发现图片是先上传到七牛云，然后将返回的连接发给服务器</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -995,10 +995,10 @@
 </span></span><span class="line"><span class="cl">        <span class="p">})</span>
 </span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">},</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1045,10 +1045,10 @@
 </span></span><span class="line"><span class="cl">        <span class="nx">c</span><span class="p">.</span><span class="nx">a</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">upload</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="s2">&#34;image&#34;</span><span class="p">,</span> <span class="o">!</span><span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">},</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1077,7 +1077,7 @@
 </span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{})</span>
 </span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{})</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="如何绕过"><a href="#如何绕过" class="header-mark headerLink">如何绕过</a></h2>
 <p>那啥，就几个有用的url，反正都是后台请求，当做广告拦截了就行，这样老师那边就没有切屏警告和异常照片了</p>
@@ -1097,7 +1097,7 @@
 <p>用户的浏览器效率比较低，无法及时处理后端返回的所有评论，从而导致浏览器卡死，如此只需要一个用户不断发送评论包，所有用户都会受到dos攻击</p>
 <p>评论代码如下：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1288,7 +1288,7 @@
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>可能是360也发现这个dos了，过了不到一个周便修复了，增加了评论速率的限制</p>
 ]]></description></item><item><title>Linux Shell中的重定向</title><link>https://zu1k.com/posts/linux/redirect-in-shell/</link><pubDate>Tue, 24 Mar 2020 15:50:07 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/redirect-in-shell/</guid><description><![CDATA[<p>经常会看到别人的shell脚本后面有一个 <code>2&gt;&amp;1</code> ，一直没去深究，今天这个话题就以这个为出发点进行展开，学习一下Linux shell中重定向的话题。</p>
@@ -1305,7 +1305,7 @@
 </ul>
 <p>我们可以看到后三个文件其实是个链接，指向内核的文件描述符 0\1\2</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1314,7 +1314,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stderr -&gt; /proc/self/fd/2
 </span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stdin -&gt; /proc/self/fd/0
 </span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stdout -&gt; /proc/self/fd/1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="特殊的文件描述符"><a href="#特殊的文件描述符" class="header-mark headerLink">特殊的文件描述符</a></h3>
 <p>在Linux shell中有三个特殊的文件描述符（<code>File descriptor</code> or <code>fd</code>）:</p>
@@ -1339,7 +1339,7 @@
 <p><code>echo &quot;hello&quot; &gt; a.txt</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1348,13 +1348,13 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt; a.txt
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里是将 <strong>stdout</strong> 重定向到文件 <strong>a.txt</strong> 中，与下面的命令等价</p>
 <p><code>echo &quot;hello&quot; 1&gt; a.txt</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1365,7 +1365,7 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> 1&gt; a.txt
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里我们看到重定向符号 <code>&gt;</code> 默认是将 <code>stdout</code> 也就是 fd<code>1</code> 重定向到别处</p>
 <p>如果我们想要将标准错误输出<code>stderr</code>进行重定向，只需要将上面命令中的文件描述符<code>1</code>修改为标准错误输出的文件描述符<code>2</code>即可</p>
@@ -1378,7 +1378,7 @@
 <p><code>ls error 2&gt;1</code></p>
 <p>这里我们的猜想是将 <code>stderr</code> 重定向到 <code>stdout</code>, 所以写了 <code>2&gt;1</code>, 我们来看一下会不会成功？</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1393,7 +1393,7 @@
 </span></span><span class="line"><span class="cl"><span class="m">1</span>
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat <span class="m">1</span>
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;error&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们看到了，并没有输出，而是在当前目录下生成了一个文件 <code>1</code>, 这说明如果我们只写 <code>&gt;1</code> 会被当做重定向到文件 <code>1</code> 中</p>
 <p>此时，我们的 <code>&amp;</code> 就要上场了</p>
@@ -1401,14 +1401,14 @@
 <p><code>ls error 2&gt;&amp;1</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls error 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;error&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>到这里我们就可以自主发挥了</p>
@@ -1418,29 +1418,29 @@
 <p>甚至我们可以玩点复杂的</p>
 <p><code>(echo &quot;hello&quot; &gt;&amp;9) 9&gt;&amp;2 2&gt;&amp;1</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="o">(</span><span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt;<span class="p">&amp;</span>9<span class="o">)</span> 9&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里的文件描述符<code>9</code>会自动生成，但是去除括号就会提示错误了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt;<span class="p">&amp;</span><span class="m">9</span> 9&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">bash: 9: Bad file descriptor
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在 bash &gt;4.0 的版本中，又出了新的重定向语法</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1449,7 +1449,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ls -ld /tmp /tnt 2&gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> &gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/O: /&#39;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">O: drwxrwxrwt <span class="m">17</span> root root <span class="m">28672</span> Nov  <span class="m">5</span> 23:00 /tmp
 </span></span><span class="line"><span class="cl">E: ls: cannot access /tnt: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>这种写法我还没有学习，等我后面学会了再进行更新</p>
@@ -1459,7 +1459,7 @@
 <p>用于格式化输出, 将标准输出和错误输出两个流重定向到不同的处理中，最后汇总</p>
 <p><code>((ls -ld /tmp /tnt |sed 's/^/O: /' &gt;&amp;9 ) 2&gt;&amp;1 |sed 's/^/E: /') 9&gt;&amp;1| cat -n</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1468,12 +1468,12 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="o">((</span>ls -ld /tmp /tnt <span class="p">|</span>sed <span class="s1">&#39;s/^/O: /&#39;</span> &gt;<span class="p">&amp;</span><span class="m">9</span> <span class="o">)</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> 9&gt;<span class="p">&amp;</span>1<span class="p">|</span> cat -n
 </span></span><span class="line"><span class="cl">     <span class="m">1</span>  O: drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">22</span> 18:59 /tmp
 </span></span><span class="line"><span class="cl">     <span class="m">2</span>  E: ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>相同作用的新版语法</p>
 <p><code>cat -n &lt;(ls -ld /tmp /tnt 2&gt; &gt;(sed 's/^/E: /') &gt; &gt;(sed 's/^/O: /'))</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1482,7 +1482,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# cat -n &lt;<span class="o">(</span>ls -ld /tmp /tnt 2&gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> &gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/O: /&#39;</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">     <span class="m">1</span>  O: drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">22</span> 18:59 /tmp
 </span></span><span class="line"><span class="cl">     <span class="m">2</span>  E: ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="合并文件"><a href="#合并文件" class="header-mark headerLink">合并文件</a></h3>
 <p>将输出文件 m 和 n 合并: <code>n &gt;&amp; m</code></p>
@@ -1491,7 +1491,7 @@
 <p>将开始标记 tag 和结束标记 tag 之间的内容作为输入: <code>&lt;&lt; tag</code></p>
 <p>例如：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1506,7 +1506,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="s">    document line 3
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
 </span></span><span class="line"><span class="cl"><span class="m">3</span> //表明收到3行输入
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>它的作用是将两个 EOF 之间的内容(document) 作为输入传递给 command。</p>
 <blockquote>
@@ -1520,7 +1520,7 @@
 <p>如果我们用 <code>set -o noclobber</code> 设置bash，那bash将不会覆盖任何已经存在的文件，但是我们可以通过 <code>&gt;|</code> 绕过这个限制</p>
 <p><strong>先来看一下默认的情况</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1537,14 +1537,14 @@
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:05:56 PM CST
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt; <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:06:13 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如预期的一样，每一次重定向都覆盖了原文件</p>
 <p><strong>下面我们设置 <code>noclobber</code> 标志</strong></p>
 <p><code>set -o noclobber</code></p>
 <p>然后重复上面的操作试一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1559,12 +1559,12 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt; <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">bash: /tmp/testNoClobberDate-yKVkaY: cannot overwrite existing file
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:06:13 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们看到了bash的提示，不能覆盖已存在的文件，实际结果也是一样</p>
 <p>如何进行绕过呢? 我们来试一下用 <code>&gt;|</code> 代替 <code>&gt;</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1575,23 +1575,23 @@
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:10:45 PM CST
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt;<span class="p">|</span> <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:10:49 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现此时可以覆盖已经存在的文件，我们查看一下目前的设置</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">set</span> -o <span class="p">|</span> grep noclobber
 </span></span><span class="line"><span class="cl">noclobber       on
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><code>noclobber</code> 的确是开启的，所以 <code>&gt;|</code> 的确可以绕过这一限制</p>
 <p>使用 <code>set +o noclobber</code> 关闭这个限制，防止对我们后面的使用造成影响</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1602,7 +1602,7 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">set</span> -o <span class="p">|</span> grep noclobber
 </span></span><span class="line"><span class="cl">noclobber       off
 </span></span><span class="line"><span class="cl">root@ubuntu:~# rm <span class="nv">$testfile</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="其他的小点"><a href="#其他的小点" class="header-mark headerLink">其他的小点</a></h2>
 <h3 id="重定向到一处"><a href="#重定向到一处" class="header-mark headerLink">重定向到一处</a></h3>
@@ -1615,7 +1615,7 @@
 <p>验证一下</p>
 <p><strong>第一种写法</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1626,11 +1626,11 @@
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><strong>第二种写法</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1641,7 +1641,7 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat b.txt
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们可以看到第二种写法是正确的</p>
 <p>同理，下面这种写法也正确</p>
@@ -1651,7 +1651,7 @@
 <p>如此套娃会不会导致回环卡死？</p>
 <p>试一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1660,12 +1660,12 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls -ld /tmp /tnt 2&gt;<span class="p">&amp;</span><span class="m">1</span> 1&gt;<span class="p">&amp;</span><span class="m">2</span>  <span class="p">|</span> sed -e s/^/++/
 </span></span><span class="line"><span class="cl">++ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">++drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现都会从标准输出出来</p>
 <p>反过来呢？</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1674,7 +1674,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls -ld /tmp /tnt 1&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>  <span class="p">|</span> sed -e s/^/++/
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现都没有从标准输出出来，都是从标准错误输出出来的</p>
 <blockquote>
@@ -1699,7 +1699,7 @@
 </ol>
 <h4 id="mysql的concat函数可以连接一个或者多个字符串"><a href="#mysql的concat函数可以连接一个或者多个字符串" class="header-mark headerLink">MySQL的concat函数可以连接一个或者多个字符串</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1730,11 +1730,11 @@
 </span></span><span class="line"><span class="cl"><span class="p">|</span> <span class="m">112233</span> <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="mysql的concat函数在连接字符串的时候只要其中一个是null那么将返回null"><a href="#mysql的concat函数在连接字符串的时候只要其中一个是null那么将返回null" class="header-mark headerLink">MySQL的concat函数在连接字符串的时候，只要其中一个是NULL,那么将返回NULL</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1751,7 +1751,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">|</span> NULL   <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="concat_wsseparatorstr1str2"><a href="#concat_wsseparatorstr1str2" class="header-mark headerLink">CONCAT_WS(separator,str1,str2,…)</a></h3>
 <p>CONCAT_WS() 代表 CONCAT With Separator ，是CONCAT()的特殊形式。第一个参数是其它参数的分隔符。分隔符的位置放在要连接的两个字符串之间。分隔符可以是一个字符串，也可以是其它参数。</p>
@@ -1761,7 +1761,7 @@
 <li>如果分隔符为 NULL，则结果为 NULL。函数会忽略任何分隔符参数后的 NULL 值。（只保留非空值）</li>
 </ol>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1778,11 +1778,11 @@
 </span></span><span class="line"><span class="cl"><span class="p">|</span> <span class="m">33</span>                       <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+--------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.04 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="如连接后以逗号分隔"><a href="#如连接后以逗号分隔" class="header-mark headerLink">如连接后以逗号分隔</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1799,11 +1799,11 @@
 </span></span><span class="line"><span class="cl"><span class="p">|</span> 11,22,33 <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+-------------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="和mysql中concat函数不同的是-concat_ws函数在执行的时候不会因为null值而返回null"><a href="#和mysql中concat函数不同的是-concat_ws函数在执行的时候不会因为null值而返回null" class="header-mark headerLink">和MySQL中concat函数不同的是, concat_ws函数在执行的时候,不会因为NULL值而返回NULL</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1820,20 +1820,20 @@
 </span></span><span class="line"><span class="cl"><span class="p">|</span> 11,22 <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+-------------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">1</span> row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="group_concat-函数"><a href="#group_concat-函数" class="header-mark headerLink">GROUP_CONCAT() 函数</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">group_concat</span><span class="p">([</span><span class="k">DISTINCT</span><span class="p">]</span><span class="w"> </span><span class="err">要连接的字段</span><span class="w"> </span><span class="p">[</span><span class="k">Order</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ASC</span><span class="o">/</span><span class="k">DESC</span><span class="w"> </span><span class="err">排序字段</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">Separator</span><span class="w"> </span><span class="err">‘分隔符’</span><span class="p">])</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="基本查询"><a href="#基本查询" class="header-mark headerLink">基本查询</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1860,11 +1860,11 @@
 </span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> <span class="m">500</span>   <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------+------+
 </span></span><span class="line"><span class="cl"><span class="m">6</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="以id分组把name字段的值打印在一行逗号分隔默认"><a href="#以id分组把name字段的值打印在一行逗号分隔默认" class="header-mark headerLink">以id分组，把name字段的值打印在一行，逗号分隔(默认)</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1885,11 +1885,11 @@
 </span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> 200,500<span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------+--------------------+
 </span></span><span class="line"><span class="cl"><span class="m">3</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="以id分组把去冗余的name字段的值打印在一行逗号分隔"><a href="#以id分组把去冗余的name字段的值打印在一行逗号分隔" class="header-mark headerLink">以id分组，把去冗余的name字段的值打印在一行，逗号分隔</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1910,11 +1910,11 @@
 </span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> 200,500 <span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------+-----------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">3</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="以id分组把name字段的值打印在一行逗号分隔以name排倒序"><a href="#以id分组把name字段的值打印在一行逗号分隔以name排倒序" class="header-mark headerLink">以id分组，把name字段的值打印在一行，逗号分隔，以name排倒序</a></h4>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1935,7 +1935,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">|</span><span class="m">3</span> <span class="p">|</span> 500,200<span class="p">|</span>
 </span></span><span class="line"><span class="cl">+------+---------------------------------------+
 </span></span><span class="line"><span class="cl"><span class="m">3</span> rows in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="区别"><a href="#区别" class="header-mark headerLink">区别</a></h2>
 <p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer" class="post-link">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
@@ -2020,7 +2020,7 @@
 <p>执行 <code>perl Configure VC-WIN64A no-asm no-shared --prefix=&quot;D:\Project\opensslwork\openssl\build&quot; --openssldir=&quot;D:\Project\opensslwork\openssl\build\ssl&quot;</code></p>
 <h3 id="进行编译并测试和安装"><a href="#进行编译并测试和安装" class="header-mark headerLink">进行编译并测试和安装</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2029,7 +2029,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">nmake
 </span></span><span class="line"><span class="cl">nmake <span class="nb">test</span>
 </span></span><span class="line"><span class="cl">nmake install
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>此时已经有了我们需要的头文件和静态链接lib库</p>
 <p>
@@ -2081,7 +2081,7 @@
 <h3 id="添加头文件"><a href="#添加头文件" class="header-mark headerLink">添加头文件</a></h3>
 <p>因为需要md5,rsa,base64等操作，这里需要导入openssl四个相关的头文件</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2092,11 +2092,11 @@
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;openssl/pem.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;openssl/md5.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;openssl/bio.h&gt;</span><span class="cp">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="使用md5对字符串生成摘要"><a href="#使用md5对字符串生成摘要" class="header-mark headerLink">使用MD5对字符串生成摘要</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2115,11 +2115,11 @@
 </span></span><span class="line"><span class="cl">    <span class="n">MD5</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="n">md</span><span class="p">);</span> <span class="c1">//调用openssl的md5方法
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="生成rsa密钥对并以pem格式写入文件"><a href="#生成rsa密钥对并以pem格式写入文件" class="header-mark headerLink">生成rsa密钥对并以pem格式写入文件</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -2160,11 +2160,11 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">PEM_write_bio_RSAPublicKey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">rsa</span><span class="p">);</span> <span class="c1">//公钥写入文件
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">rsa</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="对数据进行base64编码base64在bio中有"><a href="#对数据进行base64编码base64在bio中有" class="header-mark headerLink">对数据进行base64编码，base64在BIO中有</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -2201,11 +2201,11 @@
 </span></span><span class="line"><span class="cl">    <span class="n">BIO_free_all</span><span class="p">(</span><span class="n">bio</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="最后通过main函数读入字符串并将三个过程连起来"><a href="#最后通过main函数读入字符串并将三个过程连起来" class="header-mark headerLink">最后通过main函数读入字符串并将三个过程连起来</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -2260,7 +2260,7 @@
 </span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">b64text</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>因为是课程作业，就没有对出现的错误情况进行处理，实际使用时需要考虑到</p>
@@ -2316,7 +2316,7 @@
 这里我下载的是 <a href="http://ftp.gnu.org/gnu/gmp/gmp-5.0.1.tar.bz2" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/gmp/gmp-5.0.1.tar.bz2</a></p>
 <p>解压后从源码编译安装</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2329,13 +2329,13 @@
 </span></span><span class="line"><span class="cl">sudo ./configure --prefix<span class="o">=</span>/opt/gmp
 </span></span><span class="line"><span class="cl">sudo make
 </span></span><span class="line"><span class="cl">sudo make install
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="安装mpfr"><a href="#安装mpfr" class="header-mark headerLink">安装mpfr</a></h3>
 <p>从 <a href="http://ftp.gnu.org/gnu/mpfr/" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/mpfr/</a> 下载一个稳定版本<br>
 我选择的是 <a href="http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.4.tar.bz2" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.4.tar.bz2</a></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2352,13 +2352,13 @@
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>      --with-gmp-include<span class="o">=</span>/opt/gmp/include
 </span></span><span class="line"><span class="cl">sudo make
 </span></span><span class="line"><span class="cl">sudo make install
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="安装mpc"><a href="#安装mpc" class="header-mark headerLink">安装mpc</a></h3>
 <p>从 <a href="http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz" target="_blank" rel="noopener noreffer" class="post-link">http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz</a> 下载<br>
 我选择的是http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2379,36 +2379,36 @@
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>      --with-mpfr-include<span class="o">=</span>/opt/mpfr/include
 </span></span><span class="line"><span class="cl">sudo make
 </span></span><span class="line"><span class="cl">sudo make install
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>上面依赖安装顺序不能错</p>
 </blockquote>
 <p>后来听曹老师说可以用 apt 直接安装，血亏</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt install libmpc-dev libmpfr-dev libgmp-dev libgmp3-dev
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>又一个后来，发现 gcc 源码中有脚本可以一键下载安装这些依赖</p>
 </blockquote>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sh ./contrib/download_prerequisites
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="编译"><a href="#编译" class="header-mark headerLink">编译</a></h2>
 <p>然后进入gcc目录</p>
 <p>配置编译配置</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2419,7 +2419,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>  --enable-checking<span class="o">=</span>release <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>  --enable-languages<span class="o">=</span>c,c++ <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>  --disable-multilib
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>执行 <code>make -j8</code> 然后去喝功夫茶</p>
 ]]></description></item><item><title>Telegram关键词自动回复机器人</title><link>https://zu1k.com/posts/coding/telegram-keyword-reply-bot/</link><pubDate>Tue, 26 Nov 2019 19:03:35 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/telegram-keyword-reply-bot/</guid><description><![CDATA[<!-- ## 前言
@@ -2445,36 +2445,36 @@
 </ul>
 <h3 id="回复文本内容"><a href="#回复文本内容" class="header-mark headerLink">回复文本内容</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 汉化===tg支持语言包功能，点击【链接】即可修改为中文。
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>添加这条规则之后，机器人就会对每一条包含有“汉化”关键词的消息回复“tg支持语言包功能，点击【链接】即可修改为中文。”这个特定内容。</p>
 <p>回复文字支持markdown语法，添加前缀 <code>md::</code> 即可使用</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/add <span class="nv">testmd</span><span class="o">===</span>md::加粗**bold**
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="回复图片"><a href="#回复图片" class="header-mark headerLink">回复图片</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 关键词===photo::图片链接
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>图片链接需要时互联网上tg服务器可以访问到的图片，可以是tg上公开群组或者频道的图片消息链接或者互联网上任意图片资源链接</p>
 <p>例如：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2483,7 +2483,7 @@
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 小白兔===photo::https://img.cdn.com/tupian.jpg
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">/add 小可爱===photo::https://t.me/peekfun/1000
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="回复动图视频文件"><a href="#回复动图视频文件" class="header-mark headerLink">回复动图\视频\文件</a></h3>
 <p>机器人除了回复图片外，还支持回复动图、视频、文件，如果你已经学会了回复图片，那这些种类也没有问题。</p>
@@ -2496,7 +2496,7 @@
 <h3 id="图片文件添加文字"><a href="#图片文件添加文字" class="header-mark headerLink">图片\文件添加文字</a></h3>
 <p>在手动发送图片等的时候我们可以添加描述信息，机器人回复规则也可以。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2513,7 +2513,7 @@
 </span></span><span class="line"><span class="cl">/add 小白兔===
 </span></span><span class="line"><span class="cl">            photo::https://img.cdn.com/tupian.jpg  ::
 </span></span><span class="line"><span class="cl">            这里是描述文字，例如原来你也喜欢小白兔呀
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>文件的使用也是类似，就不再重复</p>
 <blockquote>
@@ -2524,12 +2524,12 @@
 事实上机器人聪明与否完全看你设置的关键词规则是否灵活，你需要学习简单的正则表达式并且利用正则来进行匹配。</p>
 <p>使用正则匹配非常简单，只需要将原来的关键词替换为 <code>re:正则规则</code> 即可。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add re:(如何|怎样).*(激活|使用)===请查看这个说明
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在这个例子里面，使用了正则表达式进行了匹配，此时用户发送 “有谁知道怎样进行账号的激活吗？”也可以匹配上，这大大提高了规则的灵活性。</p>
 <blockquote>
@@ -2539,16 +2539,16 @@
 <p>有些时候一条消息无法满足回复的需求，需要机器人同时返回多个消息，这也是支持的。</p>
 <p>你只需要用 || 将多个回复内容间隔开就可以了。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 关键词===回复文字1||回复文字2||回复文字3
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>不同种类的回复内容也可以混合在一起，请随意混搭</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2565,14 +2565,14 @@
 </span></span><span class="line"><span class="cl">            video::视频链接  ||
 </span></span><span class="line"><span class="cl">            如果需要更多内容，你可以下载软件  ||
 </span></span><span class="line"><span class="cl">            file::文件链接
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="回复随机消息"><a href="#回复随机消息" class="header-mark headerLink">回复随机消息</a></h3>
 <p>有一个群组提出了这样一个特定需求，想要从设置好的回复内容中随机回复一个，这也是支持的。</p>
 <p>使用方法：<br>
 random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符号间隔。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2589,12 +2589,12 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">                photo::PHOTO_URL  $$
 </span></span><span class="line"><span class="cl">                另一条消息
 </span></span><span class="line"><span class="cl">            }
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在这个关键词规则里，机器人将自动从三条消息中选择一个发出。</p>
 <p>你可以结合上面一个使用方法，让规则更加灵活</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -2617,28 +2617,28 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">            }  ||
 </span></span><span class="line"><span class="cl">            如果喜欢可以下载软件获取更多图片  ||
 </span></span><span class="line"><span class="cl">            file::文件的链接
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="自动删除消息"><a href="#自动删除消息" class="header-mark headerLink">自动删除消息</a></h3>
 <p>大多数时候我们需要屏蔽一些关键词，防止用户讨论相关内容，比如说政治、色情、黑产等内容。<br>
 机器人既然可以识别关键词，就可以进行相关消息删除操作，你需要给机器人删除消息的管理员权限。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 日站===delete
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这样机器人就会将含有 日站 二字的消息自动删除，起到屏蔽的作用，你可以使用正则进行更加灵活的匹配。</p>
 <p>直接删除可能不太友好，你可以结合前面的内容进行优化，比如结合多个回复内容进行添加提示语。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add 日站===本群禁止讨论黑产相关内容||delete
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这样的规则机器人就会先回复“本群禁止讨论黑产相关内容”，然后再进行删除。</p>
 <blockquote>
@@ -2647,7 +2647,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <h3 id="自动禁言踢人"><a href="#自动禁言踢人" class="header-mark headerLink">自动禁言\踢人</a></h3>
 <p>只删除还不过瘾，有人刷消息？禁言和踢人同样支持。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -2672,18 +2672,18 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">踢人
 </span></span><span class="line"><span class="cl">/add <span class="nv">日站</span><span class="o">===</span>kick
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>你还是可以结合上面的内容进行优化，因为delete、ban、kick也是回复种类之一，所以跟文字、照片、视频、文件等的使用方法相同，也就可以进行组合。</p>
 <h3 id="屏蔽特定后缀文件"><a href="#屏蔽特定后缀文件" class="header-mark headerLink">屏蔽特定后缀文件</a></h3>
 <p>有人发送exe\com\bat等后缀的病毒？不用再去找其他机器人了，使用自定义规则即可完成屏蔽和禁言。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add re:(\.exe|\.scr|\.cpl|\.com|\.cmd|\.bat|\.vbs)$===ban
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这样带有exe\src\cpl\com\cmd\bat\vbs等可执行后缀的文件就会被自动删除，相关发送者就会被禁言。</p>
 <blockquote>
@@ -2693,7 +2693,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <p>机器人可以设置欢迎和欢送文字</p>
 <p>需要使用 <code>/welcome</code> 和 <code>/goodbye</code> 命令分别开启</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -2710,7 +2710,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">/goodbye
 </span></span><span class="line"><span class="cl">开启后，可以设置内容
 </span></span><span class="line"><span class="cl">/setgoodbyetext <span class="nv">$username离开了我们群</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>注意：加群欢迎和退群欢送文字默认开启markdown语法
@@ -2723,16 +2723,16 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </blockquote>
 <p>示例：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/add test===button::{&#34;text&#34;: &#34;测试按钮消息，支持_Markdown_&#34;,&#34;buttons&#34;: [[{&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},{&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;},{&#34;text&#34;:&#34;拾取&#34;,&#34;url&#34;:&#34;http://t.me/peekfun&#34;}],[{&#34;text&#34;:&#34;百度&#34;,&#34;url&#34;:&#34;https://baidu.com&#34;},{&#34;text&#34;:&#34;谷歌&#34;,&#34;url&#34;:&#34;https://google.com&#34;}]]}
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>button::后面的json格式如下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -2767,7 +2767,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl">        ]
 </span></span><span class="line"><span class="cl">    ]
 </span></span><span class="line"><span class="cl">}
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="命令列表"><a href="#命令列表" class="header-mark headerLink">命令列表</a></h2>
 <ul>
@@ -2815,7 +2815,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 <p>20分钟刷一册书不是问题。</p>
 <p>有需要的拿去，随便改改就能用。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">  1
 </span><span class="lnt">  2
 </span><span class="lnt">  3
@@ -3114,7 +3114,7 @@ random{回复内容1$$回复内容2$$回复内容3}，使用两个英文的$符�
 </span></span><span class="line"><span class="cl"><span class="n">getcomment</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">startNewStatTime</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">oneMin</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>大二上学期写的，质量不高，轻喷</p>

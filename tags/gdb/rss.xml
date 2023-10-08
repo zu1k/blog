@@ -2,7 +2,7 @@
 <h2 id="发现问题"><a href="#发现问题" class="header-mark headerLink">发现问题</a></h2>
 <p>我准备了一个最小的 POC，用来重现本次事件的整个流程。以下是一个简单的 c 程序，如果直接编译运行会出现 SegmentFault，因为出现了越界写。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -13,7 +13,7 @@
 </span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="s">&#34;abc&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">str</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;z&#39;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>使用 clang 编译并开启 AddressSanitizer: <code>clang -g -fsanitize=address -fno-omit-frame-pointer -o target_asan poc.c</code></p>
 <p>正常情况下运行应该很快输出调用堆栈信息，如图：</p>
@@ -211,7 +211,7 @@
 <p>附加子进程，发现卡在一个 for 循环上，通过调用栈信息，从 GitHub 上下载了源码，开始分析原因。</p>
 <p>通过 LLVM compiler-rt 源码，定位到 <a href="https://github.com/llvm/llvm-project/blob/f9d0bf06319203a8cbb47d89c2f39d2c782f3887/compiler-rt/lib/sanitizer_common/sanitizer_posix_libcdep.cpp#L465" target="_blank" rel="noopener noreffer" class="post-link"><code>compiler-rt/lib/sanitizer_common/sanitizer_posix_libcdep.cpp#L465</code></a>，我把 <code>StartSubprocess</code> 简化为以下流程：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -246,7 +246,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">pid</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这是一个典型的启动子进程的方法，先 <code>fork</code>，然后在子进程中关闭不必要的文件描述符，最后通过 <code>execve</code> 启动目标程序。</p>
 <p>但 LLVM 这里通过 <code>int fd = sysconf(_SC_OPEN_MAX)</code> 获取最大文件打开数，然后循环关闭，在文件打开数限制很大的情况下就会进行很多不必要的系统调用，从而导致耗时又占 CPU，最终导致我出现我上面那种假死的情况，实际上进程正在忙着关闭不存在的文件描述符。</p>
@@ -272,14 +272,14 @@
 <h3 id="修改-containerd-文件描述符限制"><a href="#修改-containerd-文件描述符限制" class="header-mark headerLink">修改 Containerd 文件描述符限制</a></h3>
 <p>修改 <code>/usr/lib/systemd/system/containerd.service</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[Service]                                                                                                                     
 </span></span><span class="line"><span class="cl">LimitNOFILE=1048576
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>无需修改 <code>/usr/lib/systemd/system/docker.service</code></p>
 <p>或者在启动容器的时候添加限制 <code>--ulimit nofile=1048576:1048576</code>：</p>

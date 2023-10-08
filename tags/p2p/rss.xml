@@ -68,7 +68,7 @@
 </blockquote>
 <p>修改 API 和 Gateway 绑定的 IP 为 <code>0.0.0.0</code> 以开放给局域网，然后修改 API 的 http header 配置跨域：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -105,11 +105,11 @@
 </span></span><span class="line"><span class="cl">    <span class="p">]</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>配置子域名网关，可以达到 <code>dweb.link</code> 的效果。例如要使用 <code>*.ipfs.zu1k.com</code> 作为子域名网关，就要先将泛域名解析到 IPFS 网关的 IP，然后在 Gateway 配置中增加以下内容：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -138,7 +138,7 @@
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">  <span class="p">},</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>为获得更好的 IPFS 使用体验，推荐安装 <a href="https://chrome.google.com/webstore/detail/ipfs-companion/nibjojkomfdiaoajekhjakgkdhaomnch" target="_blank" rel="noopener noreffer" class="post-link">[IPFS 浏览器插件]</a>，或者使用 Brave 浏览器，可以让 IPFS 的使用体验更加原生。</p>
 <h2 id="pin-优化"><a href="#pin-优化" class="header-mark headerLink">Pin 优化</a></h2>
@@ -150,7 +150,7 @@
 <p>如果你不想一直运行本机的 IPFS 节点，但又想让别人可以访问到你发布的内容，可以考虑使用 Remote Pinning service，这是由一些中心化的服务商提供的内容 Pinning 服务，其效果与你本机 pin 相当。甚至因为他们的网络质量更好、连接的节点更多，将内容 Pin 在他们的节点上，可以更快的被分发和访问。</p>
 <p>我主要推荐两家，<a href="https://www.pinata.cloud/" target="_blank" rel="noopener noreffer" class="post-link">[Pinata]</a> 和 <a href="https://web3.storage/account/" target="_blank" rel="noopener noreffer" class="post-link">[web3.storage]</a>，具体教程可以看 <a href="https://docs.ipfs.io/how-to/work-with-pinning-services/#use-an-existing-pinning-service" target="_blank" rel="noopener noreffer" class="post-link">官方文档</a></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -159,7 +159,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># ipfs pin remote service ls</span>
 </span></span><span class="line"><span class="cl">Pinata       https://api.pinata.cloud/psa
 </span></span><span class="line"><span class="cl">web3_storage https://api.web3.storage
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Pinata 是无门槛的，免费提供 1G 的 Pin 容量。</p>
 <p>web3.storage 免费提供 1T，但是 Pin Api 需要发邮件申请，一天以内就会有回复。<a href="https://web3.storage/docs/how-tos/pinning-services-api/" target="_blank" rel="noopener noreffer" class="post-link">[教程]</a></p>
@@ -444,12 +444,12 @@
 <h4 id="开启守护进程"><a href="#开启守护进程" class="header-mark headerLink">开启守护进程</a></h4>
 <p>运行下面命令开启守护进程</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">ipfs</span> <span class="n">daemon</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="获取文件夹"><a href="#获取文件夹" class="header-mark headerLink">获取文件(夹)</a></h3>
 <p>IPFS获取文件的方式是隐式的，我们可以通过查看、下载等命令，告诉IPFS你要去获取我想要的文件</p>
@@ -525,7 +525,7 @@
 <h3 id="将文件添加到ipfs中"><a href="#将文件添加到ipfs中" class="header-mark headerLink">将文件添加到IPFS中</a></h3>
 <p>我使用的是Hugo静态网站生成器生成我的博客，生成的内容存放在<code>public</code>目录下，所以首先我需要将<code>public</code>目录及其里面的所有内容添加到IPFS中。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -550,18 +550,18 @@
 </span></span><span class="line"><span class="cl"><span class="n">added</span> <span class="n">QmT61SS4ykbnt1ECQFDfX27QJdyhsVfRrLJztDvbcR7Kc1</span> <span class="n">public</span><span class="p">/</span><span class="n">tags</span>
 </span></span><span class="line"><span class="cl"><span class="n">added</span> <span class="n">QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</span> <span class="n">public</span>
 </span></span><span class="line"><span class="cl"> <span class="mf">35.12</span> <span class="n">MiB</span> <span class="p">/</span> <span class="mf">35.12</span> <span class="n">MiB</span> <span class="p">[===========================================]</span> <span class="mf">100.00</span><span class="p">%</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果你不想看这么长的滚屏，只想要最后一个Hash，可以添加一个 <code>Q</code> （quiet） 参数</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">PS </span><span class="n">D:</span><span class="p">\</span><span class="n">blog</span><span class="p">\</span><span class="n">blog</span><span class="p">&gt;</span> <span class="n">ipfs</span> <span class="n">add</span> <span class="n">-rQ</span> <span class="n">public</span>
 </span></span><span class="line"><span class="cl"><span class="n">QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="通过ipfs网关访问"><a href="#通过ipfs网关访问" class="header-mark headerLink">通过IPFS网关访问</a></h3>
 <p>在刚刚添加完成的最后，名称为<code>public</code>的那串Hash便是public目录的CID，我们现在可以通过这个CID在IPFS网关上访问我们刚刚的添加的内容。</p>
@@ -626,14 +626,14 @@
 <h3 id="使用ipns进行映射"><a href="#使用ipns进行映射" class="header-mark headerLink">使用IPNS进行映射</a></h3>
 <p>使用命令 <code>ipfs name publish CID</code> 来发布一个IPNS，这里可能需要等待一会</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">PS </span><span class="n">D:</span><span class="p">\</span><span class="n">blog</span><span class="p">\</span><span class="n">blog</span><span class="p">&gt;</span> <span class="n">ipfs</span> <span class="n">name</span> <span class="n">publish</span> <span class="n">QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</span>
 </span></span><span class="line"><span class="cl"><span class="n">Published</span> <span class="n">to</span> <span class="n">k51qzi5uqu5djhbknypxifn09wxhtf3y1bce8oriud1ojqz5r71mpu75rru520</span><span class="err">:</span> <span class="p">/</span><span class="n">ipfs</span><span class="p">/</span><span class="n">QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>
 

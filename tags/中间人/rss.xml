@@ -45,7 +45,7 @@
 <details>
   <summary>点击展开</summary>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -230,14 +230,14 @@
 </span></span><span class="line"><span class="cl">    Extended master secret: yes
 </span></span><span class="line"><span class="cl">---
 </span></span><span class="line"><span class="cl">DONE
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div></details>
 <h3 id="香港阿里云"><a href="#香港阿里云" class="header-mark headerLink">香港阿里云</a></h3>
 <details>
   <summary>点击展开</summary>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">  1
 </span><span class="lnt">  2
 </span><span class="lnt">  3
@@ -456,7 +456,7 @@
 </span></span><span class="line"><span class="cl">Verify <span class="k">return</span> code: <span class="m">0</span> <span class="o">(</span>ok<span class="o">)</span>
 </span></span><span class="line"><span class="cl">---
 </span></span><span class="line"><span class="cl">DONE
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div></details>
 <h2 id="实施手段"><a href="#实施手段" class="header-mark headerLink">实施手段</a></h2>

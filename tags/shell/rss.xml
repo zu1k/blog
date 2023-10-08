@@ -12,7 +12,7 @@
 </ul>
 <p>我们可以看到后三个文件其实是个链接，指向内核的文件描述符 0\1\2</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -21,7 +21,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stderr -&gt; /proc/self/fd/2
 </span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stdin -&gt; /proc/self/fd/0
 </span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stdout -&gt; /proc/self/fd/1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="特殊的文件描述符"><a href="#特殊的文件描述符" class="header-mark headerLink">特殊的文件描述符</a></h3>
 <p>在Linux shell中有三个特殊的文件描述符（<code>File descriptor</code> or <code>fd</code>）:</p>
@@ -46,7 +46,7 @@
 <p><code>echo &quot;hello&quot; &gt; a.txt</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -55,13 +55,13 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt; a.txt
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里是将 <strong>stdout</strong> 重定向到文件 <strong>a.txt</strong> 中，与下面的命令等价</p>
 <p><code>echo &quot;hello&quot; 1&gt; a.txt</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -72,7 +72,7 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> 1&gt; a.txt
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里我们看到重定向符号 <code>&gt;</code> 默认是将 <code>stdout</code> 也就是 fd<code>1</code> 重定向到别处</p>
 <p>如果我们想要将标准错误输出<code>stderr</code>进行重定向，只需要将上面命令中的文件描述符<code>1</code>修改为标准错误输出的文件描述符<code>2</code>即可</p>
@@ -85,7 +85,7 @@
 <p><code>ls error 2&gt;1</code></p>
 <p>这里我们的猜想是将 <code>stderr</code> 重定向到 <code>stdout</code>, 所以写了 <code>2&gt;1</code>, 我们来看一下会不会成功？</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -100,7 +100,7 @@
 </span></span><span class="line"><span class="cl"><span class="m">1</span>
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat <span class="m">1</span>
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;error&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们看到了，并没有输出，而是在当前目录下生成了一个文件 <code>1</code>, 这说明如果我们只写 <code>&gt;1</code> 会被当做重定向到文件 <code>1</code> 中</p>
 <p>此时，我们的 <code>&amp;</code> 就要上场了</p>
@@ -108,14 +108,14 @@
 <p><code>ls error 2&gt;&amp;1</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls error 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;error&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>到这里我们就可以自主发挥了</p>
@@ -125,29 +125,29 @@
 <p>甚至我们可以玩点复杂的</p>
 <p><code>(echo &quot;hello&quot; &gt;&amp;9) 9&gt;&amp;2 2&gt;&amp;1</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="o">(</span><span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt;<span class="p">&amp;</span>9<span class="o">)</span> 9&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里的文件描述符<code>9</code>会自动生成，但是去除括号就会提示错误了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt;<span class="p">&amp;</span><span class="m">9</span> 9&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">bash: 9: Bad file descriptor
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在 bash &gt;4.0 的版本中，又出了新的重定向语法</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -156,7 +156,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ls -ld /tmp /tnt 2&gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> &gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/O: /&#39;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">O: drwxrwxrwt <span class="m">17</span> root root <span class="m">28672</span> Nov  <span class="m">5</span> 23:00 /tmp
 </span></span><span class="line"><span class="cl">E: ls: cannot access /tnt: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>这种写法我还没有学习，等我后面学会了再进行更新</p>
@@ -166,7 +166,7 @@
 <p>用于格式化输出, 将标准输出和错误输出两个流重定向到不同的处理中，最后汇总</p>
 <p><code>((ls -ld /tmp /tnt |sed 's/^/O: /' &gt;&amp;9 ) 2&gt;&amp;1 |sed 's/^/E: /') 9&gt;&amp;1| cat -n</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -175,12 +175,12 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="o">((</span>ls -ld /tmp /tnt <span class="p">|</span>sed <span class="s1">&#39;s/^/O: /&#39;</span> &gt;<span class="p">&amp;</span><span class="m">9</span> <span class="o">)</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> 9&gt;<span class="p">&amp;</span>1<span class="p">|</span> cat -n
 </span></span><span class="line"><span class="cl">     <span class="m">1</span>  O: drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">22</span> 18:59 /tmp
 </span></span><span class="line"><span class="cl">     <span class="m">2</span>  E: ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>相同作用的新版语法</p>
 <p><code>cat -n &lt;(ls -ld /tmp /tnt 2&gt; &gt;(sed 's/^/E: /') &gt; &gt;(sed 's/^/O: /'))</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -189,7 +189,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# cat -n &lt;<span class="o">(</span>ls -ld /tmp /tnt 2&gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> &gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/O: /&#39;</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">     <span class="m">1</span>  O: drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">22</span> 18:59 /tmp
 </span></span><span class="line"><span class="cl">     <span class="m">2</span>  E: ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="合并文件"><a href="#合并文件" class="header-mark headerLink">合并文件</a></h3>
 <p>将输出文件 m 和 n 合并: <code>n &gt;&amp; m</code></p>
@@ -198,7 +198,7 @@
 <p>将开始标记 tag 和结束标记 tag 之间的内容作为输入: <code>&lt;&lt; tag</code></p>
 <p>例如：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -213,7 +213,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="s">    document line 3
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
 </span></span><span class="line"><span class="cl"><span class="m">3</span> //表明收到3行输入
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>它的作用是将两个 EOF 之间的内容(document) 作为输入传递给 command。</p>
 <blockquote>
@@ -227,7 +227,7 @@
 <p>如果我们用 <code>set -o noclobber</code> 设置bash，那bash将不会覆盖任何已经存在的文件，但是我们可以通过 <code>&gt;|</code> 绕过这个限制</p>
 <p><strong>先来看一下默认的情况</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -244,14 +244,14 @@
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:05:56 PM CST
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt; <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:06:13 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如预期的一样，每一次重定向都覆盖了原文件</p>
 <p><strong>下面我们设置 <code>noclobber</code> 标志</strong></p>
 <p><code>set -o noclobber</code></p>
 <p>然后重复上面的操作试一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -266,12 +266,12 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt; <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">bash: /tmp/testNoClobberDate-yKVkaY: cannot overwrite existing file
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:06:13 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们看到了bash的提示，不能覆盖已存在的文件，实际结果也是一样</p>
 <p>如何进行绕过呢? 我们来试一下用 <code>&gt;|</code> 代替 <code>&gt;</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -282,23 +282,23 @@
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:10:45 PM CST
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt;<span class="p">|</span> <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:10:49 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现此时可以覆盖已经存在的文件，我们查看一下目前的设置</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">set</span> -o <span class="p">|</span> grep noclobber
 </span></span><span class="line"><span class="cl">noclobber       on
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><code>noclobber</code> 的确是开启的，所以 <code>&gt;|</code> 的确可以绕过这一限制</p>
 <p>使用 <code>set +o noclobber</code> 关闭这个限制，防止对我们后面的使用造成影响</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -309,7 +309,7 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">set</span> -o <span class="p">|</span> grep noclobber
 </span></span><span class="line"><span class="cl">noclobber       off
 </span></span><span class="line"><span class="cl">root@ubuntu:~# rm <span class="nv">$testfile</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="其他的小点"><a href="#其他的小点" class="header-mark headerLink">其他的小点</a></h2>
 <h3 id="重定向到一处"><a href="#重定向到一处" class="header-mark headerLink">重定向到一处</a></h3>
@@ -322,7 +322,7 @@
 <p>验证一下</p>
 <p><strong>第一种写法</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -333,11 +333,11 @@
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><strong>第二种写法</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -348,7 +348,7 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat b.txt
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们可以看到第二种写法是正确的</p>
 <p>同理，下面这种写法也正确</p>
@@ -358,7 +358,7 @@
 <p>如此套娃会不会导致回环卡死？</p>
 <p>试一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -367,12 +367,12 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls -ld /tmp /tnt 2&gt;<span class="p">&amp;</span><span class="m">1</span> 1&gt;<span class="p">&amp;</span><span class="m">2</span>  <span class="p">|</span> sed -e s/^/++/
 </span></span><span class="line"><span class="cl">++ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">++drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现都会从标准输出出来</p>
 <p>反过来呢？</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -381,7 +381,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls -ld /tmp /tnt 1&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>  <span class="p">|</span> sed -e s/^/++/
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现都没有从标准输出出来，都是从标准错误输出出来的</p>
 <blockquote>

@@ -59,7 +59,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>经过我的尝试效果还不错，可以跑到10Mbps</p>
 <p>我用的域名为 <code>githubssh.xyz</code> ，大家可以拿去用，使用方法如下：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -72,7 +72,7 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">替换后
 </span></span><span class="line"><span class="cl">git clone git@githubssh.xyz:moby/moby.git
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>为了能够自动更新ip，我写了一个程序，每天会检查github新的ip，创建新的globalssh，然后自动解析到域名githubssh.xyz上，由cloudflare进行DNS层面的负载均衡</p>
 <p>开源地址为： <a href="https://github.com/zu1k/globalssh4github" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/globalssh4github</a></p>

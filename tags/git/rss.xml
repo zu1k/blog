@@ -5,7 +5,7 @@
 <p>通常使用的链接形如：<code>https://github.com/git/git.git</code></p>
 <p>针对这种协议，代理设置比较简单</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -22,33 +22,33 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 取消代理</span>
 </span></span><span class="line"><span class="cl">git config --global --unset http.proxy
 </span></span><span class="line"><span class="cl">git config --global --unset https.proxy
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="ssh协议"><a href="#ssh协议" class="header-mark headerLink">ssh协议</a></h2>
 <p>通常使用的链接形如：<code>git@github.com:git/git.git</code> 或者 <code>ssh://[&lt;username&gt;@]&lt;server&gt;[:&lt;port&gt;]/path/repo.git</code></p>
 <p>对于使用ssh协议的库，上面的代理设置办法就失效了，需要给ssh设置socks代理</p>
 <p>在 <code>~/.ssh/config</code> 文件中添加下面内容， 如果没有这个文件就新建</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
 </span></span><span class="line"><span class="cl">ProxyCommand nc -X <span class="m">5</span> -x 127.0.0.1:1080 %h %p
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里使用的是nc命令，Linux需要安装netcat(一般自带了)，windows需要单独下载</p>
 <p>windows如果安装了<code>mingw</code>也可以使用<code>connect</code>命令来替代<code>nc</code>命令</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host github.com
 </span></span><span class="line"><span class="cl">ProxyCommand connect -S 127.0.0.1:1080 %h %p
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div>]]></description></item><item><title>一些我刚学到的GIT技巧</title><link>https://zu1k.com/posts/learn/some-git-skills/</link><pubDate>Sun, 01 Dec 2019 20:32:44 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/some-git-skills/</guid><description><![CDATA[<h3 id="git-reflog"><a href="#git-reflog" class="header-mark headerLink">git reflog</a></h3>
 <p>git reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录，而且跟进结果可以回退道某一个修改</p>

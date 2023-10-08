@@ -5,7 +5,7 @@
 <p>通过实验发现如果不切换浏览器标签，使用另一个浏览器窗口或者切换其他软件都不会触发这个记录</p>
 <p>相关代码如下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -48,13 +48,13 @@
 </span></span><span class="line"><span class="cl">        <span class="p">},</span> <span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">},</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>没有看代码之前我还猜想检查切屏可以通过focus来检查，看了代码后发现使用的是vue的 onchange 进行触发，然就在方法内检查document是否hidden</p>
 <p>这样是无法检测到切换不同应用的，简直是自欺欺人啊</p>
 <p>注意到检测到切标签后会触发 <code>e.uploadUnnormal(12)</code> 方法，进去看一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -75,14 +75,14 @@
 </span></span><span class="line"><span class="cl">        <span class="nx">e</span><span class="p">.</span><span class="nx">$message</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&#34;发生错误&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>其中 <code>API.feed_add1</code> 是 <code>/online_proctor/stu/monitor/feed/add</code> 这个路径</p>
 <p>也就是说切标签后会 POST 一个标号为12的action记录，抓包后也发现的确如此，也仅仅而已</p>
 <h2 id="照片上传"><a href="#照片上传" class="header-mark headerLink">照片上传</a></h2>
 <p>查看请求发现图片是先上传到七牛云，然后将返回的连接发给服务器</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -125,10 +125,10 @@
 </span></span><span class="line"><span class="cl">        <span class="p">})</span>
 </span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">},</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -175,10 +175,10 @@
 </span></span><span class="line"><span class="cl">        <span class="nx">c</span><span class="p">.</span><span class="nx">a</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">upload</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="s2">&#34;image&#34;</span><span class="p">,</span> <span class="o">!</span><span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">},</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -207,7 +207,7 @@
 </span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{})</span>
 </span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{})</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="如何绕过"><a href="#如何绕过" class="header-mark headerLink">如何绕过</a></h2>
 <p>那啥，就几个有用的url，反正都是后台请求，当做广告拦截了就行，这样老师那边就没有切屏警告和异常照片了</p>

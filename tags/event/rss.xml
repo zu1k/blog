@@ -35,7 +35,7 @@
 <h3 id="官方后门"><a href="#官方后门" class="header-mark headerLink">官方后门</a></h3>
 <p>通过查看请求和页面源码可以发现这个页面通过向 <code>192.168.1.1</code> 的某个接口进行 <strong>jsonp</strong> 请求来执行命令</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -88,7 +88,7 @@
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>很明显，这是一个后门，或者是一个漏洞，我更相信这是一个官方后门</p>
 <p>根据它的写法我稍微测试了一下，通过jsonp跨域，进行CSRF，的确可以执行任意命令</p>
@@ -127,7 +127,7 @@
     </div>
 <p>再回过头来看升级页面执行的shell命令:</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -144,7 +144,7 @@
 </span></span><span class="line"><span class="cl">    /tmp/sdsjw<span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="k">fi</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">/jsonp?
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>当初看这段命令的时候就觉得非常奇怪</p>
 <p>为什么上来第一句就要阻断到所有目标443端口的tcp连接？当初的一个想法是防止用户用https协议，这样用户只能使用80端口的http明文协议，可以进行监听或者劫持等操作。这样也不合理啊，HSTS也不是吃干饭的，再说联通如果通过更新屏蔽掉到443端口的所有请求，不怕用户集体反馈和投诉吗？反正当初是没想通这个谜之操作</p>

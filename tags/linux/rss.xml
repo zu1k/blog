@@ -19,7 +19,7 @@
 <p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[AFF 链接]</a>.</p>
 <p>你可以通过 <code>ip a</code> 命令查看网络接口的地址，从而获取你的 IPv6 子网信息：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -38,14 +38,14 @@
 </span></span><span class="line"><span class="cl">       valid_lft 2591171sec preferred_lft 603971sec
 </span></span><span class="line"><span class="cl">    inet6 fe80::b155:e257:a8f7:6940/64 scope link stable-privacy 
 </span></span><span class="line"><span class="cl">       valid_lft forever preferred_lft forever
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>可以看到，默认给你的 IPv6 地址是动态的，这是由 SLAAC 协议根据前缀和 Mac 地址自动生成的; 还有一个 <code>fe80</code> 开头的 IPv6 地址，这也是自动分配的本地链路地址。这很好，通过这些无状态地址配置协议，使 IPv6 避免的手动配置，即插即用。</p>
 <p>在我的试验中，我拿到的子网为 <code>2001:19f0:6001:48e4::/64</code>，下面都以此为基础。</p>
 <p><strong>绑定和路由</strong></p>
 <p>在拿到 IPv6 子网后，需要添加路由。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -56,23 +56,23 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 纠正：无需添加地址，这一行只能添加一个地址。我们通过 ip_nonlocal_bind 来允许绑定</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">ip route add <span class="nb">local</span> 2001:19f0:6001:48e4::/64 dev enp1s0
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>为了能够绑定任意 IP，我们需要开启内核的 <code>ip_nonlocal_bind</code> 特性：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sysctl net.ipv6.ip_nonlocal_bind<span class="o">=</span><span class="m">1</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><strong>NDP</strong></p>
 <p>类似于 IPv4 中 ARP 协议的作用，IPv6 中需要使用 <code>ND</code> 协议来发现邻居并确定可用路径。我们需要开启一个 <code>ND</code> 代理：</p>
 <p>安装 <code>ndppd</code>: <code>apt install ndppd</code></p>
 <p>编辑 <code>/etc/ndppd.conf</code> 文件:</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -93,7 +93,7 @@
 </span></span><span class="line"><span class="cl">        static
 </span></span><span class="line"><span class="cl">    }
 </span></span><span class="line"><span class="cl">}
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>启动 <code>ndppd</code>: <code>systemctl start ndppd</code></p>
 <div class="details admonition note open">
@@ -109,7 +109,7 @@
 <p><strong>验证</strong></p>
 <p>接下来你可以验证一下了，用 <code>curl --interface</code> 指定出口 IP：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -120,21 +120,21 @@
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4::1
 </span></span><span class="line"><span class="cl">$ curl --interface 2001:19f0:6001:48e4::2 ipv6.ip.sb
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4::2
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>可以看到，能够按照我们指定的任意 IP 进行请求</p>
 <h2 id="http-代理"><a href="#http-代理" class="header-mark headerLink">Http 代理</a></h2>
 <p>为了方便使用，使用 Rust 写了一个 http 代理服务端，每一个请求会走指定 IPv6 子网下随机 IP，算是一个基础 demo</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">./http-proxy-ipv6-pool -b 127.0.0.1:51080 -i 2001:19f0:6001:48e4::/64
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -163,7 +163,7 @@
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4:aa26:3bf9:6598:9e82
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4:be6b:6a62:f8f7:a14d
 </span></span><span class="line"><span class="cl">2001:19f0:6001:48e4:b598:409d:b946:17c
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>欢迎 Star: <a href="https://github.com/zu1k/http-proxy-ipv6-pool" target="_blank" rel="noopener noreffer" class="post-link">https://github.com/zu1k/http-proxy-ipv6-pool</a></p>
 <h2 id="碎碎念"><a href="#碎碎念" class="header-mark headerLink">碎碎念</a></h2>
@@ -209,7 +209,7 @@
 <p>在Linux下，内核提供的macvlan就可以实现我们的需求，从Linux Kernel 3.9开始就支持了貌似，所以只要不是安装非常老的系统都是支持的</p>
 <p>查看一下你的系统是否支持：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -218,33 +218,33 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># modprobe macvlan</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># lsmod | grep macvlan</span>
 </span></span><span class="line"><span class="cl">macvlan                <span class="m">24576</span>  <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果显示类似上面的内容就表示支持</p>
 <p>添加一个macvlan类型的网络接口：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip link add link &lt;physical-network-interface-name&gt; &lt;new-network-interface-name&gt; <span class="nb">type</span> macvlan
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>例如，通过 <code>ip addr</code> 或者 <code>ifconfig</code> 查看到物理网卡名为 <code>eth0</code>，新网络接口名我们用 <code>vmac0</code> <code>vmac1</code> 这样的表示，命令如下：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip link add link eth0 vmac0 <span class="nb">type</span> macvlan
 </span></span><span class="line"><span class="cl">ip link add link eth0 vmac1 <span class="nb">type</span> macvlan
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这样就创建了两个新的网络接口，依附于物理接口 <code>eth0</code>，两个新网络接口的mac地址是自动分配的，每一次新建都会随机生成。</p>
 <p>如果想要手动指定mac地址，可以使用下面的命令:</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -253,7 +253,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip link add link &lt;physical-network-interface-name&gt; &lt;new-network-interface-name&gt; address &lt;mac-address&gt; <span class="nb">type</span> macvlan
 </span></span><span class="line"><span class="cl">例如：
 </span></span><span class="line"><span class="cl">ip link add link eth0 vmac0 address 11:22:33:44:55:66 <span class="nb">type</span> macvlan
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="details admonition tip open">
         <div class="details-summary admonition-title">
@@ -265,7 +265,7 @@
     </div>
 <p>经过上面这一步，就就可以通过 <code>ip link</code> 看到多了两个网络接口</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -276,7 +276,7 @@
 </span></span><span class="line"><span class="cl">    link/ether 5a:5d:f9:1e:b8:19 brd ff:ff:ff:ff:ff:ff
 </span></span><span class="line"><span class="cl">5: vmac1@eth0: &lt;BROADCAST,MULTICAST&gt; mtu <span class="m">1500</span> qdisc noop state DOWN group default qlen <span class="m">1000</span>
 </span></span><span class="line"><span class="cl">    link/ether 66:50:b5:23:d8:ce brd ff:ff:ff:ff:ff:ff
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>然后需要获取到多个IP，直接执行 <code>dhclient</code> 即可</p>
 <h3 id="进行联网认证"><a href="#进行联网认证" class="header-mark headerLink">进行联网认证</a></h3>
@@ -295,7 +295,7 @@
 <p>在启动前先修改配置文件，username为学号，password为上网认证的密码，ip分别写刚刚 macvlan 获取到的IP</p>
 <p>学校限制的每个人最多5台设备同时在线，新登录的设备会把前面的设备顶下去，所以最好联合舍友用多个人的账号进行认证</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -318,7 +318,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"> </span>- <span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l">201XXXXX2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">user2-password</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="nt">ip</span><span class="p">:</span><span class="w"> </span><span class="m">10.0.0.3</span><span class="w">
-</span></span></span></code></pre></td></tr></table>
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="details admonition note open">
         <div class="details-summary admonition-title">
@@ -336,7 +336,7 @@
 <p>首先创建多个路由表，因为每一个路由表只能默认走一个接口，所以刚刚创建了多少虚拟网络接口，这里就要增加几个路由表，我按照2个接口来演示</p>
 <p>编辑 <code>/etc/iproute2/rt_tables</code> 文件，在文件末尾增加两个路由表</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -345,34 +345,34 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 新增的路由表</span>
 </span></span><span class="line"><span class="cl"><span class="m">100</span>      vmac0
 </span></span><span class="line"><span class="cl"><span class="m">101</span>      vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>保证新路由表中没有条目，先清空一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip route flush table vmac0
 </span></span><span class="line"><span class="cl">ip route flush table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>分别为两个路由表增加默认路由项，分别走不同的网络接口</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip route add 0/0 dev vmac0 table vmac0
 </span></span><span class="line"><span class="cl">ip route add 0/0 dev vmac1 table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="配置iptables"><a href="#配置iptables" class="header-mark headerLink">配置iptables</a></h4>
 <p>分别创建多个新的链</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -389,11 +389,11 @@
 </span></span><span class="line"><span class="cl">iptables -t mangle -N VMAC1
 </span></span><span class="line"><span class="cl">iptables -t mangle -A VMAC1 -j MARK --set-mark 0x101
 </span></span><span class="line"><span class="cl">iptables -t mangle -A VMAC1 -j CONNMARK --save-mark
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>配置打标记的规则，每两个包（只看新建的连接）中第一个交给<code>VMAC0</code>处理，第二个交给<code>VMAC1</code>处理</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -402,37 +402,37 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
 </span></span><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
 </span></span><span class="line"><span class="cl">iptables -t mangle -A OUTPUT -o vmac+ -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="配置策略路由"><a href="#配置策略路由" class="header-mark headerLink">配置策略路由</a></h4>
 <p>下面需要配置策略路由，根据我们设置的策略，流量分别由多个路由表进行路由，所以就可以走多个网络接口了</p>
 <p>我们让防火墙标记为<code>0x100</code>的用<code>vmac0</code>路由表，标记为<code>0x101</code>流量的用<code>vmac1</code>路由表</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip rule add fwmark 0x100 table vmac0
 </span></span><span class="line"><span class="cl">ip rule add fwmark 0x101 table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>此时会出现一个问题，就是从外部发起的连接在进来后并没有打上防火墙标记，所以返回的包只能走默认的路由表。假如我们的默认路由表的默认路由是走<code>vmac0</code>，那来自<code>vmac1</code>的请求的响应包也会走<code>vmac0</code>出去，因为不属于同一个连接，这个包就会被丢掉。</p>
 <p>我们的解决方法是再增加两条规则，来自哪个网卡的包的响应就从该网卡出</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ip rule add from &lt;vmac0-ip&gt; table vmac0
 </span></span><span class="line"><span class="cl">ip rule add from &lt;vmac1-ip&gt; table vmac1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="用作路由器"><a href="#用作路由器" class="header-mark headerLink">用作路由器</a></h4>
 <p>如果这台Linux需要用作网关，需要配置PREROUTING链，这里假设内网网段为 <code>192.168/16</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -441,16 +441,16 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">0</span> -j VMAC0
 </span></span><span class="line"><span class="cl">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state NEW -m statistic --mode nth --every <span class="m">2</span> --packet <span class="m">1</span> -j VMAC1
 </span></span><span class="line"><span class="cl">iptables -t mangle -A PREROUTING -s 192.168/16 ! -d 192.168/16 -m state --state ESTABLISHED,RELATED -j CONNMARK --restore-mark
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>同时需要对内网流量进行SNAT</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">iptables -t nat -A POSTROUTING -o vmac+ -j MASQUERADE
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>经过上面的步骤，已经能够利用多个网络接口了。不过我们本质上是通过连接分流的，同一个连接的所有包会走同一个接口出去，所以如果你的程序是单线程网络，就看不到加速效果。可以通过speedtest多线程来进行测试，可以看到明显的网速叠加。</p>
 <div class="details admonition note open">
@@ -655,29 +655,29 @@
 ]]></description></item><item><title>Linux添加swap</title><link>https://zu1k.com/posts/linux/linux-add-swap/</link><pubDate>Sun, 12 Apr 2020 20:38:26 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-add-swap/</guid><description><![CDATA[<p>给 Linux 服务器添加swap做了好几次了，每一次都没记住，临时去网上查命令，这里特地记录一下</p>
 <h2 id="查看当前swap"><a href="#查看当前swap" class="header-mark headerLink">查看当前swap</a></h2>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo swapon --show
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果没有输出说明没有swap</p>
 <p>也可以通过free命令来查看</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">free -h
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="添加swap"><a href="#添加swap" class="header-mark headerLink">添加swap</a></h2>
 <p>添加swap基本步骤： 创建一个大文件 -&gt; 初始化文件为swap交换文件格式 -&gt; 启用这个文件</p>
 <h3 id="创建大文件"><a href="#创建大文件" class="header-mark headerLink">创建大文件</a></h3>
 <p>先找一个剩余空间大点的地方创建一个大文件，这里以1G的大小为例，一般swap空间大小以真实物理内存1-2倍大小</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -688,45 +688,45 @@
 </span></span><span class="line"><span class="cl">sudo fallocate -l 1G /swapfile
 </span></span><span class="line"><span class="cl"><span class="c1"># 如果没有安装可以用dd命令，比较慢</span>
 </span></span><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/swapfile <span class="nv">bs</span><span class="o">=</span><span class="m">1024</span> <span class="nv">count</span><span class="o">=</span><span class="m">1048576</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>修改文件的权限</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod <span class="m">600</span> /swapfile
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="初始化文件"><a href="#初始化文件" class="header-mark headerLink">初始化文件</a></h3>
 <p>创建完文件后需要将文件进行初始化，标记为swap文件格式</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkswap /swapfile
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="启用swap"><a href="#启用swap" class="header-mark headerLink">启用swap</a></h3>
 <p>接下来使用 命令启用这个swap交换文件</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo swapon /swapfile
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>要让创建好的 swap 分区永久生效，可以将 swapfile 路径内容写入到 <code>/etc/fstab</code> 文件当中：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/swapfile swap swap defaults <span class="m">0</span> <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="检查"><a href="#检查" class="header-mark headerLink">检查</a></h3>
 <p>用一开始的命令检查一下swap是否启用正常</p>
@@ -735,52 +735,52 @@
 <h3 id="取消swap"><a href="#取消swap" class="header-mark headerLink">取消swap</a></h3>
 <p>首先输入以下命令停用 SWAP 空间：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo swapoff -v /swapfile
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在 <code>/etc/fstab</code> 文件中删除有效 swap 的行。</p>
 <h3 id="删除文件"><a href="#删除文件" class="header-mark headerLink">删除文件</a></h3>
 <p>最后执行以下命令删除 swapfile 文件：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo rm /swapfile
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="调整swappiness值"><a href="#调整swappiness值" class="header-mark headerLink">调整Swappiness值</a></h2>
 <p>Swappiness 是一个 Linux 内核属性，用于定义 Linux 系统使用 SWAP 空间的频率。Swappiness 值可以从 0 至 100，较低的值会让内核尽可能少的使用 SWAP 空间，而较高的值将让 Linux Kernel 能够更加积极地使用 SWAP 分区。</p>
 <p>Ubuntu 18.04 默认的 Swappiness 值为 60，您可以使用如下命令来查看：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /proc/sys/vm/swappiness
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>值为 60 对于 Ubuntu 18.04 桌面还算行，但对于 Ubuntu Server 来说，SWAP 的使用频率就比较高了，所以您可能需要设置较低的值。例如，要将 swappiness 值设置为 40，请执行：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo sysctl vm.swappiness<span class="o">=</span><span class="m">40</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如果要让设置在系统重启后依然有效，则必要在 /etc/sysctl.conf 文件中添加以下内容：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vm.swappiness<span class="o">=</span><span class="m">40</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>最佳 swappiness 值取决于您系统的工作负载以及内存的使用方式，您应该以小增量的方式来调整此参数，以查到最佳值。</p>
 ]]></description></item><item><title>学习Linux中的SUID机制</title><link>https://zu1k.com/posts/linux/linux-suid/</link><pubDate>Mon, 30 Mar 2020 11:36:25 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/linux-suid/</guid><description><![CDATA[<h2 id="什么是-suid"><a href="#什么是-suid" class="header-mark headerLink">什么是 SUID</a></h2>
@@ -801,26 +801,26 @@
 <p>举个例子：</p>
 <p>所有用户的密码保存在 <code>/etc/shadow</code> 文件中，但是这个文件只有root用户能够进行写操作</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@kali:~# ls -l /etc/shadow
 </span></span><span class="line"><span class="cl">-rw-r----- <span class="m">1</span> root shadow <span class="m">1639</span> Jan <span class="m">27</span> 12:50 /etc/shadow
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>那如果普通用户想要修改自己的密码，是否需要让root用户帮着修改呢？</p>
 <p>显然不需要，修改密码用到了 <code>/usr/bin/passwd</code> 这个程序，我们来看一下它的权限</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@kali:~# ls -l /usr/bin/passwd
 </span></span><span class="line"><span class="cl">-rwsr-xr-x <span class="m">1</span> root root <span class="m">63944</span> Dec <span class="m">20</span> 10:39 /usr/bin/passwd
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>可以看到，这个程序的所有者是root用户，但是所有用户都有执行权限，并且设置了s位（怎么看出来的后面会说）</p>
 <p>这样SUID机制就会在程序执行的时候发生作用，让普通用户可以用root权限修改<code>/etc/shadow</code>文件</p>
@@ -829,7 +829,7 @@
 <h3 id="查看suid"><a href="#查看suid" class="header-mark headerLink">查看SUID</a></h3>
 <p>通过命令 <code>ls -l</code> 即可看到文件的详细信息，包括权限表 <code>-rwxrwxrwx</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -854,7 +854,7 @@
 </span></span><span class="line"><span class="cl">如果文件所有者权限的 x 换成 s 就代表设置了SUID
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">同理如果组内用户权限的 x 换成了 s 就代表设置了SGID
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="设置suid"><a href="#设置suid" class="header-mark headerLink">设置SUID</a></h3>
 <p>使用 <code>chmod 4000 filename</code> 可以设置SUID位</p>
@@ -870,7 +870,7 @@
 <p>因为SUID位让程序在执行的时候有了所有者的权限，所以可以利用这点来提权</p>
 <p>示例：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -881,7 +881,7 @@
 </span></span><span class="line"><span class="cl">nmap --interactive
 </span></span><span class="line"><span class="cl"><span class="c1"># 执行sh，提权成功</span>
 </span></span><span class="line"><span class="cl">!sh
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>详细介绍见： <a href="https://www.leavesongs.com/PENETRATION/Linux-suid-privilege-escalation.html" target="_blank" rel="noopener noreffer" class="post-link">https://www.leavesongs.com/PENETRATION/Linux-suid-privilege-escalation.html</a></p>
 <h2 id="suid在脚本中失效"><a href="#suid在脚本中失效" class="header-mark headerLink">SUID在脚本中失效</a></h2>
@@ -902,7 +902,7 @@
 </ul>
 <p>我们可以看到后三个文件其实是个链接，指向内核的文件描述符 0\1\2</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -911,7 +911,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stderr -&gt; /proc/self/fd/2
 </span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stdin -&gt; /proc/self/fd/0
 </span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root         <span class="m">15</span> Mar <span class="m">24</span> 16:20 stdout -&gt; /proc/self/fd/1
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="特殊的文件描述符"><a href="#特殊的文件描述符" class="header-mark headerLink">特殊的文件描述符</a></h3>
 <p>在Linux shell中有三个特殊的文件描述符（<code>File descriptor</code> or <code>fd</code>）:</p>
@@ -936,7 +936,7 @@
 <p><code>echo &quot;hello&quot; &gt; a.txt</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -945,13 +945,13 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt; a.txt
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里是将 <strong>stdout</strong> 重定向到文件 <strong>a.txt</strong> 中，与下面的命令等价</p>
 <p><code>echo &quot;hello&quot; 1&gt; a.txt</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -962,7 +962,7 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> 1&gt; a.txt
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里我们看到重定向符号 <code>&gt;</code> 默认是将 <code>stdout</code> 也就是 fd<code>1</code> 重定向到别处</p>
 <p>如果我们想要将标准错误输出<code>stderr</code>进行重定向，只需要将上面命令中的文件描述符<code>1</code>修改为标准错误输出的文件描述符<code>2</code>即可</p>
@@ -975,7 +975,7 @@
 <p><code>ls error 2&gt;1</code></p>
 <p>这里我们的猜想是将 <code>stderr</code> 重定向到 <code>stdout</code>, 所以写了 <code>2&gt;1</code>, 我们来看一下会不会成功？</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -990,7 +990,7 @@
 </span></span><span class="line"><span class="cl"><span class="m">1</span>
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat <span class="m">1</span>
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;error&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们看到了，并没有输出，而是在当前目录下生成了一个文件 <code>1</code>, 这说明如果我们只写 <code>&gt;1</code> 会被当做重定向到文件 <code>1</code> 中</p>
 <p>此时，我们的 <code>&amp;</code> 就要上场了</p>
@@ -998,14 +998,14 @@
 <p><code>ls error 2&gt;&amp;1</code></p>
 <p>执行结果：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls error 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;error&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>到这里我们就可以自主发挥了</p>
@@ -1015,29 +1015,29 @@
 <p>甚至我们可以玩点复杂的</p>
 <p><code>(echo &quot;hello&quot; &gt;&amp;9) 9&gt;&amp;2 2&gt;&amp;1</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="o">(</span><span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt;<span class="p">&amp;</span>9<span class="o">)</span> 9&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">hello
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这里的文件描述符<code>9</code>会自动生成，但是去除括号就会提示错误了</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">echo</span> <span class="s2">&#34;hello&#34;</span> &gt;<span class="p">&amp;</span><span class="m">9</span> 9&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">bash: 9: Bad file descriptor
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在 bash &gt;4.0 的版本中，又出了新的重定向语法</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1046,7 +1046,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ls -ld /tmp /tnt 2&gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> &gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/O: /&#39;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">O: drwxrwxrwt <span class="m">17</span> root root <span class="m">28672</span> Nov  <span class="m">5</span> 23:00 /tmp
 </span></span><span class="line"><span class="cl">E: ls: cannot access /tnt: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><blockquote>
 <p>这种写法我还没有学习，等我后面学会了再进行更新</p>
@@ -1056,7 +1056,7 @@
 <p>用于格式化输出, 将标准输出和错误输出两个流重定向到不同的处理中，最后汇总</p>
 <p><code>((ls -ld /tmp /tnt |sed 's/^/O: /' &gt;&amp;9 ) 2&gt;&amp;1 |sed 's/^/E: /') 9&gt;&amp;1| cat -n</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1065,12 +1065,12 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="o">((</span>ls -ld /tmp /tnt <span class="p">|</span>sed <span class="s1">&#39;s/^/O: /&#39;</span> &gt;<span class="p">&amp;</span><span class="m">9</span> <span class="o">)</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> 9&gt;<span class="p">&amp;</span>1<span class="p">|</span> cat -n
 </span></span><span class="line"><span class="cl">     <span class="m">1</span>  O: drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">22</span> 18:59 /tmp
 </span></span><span class="line"><span class="cl">     <span class="m">2</span>  E: ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>相同作用的新版语法</p>
 <p><code>cat -n &lt;(ls -ld /tmp /tnt 2&gt; &gt;(sed 's/^/E: /') &gt; &gt;(sed 's/^/O: /'))</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1079,7 +1079,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# cat -n &lt;<span class="o">(</span>ls -ld /tmp /tnt 2&gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/E: /&#39;</span><span class="o">)</span> &gt; &gt;<span class="o">(</span>sed <span class="s1">&#39;s/^/O: /&#39;</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">     <span class="m">1</span>  O: drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">22</span> 18:59 /tmp
 </span></span><span class="line"><span class="cl">     <span class="m">2</span>  E: ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="合并文件"><a href="#合并文件" class="header-mark headerLink">合并文件</a></h3>
 <p>将输出文件 m 和 n 合并: <code>n &gt;&amp; m</code></p>
@@ -1088,7 +1088,7 @@
 <p>将开始标记 tag 和结束标记 tag 之间的内容作为输入: <code>&lt;&lt; tag</code></p>
 <p>例如：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1103,7 +1103,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="s">    document line 3
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
 </span></span><span class="line"><span class="cl"><span class="m">3</span> //表明收到3行输入
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>它的作用是将两个 EOF 之间的内容(document) 作为输入传递给 command。</p>
 <blockquote>
@@ -1117,7 +1117,7 @@
 <p>如果我们用 <code>set -o noclobber</code> 设置bash，那bash将不会覆盖任何已经存在的文件，但是我们可以通过 <code>&gt;|</code> 绕过这个限制</p>
 <p><strong>先来看一下默认的情况</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1134,14 +1134,14 @@
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:05:56 PM CST
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt; <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:06:13 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如预期的一样，每一次重定向都覆盖了原文件</p>
 <p><strong>下面我们设置 <code>noclobber</code> 标志</strong></p>
 <p><code>set -o noclobber</code></p>
 <p>然后重复上面的操作试一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1156,12 +1156,12 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt; <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">bash: /tmp/testNoClobberDate-yKVkaY: cannot overwrite existing file
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:06:13 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们看到了bash的提示，不能覆盖已存在的文件，实际结果也是一样</p>
 <p>如何进行绕过呢? 我们来试一下用 <code>&gt;|</code> 代替 <code>&gt;</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1172,23 +1172,23 @@
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:10:45 PM CST
 </span></span><span class="line"><span class="cl">root@ubuntu:~# date &gt;<span class="p">|</span> <span class="nv">$testfile</span> <span class="p">;</span> cat <span class="nv">$testfile</span>
 </span></span><span class="line"><span class="cl">Tue <span class="m">24</span> Mar <span class="m">2020</span> 05:10:49 PM CST
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现此时可以覆盖已经存在的文件，我们查看一下目前的设置</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">set</span> -o <span class="p">|</span> grep noclobber
 </span></span><span class="line"><span class="cl">noclobber       on
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><code>noclobber</code> 的确是开启的，所以 <code>&gt;|</code> 的确可以绕过这一限制</p>
 <p>使用 <code>set +o noclobber</code> 关闭这个限制，防止对我们后面的使用造成影响</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1199,7 +1199,7 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# <span class="nb">set</span> -o <span class="p">|</span> grep noclobber
 </span></span><span class="line"><span class="cl">noclobber       off
 </span></span><span class="line"><span class="cl">root@ubuntu:~# rm <span class="nv">$testfile</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="其他的小点"><a href="#其他的小点" class="header-mark headerLink">其他的小点</a></h2>
 <h3 id="重定向到一处"><a href="#重定向到一处" class="header-mark headerLink">重定向到一处</a></h3>
@@ -1212,7 +1212,7 @@
 <p>验证一下</p>
 <p><strong>第一种写法</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1223,11 +1223,11 @@
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat a.txt
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><strong>第二种写法</strong></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1238,7 +1238,7 @@
 </span></span><span class="line"><span class="cl">root@ubuntu:~# cat b.txt
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们可以看到第二种写法是正确的</p>
 <p>同理，下面这种写法也正确</p>
@@ -1248,7 +1248,7 @@
 <p>如此套娃会不会导致回环卡死？</p>
 <p>试一下</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1257,12 +1257,12 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls -ld /tmp /tnt 2&gt;<span class="p">&amp;</span><span class="m">1</span> 1&gt;<span class="p">&amp;</span><span class="m">2</span>  <span class="p">|</span> sed -e s/^/++/
 </span></span><span class="line"><span class="cl">++ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">++drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现都会从标准输出出来</p>
 <p>反过来呢？</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1271,7 +1271,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@ubuntu:~# ls -ld /tmp /tnt 1&gt;<span class="p">&amp;</span><span class="m">2</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>  <span class="p">|</span> sed -e s/^/++/
 </span></span><span class="line"><span class="cl">ls: cannot access <span class="s1">&#39;/tnt&#39;</span>: No such file or directory
 </span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">1</span> root root <span class="m">4096</span> Mar <span class="m">24</span> 17:15 /tmp
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们发现都没有从标准输出出来，都是从标准错误输出出来的</p>
 <blockquote>
@@ -1286,34 +1286,34 @@
 <p>需要开启25端口</p>
 <h3 id="安装sendmail"><a href="#安装sendmail" class="header-mark headerLink">安装sendmail</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum  -y  install sendmail  sendmail-cf
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="安装mta功能测试用软件"><a href="#安装mta功能测试用软件" class="header-mark headerLink">安装MTA功能测试用软件</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum -y install  mailx   php
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="切换系统的邮件发送接口"><a href="#切换系统的邮件发送接口" class="header-mark headerLink">切换系统的邮件发送接口</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">alternatives --config mta
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>画面显示：</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1332,12 +1332,12 @@
 </span></span><span class="line"><span class="cl">*  <span class="m">2</span>           /usr/sbin/sendmail.sendmail
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Enter to keep the current selection<span class="o">[</span>+<span class="o">]</span>, or <span class="nb">type</span> selection number: <span class="m">2</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>输入2后回车即把MTA功能切换到sendmail上，+号会显示在sendmail的行头。</p>
 <h3 id="配置sendmail"><a href="#配置sendmail" class="header-mark headerLink">配置sendmail</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1356,13 +1356,13 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf
 </span></span><span class="line"><span class="cl">生成正式的配置文件。
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="重启并测试功能"><a href="#重启并测试功能" class="header-mark headerLink">重启并测试功能</a></h3>
 <p><code>reboot -f</code></p>
 <p>重启完成后确认MTA程序已经切换到sendmail</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -1391,11 +1391,11 @@
 </span></span><span class="line"><span class="cl">      root       <span class="m">1161</span>  0.0  0.0 <span class="m">112660</span>   <span class="m">968</span> pts/1    R+   11:04   0:00 grep --color<span class="o">=</span>auto postfix
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">      postfix的相关进程都没有开启
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="用php函数发送邮件"><a href="#用php函数发送邮件" class="header-mark headerLink">用PHP函数发送邮件</a></h3>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1408,7 +1408,7 @@
 </span></span><span class="line"><span class="cl"><span class="nx">在PHP的交互界面下输入以下函数</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nx">mail</span><span class="p">(</span><span class="s1">&#39;test@sohu.com&#39;</span><span class="p">,</span> <span class="s2">&#34;Test email content&#34;</span><span class="p">,</span> <span class="s2">&#34;sendmail title&#34;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s2">&#34;-f testname@sendmail.com&#34;</span><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><ul>
 <li>使用PHP接口做测试的好处是可以随意指定发送方的邮件地址，即mail函数的最后一个参数。</li>
@@ -1420,7 +1420,7 @@
 <p>这样的邮件域名会被大多数邮箱如163，QQ拒收。</p>
 <p>查看邮件发送log会发现以下错误</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1429,7 +1429,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cat /var/log/maillog
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">      <span class="nv">dsn</span><span class="o">=</span>4.1.8, <span class="nv">stat</span><span class="o">=</span>Deferred: <span class="m">450</span> 4.1.8 &lt;root@localhost.localdomain&gt;: Sender address rejected: Domain not found
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>修改HOSTNAME</p>
 <p><code>vi  /etc/hosts</code></p>
@@ -1457,7 +1457,7 @@
 <p><code>reboot -f</code></p>
 <p>重启后查看进程看到postfix相关的进程已经启动</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1478,12 +1478,12 @@
 </span></span><span class="line"><span class="cl">      postfix    <span class="m">1238</span>  0.0  0.4  <span class="m">89652</span>  <span class="m">4024</span> ?        S    09:08   0:00 trivial-rewrite -n rewrite -t unix -u
 </span></span><span class="line"><span class="cl">      postfix    <span class="m">1239</span>  0.0  0.4  <span class="m">89856</span>  <span class="m">4272</span> ?        S    09:08   0:00 smtp -t unix -u
 </span></span><span class="line"><span class="cl">      root       <span class="m">1274</span>  0.0  0.0 <span class="m">112660</span>   <span class="m">972</span> pts/1    R+   09:09   0:00 grep --color<span class="o">=</span>auto postfix
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>系统的hostname已经在sendmail配置的第六步中完成了配置，这里就直接使用PHP与mail命令</p>
 <p>两种方法做测试。</p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
+<div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
@@ -1498,6 +1498,6 @@
 </span></span><span class="line"><span class="cl">* php的mail函数可以随意指定发送地址
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;test mail&#34;</span><span class="p">|</span>mail -s <span class="s2">&#34;postfix mail title&#34;</span> test@sohu.com
-</span></span></code></pre></td></tr></table>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div>]]></description></item></channel></rss>
