@@ -40,8 +40,8 @@
         
     
 <a class="lightgallery" href="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp" title="庞大的枚举类型" data-thumbnail="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp" data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>">
-        
-    </a><figcaption class="image-caption">庞大的枚举类型</figcaption>
+            
+        </a><figcaption class="image-caption">庞大的枚举类型</figcaption>
     </figure></p>
 <p>我非常讨厌这种简单却繁重的工作的，我想到了 Rust 过程宏。</p>
 <h2 id="过程宏">过程宏</h2>
