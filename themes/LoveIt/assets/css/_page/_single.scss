@@ -130,29 +130,18 @@
     @include link(false, false);
 
     a {
-      @include overflow-wrap(break-word);
+      @include overflow-wrap(anywhere);
 
       [theme=dark] & b, [theme=dark] & strong {
         color: $single-link-color-dark;
       }
 
-      text-decoration: none;
+      text-decoration: underline;
       display: inline-block;
     }
 
-    // hyperlink style
-    a.post-link::after {
-        content: '';
-        width: 35%;
-        height: 2px;
-        display: block;
-        margin-top: -.4em;
-        background-color: rgb(28, 127, 184);
-        transition: all cubic-bezier(.77,0,.18,1) 400ms;
-    }
-    
-    a.post-link:hover::after {
-        width: 100%;
+    a.headerLink {
+      text-decoration: none;
     }
 
     [theme=dark] a:hover b, [theme=dark] a:hover strong {
