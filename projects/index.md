@@ -3,6 +3,11 @@
 
 此页面介绍我做的一些项目和工具，其中绝大部分代码已经开源，更多内容请查看我的 [GitHub: @zu1k](https://github.com/zu1k)
 
+<div>
+  <img src="https://zu1k.github.io/zu1k/github-stats-full.svg" />
+  <img src="https://zu1k.github.io/zu1k/github-langs.svg" />
+</div>
+
 ## GitHub Trending 项目
 
 我的以下 7 个项目曾进入过 GitHub Trending 排行榜
