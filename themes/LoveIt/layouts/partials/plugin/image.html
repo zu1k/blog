@@ -1,8 +1,12 @@
 {{ $src :=  .Src }}
 {{ $image := .Resources.GetMatch $src }}
+{{ $height := .Height }}
+{{ $width := .Witdh }}
 {{ if $image }}
     {{ if and (ne $image.MediaType.SubType "svg") (ne $image.MediaType.SubType "gif") }}
-        {{ $image = $image.Resize (print $image.Width "x" $image.Height " webp") }}
+        {{ $height = $image.Height }}
+        {{ $width  = $image.Width }}
+        {{ $image = $image.Resize (print $width "x" $height " webp") }}
         {{ $src = $image.RelPermalink }}
     {{ end }}
 {{ else }}
@@ -23,7 +27,7 @@
                 class="lazyload{{ with .Class }} {{ . }}{{ end }}"
                 src="{{ $loading.RelPermalink }}"
                 data-src="{{ $src | partial "function/cdn.html" | safeURL }}"
-                alt="{{ $alt }}"{{ with .Height }} height="{{ . }}"{{ end }}{{ with .Width }} width="{{ . }}"{{ end }} />
+                alt="{{ $alt }}"{{ with $height }} height="{{ . }}"{{ end }}{{ with $width }} width="{{ . }}"{{ end }} />
         </a>
     {{- else -}}
         <img
@@ -31,6 +35,6 @@
             src="{{ $loading.RelPermalink }}"
             data-src="{{ $src | partial "function/cdn.html" | safeURL }}"
             alt="{{ $alt }}"
-            title="{{ .Title | default $alt }}"{{ with .Height }} height="{{ . }}"{{ end }}{{ with .Width }} width="{{ . }}"{{ end }} />
+            title="{{ .Title | default $alt }}"{{ with $height }} height="{{ . }}"{{ end }}{{ with $width }} width="{{ . }}"{{ end }} />
     {{- end -}}
 {{- end -}}

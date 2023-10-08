@@ -53,12 +53,14 @@
 
         {{- /* Featured image */ -}}
         {{- $image := $params.featuredimage -}}
-        {{- with .Resources.GetMatch "featured-image" -}}
+        {{- $imageRes := .Resources.GetMatch "featured-image" -}}
+        {{- with $imageRes -}}
             {{- $image = .RelPermalink -}}
         {{- end -}}
         {{- with $image -}}
+            {{ warnf "%v" $imageRes.MediaType }}
             <div class="featured-image">
-                {{- dict "Src" . "Title" $.Description "Resources" $.Resources "NotLazy" true | partial "plugin/image.html" -}}
+                {{- dict "Src" . "Title" $.Description "Resources" $.Resources "NotLazy" true "Height" $imageRes.Height "Width" $imageRes.Width | partial "plugin/image.html" -}}
             </div>
         {{- end -}}
 
