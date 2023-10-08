@@ -25,11 +25,10 @@
                                     {{- $src = .RelPermalink -}}
                                 {{- end -}}
                                 {{- $alt := .alt | default $src -}}
-                                {{- $loading := resources.Get "svg/loading.svg" | minify -}}
                                 <img class="friend-img"
-                                    src="{{ $loading.RelPermalink }}"
-                                    data-src="{{ $src | partial "function/cdn.html" | safeURL }}"
+                                    src="{{ $src | partial "function/cdn.html" | safeURL }}"
                                     alt="{{ $alt }}"
+                                    loading="lazy"
                                     data-sizes="auto"
                                     data-srcset="{{ $src | safeURL }}, {{ $src | safeURL }} 1.5x, {{ $src | safeURL }} 2x" />
                                 <span class="friend-name">{{ .name }}</span>
