@@ -26,7 +26,7 @@
                                 {{- end -}}
                                 {{- $alt := .alt | default $src -}}
                                 {{- $loading := resources.Get "svg/loading.svg" | minify -}}
-                                <img class="lazyload friend-img"
+                                <img class="friend-img"
                                     src="{{ $loading.RelPermalink }}"
                                     data-src="{{ $src | partial "function/cdn.html" | safeURL }}"
                                     alt="{{ $alt }}"

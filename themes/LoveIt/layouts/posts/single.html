@@ -60,7 +60,7 @@
         {{- with $image -}}
             {{ warnf "%v" $imageRes.MediaType }}
             <div class="featured-image">
-                {{- dict "Src" . "Title" $.Description "Resources" $.Resources "NotLazy" true "Height" $imageRes.Height "Width" $imageRes.Width | partial "plugin/image.html" -}}
+                {{- dict "Src" . "Title" $.Description "Resources" $.Resources "Height" $imageRes.Height "Width" $imageRes.Width | partial "plugin/image.html" -}}
             </div>
         {{- end -}}
 

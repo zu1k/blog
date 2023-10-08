@@ -43,10 +43,6 @@
       margin: 0 auto;
       overflow: hidden;
     }
-
-    img.lazyloaded {
-      width: 100%;
-    }
   }
 
   .content {
@@ -218,6 +214,7 @@
 
     img {
       max-width: 100%;
+      height: auto;
       min-height: 1em;
     }
 
@@ -241,10 +238,6 @@
         margin: 0 auto;
         overflow: hidden;
       }
-    }
-
-    .lazyloading {
-      @include object-fit(none);
     }
 
     blockquote {

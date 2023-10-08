@@ -14,27 +14,32 @@
 {{ end }}
 
 {{- $alt := .Alt | default $src -}}
-{{- $loading := resources.Get "svg/loading.svg" | minify -}}
-{{- if .NotLazy -}}
+{{- if .Linked -}}
+    <a class="lightgallery"
+        href="{{ $src | safeURL }}"
+        title="{{ .Title | default $alt }}"
+        data-thumbnail="{{ $src | safeURL }}"
+        {{ with .Caption }}
+            data-sub-html="<h2>{{ . }}</h2>{{ with $.Title }}<p>{{ . }}</p>{{ end }}"
+        {{ end }}
+        {{ with .Rel }} rel="{{ . }}"{{ end }}>
+        <img
+            {{ with .Class }} class="{{ . }}" {{ end }}
+            src="{{ $src | partial "function/cdn.html" | safeURL }}"
+            alt="{{ $alt }}"
+            {{ with $height }} height="{{ . }}"{{ end }}
+            {{ with $width }} width="{{ . }}"{{ end }}
+            loading="lazy"
+        />
+    </a>
+{{- else -}}
     <img
+        {{ with .Class }} class="{{ . }}" {{ end }}
         src="{{ $src | partial "function/cdn.html" | safeURL }}"
         alt="{{ $alt }}"
-        title="{{ .Title | default $alt }}"{{ with .Height }} height="{{ . }}"{{ end }}{{ with .Width }} width="{{ . }}"{{ end }} />
-{{- else -}}
-    {{- if .Linked -}}
-        <a class="lightgallery" href="{{ $src | safeURL }}" title="{{ .Title | default $alt }}" data-thumbnail="{{ $src | safeURL }}"{{ with .Caption }} data-sub-html="<h2>{{ . }}</h2>{{ with $.Title }}<p>{{ . }}</p>{{ end }}"{{ end }}{{ with .Rel }} rel="{{ . }}"{{ end }}>
-            <img
-                class="lazyload{{ with .Class }} {{ . }}{{ end }}"
-                src="{{ $loading.RelPermalink }}"
-                data-src="{{ $src | partial "function/cdn.html" | safeURL }}"
-                alt="{{ $alt }}"{{ with $height }} height="{{ . }}"{{ end }}{{ with $width }} width="{{ . }}"{{ end }} />
-        </a>
-    {{- else -}}
-        <img
-            class="lazyload{{ with .Class }} {{ . }}{{ end }}"
-            src="{{ $loading.RelPermalink }}"
-            data-src="{{ $src | partial "function/cdn.html" | safeURL }}"
-            alt="{{ $alt }}"
-            title="{{ .Title | default $alt }}"{{ with $height }} height="{{ . }}"{{ end }}{{ with $width }} width="{{ . }}"{{ end }} />
-    {{- end -}}
+        title="{{ .Title | default $alt }}"
+        {{ with $height }} height="{{ . }}"{{ end }}
+        {{ with $width }} width="{{ . }}"{{ end }}
+        loading="lazy"
+    />
 {{- end -}}

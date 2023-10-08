@@ -26,7 +26,6 @@ LoveIt 主题中用到了以下项目，感谢它们的作者：
 * [normalize.css](https://github.com/necolas/normalize.css)
 * [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
 * [autocomplete.js](https://github.com/algolia/autocomplete.js)
-* [lazysizes](https://github.com/aFarkas/lazysizes)
 * [object-fit-images](https://github.com/fregante/object-fit-images)
 * [lightgallery.js](https://github.com/sachinchoolur/lightgallery.js)
 * [clipboard.js](https://github.com/zenorocha/clipboard.js)
