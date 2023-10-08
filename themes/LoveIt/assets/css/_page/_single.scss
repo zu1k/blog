@@ -97,24 +97,22 @@
     > h3,
     > h4,
     > h5,
-    > h6 {
-      > .header-mark::before {
-        content: "|";
-        margin-right: .3125rem;
-        color: $single-link-color;
+    > h6::before {
+      content: "| ";
+      margin-right: .3125rem;
+      color: $single-link-color;
 
-        [theme=dark] & {
-          color: $single-link-color-dark;
-        }
+      [theme=dark] & {
+        color: $single-link-color-dark;
       }
     }
-
-    > h2 > .header-mark::before {
-      content: "#";
+    
+    > h2::before {
+      content: "# ";
     }
 
-    > h4 > .header-mark::before {
-      content: ">";
+    > h4::before {
+      content: "> ";
     }
 
     p {

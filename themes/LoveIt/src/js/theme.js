@@ -461,21 +461,6 @@ class Theme {
         });
     }
 
-    initHeaderLink() {
-        for (let num = 1; num <= 6; num++) {
-            this.util.forEach(
-                document.querySelectorAll(".single .content > h" + num),
-                (header) => {
-                    header.classList.add("headerLink");
-                    header.insertAdjacentHTML(
-                        "afterbegin",
-                        `<a href="#${header.id}" class="header-mark"></a>`
-                    );
-                }
-            );
-        }
-    }
-
     initToc() {
         const $tocCore = document.getElementById("TableOfContents");
         if ($tocCore === null) return;
@@ -732,7 +717,6 @@ class Theme {
             this.initDetails();
             this.initHighlight();
             this.initTable();
-            this.initHeaderLink();
             this.initSmoothScroll();
         } catch (err) {
             console.error(err);
