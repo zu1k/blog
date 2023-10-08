@@ -1,7 +1,7 @@
 {{ $src :=  .Src }}
 {{ $image := .Resources.GetMatch $src }}
 {{ $height := .Height }}
-{{ $width := .Witdh }}
+{{ $width := .Width }}
 {{ if $image }}
     {{ if and (ne $image.MediaType.SubType "svg") (ne $image.MediaType.SubType "gif") }}
         {{ $height = $image.Height }}
