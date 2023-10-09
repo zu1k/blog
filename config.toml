@@ -94,12 +94,12 @@ LanguageCode = "zh-CN"
       isCaseSensitive = false
       minMatchCharLength = 2
       findAllMatches = false
-      location = 0
       threshold = 0.1
       distance = 100
       ignoreLocation = true
       useExtendedSearch = false
       ignoreFieldNorm = false
+      shouldSort = true
 
   [params.home]
     rss = 20  # RSS 文章数目

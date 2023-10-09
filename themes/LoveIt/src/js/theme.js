@@ -204,7 +204,7 @@ class Theme {
         const initAutosearch = () => {
             const autosearch = autocomplete(
                 `#search-input-${suffix}`, {
-                hint: false,
+                hint: true,
                 autoselect: true,
                 dropdownMenuContainer: `#search-dropdown-${suffix}`,
                 clearOnSelected: true,
@@ -319,12 +319,12 @@ class Theme {
                         date,
                         context
                     }) =>
-                        `<div><span class="suggestion-title">${title}</span><span class="suggestion-date">${date}</span></div><div class="suggestion-context">${escapeOutput(context)}</div>`,
+                        `<div><span class="suggestion-title">${title}</span><span class="suggestion-date">${date}</span></div><div class="suggestion-context">${context}</div>`,
                     empty: ({
                         query
                     }) =>
                         `<div class="search-empty">${searchConfig.noResultsFound
-                        }: <span class="search-query">"${escapeOutput(query)}"</span></div>`,
+                        }: <span class="search-query">"${query}"</span></div>`,
                     footer: () => {
                         const {
                             searchType,
@@ -740,13 +740,4 @@ if (document.readyState !== "loading") {
     themeInit();
 } else {
     document.addEventListener("DOMContentLoaded", themeInit, false);
-}
-
-function escapeOutput(toOutput) {
-    return toOutput.replace(/\&/g, '')
-        .replace(/\</g, '')
-        .replace(/\>/g, '')
-        .replace(/\"/g, '')
-        .replace(/\'/g, '')
-        .replace(/\//g, '');
 }

@@ -7,6 +7,7 @@ tags:
 - web-security
 categories:
 - web-security
+toc: false
 ---
 
 总结了常用的XSS payload
