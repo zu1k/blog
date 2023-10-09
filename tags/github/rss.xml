@@ -1,37 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>GitHub - 标签 - zu1k</title><link>https://zu1k.com/tags/github/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 28 Nov 2020 15:07:17 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/github/" rel="self" type="application/rss+xml"/><item><title>不讲武德！来骗Follow</title><link>https://zu1k.com/posts/events/cheat-for-follow/</link><pubDate>Sat, 28 Nov 2020 15:07:17 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/cheat-for-follow/</guid><description><![CDATA[<p>下午，还是习惯性的打开GitHub，发现有个没有头像的人Follow我</p>
-<p><imgsrc="/posts/events/cheat-for-follow/follow_me_hudbacbef76cff4e27ce39ff3750876ebc_11159_634x158_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/events/cheat-for-follow/follow_me_hudbacbef76cff4e27ce39ff3750876ebc_11159_634x158_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/follow_me_hudbacbef76cff4e27ce39ff3750876ebc_11159_634x158_resize_q75_h2_box_3.webp"
-        title="有人Follow我"height="158"width="634"loading="lazy"
+        title="有人Follow我"
+         height="158"
+         width="634"
+        loading="lazy"
     /></p>
 <p>通常出于礼貌，我会查看对方的个人页和他的仓库，如果感觉不错便会回Follow他</p>
 <p>当我打开他的GitHub个人profile页面，令我惊讶的是他总共follow了<strong>59.3k</strong>人，而他的followers人数又七百多人</p>
-<p><imgsrc="/posts/events/cheat-for-follow/follow_count_hue4068906c84c5c20c9f391a3a5a2e36c_9093_344x211_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/events/cheat-for-follow/follow_count_hue4068906c84c5c20c9f391a3a5a2e36c_9093_344x211_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/follow_count_hue4068906c84c5c20c9f391a3a5a2e36c_9093_344x211_resize_q75_h2_box_3.webp"
-        title="Follow数"height="211"width="344"loading="lazy"
+        title="Follow数"
+         height="211"
+         width="344"
+        loading="lazy"
     /></p>
 <p>他只Pin了一个仓库，有70多个star，按理说无法吸引如此多数量的followers，这激起了我的好奇，难不成有什么好的内容没有Pin出来？</p>
-<p><imgsrc="/posts/events/cheat-for-follow/pin_hu1493810ad9018ce5b639e637efbb50bc_12566_597x199_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/events/cheat-for-follow/pin_hu1493810ad9018ce5b639e637efbb50bc_12566_597x199_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/pin_hu1493810ad9018ce5b639e637efbb50bc_12566_597x199_resize_q75_h2_box_3.webp"
-        title="Pin"height="199"width="597"loading="lazy"
+        title="Pin"
+         height="199"
+         width="597"
+        loading="lazy"
     /></p>
 <p>先看了一下他的贡献，连续两年都很稀疏，也没有什么突出的贡献量，平平无奇</p>
-<p><imgsrc="/posts/events/cheat-for-follow/contributions2019_huf6d5214b0d81e4dac3de8e8cce646329_9997_920x217_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/events/cheat-for-follow/contributions2019_huf6d5214b0d81e4dac3de8e8cce646329_9997_920x217_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/contributions2019_huf6d5214b0d81e4dac3de8e8cce646329_9997_920x217_resize_q75_h2_box_3.webp"
-        title="2019年贡献量"height="217"width="920"loading="lazy"
+        title="2019年贡献量"
+         height="217"
+         width="920"
+        loading="lazy"
     /></p>
-<p><imgsrc="/posts/events/cheat-for-follow/contributions2020_hu08e02a6137d338baf78de2d51b045a6b_9814_930x225_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/events/cheat-for-follow/contributions2020_hu08e02a6137d338baf78de2d51b045a6b_9814_930x225_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/contributions2020_hu08e02a6137d338baf78de2d51b045a6b_9814_930x225_resize_q75_h2_box_3.webp"
-        title="2020年贡献量"height="225"width="930"loading="lazy"
+        title="2020年贡献量"
+         height="225"
+         width="930"
+        loading="lazy"
     /></p>
 <p>接下来查看他的仓库，一共有三百五十多个仓库，其中绝大多数都是Fork来的，通过筛选找到他自己的仓库25个</p>
-<p><imgsrc="/posts/events/cheat-for-follow/sources_hud21c0bff936177525d84ccef19de0eda_14624_950x186_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/events/cheat-for-follow/sources_hud21c0bff936177525d84ccef19de0eda_14624_950x186_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/sources_hud21c0bff936177525d84ccef19de0eda_14624_950x186_resize_q75_h2_box_3.webp"
-        title="repo"height="186"width="950"loading="lazy"
+        title="repo"
+         height="186"
+         width="950"
+        loading="lazy"
     /></p>
 <p>仔细查看这25个项目，除了他pin出来的那个仓库有73个star外，其他的统统都没有或者仅有个位数star</p>
-<p><imgsrc="/posts/events/cheat-for-follow/source-info_hu464259cd0106dab6c2919c343362b41b_37654_940x501_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/events/cheat-for-follow/source-info_hu464259cd0106dab6c2919c343362b41b_37654_940x501_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/source-info_hu464259cd0106dab6c2919c343362b41b_37654_940x501_resize_q75_h2_box_3.webp"
-        title="25"height="501"width="940"loading="lazy"
+        title="25"
+         height="501"
+         width="940"
+        loading="lazy"
     /></p>
 <p>而仓库的内容也没有太有价值的东西，所以几乎可以判断他的follower不是因为有价值的东西而follow的</p>
 <p>他Follow了近6万人，star了5千多个项目，结合我自己有回Follow的习惯，看样子这个人的follower大部分都是被骗来的</p>
@@ -95,18 +130,33 @@
 </div>]]></description></item><item><title>GitHub等大面积https劫持</title><link>https://zu1k.com/posts/events/mitm-https-hijack-github/</link><pubDate>Fri, 27 Mar 2020 08:47:11 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/mitm-https-hijack-github/</guid><description><![CDATA[<p>昨天下午两点多，突然在一个站长群里听到有人说 GitHub Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子</p>
 <p>当天晚上再次刷V2EX的时候发现部分cloudflare的IP和京东主站部分IP也出现相似的劫持事件</p>
 <p>今天早晨8点左右，在V2EX上发现有人讨论 GitHub 主站出现相同的https劫持，不经过代理访问发现证书的确异常</p>
-<p><imgsrc="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
         alt="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
-        title="GitHub证书异常警告"height="556"width="1053"loading="lazy"
+        title="GitHub证书异常警告"
+         height="556"
+         width="1053"
+        loading="lazy"
     /></p>
 <p>查看证书详情</p>
-<p><imgsrc="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
         alt="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
-        title="假CA证书"height="950"width="1048"loading="lazy"
+        title="假CA证书"
+         height="950"
+         width="1048"
+        loading="lazy"
     /></p>
-<p><imgsrc="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
         alt="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
-        title="假证书"height="961"width="1051"loading="lazy"
+        title="假证书"
+         height="961"
+         width="1051"
+        loading="lazy"
     /></p>
 <h2 id="检查github证书"><a href="#检查github证书" class="header-mark headerLink">检查GitHub证书</a></h2>
 <p>这里我通过北京和香港两台阿里云主机，使用openssl提供的方法查看证书详细内容</p>
@@ -553,15 +603,25 @@
 <h2 id="操作"><a href="#操作" class="header-mark headerLink">操作</a></h2>
 <h3 id="开启actions功能"><a href="#开启actions功能" class="header-mark headerLink">开启actions功能</a></h3>
 <p>在我们博客的github仓库顶部可以找到 Actions 菜单，在里面我们可以搜索、选择各种预备好的actions模板，也可以点击 <code>Set up a workflow yourself</code> 按钮创建自己的工作流。</p>
-<p><imgsrc="/posts/coding/use-github-actions-to-auto-deploy-hexo/github1_hu821b724baab64595bec1d52d0e152e34_14519_1002x195_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/coding/use-github-actions-to-auto-deploy-hexo/github1_hu821b724baab64595bec1d52d0e152e34_14519_1002x195_resize_q75_h2_box.webp"
         alt="/posts/coding/use-github-actions-to-auto-deploy-hexo/github1_hu821b724baab64595bec1d52d0e152e34_14519_1002x195_resize_q75_h2_box.webp"
-        title="actions"height="195"width="1002"loading="lazy"
+        title="actions"
+         height="195"
+         width="1002"
+        loading="lazy"
     /></p>
 <p>这里我的部署工作稍微复杂点，所以选择自己编写工作流配置文件。</p>
 <p>在手动编写面板的右侧可以搜索别人写好的各种actions，方便我们使用这些actions配置一些基本的工作</p>
-<p><imgsrc="/posts/coding/use-github-actions-to-auto-deploy-hexo/action-mark_hu925ffbb4b9371740e53af886c774f0b2_41634_609x725_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/coding/use-github-actions-to-auto-deploy-hexo/action-mark_hu925ffbb4b9371740e53af886c774f0b2_41634_609x725_resize_q75_h2_box.webp"
         alt="/posts/coding/use-github-actions-to-auto-deploy-hexo/action-mark_hu925ffbb4b9371740e53af886c774f0b2_41634_609x725_resize_q75_h2_box.webp"
-        title="marketplace"height="725"width="609"loading="lazy"
+        title="marketplace"
+         height="725"
+         width="609"
+        loading="lazy"
     /></p>
 <p>当然，也可以选择在 hexo 根目录下创建 <code>.github/workflows</code> 目录，并在里面编写github actions配置文件的方法来开启这个功能。</p>
 <h3 id="基本部署"><a href="#基本部署" class="header-mark headerLink">基本部署</a></h3>
@@ -1003,37 +1063,67 @@
 <h4 id="css-样式表"><a href="#css-样式表" class="header-mark headerLink">css 样式表</a></h4>
 <p>大部分 css 样式会在 <code>head</code> 标签里面引入，这里的 css 样式表会阻塞页面的渲染，导致打开慢的体验，所以需要特别注意</p>
 <p>我将我使用的主题的 style.css \ rtl.css \ disquesjs.css 替换成 jsDelivr，明显提升了等待时间</p>
-<p><imgsrc="/posts/coding/speedup-github-page/head_huda3a611fef04e94998c80128d5498932_41474_856x388_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/coding/speedup-github-page/head_huda3a611fef04e94998c80128d5498932_41474_856x388_resize_q75_h2_box.webp"
         alt="/posts/coding/speedup-github-page/head_huda3a611fef04e94998c80128d5498932_41474_856x388_resize_q75_h2_box.webp"
-        title="css"height="388"width="856"loading="lazy"
+        title="css"
+         height="388"
+         width="856"
+        loading="lazy"
     /></p>
 <p>还有一些其他地方的 css 引入</p>
-<p><imgsrc="/posts/coding/speedup-github-page/css2_hu68782f409f41f41337cab4c160668330_19406_903x137_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/coding/speedup-github-page/css2_hu68782f409f41f41337cab4c160668330_19406_903x137_resize_q75_h2_box.webp"
         alt="/posts/coding/speedup-github-page/css2_hu68782f409f41f41337cab4c160668330_19406_903x137_resize_q75_h2_box.webp"
-        title="style"height="137"width="903"loading="lazy"
+        title="style"
+         height="137"
+         width="903"
+        loading="lazy"
     /></p>
 <h4 id="js-脚本"><a href="#js-脚本" class="header-mark headerLink">js 脚本</a></h4>
 <p>寻找并替换各种调用到的 js 脚本</p>
-<p><imgsrc="/posts/coding/speedup-github-page/js1_hu3c3cc72f09a05a553832e5c2106ee980_35532_1064x241_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/coding/speedup-github-page/js1_hu3c3cc72f09a05a553832e5c2106ee980_35532_1064x241_resize_q75_h2_box.webp"
         alt="/posts/coding/speedup-github-page/js1_hu3c3cc72f09a05a553832e5c2106ee980_35532_1064x241_resize_q75_h2_box.webp"
-        title="style"height="241"width="1064"loading="lazy"
+        title="style"
+         height="241"
+         width="1064"
+        loading="lazy"
     /></p>
 <p>main.js</p>
-<p><imgsrc="/posts/coding/speedup-github-page/js2_huc8248fa0d769270c438275256b4c01ee_11115_926x81_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/coding/speedup-github-page/js2_huc8248fa0d769270c438275256b4c01ee_11115_926x81_resize_q75_h2_box.webp"
         alt="/posts/coding/speedup-github-page/js2_huc8248fa0d769270c438275256b4c01ee_11115_926x81_resize_q75_h2_box.webp"
-        title="style"height="81"width="926"loading="lazy"
+        title="style"
+         height="81"
+         width="926"
+        loading="lazy"
     /></p>
 <p>disqusjs.js</p>
-<p><imgsrc="/posts/coding/speedup-github-page/js3_hue3b4a34d93726da7ebc561dbe3f465a5_15629_1003x98_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/coding/speedup-github-page/js3_hue3b4a34d93726da7ebc561dbe3f465a5_15629_1003x98_resize_q75_h2_box.webp"
         alt="/posts/coding/speedup-github-page/js3_hue3b4a34d93726da7ebc561dbe3f465a5_15629_1003x98_resize_q75_h2_box.webp"
-        title="style"height="98"width="1003"loading="lazy"
+        title="style"
+         height="98"
+         width="1003"
+        loading="lazy"
     /></p>
 <p>还有其他的一些地方，不一一列举了</p>
 <h4 id="字体"><a href="#字体" class="header-mark headerLink">字体</a></h4>
 <p>字体需要特别注意，通常情况下比较大，耗时比较长</p>
-<p><imgsrc="/posts/coding/speedup-github-page/font1_hua1f943f9d9ed6f4fc24165b7515c18b7_16884_219x428_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/coding/speedup-github-page/font1_hua1f943f9d9ed6f4fc24165b7515c18b7_16884_219x428_resize_q75_h2_box.webp"
         alt="/posts/coding/speedup-github-page/font1_hua1f943f9d9ed6f4fc24165b7515c18b7_16884_219x428_resize_q75_h2_box.webp"
-        title="replace"height="428"width="219"loading="lazy"
+        title="replace"
+         height="428"
+         width="219"
+        loading="lazy"
     /></p>
 <p>我使用的主题使用的字体通过 <code>all.min.css</code> 引入，因为前面这个 css 样式已经通过 jsDelivr 导入，里面的字体使用的是相对链接，所以字体默认也是通过 jsDelivr 引入了</p>
 <h4 id="img-小图片"><a href="#img-小图片" class="header-mark headerLink">img 小图片</a></h4>
@@ -1081,9 +1171,14 @@
 <p>无论怎样优化，字体加载的时间无法忽略，这段时间的网页文字显示为空，这给用户带来卡顿感</p>
 <p>我们必须使字体加载时文字可见，这样才能弥补 github pages 的慢</p>
 <p>具体方法是将各 <code>@font-face</code> 中 <code>font-display</code> 设置为 <code>swap</code>, 这样可以在字体未加载完时临时使用系统字体替代，加载完后重新渲染字体</p>
-<p><imgsrc="/posts/coding/speedup-github-page/font-swap_hu75f569e462757ed26111cf3470ce8d7f_12458_793x143_resize_q75_h2_box.webp"
+<p><img
+        
+        src="/posts/coding/speedup-github-page/font-swap_hu75f569e462757ed26111cf3470ce8d7f_12458_793x143_resize_q75_h2_box.webp"
         alt="/posts/coding/speedup-github-page/font-swap_hu75f569e462757ed26111cf3470ce8d7f_12458_793x143_resize_q75_h2_box.webp"
-        title="display"height="143"width="793"loading="lazy"
+        title="display"
+         height="143"
+         width="793"
+        loading="lazy"
     /></p>
 <p>每一个地方都需要改，自己搜索吧</p>
 <h2 id="使用-disqusjs"><a href="#使用-disqusjs" class="header-mark headerLink">使用 DisqusJS</a></h2>

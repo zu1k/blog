@@ -7,9 +7,14 @@
 <p>之前了解过shodan，shodan被称为“最恐怖的搜索引擎”，能够提供多年来其扫描到的全网提供的服务，可惜数据的价格极高</p>
 <p>今年黑五是shodan诞生第十年，shodan给出极大的优惠，正式会员+20credit只需要1刀，手头有信用卡和企业邮箱的我二话不说先上了20个账号</p>
 <p>有了shodan的credit就可以购买它的数据了。海康威视的web管理界面的关键词很简单，只需要在shodan搜索“hikvision”</p>
-<p><imgsrc="/posts/security/web-security/scan-hikvision-weak-password/shodan1_huc8b6d80391da224793bebff5e1b659db_205167_1387x890_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/security/web-security/scan-hikvision-weak-password/shodan1_huc8b6d80391da224793bebff5e1b659db_205167_1387x890_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/scan-hikvision-weak-password/shodan1_huc8b6d80391da224793bebff5e1b659db_205167_1387x890_resize_q75_h2_box_3.webp"
-        title="最新的搜索结果"height="890"width="1387"loading="lazy"
+        title="最新的搜索结果"
+         height="890"
+         width="1387"
+        loading="lazy"
     /></p>
 <p>在我写这篇博客的时候搜索到的数据有18万条，前段时间我下载数据的时候是19万条。</p>
 <p>下载大量数据是需要花credit的，1credit可以下载1万条数据，所以19万多的数据花费了我20credit，正常情况下20credit是49刀，这次黑五真是太实惠了</p>
@@ -84,14 +89,24 @@
 </div><h2 id="分析与扫描"><a href="#分析与扫描" class="header-mark headerLink">分析与扫描</a></h2>
 <p>然后通过多线程python脚本进行弱密码批量扫描。</p>
 <p>通过手工尝试找到一台可以弱密码登录进去的机器，通过burp抓包分析，找到用来验证弱密码的接口。</p>
-<p><imgsrc="/posts/security/web-security/scan-hikvision-weak-password/baseauth_hu30d0875aedaeff9c7cb8d956948ad5b2_45681_807x451_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/security/web-security/scan-hikvision-weak-password/baseauth_hu30d0875aedaeff9c7cb8d956948ad5b2_45681_807x451_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/scan-hikvision-weak-password/baseauth_hu30d0875aedaeff9c7cb8d956948ad5b2_45681_807x451_resize_q75_h2_box_3.webp"
-        title="登录使用的接口和验证方式"height="451"width="807"loading="lazy"
+        title="登录使用的接口和验证方式"
+         height="451"
+         width="807"
+        loading="lazy"
     /></p>
 <p>分析发现登录使用的是base auth，这就简单了。使用的接口是userCheck，如果登录成功应该返回200.</p>
-<p><imgsrc="/posts/security/web-security/scan-hikvision-weak-password/authsuccess_hubdc0d5b2408351270f3bc90cf653b9b7_29881_579x396_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/security/web-security/scan-hikvision-weak-password/authsuccess_hubdc0d5b2408351270f3bc90cf653b9b7_29881_579x396_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/scan-hikvision-weak-password/authsuccess_hubdc0d5b2408351270f3bc90cf653b9b7_29881_579x396_resize_q75_h2_box_3.webp"
-        title="登录成功"height="396"width="579"loading="lazy"
+        title="登录成功"
+         height="396"
+         width="579"
+        loading="lazy"
     /></p>
 <div class="highlight"><div class="chroma">
 <div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
