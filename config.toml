@@ -97,7 +97,7 @@ LanguageCode = "zh-CN"
       threshold = 0.1
       distance = 100
       ignoreLocation = true
-      useExtendedSearch = false
+      useExtendedSearch = true
       ignoreFieldNorm = false
       shouldSort = true
 
