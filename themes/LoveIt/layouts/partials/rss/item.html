@@ -30,6 +30,8 @@
                 {{- $content = dict "Content" . "Fraction" $params.fraction | partial "function/content.html" -}}
             {{- end -}}
         {{- end -}}
+        {{ $contentRes := $content | resources.FromString "content.html" }}
+        {{ $content = ($contentRes | minify).Content }}
         {{- $content | safeHTML -}}
         {{- "]]>" | safeHTML -}}
     </description>
