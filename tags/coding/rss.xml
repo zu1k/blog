@@ -32,32 +32,12 @@
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>需求本身确实简单，问题在于这个枚举类型的成员太多了，足足有 459 个，按照传统的思路，保守估计至少要写半天，并且很枯燥。图中可以看出，要对该枚举类型实现一个简单的函数都需要上千行。</p>
-<p><figure>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<a class="lightgallery"
+<p><figure><a class="lightgallery"
         href="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
         title="庞大的枚举类型"
-        data-thumbnail="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
-        
-            data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>"
-        
-        >
-        <img
-            
-            src="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
-            alt="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
-             height="163"
-             width="559"
-            loading="lazy"
+        data-thumbnail="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>">
+        <imgsrc="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
+            alt="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"height="163"width="559"loading="lazy"
         />
     </a><figcaption class="image-caption">庞大的枚举类型</figcaption>
     </figure></p>
@@ -1948,42 +1928,15 @@
 <p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer" class="post-link">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
 <h3 id="concat_ws"><a href="#concat_ws" class="header-mark headerLink">concat_ws</a></h3>
 <p><a href="http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php</a></p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws_hu3ef593c49c38b219c8ad81d87e0684e1_14895_466x393_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws_hu3ef593c49c38b219c8ad81d87e0684e1_14895_466x393_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws_hu3ef593c49c38b219c8ad81d87e0684e1_14895_466x393_resize_q75_h2_box_3.webp"
-        title="concat_ws"
-         height="393"
-         width="466"
-        loading="lazy"
+        title="concat_ws"height="393"width="466"loading="lazy"
     /></p>
 <h3 id="group_concat"><a href="#group_concat" class="header-mark headerLink">group_concat</a></h3>
 <p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
-<p>
-
-
-
-
-    
-<img
-        
-        src="group_concat.gif"
+<p><imgsrc="group_concat.gif"
         alt="group_concat.gif"
-        title="group_concat"
-        
-        
-        loading="lazy"
+        title="group_concat"loading="lazy"
     /></p>
 ]]></description></item><item><title>静态链接OpenSSL进行RSA\MD5\Base64</title><link>https://zu1k.com/posts/coding/openssl-first-try-rsa-md5-base64/</link><pubDate>Wed, 18 Mar 2020 12:50:10 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/openssl-first-try-rsa-md5-base64/</guid><description><![CDATA[<h2 id="简介"><a href="#简介" class="header-mark headerLink">简介</a></h2>
 <p>目标平台： Windows 10 amd64</p>
@@ -1999,68 +1952,20 @@
 <p><a href="https://www.nasm.us/" target="_blank" rel="noopener noreffer" class="post-link">https://www.nasm.us/</a></p>
 <h3 id="配置环境变量"><a href="#配置环境变量" class="header-mark headerLink">配置环境变量</a></h3>
 <p>将刚刚安装的nasm和perl的bin目录加入PATH</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/openssl-first-try-rsa-md5-base64/env_hu1b339cdcef088ba71c0e08c5bd4346ed_9406_526x161_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/openssl-first-try-rsa-md5-base64/env_hu1b339cdcef088ba71c0e08c5bd4346ed_9406_526x161_resize_q75_h2_box_3.webp"
         alt="/posts/coding/openssl-first-try-rsa-md5-base64/env_hu1b339cdcef088ba71c0e08c5bd4346ed_9406_526x161_resize_q75_h2_box_3.webp"
-        title="环境变量PATH"
-         height="161"
-         width="526"
-        loading="lazy"
+        title="环境变量PATH"height="161"width="526"loading="lazy"
     /></p>
 <h2 id="编译-openssl-静态链接库"><a href="#编译-openssl-静态链接库" class="header-mark headerLink">编译 openssl 静态链接库</a></h2>
 <h3 id="初始化环境"><a href="#初始化环境" class="header-mark headerLink">初始化环境</a></h3>
 <p>使用visual studio自带的命令提示工具初始化环境，因为需要使用nmake</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/openssl-first-try-rsa-md5-base64/vs1_hu69c0279074ebca3855950d2a6e40bda3_363283_306x296_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/openssl-first-try-rsa-md5-base64/vs1_hu69c0279074ebca3855950d2a6e40bda3_363283_306x296_resize_q75_h2_box_3.webp"
         alt="/posts/coding/openssl-first-try-rsa-md5-base64/vs1_hu69c0279074ebca3855950d2a6e40bda3_363283_306x296_resize_q75_h2_box_3.webp"
-        title="tool"
-         height="296"
-         width="306"
-        loading="lazy"
+        title="tool"height="296"width="306"loading="lazy"
     /></p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/openssl-first-try-rsa-md5-base64/vs2_huec5bcc4756c6ba8aa94a769c68107934_8156_560x171_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/openssl-first-try-rsa-md5-base64/vs2_huec5bcc4756c6ba8aa94a769c68107934_8156_560x171_resize_q75_h2_box_3.webp"
         alt="/posts/coding/openssl-first-try-rsa-md5-base64/vs2_huec5bcc4756c6ba8aa94a769c68107934_8156_560x171_resize_q75_h2_box_3.webp"
-        title="tool"
-         height="171"
-         width="560"
-        loading="lazy"
+        title="tool"height="171"width="560"loading="lazy"
     /></p>
 <h3 id="生成编译配置文件"><a href="#生成编译配置文件" class="header-mark headerLink">生成编译配置文件</a></h3>
 <p>cd进入openssl源码目录</p>
@@ -2079,70 +1984,22 @@
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>此时已经有了我们需要的头文件和静态链接lib库</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/openssl-first-try-rsa-md5-base64/build1_hu019cf07ffb320f505a901e8f9e7586b0_14981_651x189_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/openssl-first-try-rsa-md5-base64/build1_hu019cf07ffb320f505a901e8f9e7586b0_14981_651x189_resize_q75_h2_box_3.webp"
         alt="/posts/coding/openssl-first-try-rsa-md5-base64/build1_hu019cf07ffb320f505a901e8f9e7586b0_14981_651x189_resize_q75_h2_box_3.webp"
-        title="dir"
-         height="189"
-         width="651"
-        loading="lazy"
+        title="dir"height="189"width="651"loading="lazy"
     /></p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/openssl-first-try-rsa-md5-base64/build2_hudeaca1bd4f1a08f445bfebd53c3ef518_57314_155x92_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/openssl-first-try-rsa-md5-base64/build2_hudeaca1bd4f1a08f445bfebd53c3ef518_57314_155x92_resize_q75_h2_box_3.webp"
         alt="/posts/coding/openssl-first-try-rsa-md5-base64/build2_hudeaca1bd4f1a08f445bfebd53c3ef518_57314_155x92_resize_q75_h2_box_3.webp"
-        title="lib"
-         height="92"
-         width="155"
-        loading="lazy"
+        title="lib"height="92"width="155"loading="lazy"
     /></p>
 <h2 id="使用openssl的api进行编程"><a href="#使用openssl的api进行编程" class="header-mark headerLink">使用openssl的api进行编程</a></h2>
 <h3 id="visual-studio项目配置"><a href="#visual-studio项目配置" class="header-mark headerLink">visual studio项目配置</a></h3>
 <p>vs创建空项目，然后配置头文件和库文件的路径</p>
 <p>项目右键-属性，配置选择所有配置，平台选择x64</p>
 <p><code>VC++ 目录</code> 配置里面的 <code>包含目录</code> 添加openssl的头文件目录, 我这里是 <code>D:\Project\opensslwork\openssl\build\include;</code></p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/openssl-first-try-rsa-md5-base64/vsw1_hu175bf96b41aac86de79120bd8ed4b83a_26183_783x241_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/openssl-first-try-rsa-md5-base64/vsw1_hu175bf96b41aac86de79120bd8ed4b83a_26183_783x241_resize_q75_h2_box_3.webp"
         alt="/posts/coding/openssl-first-try-rsa-md5-base64/vsw1_hu175bf96b41aac86de79120bd8ed4b83a_26183_783x241_resize_q75_h2_box_3.webp"
-        title="lib"
-         height="241"
-         width="783"
-        loading="lazy"
+        title="lib"height="241"width="783"loading="lazy"
     /></p>
 <p><code>链接器</code> 里面的 <code>输入</code> 的 <code>附加依赖项</code> 添加 静态库名，<code>libcrypto.lib;libssl.lib;</code></p>
 <blockquote>
@@ -2338,67 +2195,19 @@
 </blockquote>
 <h2 id="运行"><a href="#运行" class="header-mark headerLink">运行</a></h2>
 <h3 id="运行截图"><a href="#运行截图" class="header-mark headerLink">运行截图</a></h3>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/openssl-first-try-rsa-md5-base64/run1_hu1ebefd56625b0904e9af14ded86be8e5_16611_1110x118_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/openssl-first-try-rsa-md5-base64/run1_hu1ebefd56625b0904e9af14ded86be8e5_16611_1110x118_resize_q75_h2_box_3.webp"
         alt="/posts/coding/openssl-first-try-rsa-md5-base64/run1_hu1ebefd56625b0904e9af14ded86be8e5_16611_1110x118_resize_q75_h2_box_3.webp"
-        title="运行截图"
-         height="118"
-         width="1110"
-        loading="lazy"
+        title="运行截图"height="118"width="1110"loading="lazy"
     /></p>
 <h3 id="生成的私钥文件"><a href="#生成的私钥文件" class="header-mark headerLink">生成的私钥文件</a></h3>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/openssl-first-try-rsa-md5-base64/key1_hufd17b09baea8e971a6b50544cb114dcc_29346_620x273_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/openssl-first-try-rsa-md5-base64/key1_hufd17b09baea8e971a6b50544cb114dcc_29346_620x273_resize_q75_h2_box_3.webp"
         alt="/posts/coding/openssl-first-try-rsa-md5-base64/key1_hufd17b09baea8e971a6b50544cb114dcc_29346_620x273_resize_q75_h2_box_3.webp"
-        title="私钥"
-         height="273"
-         width="620"
-        loading="lazy"
+        title="私钥"height="273"width="620"loading="lazy"
     /></p>
 <h3 id="生成的公钥文件"><a href="#生成的公钥文件" class="header-mark headerLink">生成的公钥文件</a></h3>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/openssl-first-try-rsa-md5-base64/key2_hu77fcc465899aaf9c3e0be57f84e56c55_11897_643x163_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/coding/openssl-first-try-rsa-md5-base64/key2_hu77fcc465899aaf9c3e0be57f84e56c55_11897_643x163_resize_q75_h2_box_3.webp"
         alt="/posts/coding/openssl-first-try-rsa-md5-base64/key2_hu77fcc465899aaf9c3e0be57f84e56c55_11897_643x163_resize_q75_h2_box_3.webp"
-        title="公钥"
-         height="163"
-         width="643"
-        loading="lazy"
+        title="公钥"height="163"width="643"loading="lazy"
     /></p>
 ]]></description></item><item><title>编译gcc</title><link>https://zu1k.com/posts/linux/gcc-compile/</link><pubDate>Sat, 28 Dec 2019 21:02:59 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/gcc-compile/</guid><description><![CDATA[<blockquote>
 <p>一直用gcc编译各种东西，第一次研究如何编译gcc

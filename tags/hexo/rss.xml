@@ -4,47 +4,15 @@
 <h2 id="操作"><a href="#操作" class="header-mark headerLink">操作</a></h2>
 <h3 id="开启actions功能"><a href="#开启actions功能" class="header-mark headerLink">开启actions功能</a></h3>
 <p>在我们博客的github仓库顶部可以找到 Actions 菜单，在里面我们可以搜索、选择各种预备好的actions模板，也可以点击 <code>Set up a workflow yourself</code> 按钮创建自己的工作流。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/use-github-actions-to-auto-deploy-hexo/github1_hu821b724baab64595bec1d52d0e152e34_14519_1002x195_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/coding/use-github-actions-to-auto-deploy-hexo/github1_hu821b724baab64595bec1d52d0e152e34_14519_1002x195_resize_q75_h2_box.webp"
         alt="/posts/coding/use-github-actions-to-auto-deploy-hexo/github1_hu821b724baab64595bec1d52d0e152e34_14519_1002x195_resize_q75_h2_box.webp"
-        title="actions"
-         height="195"
-         width="1002"
-        loading="lazy"
+        title="actions"height="195"width="1002"loading="lazy"
     /></p>
 <p>这里我的部署工作稍微复杂点，所以选择自己编写工作流配置文件。</p>
 <p>在手动编写面板的右侧可以搜索别人写好的各种actions，方便我们使用这些actions配置一些基本的工作</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/use-github-actions-to-auto-deploy-hexo/action-mark_hu925ffbb4b9371740e53af886c774f0b2_41634_609x725_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/coding/use-github-actions-to-auto-deploy-hexo/action-mark_hu925ffbb4b9371740e53af886c774f0b2_41634_609x725_resize_q75_h2_box.webp"
         alt="/posts/coding/use-github-actions-to-auto-deploy-hexo/action-mark_hu925ffbb4b9371740e53af886c774f0b2_41634_609x725_resize_q75_h2_box.webp"
-        title="marketplace"
-         height="725"
-         width="609"
-        loading="lazy"
+        title="marketplace"height="725"width="609"loading="lazy"
     /></p>
 <p>当然，也可以选择在 hexo 根目录下创建 <code>.github/workflows</code> 目录，并在里面编写github actions配置文件的方法来开启这个功能。</p>
 <h3 id="基本部署"><a href="#基本部署" class="header-mark headerLink">基本部署</a></h3>

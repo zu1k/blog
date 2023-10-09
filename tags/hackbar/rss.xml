@@ -1,114 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>HackBar - 标签 - zu1k</title><link>https://zu1k.com/tags/hackbar/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 22 Mar 2020 10:11:42 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/hackbar/" rel="self" type="application/rss+xml"/><item><title>HackBar破解</title><link>https://zu1k.com/posts/security/web-security/hack-hackbar/</link><pubDate>Sun, 22 Mar 2020 10:11:42 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/security/web-security/hack-hackbar/</guid><description><![CDATA[<h2 id="前言"><a href="#前言" class="header-mark headerLink">前言</a></h2>
 <p>相信很多研究安全或者打CTF的朋友都在使用HackBar，在浏览器中使用HackBar构造并发送请求非常方便，特别是测试SQL注入和XSS等常见漏洞。</p>
 <p>但是HackBar是收费软件，在其 <a href="https://hackbar.site/" target="_blank" rel="noopener noreffer" class="post-link">官网</a> 上，价格由3刀到89刀不等。很多安全研究人员会选择购买89刀的10年证书，但是对于学生来说，短期的一个月1刀的短期价格对于这样一个浏览器插件来说还是比较贵的。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hack-hackbar/price_hu050246e74bfa7e18419c886b319b606a_14685_593x263_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/security/web-security/hack-hackbar/price_hu050246e74bfa7e18419c886b319b606a_14685_593x263_resize_q75_h2_box.webp"
         alt="/posts/security/web-security/hack-hackbar/price_hu050246e74bfa7e18419c886b319b606a_14685_593x263_resize_q75_h2_box.webp"
-        title="官网价格"
-         height="263"
-         width="593"
-        loading="lazy"
+        title="官网价格"height="263"width="593"loading="lazy"
     /></p>
 <p>考虑到浏览器扩展插件的逻辑代码都是js代码，并且大部分工具类插件的代码都存放在本地，所以破解这类软件变得非常简单。</p>
 <p>未破解前的hackbar是这样的，按钮没法用，显示一个红框</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hack-hackbar/not-hack_huf94d4854ec50b36ce9d8386f3269f608_18834_847x261_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/security/web-security/hack-hackbar/not-hack_huf94d4854ec50b36ce9d8386f3269f608_18834_847x261_resize_q75_h2_box.webp"
         alt="/posts/security/web-security/hack-hackbar/not-hack_huf94d4854ec50b36ce9d8386f3269f608_18834_847x261_resize_q75_h2_box.webp"
-        title="破解前"
-         height="261"
-         width="847"
-        loading="lazy"
+        title="破解前"height="261"width="847"loading="lazy"
     /></p>
 <p>下面我将以Chrome浏览器为例，对HackBar插件进行破解。</p>
 <h2 id="破解插件"><a href="#破解插件" class="header-mark headerLink">破解插件</a></h2>
 <h3 id="找到插件路径"><a href="#找到插件路径" class="header-mark headerLink">找到插件路径</a></h3>
 <p>首先我们需要在官网上找到插件的安装地址并进行安装</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hack-hackbar/install_hu1dcd63a5c4112258eca2e0ed5511e319_27477_1210x327_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/security/web-security/hack-hackbar/install_hu1dcd63a5c4112258eca2e0ed5511e319_27477_1210x327_resize_q75_h2_box.webp"
         alt="/posts/security/web-security/hack-hackbar/install_hu1dcd63a5c4112258eca2e0ed5511e319_27477_1210x327_resize_q75_h2_box.webp"
-        title="install"
-         height="327"
-         width="1210"
-        loading="lazy"
+        title="install"height="327"width="1210"loading="lazy"
     /></p>
 <p>安装后插件会存放在我们电脑的本地</p>
 <p>在chrome中打开 <a href="chrome://version/" target="_blank" rel="noopener noreffer" class="post-link">version</a> 页面，可以在 <code>个人资料路径</code> 位置找到Chrome浏览器数据的存放位置</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hack-hackbar/chrome-version_hu2d0d719dd26c6864fbf2be7a0b230c5a_51048_1008x345_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/security/web-security/hack-hackbar/chrome-version_hu2d0d719dd26c6864fbf2be7a0b230c5a_51048_1008x345_resize_q75_h2_box.webp"
         alt="/posts/security/web-security/hack-hackbar/chrome-version_hu2d0d719dd26c6864fbf2be7a0b230c5a_51048_1008x345_resize_q75_h2_box.webp"
-        title="version页面"
-         height="345"
-         width="1008"
-        loading="lazy"
+        title="version页面"height="345"width="1008"loading="lazy"
     /></p>
 <p>我们在文件管理器中打开这个路径，找到里面的<code>Extension</code>目录，这个目录里面就存放了我们的所有扩展插件</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hack-hackbar/dirpath_hu446f034bdbc83c19a566a5e9f8a3ff3a_18634_854x192_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/security/web-security/hack-hackbar/dirpath_hu446f034bdbc83c19a566a5e9f8a3ff3a_18634_854x192_resize_q75_h2_box.webp"
         alt="/posts/security/web-security/hack-hackbar/dirpath_hu446f034bdbc83c19a566a5e9f8a3ff3a_18634_854x192_resize_q75_h2_box.webp"
-        title="插件位置"
-         height="192"
-         width="854"
-        loading="lazy"
+        title="插件位置"height="192"width="854"loading="lazy"
     /></p>
 <p>我们可以在扩展程序界面看到所有插件的ID，找到HackBar的ID，然后从Extension目录中找到这个目录，进入后就是HackBar的插件目录</p>
 <h3 id="分析授权验证"><a href="#分析授权验证" class="header-mark headerLink">分析授权验证</a></h3>
@@ -258,25 +178,9 @@
 <p>所以我们破解后的HackBar是无法通过正常途径安装的，我们需要通过开发者模式进行安装</p>
 <p>在扩展程序页面右上角打开 开发者模式，这样就可以不经签名安装自己开发的插件</p>
 <p>左上角 加载已解压的扩展程序 按钮，我们选择刚刚破解好的HackBar目录，就可以顺利将 HackBar 安装上了</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hack-hackbar/chrome-import_hua2e2f1a72fcab7acf1a8bfa88f462169_34544_990x347_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/security/web-security/hack-hackbar/chrome-import_hua2e2f1a72fcab7acf1a8bfa88f462169_34544_990x347_resize_q75_h2_box.webp"
         alt="/posts/security/web-security/hack-hackbar/chrome-import_hua2e2f1a72fcab7acf1a8bfa88f462169_34544_990x347_resize_q75_h2_box.webp"
-        title="插件安装"
-         height="347"
-         width="990"
-        loading="lazy"
+        title="插件安装"height="347"width="990"loading="lazy"
     /></p>
 <p>通过这种方式安装的插件，每一次chrome重新启动都会有一个提示框，很烦人，但是能用</p>
 <blockquote>
@@ -284,25 +188,9 @@
 这样所有人都可以安装了，当然推荐是 <strong>不公开</strong> 的发布模式</p>
 </blockquote>
 <p>安装后，按F12，插件就可以正常使用了</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/security/web-security/hack-hackbar/hack-hackbar-done_hu8a5fe6dfd89145010d8a36a4f28094b0_19009_847x246_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/security/web-security/hack-hackbar/hack-hackbar-done_hu8a5fe6dfd89145010d8a36a4f28094b0_19009_847x246_resize_q75_h2_box.webp"
         alt="/posts/security/web-security/hack-hackbar/hack-hackbar-done_hu8a5fe6dfd89145010d8a36a4f28094b0_19009_847x246_resize_q75_h2_box.webp"
-        title="破解后"
-         height="246"
-         width="847"
-        loading="lazy"
+        title="破解后"height="246"width="847"loading="lazy"
     /></p>
 <h2 id="总结"><a href="#总结" class="header-mark headerLink">总结</a></h2>
 <p>本文以HackBar的chrome插件的分析破解为例，想大家展示了浏览器插件的简单破解，Firefox的插件破解也是大同小异，希望大家可以活学活用</p>

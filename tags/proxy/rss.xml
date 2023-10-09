@@ -2,25 +2,9 @@
 <p>昨天我舍友为了爬虫购买了昂贵的 IP 代理池，我在旁边突然萌生了一个想法，现在各大 ISP/IDC 动不动就给你分配一整个 64 位前缀的 IPv6 网段，我们能不能好好利用一下这庞大的 IPv6 IP 资源呢？</p>
 <p>有了这个想法我就睡不着了，今天一大早（9点半）我就起来着手研究，最终成功实现每一个请求从一个单独的 IPv6 地址发出。</p>
 <p>先看效果，我把写好的程序放在服务器上跑了一会，下面是 Cloudflare 统计的访问信息，可以看到独立访问者 (独立 IP) 数量达到了我的小博客前所未有的数量，基本上是一个请求一个独立 IP，效果非常不错。</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
-        title="Cloudflare 统计"
-         height="343"
-         width="1045"
-        loading="lazy"
+        title="Cloudflare 统计"height="343"width="1045"loading="lazy"
     /></p>
 <h2 id="教程"><a href="#教程" class="header-mark headerLink">教程</a></h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
@@ -336,25 +320,9 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </blockquote>
 <p>由于众所周知的原因，很多国外的服务器在国内的访问效果很差，特别是国内比较热门的廉价服务器例如 Vultr 就经常被墙直接无法访问</p>
 <p>通常情况下我会使用ssr等代理服务进行中转，在我经常使用的 MobaXterm 中设置起来也非常方便</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/mobaxterm-socks-http_hu2434e69cd396426c81d1f9066cef02df_24230_886x288_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/mobaxterm-socks-http_hu2434e69cd396426c81d1f9066cef02df_24230_886x288_resize_q75_h2_box.webp"
         alt="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/mobaxterm-socks-http_hu2434e69cd396426c81d1f9066cef02df_24230_886x288_resize_q75_h2_box.webp"
-        title="给连接设置代理"
-         height="288"
-         width="886"
-        loading="lazy"
+        title="给连接设置代理"height="288"width="886"loading="lazy"
     /></p>
 <p>但是这种方法有两大劣势：</p>
 <ol>
@@ -369,25 +337,9 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>这项服务目前是免费的，<del>也不需要进行实名认证</del> 现在需要实名认证才能用了，可以说是非常良心了，经过我的试用，访问速度和稳定性非常不错</p>
 <p>支持ssh和rdp远程桌面，猜测有一些其他的服务可以加速，因为是针对端口加速的，但是如果滥用的话可能被封禁</p>
 <p>在创建的时候只需要输入需要加速的国外服务器的ip和服务端口号，选择一个离服务器近的接入点</p>
-<p>
-
-
-
-
-    
-        
-        
-        
-        
-    
-<img
-        
-        src="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/position_hu6be109780381ed04b04a6e97e67bd64b_17823_726x386_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/position_hu6be109780381ed04b04a6e97e67bd64b_17823_726x386_resize_q75_h2_box.webp"
         alt="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/position_hu6be109780381ed04b04a6e97e67bd64b_17823_726x386_resize_q75_h2_box.webp"
-        title="多个出口位置"
-         height="386"
-         width="726"
-        loading="lazy"
+        title="多个出口位置"height="386"width="726"loading="lazy"
     /></p>
 <p>创建之后会提供一个域名，可以将自己的域名CNAME解析到提供的域名上方便记忆，UCLOUD可以准确识别到是访问哪一台服务器</p>
 <p>在我们使用的客户端上只需要用提供的加速域名和原服务端口号就可以了</p>
