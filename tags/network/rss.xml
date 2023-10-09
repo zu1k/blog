@@ -2,14 +2,9 @@
 <p>昨天我舍友为了爬虫购买了昂贵的 IP 代理池，我在旁边突然萌生了一个想法，现在各大 ISP/IDC 动不动就给你分配一整个 64 位前缀的 IPv6 网段，我们能不能好好利用一下这庞大的 IPv6 IP 资源呢？</p>
 <p>有了这个想法我就睡不着了，今天一大早（9点半）我就起来着手研究，最终成功实现每一个请求从一个单独的 IPv6 地址发出。</p>
 <p>先看效果，我把写好的程序放在服务器上跑了一会，下面是 Cloudflare 统计的访问信息，可以看到独立访问者 (独立 IP) 数量达到了我的小博客前所未有的数量，基本上是一个请求一个独立 IP，效果非常不错。</p>
-<p><img
-        
-        src="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
-        title="Cloudflare 统计"
-         height="343"
-         width="1045"
-        loading="lazy"
+        title="Cloudflare 统计"height="343"width="1045"loading="lazy"
     /></p>
 <h2 id="教程"><a href="#教程" class="header-mark headerLink">教程</a></h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
@@ -593,46 +588,26 @@
 <p>主要涉及到两个插件：kmod-macvlan和mwan3</p>
 <h3 id="添加设备获取ip"><a href="#添加设备获取ip" class="header-mark headerLink">添加设备，获取IP</a></h3>
 <p>首先在正确配置好网络的基础上，先创建网络设备，类型是macvlan，在学习了Linux下手工操作的基础上，这里的配置项都好理解</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device_hua4a41f9c73827df582ea964037e09721_41569_656x368_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device_hua4a41f9c73827df582ea964037e09721_41569_656x368_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device_hua4a41f9c73827df582ea964037e09721_41569_656x368_resize_q75_h2_box_3.webp"
-        title="网络设备"
-         height="368"
-         width="656"
-        loading="lazy"
+        title="网络设备"height="368"width="656"loading="lazy"
     /></p>
 <p>要几拨就添加几个设备，注意最好手工指定一下mac，基础设备选正常上网的wan口物理设备</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device-add_hu4a2aa46d6abc4695e42f682157e0b152_20526_561x321_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device-add_hu4a2aa46d6abc4695e42f682157e0b152_20526_561x321_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device-add_hu4a2aa46d6abc4695e42f682157e0b152_20526_561x321_resize_q75_h2_box_3.webp"
-        title="添加网络设备"
-         height="321"
-         width="561"
-        loading="lazy"
+        title="添加网络设备"height="321"width="561"loading="lazy"
     /></p>
 <p>然后添加相同数量的接口，协议选DHCP，接口设备选刚刚创建的，一一对应</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/network-interface-add_hu621dfbbca86664cd67b870fcdae67db3_36472_567x366_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/network-interface-add_hu621dfbbca86664cd67b870fcdae67db3_36472_567x366_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/network-interface-add_hu621dfbbca86664cd67b870fcdae67db3_36472_567x366_resize_q75_h2_box_3.webp"
-        title="添加网络接口"
-         height="366"
-         width="567"
-        loading="lazy"
+        title="添加网络接口"height="366"width="567"loading="lazy"
     /></p>
 <p>接口添加好后，进行连接就会自动获取IP了，然后与上面手工方式一样，把所有IP都认证一下</p>
 <h3 id="配置mwan3分流"><a href="#配置mwan3分流" class="header-mark headerLink">配置mwan3分流</a></h3>
 <p>在mwan的管理界面，首先添加接口，与网络里面刚刚配置的接口一一对应</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-interface_hu4152b2e4189d37b51917b8dfa8415502_33920_797x426_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-interface_hu4152b2e4189d37b51917b8dfa8415502_33920_797x426_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-interface_hu4152b2e4189d37b51917b8dfa8415502_33920_797x426_resize_q75_h2_box_3.webp"
-        title="添加接口"
-         height="426"
-         width="797"
-        loading="lazy"
+        title="添加接口"height="426"width="797"loading="lazy"
     /></p>
 <div class="details admonition note open">
         <div class="details-summary admonition-title">
@@ -643,54 +618,29 @@
         </div>
     </div>
 <p>然后添加成员，与刚刚添加的接口一一对应，这里添加的可以在后面策略那里选择</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-member_hu128229219abfac83ba956b2bc1ee0e26_32285_730x372_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-member_hu128229219abfac83ba956b2bc1ee0e26_32285_730x372_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-member_hu128229219abfac83ba956b2bc1ee0e26_32285_730x372_resize_q75_h2_box_3.webp"
-        title="添加成员"
-         height="372"
-         width="730"
-        loading="lazy"
+        title="添加成员"height="372"width="730"loading="lazy"
     /></p>
 <p>添加策略，图中第一条是负载均衡策略，刚刚添加的成员全都选中，意思就是说同时使用这所有的网络</p>
 <p>后面几条策略分别是用来测试想用网络设备的</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-policy_huf0057ef3cab073b3a770a321c785247d_54579_766x533_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-policy_huf0057ef3cab073b3a770a321c785247d_54579_766x533_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-policy_huf0057ef3cab073b3a770a321c785247d_54579_766x533_resize_q75_h2_box_3.webp"
-        title="添加策略"
-         height="533"
-         width="766"
-        loading="lazy"
+        title="添加策略"height="533"width="766"loading="lazy"
     /></p>
 <p>最后添加分流规则，最简单的如图所示，目的地址不限，端口不限，协议不限，都走负载均衡策略，也就是从所有网口出</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule_hua52f95ea462474b0cf9ac8cb58272a1d_39444_666x444_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule_hua52f95ea462474b0cf9ac8cb58272a1d_39444_666x444_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule_hua52f95ea462474b0cf9ac8cb58272a1d_39444_666x444_resize_q75_h2_box_3.webp"
-        title="添加规则"
-         height="444"
-         width="666"
-        loading="lazy"
+        title="添加规则"height="444"width="666"loading="lazy"
     /></p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule-config_hu5f3f57b70c1748ba92fc557370ed1263_30177_626x380_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule-config_hu5f3f57b70c1748ba92fc557370ed1263_30177_626x380_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule-config_hu5f3f57b70c1748ba92fc557370ed1263_30177_626x380_resize_q75_h2_box_3.webp"
-        title="规则配置"
-         height="380"
-         width="626"
-        loading="lazy"
+        title="规则配置"height="380"width="626"loading="lazy"
     /></p>
 <p>在状态面板可以看到，多拨成功</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/openwrt/status_hu8611a9ab490101676948cbbd5cc19e0d_17650_793x220_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/openwrt/status_hu8611a9ab490101676948cbbd5cc19e0d_17650_793x220_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/openwrt/status_hu8611a9ab490101676948cbbd5cc19e0d_17650_793x220_resize_q75_h2_box_3.webp"
-        title="多拨成功"
-         height="220"
-         width="793"
-        loading="lazy"
+        title="多拨成功"height="220"width="793"loading="lazy"
     /></p>
 <div class="details admonition tip open">
         <div class="details-summary admonition-title">
@@ -704,35 +654,20 @@
 <p>正好我在的实验室里有老旧的台式机，又有多个网卡，我就安装了以分流著称的iKuai系统</p>
 <p>爱快路由系统对性能要求很高，64位甚至要求4G运存才能安装，不太建议宿舍用，不过实话实话这个是真的爽</p>
 <p>首先在网路设置中，选择正确的物理网卡，接入方式选<code>基于物理网卡的混合模式</code>，在DHCP模式下添加多个虚拟网络接口，mac地址自己指定</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/ikuai/add-wan-if_hu684daeba6b87130d2284bdfe353c3f23_139130_719x426_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/ikuai/add-wan-if_hu684daeba6b87130d2284bdfe353c3f23_139130_719x426_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/ikuai/add-wan-if_hu684daeba6b87130d2284bdfe353c3f23_139130_719x426_resize_q75_h2_box_3.webp"
-        title="添加网络接口"
-         height="426"
-         width="719"
-        loading="lazy"
+        title="添加网络接口"height="426"width="719"loading="lazy"
     /></p>
 <p>关开网络接口，让其DHCP获取到IP地址，然后按照之前说的方法进行网络认证</p>
 <p>然后进入分流设置，配置多线负载</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/ikuai/load-balance_huee21e4efc6f414d5c51608629c69f835_46739_599x128_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/ikuai/load-balance_huee21e4efc6f414d5c51608629c69f835_46739_599x128_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/ikuai/load-balance_huee21e4efc6f414d5c51608629c69f835_46739_599x128_resize_q75_h2_box_3.webp"
-        title="负载均衡"
-         height="128"
-         width="599"
-        loading="lazy"
+        title="负载均衡"height="128"width="599"loading="lazy"
     /></p>
 <p>添加的时候有多种负载模式可供选择，可以添加多个负载规则。注意要把前面创建的网络接口全部开启</p>
-<p><img
-        
-        src="/posts/tutorials/campus-network-speed-overlay/ikuai/add-load-balance_hu0871626870399a0d506d030ec9889f3e_19308_664x344_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/tutorials/campus-network-speed-overlay/ikuai/add-load-balance_hu0871626870399a0d506d030ec9889f3e_19308_664x344_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/campus-network-speed-overlay/ikuai/add-load-balance_hu0871626870399a0d506d030ec9889f3e_19308_664x344_resize_q75_h2_box_3.webp"
-        title="负载均衡"
-         height="344"
-         width="664"
-        loading="lazy"
+        title="负载均衡"height="344"width="664"loading="lazy"
     /></p>
 <p>对！就是这么简单，iKuai就是牛，已经把网速叠加成功了</p>
 <h2 id="新发现"><a href="#新发现" class="header-mark headerLink">新发现</a></h2>
@@ -749,14 +684,9 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </blockquote>
 <p>由于众所周知的原因，很多国外的服务器在国内的访问效果很差，特别是国内比较热门的廉价服务器例如 Vultr 就经常被墙直接无法访问</p>
 <p>通常情况下我会使用ssr等代理服务进行中转，在我经常使用的 MobaXterm 中设置起来也非常方便</p>
-<p><img
-        
-        src="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/mobaxterm-socks-http_hu2434e69cd396426c81d1f9066cef02df_24230_886x288_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/mobaxterm-socks-http_hu2434e69cd396426c81d1f9066cef02df_24230_886x288_resize_q75_h2_box.webp"
         alt="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/mobaxterm-socks-http_hu2434e69cd396426c81d1f9066cef02df_24230_886x288_resize_q75_h2_box.webp"
-        title="给连接设置代理"
-         height="288"
-         width="886"
-        loading="lazy"
+        title="给连接设置代理"height="288"width="886"loading="lazy"
     /></p>
 <p>但是这种方法有两大劣势：</p>
 <ol>
@@ -771,14 +701,9 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>这项服务目前是免费的，<del>也不需要进行实名认证</del> 现在需要实名认证才能用了，可以说是非常良心了，经过我的试用，访问速度和稳定性非常不错</p>
 <p>支持ssh和rdp远程桌面，猜测有一些其他的服务可以加速，因为是针对端口加速的，但是如果滥用的话可能被封禁</p>
 <p>在创建的时候只需要输入需要加速的国外服务器的ip和服务端口号，选择一个离服务器近的接入点</p>
-<p><img
-        
-        src="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/position_hu6be109780381ed04b04a6e97e67bd64b_17823_726x386_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/position_hu6be109780381ed04b04a6e97e67bd64b_17823_726x386_resize_q75_h2_box.webp"
         alt="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/position_hu6be109780381ed04b04a6e97e67bd64b_17823_726x386_resize_q75_h2_box.webp"
-        title="多个出口位置"
-         height="386"
-         width="726"
-        loading="lazy"
+        title="多个出口位置"height="386"width="726"loading="lazy"
     /></p>
 <p>创建之后会提供一个域名，可以将自己的域名CNAME解析到提供的域名上方便记忆，UCLOUD可以准确识别到是访问哪一台服务器</p>
 <p>在我们使用的客户端上只需要用提供的加速域名和原服务端口号就可以了</p>
@@ -872,14 +797,9 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <p>充当网关路由器</p>
 <p>网卡1(WAN口)：桥接公网</p>
 <p>网卡2(LAN口)：vmnet15</p>
-<p><img
-        
-        src="/posts/linux/ubuntu-iptables-nat/ubuntuvm_hud434d12cf95ba8059a71adbe8877d0e5_19615_721x396_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/linux/ubuntu-iptables-nat/ubuntuvm_hud434d12cf95ba8059a71adbe8877d0e5_19615_721x396_resize_q75_h2_box_3.webp"
         alt="/posts/linux/ubuntu-iptables-nat/ubuntuvm_hud434d12cf95ba8059a71adbe8877d0e5_19615_721x396_resize_q75_h2_box_3.webp"
-        title="win7"
-         height="396"
-         width="721"
-        loading="lazy"
+        title="win7"height="396"width="721"loading="lazy"
     /></p>
 <h3 id="win7"><a href="#win7" class="header-mark headerLink">win7</a></h3>
 <p>充当内网客户机</p>
@@ -887,40 +807,25 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 <blockquote>
 <p>vmnet15不使用vmware的配置，使用一个空的vmnet</p>
 </blockquote>
-<p><img
-        
-        src="/posts/linux/ubuntu-iptables-nat/win7vm_hu45a1ac92f61f87be9ca3edfa90f8ddf5_18844_702x379_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/linux/ubuntu-iptables-nat/win7vm_hu45a1ac92f61f87be9ca3edfa90f8ddf5_18844_702x379_resize_q75_h2_box_3.webp"
         alt="/posts/linux/ubuntu-iptables-nat/win7vm_hu45a1ac92f61f87be9ca3edfa90f8ddf5_18844_702x379_resize_q75_h2_box_3.webp"
-        title="win7"
-         height="379"
-         width="702"
-        loading="lazy"
+        title="win7"height="379"width="702"loading="lazy"
     /></p>
 <h2 id="ubuntu-配置"><a href="#ubuntu-配置" class="header-mark headerLink">ubuntu 配置</a></h2>
 <h3 id="开启ipv4-forward"><a href="#开启ipv4-forward" class="header-mark headerLink">开启ipv4 forward</a></h3>
 <p>修改 <code>/etc/sysctl.conf</code> 开启ipv4的forward功能，将下面的注释打开，如果没有手动添加。</p>
-<p><img
-        
-        src="/posts/linux/ubuntu-iptables-nat/ipv4forward_hub479f7817a930c92e9a8b330035e6521_7231_736x150_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/linux/ubuntu-iptables-nat/ipv4forward_hub479f7817a930c92e9a8b330035e6521_7231_736x150_resize_q75_h2_box_3.webp"
         alt="/posts/linux/ubuntu-iptables-nat/ipv4forward_hub479f7817a930c92e9a8b330035e6521_7231_736x150_resize_q75_h2_box_3.webp"
-        title="forward"
-         height="150"
-         width="736"
-        loading="lazy"
+        title="forward"height="150"width="736"loading="lazy"
     /></p>
 <p><code>sysctl -p</code> 生效</p>
 <h3 id="配置网卡信息"><a href="#配置网卡信息" class="header-mark headerLink">配置网卡信息</a></h3>
 <p><code>ip addr</code> 查看所有网卡的名称和信息</p>
 <p>ubuntu18.04使用netplan管理网络，修改其配置文件</p>
 <p><code>sudo nano /etc/netplan/50-cloud-init.yaml</code></p>
-<p><img
-        
-        src="/posts/linux/ubuntu-iptables-nat/ubuntu-net_huf1653534e9c6e3b4a4ab229b48c8e6f7_19047_711x369_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/linux/ubuntu-iptables-nat/ubuntu-net_huf1653534e9c6e3b4a4ab229b48c8e6f7_19047_711x369_resize_q75_h2_box_3.webp"
         alt="/posts/linux/ubuntu-iptables-nat/ubuntu-net_huf1653534e9c6e3b4a4ab229b48c8e6f7_19047_711x369_resize_q75_h2_box_3.webp"
-        title="net"
-         height="369"
-         width="711"
-        loading="lazy"
+        title="net"height="369"width="711"loading="lazy"
     /></p>
 <p>使用 <code>netplan try</code> 检查配置是否正确，如果正确自动应用生效</p>
 <h3 id="配置iptables规则"><a href="#配置iptables规则" class="header-mark headerLink">配置iptables规则</a></h3>
@@ -958,14 +863,9 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 </div>
 </div><h2 id="win7-设置"><a href="#win7-设置" class="header-mark headerLink">win7 设置</a></h2>
 <p>修改网卡配置如图</p>
-<p><img
-        
-        src="/posts/linux/ubuntu-iptables-nat/win7_hu10f4d9a4f6c13bf621a2dce366ffe3f6_83174_986x622_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/linux/ubuntu-iptables-nat/win7_hu10f4d9a4f6c13bf621a2dce366ffe3f6_83174_986x622_resize_q75_h2_box_3.webp"
         alt="/posts/linux/ubuntu-iptables-nat/win7_hu10f4d9a4f6c13bf621a2dce366ffe3f6_83174_986x622_resize_q75_h2_box_3.webp"
-        title="win7"
-         height="622"
-         width="986"
-        loading="lazy"
+        title="win7"height="622"width="986"loading="lazy"
     /></p>
 <p>win7即可通过ubuntu这个网关上网</p>
 ]]></description></item><item><title>给docker里的每一个容器一个独立的ipv6地址</title><link>https://zu1k.com/posts/coding/set-ipv6-for-every-docker-container/</link><pubDate>Sat, 31 Aug 2019 14:39:03 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/set-ipv6-for-every-docker-container/</guid><description><![CDATA[<p>ipv6不断普及，ipv6地址多的数不胜数，机房给单台机器分配的ipv6段达到了可怕的64位长度的子网主机号。</p>

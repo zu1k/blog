@@ -10,13 +10,8 @@
             data-sub-html="<h2>百度贴吧被劫持到升级页面</h2><p>百度贴吧被劫持到升级页面</p>"
         
         >
-        <img
-            
-            src="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"
-            alt="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"
-             height="985"
-             width="1919"
-            loading="lazy"
+        <imgsrc="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"
+            alt="/posts/events/pinkbot/tieba-web-update_hu9efb79b37fd88cfd06cb61ac5fc742cc_270333_1919x985_resize_q75_h2_box_3.webp"height="985"width="1919"loading="lazy"
         />
     </a><figcaption class="image-caption">百度贴吧被劫持到升级页面</figcaption>
     </figure></p>
@@ -96,13 +91,8 @@
             data-sub-html="<h2>测试后门</h2><p>测试这个后门</p>"
         
         >
-        <img
-            
-            src="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"
-            alt="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"
-             height="1079"
-             width="1919"
-            loading="lazy"
+        <imgsrc="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"
+            alt="/posts/events/pinkbot/test-backdoor_hu06ae7568a8eb97acb357abb97fa2cb4f_231622_1919x1079_resize_q75_h2_box_3.webp"height="1079"width="1919"loading="lazy"
         />
     </a><figcaption class="image-caption">测试后门</figcaption>
     </figure></p>
@@ -169,13 +159,8 @@
             data-sub-html="<h2>联通工作人员上门升级</h2><p>联通工作人员上门升级</p>"
         
         >
-        <img
-            
-            src="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"
-            alt="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"
-             height="826"
-             width="1080"
-            loading="lazy"
+        <imgsrc="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"
+            alt="/posts/events/pinkbot/update_hub38e2aa914395ed6062e6a7393690ccd_313646_1080x826_resize_q75_h2_box.webp"height="826"width="1080"loading="lazy"
         />
     </a><figcaption class="image-caption">联通工作人员上门升级</figcaption>
     </figure></p>
@@ -210,74 +195,39 @@
 <li><a href="https://www.freebuf.com/articles/endpoint/243189.html" target="_blank" rel="noopener noreffer" class="post-link">用户端设备ONU被肉鸡攻击实例浅析</a></li>
 </ul>
 ]]></description></item><item><title>不讲武德！来骗Follow</title><link>https://zu1k.com/posts/events/cheat-for-follow/</link><pubDate>Sat, 28 Nov 2020 15:07:17 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/cheat-for-follow/</guid><description><![CDATA[<p>下午，还是习惯性的打开GitHub，发现有个没有头像的人Follow我</p>
-<p><img
-        
-        src="/posts/events/cheat-for-follow/follow_me_hudbacbef76cff4e27ce39ff3750876ebc_11159_634x158_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/follow_me_hudbacbef76cff4e27ce39ff3750876ebc_11159_634x158_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/follow_me_hudbacbef76cff4e27ce39ff3750876ebc_11159_634x158_resize_q75_h2_box_3.webp"
-        title="有人Follow我"
-         height="158"
-         width="634"
-        loading="lazy"
+        title="有人Follow我"height="158"width="634"loading="lazy"
     /></p>
 <p>通常出于礼貌，我会查看对方的个人页和他的仓库，如果感觉不错便会回Follow他</p>
 <p>当我打开他的GitHub个人profile页面，令我惊讶的是他总共follow了<strong>59.3k</strong>人，而他的followers人数又七百多人</p>
-<p><img
-        
-        src="/posts/events/cheat-for-follow/follow_count_hue4068906c84c5c20c9f391a3a5a2e36c_9093_344x211_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/follow_count_hue4068906c84c5c20c9f391a3a5a2e36c_9093_344x211_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/follow_count_hue4068906c84c5c20c9f391a3a5a2e36c_9093_344x211_resize_q75_h2_box_3.webp"
-        title="Follow数"
-         height="211"
-         width="344"
-        loading="lazy"
+        title="Follow数"height="211"width="344"loading="lazy"
     /></p>
 <p>他只Pin了一个仓库，有70多个star，按理说无法吸引如此多数量的followers，这激起了我的好奇，难不成有什么好的内容没有Pin出来？</p>
-<p><img
-        
-        src="/posts/events/cheat-for-follow/pin_hu1493810ad9018ce5b639e637efbb50bc_12566_597x199_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/pin_hu1493810ad9018ce5b639e637efbb50bc_12566_597x199_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/pin_hu1493810ad9018ce5b639e637efbb50bc_12566_597x199_resize_q75_h2_box_3.webp"
-        title="Pin"
-         height="199"
-         width="597"
-        loading="lazy"
+        title="Pin"height="199"width="597"loading="lazy"
     /></p>
 <p>先看了一下他的贡献，连续两年都很稀疏，也没有什么突出的贡献量，平平无奇</p>
-<p><img
-        
-        src="/posts/events/cheat-for-follow/contributions2019_huf6d5214b0d81e4dac3de8e8cce646329_9997_920x217_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/contributions2019_huf6d5214b0d81e4dac3de8e8cce646329_9997_920x217_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/contributions2019_huf6d5214b0d81e4dac3de8e8cce646329_9997_920x217_resize_q75_h2_box_3.webp"
-        title="2019年贡献量"
-         height="217"
-         width="920"
-        loading="lazy"
+        title="2019年贡献量"height="217"width="920"loading="lazy"
     /></p>
-<p><img
-        
-        src="/posts/events/cheat-for-follow/contributions2020_hu08e02a6137d338baf78de2d51b045a6b_9814_930x225_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/contributions2020_hu08e02a6137d338baf78de2d51b045a6b_9814_930x225_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/contributions2020_hu08e02a6137d338baf78de2d51b045a6b_9814_930x225_resize_q75_h2_box_3.webp"
-        title="2020年贡献量"
-         height="225"
-         width="930"
-        loading="lazy"
+        title="2020年贡献量"height="225"width="930"loading="lazy"
     /></p>
 <p>接下来查看他的仓库，一共有三百五十多个仓库，其中绝大多数都是Fork来的，通过筛选找到他自己的仓库25个</p>
-<p><img
-        
-        src="/posts/events/cheat-for-follow/sources_hud21c0bff936177525d84ccef19de0eda_14624_950x186_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/sources_hud21c0bff936177525d84ccef19de0eda_14624_950x186_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/sources_hud21c0bff936177525d84ccef19de0eda_14624_950x186_resize_q75_h2_box_3.webp"
-        title="repo"
-         height="186"
-         width="950"
-        loading="lazy"
+        title="repo"height="186"width="950"loading="lazy"
     /></p>
 <p>仔细查看这25个项目，除了他pin出来的那个仓库有73个star外，其他的统统都没有或者仅有个位数star</p>
-<p><img
-        
-        src="/posts/events/cheat-for-follow/source-info_hu464259cd0106dab6c2919c343362b41b_37654_940x501_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/cheat-for-follow/source-info_hu464259cd0106dab6c2919c343362b41b_37654_940x501_resize_q75_h2_box_3.webp"
         alt="/posts/events/cheat-for-follow/source-info_hu464259cd0106dab6c2919c343362b41b_37654_940x501_resize_q75_h2_box_3.webp"
-        title="25"
-         height="501"
-         width="940"
-        loading="lazy"
+        title="25"height="501"width="940"loading="lazy"
     /></p>
 <p>而仓库的内容也没有太有价值的东西，所以几乎可以判断他的follower不是因为有价值的东西而follow的</p>
 <p>他Follow了近6万人，star了5千多个项目，结合我自己有回Follow的习惯，看样子这个人的follower大部分都是被骗来的</p>
@@ -288,14 +238,9 @@
 </blockquote>
 ]]></description></item><item><title>一个来自保留IP地址的连接</title><link>https://zu1k.com/posts/events/why-reveice-connection-from-class-e-ip/</link><pubDate>Mon, 25 May 2020 15:22:09 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/why-reveice-connection-from-class-e-ip/</guid><description><![CDATA[<p>昨天看了一篇文章，文章最后使用IP logger进行钓鱼，最后记录下来的IP地址让我大跌眼镜</p>
 <p>万万没有想到，记录下来的IP地址竟然是是 244.242.105.51</p>
-<p><img
-        
-        src="/posts/events/why-reveice-connection-from-class-e-ip/ip-logger_hu4fba2ac6f0d66d6e71f7502c829a67bd_188547_1080x476_resize_q75_h2_box_3.webp"
+<p><imgsrc="/posts/events/why-reveice-connection-from-class-e-ip/ip-logger_hu4fba2ac6f0d66d6e71f7502c829a67bd_188547_1080x476_resize_q75_h2_box_3.webp"
         alt="/posts/events/why-reveice-connection-from-class-e-ip/ip-logger_hu4fba2ac6f0d66d6e71f7502c829a67bd_188547_1080x476_resize_q75_h2_box_3.webp"
-        title="Logger"
-         height="476"
-         width="1080"
-        loading="lazy"
+        title="Logger"height="476"width="1080"loading="lazy"
     /></p>
 <p>这可是一个E类IP地址，是属于保留地址，是未来用来做ip研究用的，目前并没有开放使用啊</p>
 <p>考虑到文章中是对一个地下黑客组织进行钓鱼，所以我有理由相信，这个访问记录是通过某种高超的我从来没有听说过的手段实现的</p>
@@ -330,33 +275,18 @@
 ]]></description></item><item><title>GitHub等大面积https劫持</title><link>https://zu1k.com/posts/events/mitm-https-hijack-github/</link><pubDate>Fri, 27 Mar 2020 08:47:11 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/mitm-https-hijack-github/</guid><description><![CDATA[<p>昨天下午两点多，突然在一个站长群里听到有人说 GitHub Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子</p>
 <p>当天晚上再次刷V2EX的时候发现部分cloudflare的IP和京东主站部分IP也出现相似的劫持事件</p>
 <p>今天早晨8点左右，在V2EX上发现有人讨论 GitHub 主站出现相同的https劫持，不经过代理访问发现证书的确异常</p>
-<p><img
-        
-        src="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
         alt="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
-        title="GitHub证书异常警告"
-         height="556"
-         width="1053"
-        loading="lazy"
+        title="GitHub证书异常警告"height="556"width="1053"loading="lazy"
     /></p>
 <p>查看证书详情</p>
-<p><img
-        
-        src="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
         alt="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
-        title="假CA证书"
-         height="950"
-         width="1048"
-        loading="lazy"
+        title="假CA证书"height="950"width="1048"loading="lazy"
     /></p>
-<p><img
-        
-        src="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
         alt="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
-        title="假证书"
-         height="961"
-         width="1051"
-        loading="lazy"
+        title="假证书"height="961"width="1051"loading="lazy"
     /></p>
 <h2 id="检查github证书"><a href="#检查github证书" class="header-mark headerLink">检查GitHub证书</a></h2>
 <p>这里我通过北京和香港两台阿里云主机，使用openssl提供的方法查看证书详细内容</p>

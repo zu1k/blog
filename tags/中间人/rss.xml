@@ -1,33 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>中间人 - 标签 - zu1k</title><link>https://zu1k.com/tags/%E4%B8%AD%E9%97%B4%E4%BA%BA/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 27 Mar 2020 08:47:11 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/%E4%B8%AD%E9%97%B4%E4%BA%BA/" rel="self" type="application/rss+xml"/><item><title>GitHub等大面积https劫持</title><link>https://zu1k.com/posts/events/mitm-https-hijack-github/</link><pubDate>Fri, 27 Mar 2020 08:47:11 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/mitm-https-hijack-github/</guid><description><![CDATA[<p>昨天下午两点多，突然在一个站长群里听到有人说 GitHub Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子</p>
 <p>当天晚上再次刷V2EX的时候发现部分cloudflare的IP和京东主站部分IP也出现相似的劫持事件</p>
 <p>今天早晨8点左右，在V2EX上发现有人讨论 GitHub 主站出现相同的https劫持，不经过代理访问发现证书的确异常</p>
-<p><img
-        
-        src="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
         alt="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
-        title="GitHub证书异常警告"
-         height="556"
-         width="1053"
-        loading="lazy"
+        title="GitHub证书异常警告"height="556"width="1053"loading="lazy"
     /></p>
 <p>查看证书详情</p>
-<p><img
-        
-        src="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
         alt="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
-        title="假CA证书"
-         height="950"
-         width="1048"
-        loading="lazy"
+        title="假CA证书"height="950"width="1048"loading="lazy"
     /></p>
-<p><img
-        
-        src="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
+<p><imgsrc="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
         alt="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
-        title="假证书"
-         height="961"
-         width="1051"
-        loading="lazy"
+        title="假证书"height="961"width="1051"loading="lazy"
     /></p>
 <h2 id="检查github证书"><a href="#检查github证书" class="header-mark headerLink">检查GitHub证书</a></h2>
 <p>这里我通过北京和香港两台阿里云主机，使用openssl提供的方法查看证书详细内容</p>
