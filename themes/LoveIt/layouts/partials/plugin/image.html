@@ -1,17 +1,17 @@
-{{ $src :=  .Src }}
-{{ $image := .Resources.GetMatch $src }}
-{{ $height := .Height }}
-{{ $width := .Width }}
-{{ if $image }}
-    {{ if and (ne $image.MediaType.SubType "svg") (ne $image.MediaType.SubType "gif") }}
-        {{ $height = $image.Height }}
-        {{ $width  = $image.Width }}
-        {{ $image = $image.Resize (print $width "x" $height " webp") }}
-        {{ $src = $image.RelPermalink }}
-    {{ end }}
-{{ else }}
-    {{ warnf "Unable to find image resource for src: %s" .Src }}
-{{ end }}
+{{- $src :=  .Src -}}
+{{- $image := .Resources.GetMatch $src -}}
+{{- $height := .Height -}}
+{{- $width := .Width -}}
+{{- if $image -}}
+    {{- if and (ne $image.MediaType.SubType "svg") (ne $image.MediaType.SubType "gif") -}}
+        {{- $height = $image.Height -}}
+        {{- $width  = $image.Width -}}
+        {{- $image = $image.Resize (print $width "x" $height " webp") -}}
+        {{- $src = $image.RelPermalink -}}
+    {{- end -}}
+{{- else -}}
+    {{- warnf "Unable to find image resource for src: %s" .Src -}}
+{{- end -}}
 
 {{- $alt := .Alt | default $src -}}
 {{- if .Linked -}}
@@ -21,7 +21,7 @@
         data-thumbnail="{{ $src | safeURL }}"
         {{ with .Caption }}
             data-sub-html="<h2>{{ . }}</h2>{{ with $.Title }}<p>{{ . }}</p>{{ end }}"
-        {{ end }}
+        {{- end -}}
         {{ with .Rel }} rel="{{ . }}"{{ end }}>
         <img
             {{ with .Class }} class="{{ . }}" {{ end }}
@@ -34,12 +34,12 @@
     </a>
 {{- else -}}
     <img
-        {{ with .Class }} class="{{ . }}" {{ end }}
+        {{ with .Class }} class="{{ . }}" {{- end }}
         src="{{ $src | partial "function/cdn.html" | safeURL }}"
         alt="{{ $alt }}"
         title="{{ .Title | default $alt }}"
-        {{ with $height }} height="{{ . }}"{{ end }}
-        {{ with $width }} width="{{ . }}"{{ end }}
+        {{ with $height -}} height="{{ . }}"{{ end }}
+        {{- with $width }} width="{{ . }}"{{ end }}
         loading="lazy"
     />
 {{- end -}}
