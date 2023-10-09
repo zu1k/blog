@@ -96,9 +96,13 @@
 </div>
 </div><h3 id="发布"><a href="#发布" class="header-mark headerLink">发布</a></h3>
 <p>在Cloudflare中增加一条DNS记录，需要打开CF代理</p>
-<p><imgsrc="/posts/coding/deploy-blog-to-cf-workers-site/cf-dns_hu3529eee56912ee733c6785e8e28d1194_11315_1016x180_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/coding/deploy-blog-to-cf-workers-site/cf-dns_hu3529eee56912ee733c6785e8e28d1194_11315_1016x180_resize_q75_h2_box_3.webp"
         alt="/posts/coding/deploy-blog-to-cf-workers-site/cf-dns_hu3529eee56912ee733c6785e8e28d1194_11315_1016x180_resize_q75_h2_box_3.webp"
-        title="DNS记录"height="180"width="1016"loading="lazy"
+        title="DNS记录"
+        height="180" width="1016"
+        loading="lazy"
     /></p>
 <p>执行下面命令进行部署</p>
 <div class="highlight"><div class="chroma">
@@ -113,9 +117,13 @@
 <p>Cloudflare提供了官方的<a href="https://github.com/marketplace/actions/deploy-to-cloudflare-workers-with-wrangler" target="_blank" rel="noopener noreffer" class="post-link">Wrangler GitHub Action</a>，可以直接用GitHub Actions将博客内容部署到CF Workers Site</p>
 <h3 id="添加认证信息"><a href="#添加认证信息" class="header-mark headerLink">添加认证信息</a></h3>
 <p>在github仓库设置一个secret，名字为<code>CF_API_TOKEN</code>，值为Wrangler的token</p>
-<p><imgsrc="/posts/coding/deploy-blog-to-cf-workers-site/token_hue7d26e74b9bd0c0f9cb15f0ae4145e4d_11887_561x246_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/coding/deploy-blog-to-cf-workers-site/token_hue7d26e74b9bd0c0f9cb15f0ae4145e4d_11887_561x246_resize_q75_h2_box_3.webp"
         alt="/posts/coding/deploy-blog-to-cf-workers-site/token_hue7d26e74b9bd0c0f9cb15f0ae4145e4d_11887_561x246_resize_q75_h2_box_3.webp"
-        title="CF_API_TOKEN"height="246"width="561"loading="lazy"
+        title="CF_API_TOKEN"
+        height="246" width="561"
+        loading="lazy"
     /></p>
 <h3 id="workflows"><a href="#workflows" class="header-mark headerLink">Workflows</a></h3>
 <div class="highlight"><div class="chroma">

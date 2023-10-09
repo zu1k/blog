@@ -255,14 +255,22 @@
 <p><a href="https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws" target="_blank" rel="noopener noreffer" class="post-link">https://stackoverflow.com/questions/11889391/difference-between-group-concat-and-concat-ws</a></p>
 <h3 id="concat_ws"><a href="#concat_ws" class="header-mark headerLink">concat_ws</a></h3>
 <p><a href="http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/string-functions/mysql-concat_ws-function.php</a></p>
-<p><imgsrc="/posts/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws_hu3ef593c49c38b219c8ad81d87e0684e1_14895_466x393_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws_hu3ef593c49c38b219c8ad81d87e0684e1_14895_466x393_resize_q75_h2_box_3.webp"
         alt="/posts/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws_hu3ef593c49c38b219c8ad81d87e0684e1_14895_466x393_resize_q75_h2_box_3.webp"
-        title="concat_ws"height="393"width="466"loading="lazy"
+        title="concat_ws"
+        height="393" width="466"
+        loading="lazy"
     /></p>
 <h3 id="group_concat"><a href="#group_concat" class="header-mark headerLink">group_concat</a></h3>
 <p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
-<p><imgsrc="group_concat.gif"
+<p><img
+        
+        src="group_concat.gif"
         alt="group_concat.gif"
-        title="group_concat"loading="lazy"
+        title="group_concat"
+        
+        loading="lazy"
     /></p>
 ]]></description></item></channel></rss>

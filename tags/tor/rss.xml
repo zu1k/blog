@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="/xsl/rss.xsl"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Tor - 标签 - zu1k</title><link>https://zu1k.com/tags/tor/</link><description/><language>zh-CN</language><managingEditor>i@zu1k.com (zu1k)</managingEditor><webMaster>i@zu1k.com (zu1k)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 25 May 2020 15:22:09 +0800</lastBuildDate><atom:link href="https://zu1k.com/tags/tor/" rel="self" type="application/rss+xml"/><item><title>一个来自保留IP地址的连接</title><link>https://zu1k.com/posts/events/why-reveice-connection-from-class-e-ip/</link><pubDate>Mon, 25 May 2020 15:22:09 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/events/why-reveice-connection-from-class-e-ip/</guid><description><![CDATA[<p>昨天看了一篇文章，文章最后使用IP logger进行钓鱼，最后记录下来的IP地址让我大跌眼镜</p>
 <p>万万没有想到，记录下来的IP地址竟然是是 244.242.105.51</p>
-<p><imgsrc="/posts/events/why-reveice-connection-from-class-e-ip/ip-logger_hu4fba2ac6f0d66d6e71f7502c829a67bd_188547_1080x476_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/events/why-reveice-connection-from-class-e-ip/ip-logger_hu4fba2ac6f0d66d6e71f7502c829a67bd_188547_1080x476_resize_q75_h2_box_3.webp"
         alt="/posts/events/why-reveice-connection-from-class-e-ip/ip-logger_hu4fba2ac6f0d66d6e71f7502c829a67bd_188547_1080x476_resize_q75_h2_box_3.webp"
-        title="Logger"height="476"width="1080"loading="lazy"
+        title="Logger"
+        height="476" width="1080"
+        loading="lazy"
     /></p>
 <p>这可是一个E类IP地址，是属于保留地址，是未来用来做ip研究用的，目前并没有开放使用啊</p>
 <p>考虑到文章中是对一个地下黑客组织进行钓鱼，所以我有理由相信，这个访问记录是通过某种高超的我从来没有听说过的手段实现的</p>
@@ -39,49 +43,73 @@
 <p>这里要描述的通讯是 用户通过 tor浏览器 连接 洋葱服务 的过程</p>
 <p>为了方便表达，这里用Alice表示客户端，Bob表示服务端</p>
 <h3 id="第一步服务端设置自己的介绍节点"><a href="#第一步服务端设置自己的介绍节点" class="header-mark headerLink">第一步：服务端设置自己的介绍节点</a></h3>
-<p><imgsrc="/posts/learn/how-do-onion-service-work/tor-onion-services-1_hucb38fa13cf6ecf7070c1168e9599e8f7_17222_600x420_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-1_hucb38fa13cf6ecf7070c1168e9599e8f7_17222_600x420_resize_q75_h2_box_3.webp"
         alt="/posts/learn/how-do-onion-service-work/tor-onion-services-1_hucb38fa13cf6ecf7070c1168e9599e8f7_17222_600x420_resize_q75_h2_box_3.webp"
-        title="第一步"height="420"width="600"loading="lazy"
+        title="第一步"
+        height="420" width="600"
+        loading="lazy"
     /></p>
 <p>服务端为了不暴漏自己的IP，使用 介绍节点(introduction points) 来转发来自客户端的介绍信</p>
 <p>首先，Bob从 tor中继节点列表 中挑选几个节点来做自己的 介绍节点，然后与它们建立 长连接(long-term circuits)</p>
 <p>这里的长连接是通过tor网络建立起来的，所以是匿名的，介绍节点不会知道Bob的IP</p>
 <p>同时，Bob会给介绍节点发送一个 身份验证密钥(authentication key)，当有客户端连接这个介绍节点时，通过这个密钥便能判断这个连接是否是找Bob的</p>
 <h3 id="第二步服务端公开自己的信息"><a href="#第二步服务端公开自己的信息" class="header-mark headerLink">第二步：服务端公开自己的信息</a></h3>
-<p><imgsrc="/posts/learn/how-do-onion-service-work/tor-onion-services-2_hufc3c4975a073b9fa304048fe3399b2da_19207_600x420_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-2_hufc3c4975a073b9fa304048fe3399b2da_19207_600x420_resize_q75_h2_box_3.webp"
         alt="/posts/learn/how-do-onion-service-work/tor-onion-services-2_hufc3c4975a073b9fa304048fe3399b2da_19207_600x420_resize_q75_h2_box_3.webp"
-        title="第二步"height="420"width="600"loading="lazy"
+        title="第二步"
+        height="420" width="600"
+        loading="lazy"
     /></p>
 <p>Bob 生成一个 描述信息(onion service descriptor)，里面存储了介绍节点列表，包括介绍节点的ip和相应的身份验证密钥</p>
 <p>然后Bob用自己的私钥对这个消息签名，并将这个消息发布到Tor的DHT中</p>
 <p>经过这步操作，tor客户端便可以通过某个key从DHT中获取到这个消息，从而找到Bob的介绍节点</p>
 <h3 id="第三步客户端获取介绍节点列表"><a href="#第三步客户端获取介绍节点列表" class="header-mark headerLink">第三步：客户端获取介绍节点列表</a></h3>
-<p><imgsrc="/posts/learn/how-do-onion-service-work/tor-onion-services-3_hu49b94caa109610aa62899a6a11dd3e8a_22213_600x420_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-3_hu49b94caa109610aa62899a6a11dd3e8a_22213_600x420_resize_q75_h2_box_3.webp"
         alt="/posts/learn/how-do-onion-service-work/tor-onion-services-3_hu49b94caa109610aa62899a6a11dd3e8a_22213_600x420_resize_q75_h2_box_3.webp"
-        title="第三步"height="420"width="600"loading="lazy"
+        title="第三步"
+        height="420" width="600"
+        loading="lazy"
     /></p>
 <p>Alice（客户端）从某些途径知道Bob有一个洋葱服务，并且知道这个服务的onion域名，例如 xyz.onion，此时Alice想要访问Bob.</p>
 <p>首先，她向DHT网络请求该域名对应的信息，也就是第二步中Bob发布的那个描述消息</p>
 <p>获取到消息后，Alice对其签名进行验证，验证使用的Bob的公钥其实已经被编码到 xyz.onion 这个域名中了，Alice可以从域名中解码出来</p>
 <p>消息没问题，Alice从消息中解析出Bob的介绍节点列表，选择其中一个介绍节点，Alice将要向Bob介绍自己</p>
 <h3 id="第四步客户端选择一个会合节点"><a href="#第四步客户端选择一个会合节点" class="header-mark headerLink">第四步：客户端选择一个会合节点</a></h3>
-<p><imgsrc="/posts/learn/how-do-onion-service-work/tor-onion-services-4_huecc8a34bb5cdc777020f0c12517ab9df_21419_600x420_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-4_huecc8a34bb5cdc777020f0c12517ab9df_21419_600x420_resize_q75_h2_box_3.webp"
         alt="/posts/learn/how-do-onion-service-work/tor-onion-services-4_huecc8a34bb5cdc777020f0c12517ab9df_21419_600x420_resize_q75_h2_box_3.webp"
-        title="第四步"height="420"width="600"loading="lazy"
+        title="第四步"
+        height="420" width="600"
+        loading="lazy"
     /></p>
 <p>Alice从tor中继节点列表中选择一个节点作为 会合节点(rendezvous point)，然后通过tor与该 会合节点(RP) 建立连接</p>
 <p>同时，Alice会给会合节点发送一个 一次性密码(one-time secret)，这个密码会在回合过程中使用</p>
 <h3 id="第五步客户端向服务端介绍自己"><a href="#第五步客户端向服务端介绍自己" class="header-mark headerLink">第五步：客户端向服务端介绍自己</a></h3>
 <p>Alice生成一个消息，包含 会合节点 和 一次性密码，然后用Bob的公钥对消息进行加密</p>
 <p>Alice通过Tor网络连接上 Bob 的一个介绍节点，让该介绍节点把加密后的消息转发给Bob</p>
-<p><imgsrc="/posts/learn/how-do-onion-service-work/tor-onion-services-5_hue1ea1d08fd7f99b1bb6b9067b8f1bd74_22165_600x420_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-5_hue1ea1d08fd7f99b1bb6b9067b8f1bd74_22165_600x420_resize_q75_h2_box_3.webp"
         alt="/posts/learn/how-do-onion-service-work/tor-onion-services-5_hue1ea1d08fd7f99b1bb6b9067b8f1bd74_22165_600x420_resize_q75_h2_box_3.webp"
-        title="第五步"height="420"width="600"loading="lazy"
+        title="第五步"
+        height="420" width="600"
+        loading="lazy"
     /></p>
 <h3 id="第六步服务端与客户端回合"><a href="#第六步服务端与客户端回合" class="header-mark headerLink">第六步：服务端与客户端回合</a></h3>
-<p><imgsrc="/posts/learn/how-do-onion-service-work/tor-onion-services-6_hucc854f3a9083338604f4698c87d941d9_18018_600x420_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-6_hucc854f3a9083338604f4698c87d941d9_18018_600x420_resize_q75_h2_box_3.webp"
         alt="/posts/learn/how-do-onion-service-work/tor-onion-services-6_hucc854f3a9083338604f4698c87d941d9_18018_600x420_resize_q75_h2_box_3.webp"
-        title="第六步"height="420"width="600"loading="lazy"
+        title="第六步"
+        height="420" width="600"
+        loading="lazy"
     /></p>
 <p>此时Bob已经收到介绍节点转发过来的消息，知道Alice想要访问自己，并且知道了会合节点的信息</p>
 <p>Bob通过Tor网络连接会合节点，然后将收到的一次性密码发送给会合节点，会合节点由此知道 Bob是要与Alice通信，从而可以将Alice与Bob的消息进行中继</p>

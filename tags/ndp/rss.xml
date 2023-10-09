@@ -2,9 +2,13 @@
 <p>昨天我舍友为了爬虫购买了昂贵的 IP 代理池，我在旁边突然萌生了一个想法，现在各大 ISP/IDC 动不动就给你分配一整个 64 位前缀的 IPv6 网段，我们能不能好好利用一下这庞大的 IPv6 IP 资源呢？</p>
 <p>有了这个想法我就睡不着了，今天一大早（9点半）我就起来着手研究，最终成功实现每一个请求从一个单独的 IPv6 地址发出。</p>
 <p>先看效果，我把写好的程序放在服务器上跑了一会，下面是 Cloudflare 统计的访问信息，可以看到独立访问者 (独立 IP) 数量达到了我的小博客前所未有的数量，基本上是一个请求一个独立 IP，效果非常不错。</p>
-<p><imgsrc="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
+<p><img
+        
+        src="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
         alt="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
-        title="Cloudflare 统计"height="343"width="1045"loading="lazy"
+        title="Cloudflare 统计"
+        height="343" width="1045"
+        loading="lazy"
     /></p>
 <h2 id="教程"><a href="#教程" class="header-mark headerLink">教程</a></h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>

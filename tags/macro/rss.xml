@@ -35,9 +35,16 @@
 <p><figure><a class="lightgallery"
         href="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
         title="庞大的枚举类型"
-        data-thumbnail="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>">
-        <imgsrc="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
-            alt="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"height="163"width="559"loading="lazy"
+        data-thumbnail="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
+        
+            data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>">
+        <img
+            
+            src="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
+            alt="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
+             height="163"
+             width="559"
+            loading="lazy"
         />
     </a><figcaption class="image-caption">庞大的枚举类型</figcaption>
     </figure></p>
