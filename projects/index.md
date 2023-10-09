@@ -4,8 +4,8 @@
 此页面介绍我做的一些项目和工具，其中绝大部分代码已经开源，更多内容请查看我的 [GitHub: @zu1k](https://github.com/zu1k)
 
 <div>
-  <img src="https://zu1k.github.io/zu1k/github-stats-full.svg" />
-  <img src="https://zu1k.github.io/zu1k/github-langs.svg" />
+  <img src="https://zu1k.github.io/zu1k/github-stats-full.svg" loading="lazy" />
+  <img src="https://zu1k.github.io/zu1k/github-langs.svg" loading="lazy" />
 </div>
 
 ## GitHub Trending 项目
@@ -553,4 +553,18 @@ https://github.com/zu1k/LibAFL-Book-zh
 在操作系统的信任区安装根证书
 
 https://github.com/zu1k/install-cert
+
+
+## 编程经验
+
+从大学才开始接触编程，第一门编程语言是 Java，后续接连学习了 Python、C、Golang、Rust 和 JavaScript 等其他语言。我对自己使用的各种编程语言有自己的看法：
+
+- Java 很成熟很稳定，在我看来最重要的是适合团队合作，毕竟我身边的人还是最熟悉 Java
+- Python 各种各样的库很多，可以快速验证自己的想法，无论是拿来搞安全还是水一下课程作业都是很爽的
+- C 性能非常牛逼，我就喜欢这种简洁和无与伦比的掌控感，搞二进制安全必备
+- Golang ~~是我目前最喜欢的语言~~，我已经用它写了不少项目了，无需付出太多精力就能轻松高并发，感觉写起来有种类似于Py脚本语言的快感
+- Rust ~~我觉得有点消耗脑细菌，每一次写完都感觉昏昏沉沉的~~ 越来越喜欢了，甚至都不想写go了
+- JS 说实话我不太喜欢，但V8引擎的确厉害
+
+~~现在我更喜欢用Golang写后端，用Vue来写前端~~ 现在我新的个人项目都首选Rust了
 
