@@ -113,6 +113,7 @@ LanguageCode = "zh-CN"
   [params.social]
     GitHub = "zu1k"
     Twitter = "zu1k_"
+    Telegram = "peekfun"
     Mastodon = "https://fosstodon.org/@zu1k"
     Email = "i@zu1k.com"
 

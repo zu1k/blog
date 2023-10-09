@@ -743,10 +743,10 @@ if (document.readyState !== "loading") {
 }
 
 function escapeOutput(toOutput) {
-    return toOutput.replace(/\&/g, '&amp;')
-        .replace(/\</g, '&lt;')
-        .replace(/\>/g, '&gt;')
-        .replace(/\"/g, '&quot;')
-        .replace(/\'/g, '&#x27')
-        .replace(/\//g, '&#x2F');
+    return toOutput.replace(/\&/g, '')
+        .replace(/\</g, '')
+        .replace(/\>/g, '')
+        .replace(/\"/g, '')
+        .replace(/\'/g, '')
+        .replace(/\//g, '');
 }
