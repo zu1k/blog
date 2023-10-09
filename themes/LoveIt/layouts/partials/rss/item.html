@@ -30,7 +30,7 @@
                 {{- $content = dict "Content" . "Fraction" $params.fraction | partial "function/content.html" -}}
             {{- end -}}
         {{- end -}}
-        {{- $content | replaceRE `<figure[^>]*>.*</figure>` "" | replaceRE `<img[^>]*( /)?>` "" | safeHTML -}}
+        {{- $content | safeHTML -}}
         {{- "]]>" | safeHTML -}}
     </description>
 </item>
