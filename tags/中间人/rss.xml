@@ -12,7 +12,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
+        alt="/posts/events/mitm-https-hijack-github/github-cert-warn_hu32273bfb082d371e234baad3e839af1a_68393_1053x556_resize_q75_h2_box.webp"
+        title="GitHub证书异常警告"
+         height="556"
+         width="1053"
+        loading="lazy"
+    /></p>
 <p>查看证书详情</p>
 <p>
 
@@ -25,7 +33,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
+        alt="/posts/events/mitm-https-hijack-github/fake-cert-ca_huc249682e30b152273141bf38fa4e2235_66948_1048x950_resize_q75_h2_box.webp"
+        title="假CA证书"
+         height="950"
+         width="1048"
+        loading="lazy"
+    /></p>
 <p>
 
 
@@ -37,7 +53,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
+        alt="/posts/events/mitm-https-hijack-github/fake-cert-2_hub329e191cea39c0047dbac544f7414de_67794_1051x961_resize_q75_h2_box.webp"
+        title="假证书"
+         height="961"
+         width="1051"
+        loading="lazy"
+    /></p>
 <h2 id="检查github证书"><a href="#检查github证书" class="header-mark headerLink">检查GitHub证书</a></h2>
 <p>这里我通过北京和香港两台阿里云主机，使用openssl提供的方法查看证书详细内容</p>
 <p>命令为: <code>openssl s_client -showcerts -connect github.com:443 &lt; /dev/null</code></p>

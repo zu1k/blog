@@ -33,7 +33,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/fediverse/mastodon_pixelfed_hu52eac44f8e02f5abb2301fade121986a_123532_1328x646_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/fediverse/mastodon_pixelfed_hu52eac44f8e02f5abb2301fade121986a_123532_1328x646_resize_q75_h2_box_3.webp"
+        title="Pixelfed 账号关注 Mastodon 账号"
+         height="646"
+         width="1328"
+        loading="lazy"
+    /></p>
 <p>但是我在 Pixelfed 发布的内容，从 Mastodon 却无法看到，这说明两个应用虽然都使用 ActivityPub 协议，但是其在内容封装方面有自己专属的子协议，这些子协议之间并不互相兼容，只有那些公共的兼容的协议才能跨应用使用，例如账户信息、关注这类。</p>
 <p>同时我还尝试使用 Mastodon 查看 Lemmy 的用户，可以看到用户信息，发布的部分内容可以看到，有一些出入，说明这两者之间也是有不兼容的地方。</p>
 <p>
@@ -47,7 +55,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/fediverse/mastodon_lemmy_hu3d786cdeffe43d68657c9af44c7cff39_1770398_3321x2093_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/fediverse/mastodon_lemmy_hu3d786cdeffe43d68657c9af44c7cff39_1770398_3321x2093_resize_q75_h2_box_3.webp"
+        title="Mastodon 查看 Lemmy 用户"
+         height="2093"
+         width="3321"
+        loading="lazy"
+    /></p>
 <p>通过 Lemmy 的 issue 和 PR 列表我看到 Lemmy 正在做与 Mastodon 的兼容工作，这很伟大，支持！</p>
 <p>同时，一位 GitHub 的员工开发了一个有意思的东西，<a href="https://github.com/davecheney/pub" target="_blank" rel="noopener noreffer" class="post-link">ActivityPub to Mastodon bridge</a>。pub 的目的不是托管 ActivityPub 社区，而是旨在使拥有自己域并因此控制其身份的人能够参与 Fediverse，这意味着你无需搭建 Mastodon 就可以用自己的域名加入到 Mastodon 联邦中了，这就很方便了，轻量好用啊。</p>
 <h2 id="mastodon-性能问题"><a href="#mastodon-性能问题" class="header-mark headerLink">Mastodon 性能问题</a></h2>
@@ -176,7 +192,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs-easy-use/nat-mapping_huc68249edc18ae4d99b6de292707b695f_10157_789x82_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs-easy-use/nat-mapping_huc68249edc18ae4d99b6de292707b695f_10157_789x82_resize_q75_h2_box_3.webp"
+        title="NAT 端口映射"
+         height="82"
+         width="789"
+        loading="lazy"
+    /></p>
 <h2 id="资源占用优化"><a href="#资源占用优化" class="header-mark headerLink">资源占用优化</a></h2>
 <p>如果你没有做任何的配置优化，只是按照常规流程下载安装运行，你会发现 IPFS 在后台会占用大量的 CPU 资源和内存，你的风扇开始狂转；维持了大量的网络连接，导致你的网络卡顿。这是因为 IPFS 的默认配置并没有针对个人小主机进行优化，如果你在一台 2 核的 Linux 服务器上运行，IPFS 甚至能吃满你所有的 CPU，网络的拥挤程度有可能使你连 ssh 登录都成了一个问题。</p>
 <p>
@@ -190,7 +214,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs-easy-use/ipfs-origin-high_hu3eea88f8be2338a28eef177f823f2105_36095_828x210_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs-easy-use/ipfs-origin-high_hu3eea88f8be2338a28eef177f823f2105_36095_828x210_resize_q75_h2_box_3.webp"
+        title="IPFS 占用大量资源"
+         height="210"
+         width="828"
+        loading="lazy"
+    /></p>
 <p>这个时候我们就需要调整配置文件中的参数来想办法降低资源占用，以使 IPFS 不影响我们的日常工作。其实 IPFS 已经提供了<a href="https://docs.ipfs.io/how-to/default-profile/" target="_blank" rel="noopener noreffer" class="post-link">好几个配置文件</a>，通过 <code>ipfs config profile --help</code> 可查看具体介绍。</p>
 <blockquote>
 <p>profile 不知道怎么翻译合适，翻译成文件不太准确，ipfs 中应用这些 profile 只是修改某些特定选项，并不是配置文件的完全改变</p>
@@ -208,7 +240,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs-easy-use/ipfs-now-low_hucf37f9c7b9809966f20b342d5b3216f0_47398_813x258_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs-easy-use/ipfs-now-low_hucf37f9c7b9809966f20b342d5b3216f0_47398_813x258_resize_q75_h2_box_3.webp"
+        title="IPFS 优化后"
+         height="258"
+         width="813"
+        loading="lazy"
+    /></p>
 <h2 id="后言"><a href="#后言" class="header-mark headerLink">后言</a></h2>
 <p>20 年 11 月底，我发布了 <a href="../ipfs/" rel="" class="post-link">《IPFS 新手指北》</a> 这篇文章，期待 IPFS 能够迅猛发展，成为下一代 Web 基础设施。不知不觉已经过去一年半了，就目前情况来看 IPFS 虽然仍在不断发展，但还是在半死不活的状态，这一点让我非常失望。</p>
 <p>但仔细一想，期待某门技术成为下一个主流本身就是不合理的。任何技术都应该是在广泛的需求之下才有可能成长为广泛应用的主流，而不是说你有某些好的特性就一定能够被广泛接受。从需求上讲，我们确实需要基于 P2P 的内容发布，也需要基于内容的寻址方式，这些都具有非常好的优点，但并不能满足我们对互联网的全部需求。我们在期望内容不可变、内容不被删除的同时，也会希望能够拥有删除或者修改某个内容的权利；我们喜欢 P2P 的去中心化内容分发方式，但不能否认任何人都希望延迟更低、速度更快；我们还会希望对内容具有更多控制权，包括细致的访问控制、更灵活的表达形式&hellip;&hellip;</p>
@@ -231,7 +271,15 @@
 
 
     
-</p>
+<img
+        
+        src="compare/ipfs-illustration-http.svg"
+        alt="compare/ipfs-illustration-http.svg"
+        title="Today&amp;rsquo;s web is inefficient and expensive"
+        
+        
+        loading="lazy"
+    /></p>
 <h4 id="现有的网络技术效率低下成本高昂"><a href="#现有的网络技术效率低下成本高昂" class="header-mark headerLink">现有的网络技术效率低下、成本高昂</a></h4>
 <p>HTTP一次从一台计算机下载文件，而不是同时从多台计算机获取文件。点对点IPFS<strong>节省了大量的带宽</strong>，视频高达60%，这使得无需重复地高效地分发大量数据成为可能。</p>
 <p>
@@ -240,7 +288,15 @@
 
 
     
-</p>
+<img
+        
+        src="compare/ipfs-illustration-history.svg"
+        alt="compare/ipfs-illustration-history.svg"
+        title="Today&amp;rsquo;s web can&amp;rsquo;t preserve humanity&amp;rsquo;s history"
+        
+        
+        loading="lazy"
+    /></p>
 <h4 id="现有的网络无法保存人类的历史"><a href="#现有的网络无法保存人类的历史" class="header-mark headerLink">现有的网络无法保存人类的历史</a></h4>
 <p>一个网页的平均寿命是100天，然后就永远消失了。我们这个时代的主要媒介还不够脆弱。IPFS<strong>保留文件的每一个版本</strong>，并使为镜像数据建立弹性网络变得简单。</p>
 <p>
@@ -249,7 +305,15 @@
 
 
     
-</p>
+<img
+        
+        src="compare/ipfs-illustration-centralized.svg"
+        alt="compare/ipfs-illustration-centralized.svg"
+        title="Today&amp;rsquo;s web is centralized, limiting opportunity"
+        
+        
+        loading="lazy"
+    /></p>
 <h4 id="现有的网络是集中的限制了机会"><a href="#现有的网络是集中的限制了机会" class="header-mark headerLink">现有的网络是集中的，限制了机会</a></h4>
 <p>互联网作为人类历史上最伟大的均衡器之一，推动了创新的发展，但日益巩固的集权控制威胁着这一进步。IPFS通过分布式技术来避免这一点。</p>
 <p>
@@ -258,7 +322,15 @@
 
 
     
-</p>
+<img
+        
+        src="compare/ipfs-illustration-network.svg"
+        alt="compare/ipfs-illustration-network.svg"
+        title="Today&amp;rsquo;s web is addicted to the backbone"
+        
+        
+        loading="lazy"
+    /></p>
 <h4 id="现有的网络深度依赖主干网"><a href="#现有的网络深度依赖主干网" class="header-mark headerLink">现有的网络深度依赖主干网</a></h4>
 <p>IPFS支持创建多样化的弹性网络，以实现<strong>持久可用性</strong>，无论是否有Internet主干网连接。这意味着发展中国家在自然灾害期间，或者在咖啡厅的wi-fi上时，能够更好地连接。</p>
 <h3 id="ipfs做的更好"><a href="#ipfs做的更好" class="header-mark headerLink">IPFS做的更好</a></h3>
@@ -274,7 +346,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/usefull/usefull_1_hu44cd894b481e49439e4024ed796a7bf4_20225_538x166_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/usefull/usefull_1_hu44cd894b481e49439e4024ed796a7bf4_20225_538x166_resize_q75_h2_box_3.webp"
+        title="usefull 1"
+         height="166"
+         width="538"
+        loading="lazy"
+    /></p>
 <ul>
 <li>
 <p>对于<strong>归档人员</strong></p>
@@ -300,7 +380,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/usefull/usefull_2_hud188cfbd7834764fa61fe071c6cf27c8_19823_524x160_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/usefull/usefull_2_hud188cfbd7834764fa61fe071c6cf27c8_19823_524x160_resize_q75_h2_box_3.webp"
+        title="usefull 2"
+         height="160"
+         width="524"
+        loading="lazy"
+    /></p>
 <ul>
 <li>
 <p>对于<strong>世界发展</strong></p>
@@ -328,7 +416,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/work/work_1_huec82a8acf873cbbdd65180e0cc3cbe80_18454_715x143_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/work/work_1_huec82a8acf873cbbdd65180e0cc3cbe80_18454_715x143_resize_q75_h2_box_3.webp"
+        title="第一步"
+         height="143"
+         width="715"
+        loading="lazy"
+    /></p>
 <p>IPFS将文件切割为多个小块，每个块的大小为256KB，块的数量由文件的大小决定。然后计算每个块的Hash，作为这个块的指纹。</p>
 <p>
 
@@ -341,7 +437,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/work/work_2_hud94bb78b709f95278d72421a0a468b77_6001_687x148_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/work/work_2_hud94bb78b709f95278d72421a0a468b77_6001_687x148_resize_q75_h2_box_3.webp"
+        title="第二步"
+         height="148"
+         width="687"
+        loading="lazy"
+    /></p>
 <p>因为很多文件数据有重复的部分，在切割成小块后，这些小块有的会完全相同，表现出来就是指纹Hash相同。拥有相同指纹Hash的块被视为同一个块，所以相同的数据在IPFS都表现为同一块，这也就消除了存储相同数据的额外开销。</p>
 <p>
 
@@ -354,7 +458,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/work/work_3_hu5cef949eb7c1c8c22a04f4a9246efd20_12989_713x144_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/work/work_3_hu5cef949eb7c1c8c22a04f4a9246efd20_12989_713x144_resize_q75_h2_box_3.webp"
+        title="第三步"
+         height="144"
+         width="713"
+        loading="lazy"
+    /></p>
 <p>IPFS网络中的每一个节点只存储自己<strong>感兴趣</strong>的内容，也就是该IPFS节点的使用者经常访问、或指定要固定的内容。</p>
 <p>除此之外还需要额外存储一些索引信息，这些索引信息用来帮助文件查找的寻址工作。当我们需要获取某个块的时候，索引信息就可以告诉IPFS这个特定块在哪些节点上有存储。</p>
 <p>
@@ -368,7 +480,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/work/work_4_hu094a3b5b5c985399ecfefd792883cc42_15836_701x144_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/work/work_4_hu094a3b5b5c985399ecfefd792883cc42_15836_701x144_resize_q75_h2_box_3.webp"
+        title="第四步"
+         height="144"
+         width="701"
+        loading="lazy"
+    /></p>
 <p>当我们要从IPFS中查看或者下载某个文件时，IPFS便要通过改文件的<strong>指纹Hash</strong>查询索引信息，并向自己连接的节点进行询问。这一步需要找到IPFS网络中的哪些节点存储着自己想要的文件数据块。</p>
 <p>
 
@@ -381,7 +501,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/work/one-ipfs-node-only_hu134fbf3dc9c72655ec002a1361ebd0db_348906_1673x1045_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/work/one-ipfs-node-only_hu134fbf3dc9c72655ec002a1361ebd0db_348906_1673x1045_resize_q75_h2_box_3.webp"
+        title="IPFS寻址"
+         height="1045"
+         width="1673"
+        loading="lazy"
+    /></p>
 <p>
 
 
@@ -393,7 +521,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/work/work_5_hu3ebe2645eb4e300f35ec45f1a3b47252_19622_710x139_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/work/work_5_hu3ebe2645eb4e300f35ec45f1a3b47252_19622_710x139_resize_q75_h2_box_3.webp"
+        title="第五步"
+         height="139"
+         width="710"
+        loading="lazy"
+    /></p>
 <p>如果你无法记住IPFS中存储的文件的指纹Hash(是一段非常长的字符串)，实际上你也无须记住这个Hash，IPFS提供了<strong>IPNS</strong>来提供<strong>人类可读名字</strong>到<strong>指纹Hash</strong>之间的映射，你只需要记住你添加在IPNS中的人类可读名字即可。</p>
 <h2 id="基本使用"><a href="#基本使用" class="header-mark headerLink">基本使用</a></h2>
 <h3 id="安装"><a href="#安装" class="header-mark headerLink">安装</a></h3>
@@ -409,7 +545,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_env_hu53d55428ab457539b5df30a7ebf7cf23_15025_610x264_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_env_hu53d55428ab457539b5df30a7ebf7cf23_15025_610x264_resize_q75_h2_box_3.webp"
+        title="设置环境变量 IPFS_PATH"
+         height="264"
+         width="610"
+        loading="lazy"
+    /></p>
 <h4 id="初始化"><a href="#初始化" class="header-mark headerLink">初始化</a></h4>
 <p>运行命令 <code>ipfs init</code> 进行初始化，这一步会初始化密钥对，并在刚刚指定的<code>IPFS_PATH</code>目录创建初始文件。</p>
 <p>
@@ -423,7 +567,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_init_hue0c94ec89459672a8c5cc644ff0765dd_18447_727x152_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_init_hue0c94ec89459672a8c5cc644ff0765dd_18447_727x152_resize_q75_h2_box_3.webp"
+        title="初始化"
+         height="152"
+         width="727"
+        loading="lazy"
+    /></p>
 <h4 id="查看节点id信息"><a href="#查看节点id信息" class="header-mark headerLink">查看节点ID信息</a></h4>
 <p>运行命令 <code>ipfs id</code> 即可查看自己IPFS节点ID信息，包含了节点ID、公钥、地址、代理版本、协议版本、支持的协议等信息</p>
 <p>可以通过 <code>ipfs id 别人的ID</code>来查看别人的节点ID信息</p>
@@ -440,7 +592,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_init_hue0c94ec89459672a8c5cc644ff0765dd_18447_727x152_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_init_hue0c94ec89459672a8c5cc644ff0765dd_18447_727x152_resize_q75_h2_box_3.webp"
+        title="IPFS cat"
+         height="152"
+         width="727"
+        loading="lazy"
+    /></p>
 <h4 id="开启守护进程"><a href="#开启守护进程" class="header-mark headerLink">开启守护进程</a></h4>
 <p>运行下面命令开启守护进程</p>
 <div class="highlight"><div class="chroma">
@@ -468,7 +628,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_get_hub7496c85bb414641f3077f6cc733b39d_34008_1076x276_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_get_hub7496c85bb414641f3077f6cc733b39d_34008_1076x276_resize_q75_h2_box_3.webp"
+        title="IPFS get"
+         height="276"
+         width="1076"
+        loading="lazy"
+    /></p>
 <h4 id="列出目录"><a href="#列出目录" class="header-mark headerLink">列出目录</a></h4>
 <p>通过<code>ipfs ls</code>命令来列出一个目录</p>
 <p>
@@ -482,7 +650,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_ls_hu5ebba350e887d3e45522f22c53bbc550_42643_1085x191_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_ls_hu5ebba350e887d3e45522f22c53bbc550_42643_1085x191_resize_q75_h2_box_3.webp"
+        title="IPFS ls"
+         height="191"
+         width="1085"
+        loading="lazy"
+    /></p>
 <h3 id="添加文件夹"><a href="#添加文件夹" class="header-mark headerLink">添加文件(夹)</a></h3>
 <p>通过<code>ipfs add 文件名</code>命令来将文件添加到IPFS</p>
 <p>如果需要添加文件夹，需要添加<code>-r</code>参数来使其递归处理</p>
@@ -497,7 +673,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/tutorial/ipfs_add_hu1c96c226f6134ef6708ef949a5fca894_26053_1097x152_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/tutorial/ipfs_add_hu1c96c226f6134ef6708ef949a5fca894_26053_1097x152_resize_q75_h2_box_3.webp"
+        title="IPFS add"
+         height="152"
+         width="1097"
+        loading="lazy"
+    /></p>
 <h2 id="相关概念"><a href="#相关概念" class="header-mark headerLink">相关概念</a></h2>
 <p>在进行深一步学习之前，先让我们来看一下关于IPFS几个不得不知道的概念，这些概念是IPFS的基础组成部分，对后续的使用至关重要</p>
 <h3 id="peer"><a href="#peer" class="header-mark headerLink">Peer</a></h3>
@@ -580,7 +764,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/web/ipfs_local_web_huadb15ebe10d4db9e763e1c38076cb909_45426_1043x515_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/web/ipfs_local_web_huadb15ebe10d4db9e763e1c38076cb909_45426_1043x515_resize_q75_h2_box_3.webp"
+        title="IPFS local web"
+         height="515"
+         width="1043"
+        loading="lazy"
+    /></p>
 <div class="details admonition note open">
         <div class="details-summary admonition-title">
             <i class="icon icon-pencil"></i>注意<i class="details-icon icon-angle-circled-right"></i>
@@ -604,7 +796,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/web/local_error_hub933175cd275d038d871d1d59177ba77_31148_799x326_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/web/local_error_hub933175cd275d038d871d1d59177ba77_31148_799x326_resize_q75_h2_box_3.webp"
+        title="样式错误"
+         height="326"
+         width="799"
+        loading="lazy"
+    /></p>
 <p>这是因为使用的是<strong>绝对地址</strong>，我们需要使用<strong>相对地址</strong>的形式，如果你和我一样使用Hugo，那么只需要在你的配置文件中增加 <code>relativeURLs = true</code> 即可</p>
 <h4 id="远程网关访问"><a href="#远程网关访问" class="header-mark headerLink">远程网关访问</a></h4>
 <p>刚刚我们通过本机的IPFS网关成功访问到了IPFS中的网站，现在我们找一个公开的其他的IPFS网关来访问试一下</p>
@@ -622,7 +822,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/web/ipfs_web_huc31d8cfbcc41ab9125f8980cf7f3d7c6_7419_664x89_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/web/ipfs_web_huc31d8cfbcc41ab9125f8980cf7f3d7c6_7419_664x89_resize_q75_h2_box_3.webp"
+        title="IPFS WEB"
+         height="89"
+         width="664"
+        loading="lazy"
+    /></p>
 <h3 id="使用ipns进行映射"><a href="#使用ipns进行映射" class="header-mark headerLink">使用IPNS进行映射</a></h3>
 <p>使用命令 <code>ipfs name publish CID</code> 来发布一个IPNS，这里可能需要等待一会</p>
 <div class="highlight"><div class="chroma">
@@ -646,7 +854,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/web/ipns_web_hu28962914925ee0c2440453f343e921c2_9294_866x90_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/web/ipns_web_hu28962914925ee0c2440453f343e921c2_9294_866x90_resize_q75_h2_box_3.webp"
+        title="ipns web"
+         height="90"
+         width="866"
+        loading="lazy"
+    /></p>
 <p>通过使用IPNS映射，后续我们可以不断更新网站内容。如果没有使用IPNS而是直接发布CID，那别人便无法访问最新的版本了</p>
 <div class="details admonition note open">
         <div class="details-summary admonition-title">
@@ -672,7 +888,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/web/dnslink_hu2066ae7cdfeed825f54764811fdc23f4_23865_1011x352_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/web/dnslink_hu2066ae7cdfeed825f54764811fdc23f4_23865_1011x352_resize_q75_h2_box_3.webp"
+        title="DNSLink"
+         height="352"
+         width="1011"
+        loading="lazy"
+    /></p>
 <p>然后任何人都可以用 <code>/ipfs/ipfs.zu1k.com</code> 来找到我的网站了，访问<a href="http://localhost:8080/ipns/ipfs.zu1k.com" target="_blank" rel="noopener noreffer" class="post-link">http://localhost:8080/ipns/ipfs.zu1k.com</a></p>
 <p>
 
@@ -685,7 +909,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/web/ipfs_dnslink_web_hu33d8573f961b2198a8f9cce73fac7e04_29509_832x360_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/web/ipfs_dnslink_web_hu33d8573f961b2198a8f9cce73fac7e04_29509_832x360_resize_q75_h2_box_3.webp"
+        title="DNSLink Web"
+         height="360"
+         width="832"
+        loading="lazy"
+    /></p>
 <p>详细文档见：<a href="https://docs.ipfs.io/concepts/dnslink/#publish-using-a-subdomain" target="_blank" rel="noopener noreffer" class="post-link">IPFS文档：DNSLink</a></p>
 <h3 id="更新内容"><a href="#更新内容" class="header-mark headerLink">更新内容</a></h3>
 <p>更新内容时，只需要再添加一次，然后重新发布IPNS，如果你是使用DNSLink的方式，还需要修改DNS记录</p>
@@ -710,7 +942,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/ipfs-applications-diagram_hu19aac670f6e619937c2c8cad6ce6f536_739482_2707x1227_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/ipfs-applications-diagram_hu19aac670f6e619937c2c8cad6ce6f536_739482_2707x1227_resize_q75_h2_box_3.webp"
+        title="基于IPFS的应用"
+         height="1227"
+         width="2707"
+        loading="lazy"
+    /></p>
 <h2 id="filecoin"><a href="#filecoin" class="header-mark headerLink">Filecoin</a></h2>
 <p>
 
@@ -723,7 +963,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/ipfs/filecoin_hu59116c23b2200775e35574249313ea8b_277953_1088x756_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/ipfs/filecoin_hu59116c23b2200775e35574249313ea8b_277953_1088x756_resize_q75_h2_box_3.webp"
+        title="Filecoin"
+         height="756"
+         width="1088"
+        loading="lazy"
+    /></p>
 <h2 id="基于ipfs构建应用"><a href="#基于ipfs构建应用" class="header-mark headerLink">基于IPFS构建应用</a></h2>
 <p>IPFS提供了IPFS协议的<strong>Golang</strong>和<strong>JavaScript</strong>实现，可以非常方便的将IPFS集成到我们的应用当中，充分利用IPFS的各种优势。</p>
 <h2 id="未来的期望"><a href="#未来的期望" class="header-mark headerLink">未来的期望</a></h2>

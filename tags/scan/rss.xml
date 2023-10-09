@@ -18,7 +18,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/security/web-security/scan-hikvision-weak-password/shodan1_huc8b6d80391da224793bebff5e1b659db_205167_1387x890_resize_q75_h2_box_3.webp"
+        alt="/posts/security/web-security/scan-hikvision-weak-password/shodan1_huc8b6d80391da224793bebff5e1b659db_205167_1387x890_resize_q75_h2_box_3.webp"
+        title="最新的搜索结果"
+         height="890"
+         width="1387"
+        loading="lazy"
+    /></p>
 <p>在我写这篇博客的时候搜索到的数据有18万条，前段时间我下载数据的时候是19万条。</p>
 <p>下载大量数据是需要花credit的，1credit可以下载1万条数据，所以19万多的数据花费了我20credit，正常情况下20credit是49刀，这次黑五真是太实惠了</p>
 <h2 id="提取有用信息"><a href="#提取有用信息" class="header-mark headerLink">提取有用信息</a></h2>
@@ -103,7 +111,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/security/web-security/scan-hikvision-weak-password/baseauth_hu30d0875aedaeff9c7cb8d956948ad5b2_45681_807x451_resize_q75_h2_box_3.webp"
+        alt="/posts/security/web-security/scan-hikvision-weak-password/baseauth_hu30d0875aedaeff9c7cb8d956948ad5b2_45681_807x451_resize_q75_h2_box_3.webp"
+        title="登录使用的接口和验证方式"
+         height="451"
+         width="807"
+        loading="lazy"
+    /></p>
 <p>分析发现登录使用的是base auth，这就简单了。使用的接口是userCheck，如果登录成功应该返回200.</p>
 <p>
 
@@ -116,7 +132,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/security/web-security/scan-hikvision-weak-password/authsuccess_hubdc0d5b2408351270f3bc90cf653b9b7_29881_579x396_resize_q75_h2_box_3.webp"
+        alt="/posts/security/web-security/scan-hikvision-weak-password/authsuccess_hubdc0d5b2408351270f3bc90cf653b9b7_29881_579x396_resize_q75_h2_box_3.webp"
+        title="登录成功"
+         height="396"
+         width="579"
+        loading="lazy"
+    /></p>
 <div class="highlight"><div class="chroma">
 <div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1

@@ -23,7 +23,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/env_hu1b339cdcef088ba71c0e08c5bd4346ed_9406_526x161_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/env_hu1b339cdcef088ba71c0e08c5bd4346ed_9406_526x161_resize_q75_h2_box_3.webp"
+        title="环境变量PATH"
+         height="161"
+         width="526"
+        loading="lazy"
+    /></p>
 <h2 id="编译-openssl-静态链接库"><a href="#编译-openssl-静态链接库" class="header-mark headerLink">编译 openssl 静态链接库</a></h2>
 <h3 id="初始化环境"><a href="#初始化环境" class="header-mark headerLink">初始化环境</a></h3>
 <p>使用visual studio自带的命令提示工具初始化环境，因为需要使用nmake</p>
@@ -38,7 +46,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/vs1_hu69c0279074ebca3855950d2a6e40bda3_363283_306x296_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/vs1_hu69c0279074ebca3855950d2a6e40bda3_363283_306x296_resize_q75_h2_box_3.webp"
+        title="tool"
+         height="296"
+         width="306"
+        loading="lazy"
+    /></p>
 <p>
 
 
@@ -50,7 +66,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/vs2_huec5bcc4756c6ba8aa94a769c68107934_8156_560x171_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/vs2_huec5bcc4756c6ba8aa94a769c68107934_8156_560x171_resize_q75_h2_box_3.webp"
+        title="tool"
+         height="171"
+         width="560"
+        loading="lazy"
+    /></p>
 <h3 id="生成编译配置文件"><a href="#生成编译配置文件" class="header-mark headerLink">生成编译配置文件</a></h3>
 <p>cd进入openssl源码目录</p>
 <p>执行 <code>perl Configure VC-WIN64A no-asm no-shared --prefix=&quot;D:\Project\opensslwork\openssl\build&quot; --openssldir=&quot;D:\Project\opensslwork\openssl\build\ssl&quot;</code></p>
@@ -79,7 +103,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/build1_hu019cf07ffb320f505a901e8f9e7586b0_14981_651x189_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/build1_hu019cf07ffb320f505a901e8f9e7586b0_14981_651x189_resize_q75_h2_box_3.webp"
+        title="dir"
+         height="189"
+         width="651"
+        loading="lazy"
+    /></p>
 <p>
 
 
@@ -91,7 +123,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/build2_hudeaca1bd4f1a08f445bfebd53c3ef518_57314_155x92_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/build2_hudeaca1bd4f1a08f445bfebd53c3ef518_57314_155x92_resize_q75_h2_box_3.webp"
+        title="lib"
+         height="92"
+         width="155"
+        loading="lazy"
+    /></p>
 <h2 id="使用openssl的api进行编程"><a href="#使用openssl的api进行编程" class="header-mark headerLink">使用openssl的api进行编程</a></h2>
 <h3 id="visual-studio项目配置"><a href="#visual-studio项目配置" class="header-mark headerLink">visual studio项目配置</a></h3>
 <p>vs创建空项目，然后配置头文件和库文件的路径</p>
@@ -108,7 +148,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/vsw1_hu175bf96b41aac86de79120bd8ed4b83a_26183_783x241_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/vsw1_hu175bf96b41aac86de79120bd8ed4b83a_26183_783x241_resize_q75_h2_box_3.webp"
+        title="lib"
+         height="241"
+         width="783"
+        loading="lazy"
+    /></p>
 <p><code>链接器</code> 里面的 <code>输入</code> 的 <code>附加依赖项</code> 添加 静态库名，<code>libcrypto.lib;libssl.lib;</code></p>
 <blockquote>
 <p>注意：在使用openssl的静态链接库时，除了添加 <code>libcrypto.lib;libssl.lib;</code>，还需要添加系统的依赖库：<code>crypt32.lib;WS2_32.lib;</code>， 因为openssl在windows平台使用了这些库。
@@ -314,7 +362,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/run1_hu1ebefd56625b0904e9af14ded86be8e5_16611_1110x118_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/run1_hu1ebefd56625b0904e9af14ded86be8e5_16611_1110x118_resize_q75_h2_box_3.webp"
+        title="运行截图"
+         height="118"
+         width="1110"
+        loading="lazy"
+    /></p>
 <h3 id="生成的私钥文件"><a href="#生成的私钥文件" class="header-mark headerLink">生成的私钥文件</a></h3>
 <p>
 
@@ -327,7 +383,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/key1_hufd17b09baea8e971a6b50544cb114dcc_29346_620x273_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/key1_hufd17b09baea8e971a6b50544cb114dcc_29346_620x273_resize_q75_h2_box_3.webp"
+        title="私钥"
+         height="273"
+         width="620"
+        loading="lazy"
+    /></p>
 <h3 id="生成的公钥文件"><a href="#生成的公钥文件" class="header-mark headerLink">生成的公钥文件</a></h3>
 <p>
 
@@ -340,5 +404,13 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/key2_hu77fcc465899aaf9c3e0be57f84e56c55_11897_643x163_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/key2_hu77fcc465899aaf9c3e0be57f84e56c55_11897_643x163_resize_q75_h2_box_3.webp"
+        title="公钥"
+         height="163"
+         width="643"
+        loading="lazy"
+    /></p>
 ]]></description></item></channel></rss>

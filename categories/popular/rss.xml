@@ -33,7 +33,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/fediverse/mastodon_pixelfed_hu52eac44f8e02f5abb2301fade121986a_123532_1328x646_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/fediverse/mastodon_pixelfed_hu52eac44f8e02f5abb2301fade121986a_123532_1328x646_resize_q75_h2_box_3.webp"
+        title="Pixelfed 账号关注 Mastodon 账号"
+         height="646"
+         width="1328"
+        loading="lazy"
+    /></p>
 <p>但是我在 Pixelfed 发布的内容，从 Mastodon 却无法看到，这说明两个应用虽然都使用 ActivityPub 协议，但是其在内容封装方面有自己专属的子协议，这些子协议之间并不互相兼容，只有那些公共的兼容的协议才能跨应用使用，例如账户信息、关注这类。</p>
 <p>同时我还尝试使用 Mastodon 查看 Lemmy 的用户，可以看到用户信息，发布的部分内容可以看到，有一些出入，说明这两者之间也是有不兼容的地方。</p>
 <p>
@@ -47,7 +55,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/p2p/fediverse/mastodon_lemmy_hu3d786cdeffe43d68657c9af44c7cff39_1770398_3321x2093_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/p2p/fediverse/mastodon_lemmy_hu3d786cdeffe43d68657c9af44c7cff39_1770398_3321x2093_resize_q75_h2_box_3.webp"
+        title="Mastodon 查看 Lemmy 用户"
+         height="2093"
+         width="3321"
+        loading="lazy"
+    /></p>
 <p>通过 Lemmy 的 issue 和 PR 列表我看到 Lemmy 正在做与 Mastodon 的兼容工作，这很伟大，支持！</p>
 <p>同时，一位 GitHub 的员工开发了一个有意思的东西，<a href="https://github.com/davecheney/pub" target="_blank" rel="noopener noreffer" class="post-link">ActivityPub to Mastodon bridge</a>。pub 的目的不是托管 ActivityPub 社区，而是旨在使拥有自己域并因此控制其身份的人能够参与 Fediverse，这意味着你无需搭建 Mastodon 就可以用自己的域名加入到 Mastodon 联邦中了，这就很方便了，轻量好用啊。</p>
 <h2 id="mastodon-性能问题"><a href="#mastodon-性能问题" class="header-mark headerLink">Mastodon 性能问题</a></h2>

@@ -36,7 +36,14 @@
             data-sub-html="<h2>AddressSanitizer 正常输出</h2><p>AddressSanitizer 正常输出</p>"
         
         >
-        
+        <img
+            
+            src="/posts/linux/large-nofile-cause-asan-stuck/asan_normal_works_hu843adcb9f4c3ef501072e5b1b984d972_142890_1243x1001_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/asan_normal_works_hu843adcb9f4c3ef501072e5b1b984d972_142890_1243x1001_resize_q75_h2_box_3.webp"
+             height="1001"
+             width="1243"
+            loading="lazy"
+        />
     </a><figcaption class="image-caption">AddressSanitizer 正常输出</figcaption>
     </figure></p>
 <p>而这在我的 Docker 容器中就会卡住，通过 <code>top</code> 命令可以看到一个子进程占满一个 CPU 核心：</p>
@@ -59,7 +66,14 @@
             data-sub-html="<h2>卡住的情况</h2><p>卡住的情况</p>"
         
         >
-        
+        <img
+            
+            src="/posts/linux/large-nofile-cause-asan-stuck/asan_stuck_hu6ff1142a74841c83d7167d84a2641030_34280_947x278_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/asan_stuck_hu6ff1142a74841c83d7167d84a2641030_34280_947x278_resize_q75_h2_box_3.webp"
+             height="278"
+             width="947"
+            loading="lazy"
+        />
     </a><figcaption class="image-caption">卡住的情况</figcaption>
     </figure></p>
 <p>我一开始以为程序就这样进入死循环了，谁知道等了几分钟竟然也输出了结果。</p>
@@ -83,7 +97,14 @@
             data-sub-html="<h2>关闭 symbolize 可以顺利输出</h2><p>关闭 symbolize 可以顺利输出</p>"
         
         >
-        
+        <img
+            
+            src="/posts/linux/large-nofile-cause-asan-stuck/asan_options_symbolize_off_huad9cb65d0ed5337ff5eff9c1267928d2_70146_1247x311_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/asan_options_symbolize_off_huad9cb65d0ed5337ff5eff9c1267928d2_70146_1247x311_resize_q75_h2_box_3.webp"
+             height="311"
+             width="1247"
+            loading="lazy"
+        />
     </a><figcaption class="image-caption">关闭 symbolize 可以顺利输出</figcaption>
     </figure></p>
 <p>一开始我以为是符号解析器出 bug 了，尝试切换符号解析器，将默认的 <code>llvm-symbolizer</code> 替换成 GNU <code>addr2line</code>。</p>
@@ -107,7 +128,14 @@
             data-sub-html="<h2>addr2line 仍然会卡住</h2><p>addr2line 仍然会卡住</p>"
         
         >
-        
+        <img
+            
+            src="/posts/linux/large-nofile-cause-asan-stuck/addr2line_also_stuck_hu8684916663b9aea2101a5b0c731c9e79_37682_915x265_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/addr2line_also_stuck_hu8684916663b9aea2101a5b0c731c9e79_37682_915x265_resize_q75_h2_box_3.webp"
+             height="265"
+             width="915"
+            loading="lazy"
+        />
     </a><figcaption class="image-caption">addr2line 仍然会卡住</figcaption>
     </figure></p>
 <p>仍然卡住，于是我怀疑不是 <code>llvm-symbolizer</code> 的问题，感觉有可能是系统内核的问题，或者因为最新版 Docker 与内核冲突了？具体也不清楚，反正没有头绪。</p>
@@ -132,7 +160,14 @@
             data-sub-html="<h2>strace 发现卡 read 系统调用</h2><p>strace 发现卡 read 系统调用</p>"
         
         >
-        
+        <img
+            
+            src="/posts/linux/large-nofile-cause-asan-stuck/strace_stuck_in_read_hucfed7316ff0b1fed3a9a63b776d472d2_56014_907x471_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/strace_stuck_in_read_hucfed7316ff0b1fed3a9a63b776d472d2_56014_907x471_resize_q75_h2_box_3.webp"
+             height="471"
+             width="907"
+            loading="lazy"
+        />
     </a><figcaption class="image-caption">strace 发现卡 read 系统调用</figcaption>
     </figure></p>
 <p>这里可以看到 AddressSanitizer 通过 fork 子进程，然后通过 pipe 的方式与子进程通讯，写 <code>CODE &quot;binary_path&quot; offset\n</code> 来请求查询 <code>binary</code> 的 <code>offset</code> 位置对应的符号信息，如果查询成功会返回源代码、行号、函数名等符号信息。</p>
@@ -159,7 +194,14 @@
             data-sub-html="<h2>打印调用栈</h2><p>打印调用栈</p>"
         
         >
-        
+        <img
+            
+            src="/posts/linux/large-nofile-cause-asan-stuck/cat_stack_hu91b90d96476c14248a3c1870987a44bd_56594_1253x302_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/cat_stack_hu91b90d96476c14248a3c1870987a44bd_56594_1253x302_resize_q75_h2_box_3.webp"
+             height="302"
+             width="1253"
+            loading="lazy"
+        />
     </a><figcaption class="image-caption">打印调用栈</figcaption>
     </figure></p>
 <p>然后根据网友 <a href="https://twitter.com/JXQNHZr1yUAj5Be/status/1668684560195010561" target="_blank" rel="noopener noreffer" class="post-link">Ningcong Chen 回复</a> 的一个历史 issue，我尝试用 gdb 来附加阻塞进程。（我之前考虑过给占用 100% 的进程做 profile，看看到底是什么行为占满 CPU，但考虑 AddressSanitizer 是 clang 注入的，不清楚好不好做，于是就没做）</p>
@@ -182,7 +224,14 @@
             data-sub-html="<h2>附加主进程</h2><p>附加主进程</p>"
         
         >
-        
+        <img
+            
+            src="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_1_hu5fd188a493f98ec7189955c1da6cca08_6245292_2503x830_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_1_hu5fd188a493f98ec7189955c1da6cca08_6245292_2503x830_resize_q75_h2_box_3.webp"
+             height="830"
+             width="2503"
+            loading="lazy"
+        />
     </a><figcaption class="image-caption">附加主进程</figcaption>
     </figure></p>
 <p>附加主进程后，发现卡在 <code>internal_read</code>，推测是子进程没有返回。</p>
@@ -205,7 +254,14 @@
             data-sub-html="<h2>附加子进程</h2><p>附加子进程</p>"
         
         >
-        
+        <img
+            
+            src="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_2_hu6d0f57975e98a16e3a64039d6dd5528d_257129_2384x791_resize_q75_h2_box_3.webp"
+            alt="/posts/linux/large-nofile-cause-asan-stuck/gdb_attach_2_hu6d0f57975e98a16e3a64039d6dd5528d_257129_2384x791_resize_q75_h2_box_3.webp"
+             height="791"
+             width="2384"
+            loading="lazy"
+        />
     </a><figcaption class="image-caption">附加子进程</figcaption>
     </figure></p>
 <p>附加子进程，发现卡在一个 for 循环上，通过调用栈信息，从 GitHub 上下载了源码，开始分析原因。</p>
@@ -356,7 +412,14 @@
             data-sub-html="<h2>庞大的枚举类型</h2><p>庞大的枚举类型</p>"
         
         >
-        
+        <img
+            
+            src="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
+            alt="/posts/coding/i-love-rust-proc_macro/enum_variants_count_hu370b5981cebfdca4f541bcf123030a54_16393_559x163_resize_q75_h2_box_3.webp"
+             height="163"
+             width="559"
+            loading="lazy"
+        />
     </a><figcaption class="image-caption">庞大的枚举类型</figcaption>
     </figure></p>
 <p>我非常讨厌这种简单却繁重的工作的，我想到了 Rust 过程宏。</p>
@@ -846,7 +909,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/deploy-blog-to-cf-workers-site/cf-dns_hu3529eee56912ee733c6785e8e28d1194_11315_1016x180_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/deploy-blog-to-cf-workers-site/cf-dns_hu3529eee56912ee733c6785e8e28d1194_11315_1016x180_resize_q75_h2_box_3.webp"
+        title="DNS记录"
+         height="180"
+         width="1016"
+        loading="lazy"
+    /></p>
 <p>执行下面命令进行部署</p>
 <div class="highlight"><div class="chroma">
 <div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
@@ -871,7 +942,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/deploy-blog-to-cf-workers-site/token_hue7d26e74b9bd0c0f9cb15f0ae4145e4d_11887_561x246_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/deploy-blog-to-cf-workers-site/token_hue7d26e74b9bd0c0f9cb15f0ae4145e4d_11887_561x246_resize_q75_h2_box_3.webp"
+        title="CF_API_TOKEN"
+         height="246"
+         width="561"
+        loading="lazy"
+    /></p>
 <h3 id="workflows"><a href="#workflows" class="header-mark headerLink">Workflows</a></h3>
 <div class="highlight"><div class="chroma">
 <div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
@@ -994,7 +1073,7 @@
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="使用说明"><a href="#使用说明" class="header-mark headerLink">使用说明</a></h2>
-<p><a href="https://asciinema.org/a/RFVaZ3Pwy0Qbr27msFcDYhwcD" target="_blank"></a></p>
+<p><a href="https://asciinema.org/a/RFVaZ3Pwy0Qbr27msFcDYhwcD" target="_blank"><img width="520" src="https://asciinema.org/a/RFVaZ3Pwy0Qbr27msFcDYhwcD.svg" /></a></p>
 <h3 id="查询一个ip的地理信息"><a href="#查询一个ip的地理信息" class="header-mark headerLink">查询一个IP的地理信息</a></h3>
 <div class="highlight"><div class="chroma">
 <div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
@@ -1960,7 +2039,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/mobaxterm-socks-http_hu2434e69cd396426c81d1f9066cef02df_24230_886x288_resize_q75_h2_box.webp"
+        alt="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/mobaxterm-socks-http_hu2434e69cd396426c81d1f9066cef02df_24230_886x288_resize_q75_h2_box.webp"
+        title="给连接设置代理"
+         height="288"
+         width="886"
+        loading="lazy"
+    /></p>
 <p>但是这种方法有两大劣势：</p>
 <ol>
 <li>如果科学上网服务器不稳定经常断流就会导致ssh连接断开</li>
@@ -1985,7 +2072,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/position_hu6be109780381ed04b04a6e97e67bd64b_17823_726x386_resize_q75_h2_box.webp"
+        alt="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/position_hu6be109780381ed04b04a6e97e67bd64b_17823_726x386_resize_q75_h2_box.webp"
+        title="多个出口位置"
+         height="386"
+         width="726"
+        loading="lazy"
+    /></p>
 <p>创建之后会提供一个域名，可以将自己的域名CNAME解析到提供的域名上方便记忆，UCLOUD可以准确识别到是访问哪一台服务器</p>
 <p>在我们使用的客户端上只需要用提供的加速域名和原服务端口号就可以了</p>
 <h2 id="注意事项"><a href="#注意事项" class="header-mark headerLink">注意事项</a></h2>
@@ -2836,7 +2931,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws_hu3ef593c49c38b219c8ad81d87e0684e1_14895_466x393_resize_q75_h2_box_3.webp"
+        alt="/posts/security/web-security/mysql-concat-concat-ws-group-concat/concat_ws_hu3ef593c49c38b219c8ad81d87e0684e1_14895_466x393_resize_q75_h2_box_3.webp"
+        title="concat_ws"
+         height="393"
+         width="466"
+        loading="lazy"
+    /></p>
 <h3 id="group_concat"><a href="#group_concat" class="header-mark headerLink">group_concat</a></h3>
 <p><a href="http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php" target="_blank" rel="noopener noreffer" class="post-link">http://www.w3resource.com/mysql/aggregate-functions-and-grouping/aggregate-functions-and-grouping-group_concat.php</a></p>
 <p>
@@ -2845,7 +2948,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
 
 
     
-</p>
+<img
+        
+        src="group_concat.gif"
+        alt="group_concat.gif"
+        title="group_concat"
+        
+        
+        loading="lazy"
+    /></p>
 ]]></description></item><item><title>使用GitHub Actions对Hexo博客自动部署</title><link>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</link><pubDate>Sat, 21 Mar 2020 09:24:56 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/use-github-actions-to-auto-deploy-hexo/</guid><description><![CDATA[<h2 id="前言"><a href="#前言" class="header-mark headerLink">前言</a></h2>
 <p>很多同学和我一样也在用Hexo搭建自己的博客，通常最后发布的操作是 <code>hexo g</code> 生成静态网页，然后 <code>hexo d</code> 将public目录推送到github、coding、gitee等平台。</p>
 <p>但是很多时候我们都想偷个懒，只管写博客，写完后将git 一 push，后面的生成部署工作让程序自动完成，github actions为我们提供了这个便利。</p>
@@ -2863,7 +2974,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/use-github-actions-to-auto-deploy-hexo/github1_hu821b724baab64595bec1d52d0e152e34_14519_1002x195_resize_q75_h2_box.webp"
+        alt="/posts/coding/use-github-actions-to-auto-deploy-hexo/github1_hu821b724baab64595bec1d52d0e152e34_14519_1002x195_resize_q75_h2_box.webp"
+        title="actions"
+         height="195"
+         width="1002"
+        loading="lazy"
+    /></p>
 <p>这里我的部署工作稍微复杂点，所以选择自己编写工作流配置文件。</p>
 <p>在手动编写面板的右侧可以搜索别人写好的各种actions，方便我们使用这些actions配置一些基本的工作</p>
 <p>
@@ -2877,7 +2996,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/use-github-actions-to-auto-deploy-hexo/action-mark_hu925ffbb4b9371740e53af886c774f0b2_41634_609x725_resize_q75_h2_box.webp"
+        alt="/posts/coding/use-github-actions-to-auto-deploy-hexo/action-mark_hu925ffbb4b9371740e53af886c774f0b2_41634_609x725_resize_q75_h2_box.webp"
+        title="marketplace"
+         height="725"
+         width="609"
+        loading="lazy"
+    /></p>
 <p>当然，也可以选择在 hexo 根目录下创建 <code>.github/workflows</code> 目录，并在里面编写github actions配置文件的方法来开启这个功能。</p>
 <h3 id="基本部署"><a href="#基本部署" class="header-mark headerLink">基本部署</a></h3>
 <p>首先我们需要将git库的代码检出到github actions提供的容器中，这里使用github提供的checkout步骤</p>
@@ -3329,7 +3456,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/head_huda3a611fef04e94998c80128d5498932_41474_856x388_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/head_huda3a611fef04e94998c80128d5498932_41474_856x388_resize_q75_h2_box.webp"
+        title="css"
+         height="388"
+         width="856"
+        loading="lazy"
+    /></p>
 <p>还有一些其他地方的 css 引入</p>
 <p>
 
@@ -3342,7 +3477,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/css2_hu68782f409f41f41337cab4c160668330_19406_903x137_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/css2_hu68782f409f41f41337cab4c160668330_19406_903x137_resize_q75_h2_box.webp"
+        title="style"
+         height="137"
+         width="903"
+        loading="lazy"
+    /></p>
 <h4 id="js-脚本"><a href="#js-脚本" class="header-mark headerLink">js 脚本</a></h4>
 <p>寻找并替换各种调用到的 js 脚本</p>
 <p>
@@ -3356,7 +3499,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/js1_hu3c3cc72f09a05a553832e5c2106ee980_35532_1064x241_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/js1_hu3c3cc72f09a05a553832e5c2106ee980_35532_1064x241_resize_q75_h2_box.webp"
+        title="style"
+         height="241"
+         width="1064"
+        loading="lazy"
+    /></p>
 <p>main.js</p>
 <p>
 
@@ -3369,7 +3520,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/js2_huc8248fa0d769270c438275256b4c01ee_11115_926x81_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/js2_huc8248fa0d769270c438275256b4c01ee_11115_926x81_resize_q75_h2_box.webp"
+        title="style"
+         height="81"
+         width="926"
+        loading="lazy"
+    /></p>
 <p>disqusjs.js</p>
 <p>
 
@@ -3382,7 +3541,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/js3_hue3b4a34d93726da7ebc561dbe3f465a5_15629_1003x98_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/js3_hue3b4a34d93726da7ebc561dbe3f465a5_15629_1003x98_resize_q75_h2_box.webp"
+        title="style"
+         height="98"
+         width="1003"
+        loading="lazy"
+    /></p>
 <p>还有其他的一些地方，不一一列举了</p>
 <h4 id="字体"><a href="#字体" class="header-mark headerLink">字体</a></h4>
 <p>字体需要特别注意，通常情况下比较大，耗时比较长</p>
@@ -3397,7 +3564,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/font1_hua1f943f9d9ed6f4fc24165b7515c18b7_16884_219x428_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/font1_hua1f943f9d9ed6f4fc24165b7515c18b7_16884_219x428_resize_q75_h2_box.webp"
+        title="replace"
+         height="428"
+         width="219"
+        loading="lazy"
+    /></p>
 <p>我使用的主题使用的字体通过 <code>all.min.css</code> 引入，因为前面这个 css 样式已经通过 jsDelivr 导入，里面的字体使用的是相对链接，所以字体默认也是通过 jsDelivr 引入了</p>
 <h4 id="img-小图片"><a href="#img-小图片" class="header-mark headerLink">img 小图片</a></h4>
 <p>一般是 logo 等资源，根据主题自行替换</p>
@@ -3455,7 +3630,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/font-swap_hu75f569e462757ed26111cf3470ce8d7f_12458_793x143_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/font-swap_hu75f569e462757ed26111cf3470ce8d7f_12458_793x143_resize_q75_h2_box.webp"
+        title="display"
+         height="143"
+         width="793"
+        loading="lazy"
+    /></p>
 <p>每一个地方都需要改，自己搜索吧</p>
 <h2 id="使用-disqusjs"><a href="#使用-disqusjs" class="header-mark headerLink">使用 DisqusJS</a></h2>
 <p>由于众所周知的原因，disqus 被墙了，国内访问不了，而大部分 hexo 网站都使用 disqus 作为评论系统，这导致网页会卡在评论区的加载上，虽然网页已经加载完了，但进度条还在进行，给用户带来慢的感觉。</p>
@@ -3644,7 +3827,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/linux/ubuntu-iptables-nat/ubuntuvm_hud434d12cf95ba8059a71adbe8877d0e5_19615_721x396_resize_q75_h2_box_3.webp"
+        alt="/posts/linux/ubuntu-iptables-nat/ubuntuvm_hud434d12cf95ba8059a71adbe8877d0e5_19615_721x396_resize_q75_h2_box_3.webp"
+        title="win7"
+         height="396"
+         width="721"
+        loading="lazy"
+    /></p>
 <h3 id="win7"><a href="#win7" class="header-mark headerLink">win7</a></h3>
 <p>充当内网客户机</p>
 <p>网卡：vmnet15</p>
@@ -3662,7 +3853,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/linux/ubuntu-iptables-nat/win7vm_hu45a1ac92f61f87be9ca3edfa90f8ddf5_18844_702x379_resize_q75_h2_box_3.webp"
+        alt="/posts/linux/ubuntu-iptables-nat/win7vm_hu45a1ac92f61f87be9ca3edfa90f8ddf5_18844_702x379_resize_q75_h2_box_3.webp"
+        title="win7"
+         height="379"
+         width="702"
+        loading="lazy"
+    /></p>
 <h2 id="ubuntu-配置"><a href="#ubuntu-配置" class="header-mark headerLink">ubuntu 配置</a></h2>
 <h3 id="开启ipv4-forward"><a href="#开启ipv4-forward" class="header-mark headerLink">开启ipv4 forward</a></h3>
 <p>修改 <code>/etc/sysctl.conf</code> 开启ipv4的forward功能，将下面的注释打开，如果没有手动添加。</p>
@@ -3677,7 +3876,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/linux/ubuntu-iptables-nat/ipv4forward_hub479f7817a930c92e9a8b330035e6521_7231_736x150_resize_q75_h2_box_3.webp"
+        alt="/posts/linux/ubuntu-iptables-nat/ipv4forward_hub479f7817a930c92e9a8b330035e6521_7231_736x150_resize_q75_h2_box_3.webp"
+        title="forward"
+         height="150"
+         width="736"
+        loading="lazy"
+    /></p>
 <p><code>sysctl -p</code> 生效</p>
 <h3 id="配置网卡信息"><a href="#配置网卡信息" class="header-mark headerLink">配置网卡信息</a></h3>
 <p><code>ip addr</code> 查看所有网卡的名称和信息</p>
@@ -3694,7 +3901,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/linux/ubuntu-iptables-nat/ubuntu-net_huf1653534e9c6e3b4a4ab229b48c8e6f7_19047_711x369_resize_q75_h2_box_3.webp"
+        alt="/posts/linux/ubuntu-iptables-nat/ubuntu-net_huf1653534e9c6e3b4a4ab229b48c8e6f7_19047_711x369_resize_q75_h2_box_3.webp"
+        title="net"
+         height="369"
+         width="711"
+        loading="lazy"
+    /></p>
 <p>使用 <code>netplan try</code> 检查配置是否正确，如果正确自动应用生效</p>
 <h3 id="配置iptables规则"><a href="#配置iptables规则" class="header-mark headerLink">配置iptables规则</a></h3>
 <div class="highlight"><div class="chroma">
@@ -3742,7 +3957,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/linux/ubuntu-iptables-nat/win7_hu10f4d9a4f6c13bf621a2dce366ffe3f6_83174_986x622_resize_q75_h2_box_3.webp"
+        alt="/posts/linux/ubuntu-iptables-nat/win7_hu10f4d9a4f6c13bf621a2dce366ffe3f6_83174_986x622_resize_q75_h2_box_3.webp"
+        title="win7"
+         height="622"
+         width="986"
+        loading="lazy"
+    /></p>
 <p>win7即可通过ubuntu这个网关上网</p>
 ]]></description></item><item><title>静态链接OpenSSL进行RSA\MD5\Base64</title><link>https://zu1k.com/posts/coding/openssl-first-try-rsa-md5-base64/</link><pubDate>Wed, 18 Mar 2020 12:50:10 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/coding/openssl-first-try-rsa-md5-base64/</guid><description><![CDATA[<h2 id="简介"><a href="#简介" class="header-mark headerLink">简介</a></h2>
 <p>目标平台： Windows 10 amd64</p>
@@ -3769,7 +3992,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/env_hu1b339cdcef088ba71c0e08c5bd4346ed_9406_526x161_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/env_hu1b339cdcef088ba71c0e08c5bd4346ed_9406_526x161_resize_q75_h2_box_3.webp"
+        title="环境变量PATH"
+         height="161"
+         width="526"
+        loading="lazy"
+    /></p>
 <h2 id="编译-openssl-静态链接库"><a href="#编译-openssl-静态链接库" class="header-mark headerLink">编译 openssl 静态链接库</a></h2>
 <h3 id="初始化环境"><a href="#初始化环境" class="header-mark headerLink">初始化环境</a></h3>
 <p>使用visual studio自带的命令提示工具初始化环境，因为需要使用nmake</p>
@@ -3784,7 +4015,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/vs1_hu69c0279074ebca3855950d2a6e40bda3_363283_306x296_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/vs1_hu69c0279074ebca3855950d2a6e40bda3_363283_306x296_resize_q75_h2_box_3.webp"
+        title="tool"
+         height="296"
+         width="306"
+        loading="lazy"
+    /></p>
 <p>
 
 
@@ -3796,7 +4035,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/vs2_huec5bcc4756c6ba8aa94a769c68107934_8156_560x171_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/vs2_huec5bcc4756c6ba8aa94a769c68107934_8156_560x171_resize_q75_h2_box_3.webp"
+        title="tool"
+         height="171"
+         width="560"
+        loading="lazy"
+    /></p>
 <h3 id="生成编译配置文件"><a href="#生成编译配置文件" class="header-mark headerLink">生成编译配置文件</a></h3>
 <p>cd进入openssl源码目录</p>
 <p>执行 <code>perl Configure VC-WIN64A no-asm no-shared --prefix=&quot;D:\Project\opensslwork\openssl\build&quot; --openssldir=&quot;D:\Project\opensslwork\openssl\build\ssl&quot;</code></p>
@@ -3825,7 +4072,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/build1_hu019cf07ffb320f505a901e8f9e7586b0_14981_651x189_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/build1_hu019cf07ffb320f505a901e8f9e7586b0_14981_651x189_resize_q75_h2_box_3.webp"
+        title="dir"
+         height="189"
+         width="651"
+        loading="lazy"
+    /></p>
 <p>
 
 
@@ -3837,7 +4092,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/build2_hudeaca1bd4f1a08f445bfebd53c3ef518_57314_155x92_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/build2_hudeaca1bd4f1a08f445bfebd53c3ef518_57314_155x92_resize_q75_h2_box_3.webp"
+        title="lib"
+         height="92"
+         width="155"
+        loading="lazy"
+    /></p>
 <h2 id="使用openssl的api进行编程"><a href="#使用openssl的api进行编程" class="header-mark headerLink">使用openssl的api进行编程</a></h2>
 <h3 id="visual-studio项目配置"><a href="#visual-studio项目配置" class="header-mark headerLink">visual studio项目配置</a></h3>
 <p>vs创建空项目，然后配置头文件和库文件的路径</p>
@@ -3854,7 +4117,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/vsw1_hu175bf96b41aac86de79120bd8ed4b83a_26183_783x241_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/vsw1_hu175bf96b41aac86de79120bd8ed4b83a_26183_783x241_resize_q75_h2_box_3.webp"
+        title="lib"
+         height="241"
+         width="783"
+        loading="lazy"
+    /></p>
 <p><code>链接器</code> 里面的 <code>输入</code> 的 <code>附加依赖项</code> 添加 静态库名，<code>libcrypto.lib;libssl.lib;</code></p>
 <blockquote>
 <p>注意：在使用openssl的静态链接库时，除了添加 <code>libcrypto.lib;libssl.lib;</code>，还需要添加系统的依赖库：<code>crypt32.lib;WS2_32.lib;</code>， 因为openssl在windows平台使用了这些库。
@@ -4060,7 +4331,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/run1_hu1ebefd56625b0904e9af14ded86be8e5_16611_1110x118_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/run1_hu1ebefd56625b0904e9af14ded86be8e5_16611_1110x118_resize_q75_h2_box_3.webp"
+        title="运行截图"
+         height="118"
+         width="1110"
+        loading="lazy"
+    /></p>
 <h3 id="生成的私钥文件"><a href="#生成的私钥文件" class="header-mark headerLink">生成的私钥文件</a></h3>
 <p>
 
@@ -4073,7 +4352,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/key1_hufd17b09baea8e971a6b50544cb114dcc_29346_620x273_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/key1_hufd17b09baea8e971a6b50544cb114dcc_29346_620x273_resize_q75_h2_box_3.webp"
+        title="私钥"
+         height="273"
+         width="620"
+        loading="lazy"
+    /></p>
 <h3 id="生成的公钥文件"><a href="#生成的公钥文件" class="header-mark headerLink">生成的公钥文件</a></h3>
 <p>
 
@@ -4086,7 +4373,15 @@ Due to that, we cannot deploy the commit e80751b.</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/openssl-first-try-rsa-md5-base64/key2_hu77fcc465899aaf9c3e0be57f84e56c55_11897_643x163_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/openssl-first-try-rsa-md5-base64/key2_hu77fcc465899aaf9c3e0be57f84e56c55_11897_643x163_resize_q75_h2_box_3.webp"
+        title="公钥"
+         height="163"
+         width="643"
+        loading="lazy"
+    /></p>
 ]]></description></item><item><title>编译gcc</title><link>https://zu1k.com/posts/linux/gcc-compile/</link><pubDate>Sat, 28 Dec 2019 21:02:59 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/gcc-compile/</guid><description><![CDATA[<blockquote>
 <p>一直用gcc编译各种东西，第一次研究如何编译gcc
 这就是一个鸡生蛋与蛋生鸡的问题</p>

@@ -19,7 +19,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/mobaxterm-socks-http_hu2434e69cd396426c81d1f9066cef02df_24230_886x288_resize_q75_h2_box.webp"
+        alt="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/mobaxterm-socks-http_hu2434e69cd396426c81d1f9066cef02df_24230_886x288_resize_q75_h2_box.webp"
+        title="给连接设置代理"
+         height="288"
+         width="886"
+        loading="lazy"
+    /></p>
 <p>但是这种方法有两大劣势：</p>
 <ol>
 <li>如果科学上网服务器不稳定经常断流就会导致ssh连接断开</li>
@@ -44,7 +52,15 @@ GlobalSSH版本与功能支持将持续更新，敬请关注。</p>
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/position_hu6be109780381ed04b04a6e97e67bd64b_17823_726x386_resize_q75_h2_box.webp"
+        alt="/posts/coding/use-ucloud-globalssh-to-speedup-server-ssh/position_hu6be109780381ed04b04a6e97e67bd64b_17823_726x386_resize_q75_h2_box.webp"
+        title="多个出口位置"
+         height="386"
+         width="726"
+        loading="lazy"
+    /></p>
 <p>创建之后会提供一个域名，可以将自己的域名CNAME解析到提供的域名上方便记忆，UCLOUD可以准确识别到是访问哪一台服务器</p>
 <p>在我们使用的客户端上只需要用提供的加速域名和原服务端口号就可以了</p>
 <h2 id="注意事项"><a href="#注意事项" class="header-mark headerLink">注意事项</a></h2>

@@ -107,7 +107,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/deploy-blog-to-cf-workers-site/cf-dns_hu3529eee56912ee733c6785e8e28d1194_11315_1016x180_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/deploy-blog-to-cf-workers-site/cf-dns_hu3529eee56912ee733c6785e8e28d1194_11315_1016x180_resize_q75_h2_box_3.webp"
+        title="DNS记录"
+         height="180"
+         width="1016"
+        loading="lazy"
+    /></p>
 <p>执行下面命令进行部署</p>
 <div class="highlight"><div class="chroma">
 <div class="table-wrapper"><table class="lntable"><tr><td class="lntd">
@@ -132,7 +140,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/deploy-blog-to-cf-workers-site/token_hue7d26e74b9bd0c0f9cb15f0ae4145e4d_11887_561x246_resize_q75_h2_box_3.webp"
+        alt="/posts/coding/deploy-blog-to-cf-workers-site/token_hue7d26e74b9bd0c0f9cb15f0ae4145e4d_11887_561x246_resize_q75_h2_box_3.webp"
+        title="CF_API_TOKEN"
+         height="246"
+         width="561"
+        loading="lazy"
+    /></p>
 <h3 id="workflows"><a href="#workflows" class="header-mark headerLink">Workflows</a></h3>
 <div class="highlight"><div class="chroma">
 <div class="table-wrapper"><table class="lntable"><tr><td class="lntd">

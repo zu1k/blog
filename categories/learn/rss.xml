@@ -14,7 +14,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-1_hucb38fa13cf6ecf7070c1168e9599e8f7_17222_600x420_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/how-do-onion-service-work/tor-onion-services-1_hucb38fa13cf6ecf7070c1168e9599e8f7_17222_600x420_resize_q75_h2_box_3.webp"
+        title="第一步"
+         height="420"
+         width="600"
+        loading="lazy"
+    /></p>
 <p>服务端为了不暴漏自己的IP，使用 介绍节点(introduction points) 来转发来自客户端的介绍信</p>
 <p>首先，Bob从 tor中继节点列表 中挑选几个节点来做自己的 介绍节点，然后与它们建立 长连接(long-term circuits)</p>
 <p>这里的长连接是通过tor网络建立起来的，所以是匿名的，介绍节点不会知道Bob的IP</p>
@@ -31,7 +39,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-2_hufc3c4975a073b9fa304048fe3399b2da_19207_600x420_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/how-do-onion-service-work/tor-onion-services-2_hufc3c4975a073b9fa304048fe3399b2da_19207_600x420_resize_q75_h2_box_3.webp"
+        title="第二步"
+         height="420"
+         width="600"
+        loading="lazy"
+    /></p>
 <p>Bob 生成一个 描述信息(onion service descriptor)，里面存储了介绍节点列表，包括介绍节点的ip和相应的身份验证密钥</p>
 <p>然后Bob用自己的私钥对这个消息签名，并将这个消息发布到Tor的DHT中</p>
 <p>经过这步操作，tor客户端便可以通过某个key从DHT中获取到这个消息，从而找到Bob的介绍节点</p>
@@ -47,7 +63,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-3_hu49b94caa109610aa62899a6a11dd3e8a_22213_600x420_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/how-do-onion-service-work/tor-onion-services-3_hu49b94caa109610aa62899a6a11dd3e8a_22213_600x420_resize_q75_h2_box_3.webp"
+        title="第三步"
+         height="420"
+         width="600"
+        loading="lazy"
+    /></p>
 <p>Alice（客户端）从某些途径知道Bob有一个洋葱服务，并且知道这个服务的onion域名，例如 xyz.onion，此时Alice想要访问Bob.</p>
 <p>首先，她向DHT网络请求该域名对应的信息，也就是第二步中Bob发布的那个描述消息</p>
 <p>获取到消息后，Alice对其签名进行验证，验证使用的Bob的公钥其实已经被编码到 xyz.onion 这个域名中了，Alice可以从域名中解码出来</p>
@@ -64,7 +88,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-4_huecc8a34bb5cdc777020f0c12517ab9df_21419_600x420_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/how-do-onion-service-work/tor-onion-services-4_huecc8a34bb5cdc777020f0c12517ab9df_21419_600x420_resize_q75_h2_box_3.webp"
+        title="第四步"
+         height="420"
+         width="600"
+        loading="lazy"
+    /></p>
 <p>Alice从tor中继节点列表中选择一个节点作为 会合节点(rendezvous point)，然后通过tor与该 会合节点(RP) 建立连接</p>
 <p>同时，Alice会给会合节点发送一个 一次性密码(one-time secret)，这个密码会在回合过程中使用</p>
 <h3 id="第五步客户端向服务端介绍自己"><a href="#第五步客户端向服务端介绍自己" class="header-mark headerLink">第五步：客户端向服务端介绍自己</a></h3>
@@ -81,7 +113,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-5_hue1ea1d08fd7f99b1bb6b9067b8f1bd74_22165_600x420_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/how-do-onion-service-work/tor-onion-services-5_hue1ea1d08fd7f99b1bb6b9067b8f1bd74_22165_600x420_resize_q75_h2_box_3.webp"
+        title="第五步"
+         height="420"
+         width="600"
+        loading="lazy"
+    /></p>
 <h3 id="第六步服务端与客户端回合"><a href="#第六步服务端与客户端回合" class="header-mark headerLink">第六步：服务端与客户端回合</a></h3>
 <p>
 
@@ -94,7 +134,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/how-do-onion-service-work/tor-onion-services-6_hucc854f3a9083338604f4698c87d941d9_18018_600x420_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/how-do-onion-service-work/tor-onion-services-6_hucc854f3a9083338604f4698c87d941d9_18018_600x420_resize_q75_h2_box_3.webp"
+        title="第六步"
+         height="420"
+         width="600"
+        loading="lazy"
+    /></p>
 <p>此时Bob已经收到介绍节点转发过来的消息，知道Alice想要访问自己，并且知道了会合节点的信息</p>
 <p>Bob通过Tor网络连接会合节点，然后将收到的一次性密码发送给会合节点，会合节点由此知道 Bob是要与Alice通信，从而可以将Alice与Bob的消息进行中继</p>
 <h2 id="安全性"><a href="#安全性" class="header-mark headerLink">安全性</a></h2>
@@ -226,7 +274,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/maillist/1_hubc3b61169775b1ba4537923cea82e4c9_11751_600x216_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/maillist/1_hubc3b61169775b1ba4537923cea82e4c9_11751_600x216_resize_q75_h2_box_3.webp"
+        title="发送申请邮件"
+         height="216"
+         width="600"
+        loading="lazy"
+    /></p>
 <p>在Google Group中订阅一个邮箱列表可以给 <strong>邮件列表名+subscribe@googlegroups.com</strong> 这个邮箱地址发任意邮件，这里需要注意不能省略加号</p>
 <p>
 
@@ -239,7 +295,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/maillist/2_hueb706f463c72ab7a27edd413dc9c7a6b_38806_808x325_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/maillist/2_hueb706f463c72ab7a27edd413dc9c7a6b_38806_808x325_resize_q75_h2_box_3.webp"
+        title="同意"
+         height="325"
+         width="808"
+        loading="lazy"
+    /></p>
 <p>在发送邮件后就会收到邮件列表的确认邮件，按照提示回复或点击按钮即可成功加入，对于Google Group我们回复<code>confirm</code>进行确定</p>
 <p>然后我们就会收到加入成功的通知，有些列表需要管理员进行审核，等待即可</p>
 <p>
@@ -253,7 +317,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/maillist/3_hua418f79c393f11851835744be3582f7e_34033_766x249_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/maillist/3_hua418f79c393f11851835744be3582f7e_34033_766x249_resize_q75_h2_box_3.webp"
+        title="等待审核"
+         height="249"
+         width="766"
+        loading="lazy"
+    /></p>
 <p>审核通过后也会收到邮件通知</p>
 <p>
 
@@ -266,7 +338,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/maillist/4_hufb0bac66318dd79f53f61a627c8044ef_42611_741x439_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/maillist/4_hufb0bac66318dd79f53f61a627c8044ef_42611_741x439_resize_q75_h2_box_3.webp"
+        title="审核通过"
+         height="439"
+         width="741"
+        loading="lazy"
+    /></p>
 <p>一些其他类型邮箱列表的加入方式可能稍有不同，其中有一部分需要发送主题为 <strong>subscribe</strong> 的邮件才能加入，同时订阅的邮箱地址不是**+subscribe**，而是**-subscribe**，这里是减号</p>
 <blockquote>
 <p>这里介绍的是通用方法，可能与某些邮件列表的方法不符，在尝试加入一个邮件列表之前你需要通过说明页面查看具体的订阅方法</p>

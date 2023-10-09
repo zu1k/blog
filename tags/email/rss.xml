@@ -50,7 +50,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/maillist/1_hubc3b61169775b1ba4537923cea82e4c9_11751_600x216_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/maillist/1_hubc3b61169775b1ba4537923cea82e4c9_11751_600x216_resize_q75_h2_box_3.webp"
+        title="发送申请邮件"
+         height="216"
+         width="600"
+        loading="lazy"
+    /></p>
 <p>在Google Group中订阅一个邮箱列表可以给 <strong>邮件列表名+subscribe@googlegroups.com</strong> 这个邮箱地址发任意邮件，这里需要注意不能省略加号</p>
 <p>
 
@@ -63,7 +71,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/maillist/2_hueb706f463c72ab7a27edd413dc9c7a6b_38806_808x325_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/maillist/2_hueb706f463c72ab7a27edd413dc9c7a6b_38806_808x325_resize_q75_h2_box_3.webp"
+        title="同意"
+         height="325"
+         width="808"
+        loading="lazy"
+    /></p>
 <p>在发送邮件后就会收到邮件列表的确认邮件，按照提示回复或点击按钮即可成功加入，对于Google Group我们回复<code>confirm</code>进行确定</p>
 <p>然后我们就会收到加入成功的通知，有些列表需要管理员进行审核，等待即可</p>
 <p>
@@ -77,7 +93,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/maillist/3_hua418f79c393f11851835744be3582f7e_34033_766x249_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/maillist/3_hua418f79c393f11851835744be3582f7e_34033_766x249_resize_q75_h2_box_3.webp"
+        title="等待审核"
+         height="249"
+         width="766"
+        loading="lazy"
+    /></p>
 <p>审核通过后也会收到邮件通知</p>
 <p>
 
@@ -90,7 +114,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/learn/maillist/4_hufb0bac66318dd79f53f61a627c8044ef_42611_741x439_resize_q75_h2_box_3.webp"
+        alt="/posts/learn/maillist/4_hufb0bac66318dd79f53f61a627c8044ef_42611_741x439_resize_q75_h2_box_3.webp"
+        title="审核通过"
+         height="439"
+         width="741"
+        loading="lazy"
+    /></p>
 <p>一些其他类型邮箱列表的加入方式可能稍有不同，其中有一部分需要发送主题为 <strong>subscribe</strong> 的邮件才能加入，同时订阅的邮箱地址不是**+subscribe**，而是**-subscribe**，这里是减号</p>
 <blockquote>
 <p>这里介绍的是通用方法，可能与某些邮件列表的方法不符，在尝试加入一个邮件列表之前你需要通过说明页面查看具体的订阅方法</p>

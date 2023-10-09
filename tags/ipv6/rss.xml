@@ -13,7 +13,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
+        title="Cloudflare 统计"
+         height="343"
+         width="1045"
+        loading="lazy"
+    /></p>
 <h2 id="教程"><a href="#教程" class="header-mark headerLink">教程</a></h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
 <p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[AFF 链接]</a>.</p>

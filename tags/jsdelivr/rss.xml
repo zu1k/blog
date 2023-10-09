@@ -273,7 +273,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/head_huda3a611fef04e94998c80128d5498932_41474_856x388_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/head_huda3a611fef04e94998c80128d5498932_41474_856x388_resize_q75_h2_box.webp"
+        title="css"
+         height="388"
+         width="856"
+        loading="lazy"
+    /></p>
 <p>还有一些其他地方的 css 引入</p>
 <p>
 
@@ -286,7 +294,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/css2_hu68782f409f41f41337cab4c160668330_19406_903x137_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/css2_hu68782f409f41f41337cab4c160668330_19406_903x137_resize_q75_h2_box.webp"
+        title="style"
+         height="137"
+         width="903"
+        loading="lazy"
+    /></p>
 <h4 id="js-脚本"><a href="#js-脚本" class="header-mark headerLink">js 脚本</a></h4>
 <p>寻找并替换各种调用到的 js 脚本</p>
 <p>
@@ -300,7 +316,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/js1_hu3c3cc72f09a05a553832e5c2106ee980_35532_1064x241_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/js1_hu3c3cc72f09a05a553832e5c2106ee980_35532_1064x241_resize_q75_h2_box.webp"
+        title="style"
+         height="241"
+         width="1064"
+        loading="lazy"
+    /></p>
 <p>main.js</p>
 <p>
 
@@ -313,7 +337,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/js2_huc8248fa0d769270c438275256b4c01ee_11115_926x81_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/js2_huc8248fa0d769270c438275256b4c01ee_11115_926x81_resize_q75_h2_box.webp"
+        title="style"
+         height="81"
+         width="926"
+        loading="lazy"
+    /></p>
 <p>disqusjs.js</p>
 <p>
 
@@ -326,7 +358,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/js3_hue3b4a34d93726da7ebc561dbe3f465a5_15629_1003x98_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/js3_hue3b4a34d93726da7ebc561dbe3f465a5_15629_1003x98_resize_q75_h2_box.webp"
+        title="style"
+         height="98"
+         width="1003"
+        loading="lazy"
+    /></p>
 <p>还有其他的一些地方，不一一列举了</p>
 <h4 id="字体"><a href="#字体" class="header-mark headerLink">字体</a></h4>
 <p>字体需要特别注意，通常情况下比较大，耗时比较长</p>
@@ -341,7 +381,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/font1_hua1f943f9d9ed6f4fc24165b7515c18b7_16884_219x428_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/font1_hua1f943f9d9ed6f4fc24165b7515c18b7_16884_219x428_resize_q75_h2_box.webp"
+        title="replace"
+         height="428"
+         width="219"
+        loading="lazy"
+    /></p>
 <p>我使用的主题使用的字体通过 <code>all.min.css</code> 引入，因为前面这个 css 样式已经通过 jsDelivr 导入，里面的字体使用的是相对链接，所以字体默认也是通过 jsDelivr 引入了</p>
 <h4 id="img-小图片"><a href="#img-小图片" class="header-mark headerLink">img 小图片</a></h4>
 <p>一般是 logo 等资源，根据主题自行替换</p>
@@ -399,7 +447,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/coding/speedup-github-page/font-swap_hu75f569e462757ed26111cf3470ce8d7f_12458_793x143_resize_q75_h2_box.webp"
+        alt="/posts/coding/speedup-github-page/font-swap_hu75f569e462757ed26111cf3470ce8d7f_12458_793x143_resize_q75_h2_box.webp"
+        title="display"
+         height="143"
+         width="793"
+        loading="lazy"
+    /></p>
 <p>每一个地方都需要改，自己搜索吧</p>
 <h2 id="使用-disqusjs"><a href="#使用-disqusjs" class="header-mark headerLink">使用 DisqusJS</a></h2>
 <p>由于众所周知的原因，disqus 被墙了，国内访问不了，而大部分 hexo 网站都使用 disqus 作为评论系统，这导致网页会卡在评论区的加载上，虽然网页已经加载完了，但进度条还在进行，给用户带来慢的感觉。</p>

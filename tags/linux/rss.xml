@@ -13,7 +13,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/http-proxy-ipv6-pool/cf-statistic_huf4251d5f550aa4feede29971b2c7abfb_32579_1045x343_resize_q75_h2_box_3.webp"
+        title="Cloudflare 统计"
+         height="343"
+         width="1045"
+        loading="lazy"
+    /></p>
 <h2 id="教程"><a href="#教程" class="header-mark headerLink">教程</a></h2>
 <p>首先你要有一整个 IPv6 子网路由给你，当遇到吝啬的服务商，即使他们有巨多的 IPv6 资源，他也不给你用，这种情况你没辙。不过幸好，绝大多数 ISP/IDC 都会给你一整个 IPv6 <code>/64</code> 子网，有的甚至可以申请 <code>/56</code> 子网，这数量又增加了好几个数量级，所以你几乎不必担心。</p>
 <p>为了方便实验，我购买了 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[Vultr 的服务器]</a>，如果你还没有注册，可以使用我的 <a href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener noreffer" class="post-link">[AFF 链接]</a>.</p>
@@ -481,7 +489,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device_hua4a41f9c73827df582ea964037e09721_41569_656x368_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device_hua4a41f9c73827df582ea964037e09721_41569_656x368_resize_q75_h2_box_3.webp"
+        title="网络设备"
+         height="368"
+         width="656"
+        loading="lazy"
+    /></p>
 <p>要几拨就添加几个设备，注意最好手工指定一下mac，基础设备选正常上网的wan口物理设备</p>
 <p>
 
@@ -494,7 +510,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device-add_hu4a2aa46d6abc4695e42f682157e0b152_20526_561x321_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/openwrt/network-device-add_hu4a2aa46d6abc4695e42f682157e0b152_20526_561x321_resize_q75_h2_box_3.webp"
+        title="添加网络设备"
+         height="321"
+         width="561"
+        loading="lazy"
+    /></p>
 <p>然后添加相同数量的接口，协议选DHCP，接口设备选刚刚创建的，一一对应</p>
 <p>
 
@@ -507,7 +531,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/openwrt/network-interface-add_hu621dfbbca86664cd67b870fcdae67db3_36472_567x366_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/openwrt/network-interface-add_hu621dfbbca86664cd67b870fcdae67db3_36472_567x366_resize_q75_h2_box_3.webp"
+        title="添加网络接口"
+         height="366"
+         width="567"
+        loading="lazy"
+    /></p>
 <p>接口添加好后，进行连接就会自动获取IP了，然后与上面手工方式一样，把所有IP都认证一下</p>
 <h3 id="配置mwan3分流"><a href="#配置mwan3分流" class="header-mark headerLink">配置mwan3分流</a></h3>
 <p>在mwan的管理界面，首先添加接口，与网络里面刚刚配置的接口一一对应</p>
@@ -522,7 +554,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-interface_hu4152b2e4189d37b51917b8dfa8415502_33920_797x426_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-interface_hu4152b2e4189d37b51917b8dfa8415502_33920_797x426_resize_q75_h2_box_3.webp"
+        title="添加接口"
+         height="426"
+         width="797"
+        loading="lazy"
+    /></p>
 <div class="details admonition note open">
         <div class="details-summary admonition-title">
             <i class="icon icon-pencil"></i>注意<i class="details-icon icon-angle-circled-right"></i>
@@ -543,7 +583,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-member_hu128229219abfac83ba956b2bc1ee0e26_32285_730x372_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-member_hu128229219abfac83ba956b2bc1ee0e26_32285_730x372_resize_q75_h2_box_3.webp"
+        title="添加成员"
+         height="372"
+         width="730"
+        loading="lazy"
+    /></p>
 <p>添加策略，图中第一条是负载均衡策略，刚刚添加的成员全都选中，意思就是说同时使用这所有的网络</p>
 <p>后面几条策略分别是用来测试想用网络设备的</p>
 <p>
@@ -557,7 +605,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-policy_huf0057ef3cab073b3a770a321c785247d_54579_766x533_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-policy_huf0057ef3cab073b3a770a321c785247d_54579_766x533_resize_q75_h2_box_3.webp"
+        title="添加策略"
+         height="533"
+         width="766"
+        loading="lazy"
+    /></p>
 <p>最后添加分流规则，最简单的如图所示，目的地址不限，端口不限，协议不限，都走负载均衡策略，也就是从所有网口出</p>
 <p>
 
@@ -570,7 +626,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule_hua52f95ea462474b0cf9ac8cb58272a1d_39444_666x444_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule_hua52f95ea462474b0cf9ac8cb58272a1d_39444_666x444_resize_q75_h2_box_3.webp"
+        title="添加规则"
+         height="444"
+         width="666"
+        loading="lazy"
+    /></p>
 <p>
 
 
@@ -582,7 +646,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule-config_hu5f3f57b70c1748ba92fc557370ed1263_30177_626x380_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/openwrt/mwan-rule-config_hu5f3f57b70c1748ba92fc557370ed1263_30177_626x380_resize_q75_h2_box_3.webp"
+        title="规则配置"
+         height="380"
+         width="626"
+        loading="lazy"
+    /></p>
 <p>在状态面板可以看到，多拨成功</p>
 <p>
 
@@ -595,7 +667,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/openwrt/status_hu8611a9ab490101676948cbbd5cc19e0d_17650_793x220_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/openwrt/status_hu8611a9ab490101676948cbbd5cc19e0d_17650_793x220_resize_q75_h2_box_3.webp"
+        title="多拨成功"
+         height="220"
+         width="793"
+        loading="lazy"
+    /></p>
 <div class="details admonition tip open">
         <div class="details-summary admonition-title">
             <i class="icon icon-lightbulb"></i>技巧<i class="details-icon icon-angle-circled-right"></i>
@@ -619,7 +699,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/ikuai/add-wan-if_hu684daeba6b87130d2284bdfe353c3f23_139130_719x426_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/ikuai/add-wan-if_hu684daeba6b87130d2284bdfe353c3f23_139130_719x426_resize_q75_h2_box_3.webp"
+        title="添加网络接口"
+         height="426"
+         width="719"
+        loading="lazy"
+    /></p>
 <p>关开网络接口，让其DHCP获取到IP地址，然后按照之前说的方法进行网络认证</p>
 <p>然后进入分流设置，配置多线负载</p>
 <p>
@@ -633,7 +721,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/ikuai/load-balance_huee21e4efc6f414d5c51608629c69f835_46739_599x128_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/ikuai/load-balance_huee21e4efc6f414d5c51608629c69f835_46739_599x128_resize_q75_h2_box_3.webp"
+        title="负载均衡"
+         height="128"
+         width="599"
+        loading="lazy"
+    /></p>
 <p>添加的时候有多种负载模式可供选择，可以添加多个负载规则。注意要把前面创建的网络接口全部开启</p>
 <p>
 
@@ -646,7 +742,15 @@
         
         
     
-</p>
+<img
+        
+        src="/posts/tutorials/campus-network-speed-overlay/ikuai/add-load-balance_hu0871626870399a0d506d030ec9889f3e_19308_664x344_resize_q75_h2_box_3.webp"
+        alt="/posts/tutorials/campus-network-speed-overlay/ikuai/add-load-balance_hu0871626870399a0d506d030ec9889f3e_19308_664x344_resize_q75_h2_box_3.webp"
+        title="负载均衡"
+         height="344"
+         width="664"
+        loading="lazy"
+    /></p>
 <p>对！就是这么简单，iKuai就是牛，已经把网速叠加成功了</p>
 <h2 id="新发现"><a href="#新发现" class="header-mark headerLink">新发现</a></h2>
 <p>在与同学的交流中，发现校园网还可以用任意手机号验证码登录，登陆后的权限是访客，不过与学生权限一样，如此看来可以利用多个手机号突破5台设备的限制了</p>
