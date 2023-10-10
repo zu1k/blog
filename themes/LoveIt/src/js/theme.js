@@ -204,14 +204,14 @@ class Theme {
         const initAutosearch = () => {
             const autosearch = autocomplete(
                 `#search-input-${suffix}`, {
-                hint: true,
+                hint: false,
                 autoselect: true,
                 dropdownMenuContainer: `#search-dropdown-${suffix}`,
                 clearOnSelected: true,
                 cssClasses: {
                     noPrefix: true,
                 },
-                debug: true,
+                debug: false,
             }, {
                 name: "search",
                 source: (query, callback) => {
