@@ -105,7 +105,7 @@ Not Valid After: 2099-09-09 08:00:00
 ### AES 解密
 
 ```go
-decode_data, err := base64.StdEncoding.DecodeString(licenseString)
+decode_data, err := Base64.StdEncoding.DecodeString(licenseString)
 if err != nil {
   panic(err)
 }
@@ -142,20 +142,20 @@ xray 官方在 1.3.0 版本中更换了授权验证机制，所以破解仅支�
 在解密前有一个简单的交换，开始和最后的两个两个没有参与运算（开始第一个字节是证书版本号）
 
 ```golang
-right := len(base64DecodeData) - 1
+right := len(Base64DecodeData) - 1
 for l := 1; l < right; l++ {
   r := right - l
   if l >= r {
     break
   }
-  base64DecodeData[l], base64DecodeData[r] = base64DecodeData[r], base64DecodeData[l]
+  Base64DecodeData[l], Base64DecodeData[r] = Base64DecodeData[r], Base64DecodeData[l]
 }
 ```
 
 然后进行 aes 解密，密钥是写死的，IV 是附加在证书里面的，刚刚的变换结束后，除去第一个字节是版本号，紧接着的 16 个字节是 AES 的 IV
 
 ```golang
-aesDecData, err := Decrypt(base64DecodeData[17:], base64DecodeData[1:17])
+aesDecData, err := Decrypt(Base64DecodeData[17:], Base64DecodeData[1:17])
 ```
 
 AES 解密后就会遇到另一个变换，是简单的异或处理

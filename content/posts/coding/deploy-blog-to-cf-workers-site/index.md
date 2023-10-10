@@ -32,7 +32,7 @@ npm i @cloudflare/wrangler -g
 cargo install wrangler
 
 # 使用系统OpenSSL库，生成的二进制会小一些
-cargo install wrangler --features sys-openssl
+cargo install wrangler --features sys-OpenSSL
 ```
 
 ## 部署

@@ -1,7 +1,7 @@
 ---
 title: 静态链接OpenSSL进行RSA\MD5\Base64
 tags:
-    - openssl
+    - OpenSSL
     - coding
 categories:
     - coding
@@ -17,13 +17,13 @@ date: 2020-03-18 12:50:10
 
 ## 准备工作
 
-### 下载openssl代码
+### 下载OpenSSL代码
 
-`git clone https://github.com/openssl/openssl.git`
+`git clone https://github.com/OpenSSL/OpenSSL.git`
 
-或者从官网 https://www.openssl.org/source/ 下载源代码
+或者从官网 https://www.OpenSSL.org/source/ 下载源代码
 
-我使用的是openssl 1.1.1
+我使用的是OpenSSL 1.1.1
 
 ### 安装perl环境，这里使用的是ActivePerl
 
@@ -39,7 +39,7 @@ https://www.nasm.us/
 
 ![环境变量PATH](env.png)
 
-## 编译 openssl 静态链接库
+## 编译 OpenSSL 静态链接库
 
 ### 初始化环境
 
@@ -51,9 +51,9 @@ https://www.nasm.us/
 
 ### 生成编译配置文件
 
-cd进入openssl源码目录
+cd进入OpenSSL源码目录
 
-执行 ```perl Configure VC-WIN64A no-asm no-shared --prefix="D:\Project\opensslwork\openssl\build" --openssldir="D:\Project\opensslwork\openssl\build\ssl"```
+执行 ```perl Configure VC-WIN64A no-asm no-shared --prefix="D:\Project\OpenSSLwork\OpenSSL\build" --OpenSSLdir="D:\Project\OpenSSLwork\OpenSSL\build\ssl"```
 
 ### 进行编译并测试和安装
 
@@ -69,7 +69,7 @@ nmake install
 
 ![lib](build2.png)
 
-## 使用openssl的api进行编程
+## 使用OpenSSL的api进行编程
 
 ### visual studio项目配置
 
@@ -77,24 +77,24 @@ vs创建空项目，然后配置头文件和库文件的路径
 
 项目右键-属性，配置选择所有配置，平台选择x64
 
-`VC++ 目录` 配置里面的 `包含目录` 添加openssl的头文件目录, 我这里是 `D:\Project\opensslwork\openssl\build\include;`
+`VC++ 目录` 配置里面的 `包含目录` 添加OpenSSL的头文件目录, 我这里是 `D:\Project\OpenSSLwork\OpenSSL\build\include;`
 
 ![lib](vsw1.png)
 
 `链接器` 里面的 `输入` 的 `附加依赖项` 添加 静态库名，`libcrypto.lib;libssl.lib;`
 
-> 注意：在使用openssl的静态链接库时，除了添加 `libcrypto.lib;libssl.lib;`，还需要添加系统的依赖库：`crypt32.lib;WS2_32.lib;`， 因为openssl在windows平台使用了这些库。
+> 注意：在使用OpenSSL的静态链接库时，除了添加 `libcrypto.lib;libssl.lib;`，还需要添加系统的依赖库：`crypt32.lib;WS2_32.lib;`， 因为OpenSSL在windows平台使用了这些库。
 > 完整的： `kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);crypt32.lib;libcrypto.lib;libssl.lib;WS2_32.lib;`
 
 ### 添加头文件
 
-因为需要md5,rsa,base64等操作，这里需要导入openssl四个相关的头文件
+因为需要md5,rsa,Base64等操作，这里需要导入OpenSSL四个相关的头文件
 
 ```c++
-#include <openssl/rsa.h>
-#include <openssl/pem.h>
-#include <openssl/md5.h>
-#include <openssl/bio.h>
+#include <OpenSSL/rsa.h>
+#include <OpenSSL/pem.h>
+#include <OpenSSL/md5.h>
+#include <OpenSSL/bio.h>
 ```
 
 ### 使用MD5对字符串生成摘要
@@ -105,7 +105,7 @@ int md5_hash(const char *in, unsigned char *md)
     unsigned char* data;
     const unsigned char* str;
     data = (unsigned char*)in;
-    MD5(data, strlen(in), md); //调用openssl的md5方法
+    MD5(data, strlen(in), md); //调用OpenSSL的md5方法
     return 1;
 }
 ```
@@ -119,7 +119,7 @@ RSA * gen_rsa()
     RSA* rsa = RSA_new();
     BIGNUM* e = BN_new();
     BN_set_word(e, RSA_F4);
-    int rc = RSA_generate_key_ex(rsa, bits, e, NULL); //openssl中生成rsa key的新方法
+    int rc = RSA_generate_key_ex(rsa, bits, e, NULL); //OpenSSL中生成rsa key的新方法
     BN_free(e);
     if (rc != 1) return NULL;   
     size_t pri_len;
@@ -134,16 +134,16 @@ RSA * gen_rsa()
 }
 ```
 
-### 对数据进行base64编码，base64在BIO中有
+### 对数据进行Base64编码，Base64在BIO中有
 
 ```c++
-int base64_encode(const unsigned char* buffer, size_t length, char** b64text) {
+int Base64_encode(const unsigned char* buffer, size_t length, char** b64text) {
     BIO* bio, * b64;
     BUF_MEM* bufferPtr;
-    b64 = BIO_new(BIO_f_base64());
+    b64 = BIO_new(BIO_f_Base64());
     bio = BIO_new(BIO_s_mem());
     bio = BIO_push(b64, bio);
-    BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
+    BIO_set_flags(bio, BIO_FLAGS_Base64_NO_NL);
     BIO_write(bio, buffer, length);
     BIO_flush(bio);
     BIO_get_mem_ptr(bio, &bufferPtr);
@@ -179,9 +179,9 @@ int main(int argc, char* argv[])
     unsigned int siglen;
     RSA_sign(NID_sha1, md, MD5_DIGEST_LENGTH, sig, &siglen, rsa);
 
-    // final base64(sig)
+    // final Base64(sig)
     char* b64text;
-    base64_encode(sig, (size_t)siglen, &b64text);
+    Base64_encode(sig, (size_t)siglen, &b64text);
     printf("%s\n", b64text);
     return 0;
 }

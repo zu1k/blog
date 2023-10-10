@@ -1,7 +1,7 @@
 ---
-title: 如何优雅的隐藏你的Webshell
+title: 如何优雅的隐藏你的 Webshell
 tags:
-- WebShell
+- web-security
 categories:
 - web-security
 date: 2020-08-08 09:21:59+0800

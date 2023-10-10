@@ -3,7 +3,7 @@ title: 针对海康威视网络摄像头弱密码的一次扫描
 date: 2019-11-28 20:15:06
 tags:
   - Scan
-  - Web
+  - web-security
 categories:
   - coding
 ---

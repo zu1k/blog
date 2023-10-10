@@ -68,11 +68,11 @@ class MyEmail:
             # 抄送列表
             attach["Cc"] = ";".join(self.cc_list)
         if self.doc:
-            # 估计任何文件都可以用base64，比如rar等
+            # 估计任何文件都可以用Base64，比如rar等
             # 文件名汉字用gbk编码代替
             name = os.path.basename(self.doc).encode("gbk")
             f = open(self.doc, "rb")
-            doc = MIMEText(f.read(), "base64", "gb2312")
+            doc = MIMEText(f.read(), "Base64", "gb2312")
             doc["Content-Type"] = 'application/octet-stream'
             doc["Content-Disposition"] = 'attachment; filename="' + name + '"'
             attach.attach(doc)
