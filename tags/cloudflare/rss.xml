@@ -8,7 +8,7 @@
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>cargo install wrangler
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1># 使用系统OpenSSL库，生成的二进制会小一些</span>
-</span></span><span class=line><span class=cl>cargo install wrangler --features sys-openssl
+</span></span><span class=line><span class=cl>cargo install wrangler --features sys-OpenSSL
 </span></span></code></pre></td></tr></table></div></div></div><h2 id=部署><a href=#部署 class="header-mark headerLink">部署</a></h2><p>我自己博客使用的是Hugo，下面所有内容都是按照Hugo的方式来，其他静态站点生成器方法类似</p><h3 id=登录><a href=#登录 class="header-mark headerLink">登录</a></h3><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3

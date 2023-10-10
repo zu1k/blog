@@ -1,4 +1,4 @@
-# GitHub等大面积https劫持
+# GitHub 等大面积 HTTPs 劫持
 
 
 昨天下午两点多，突然在一个站长群里听到有人说 GitHub Pages 的证书大批量出现错误，不一会就在V2EX上看到相关讨论的帖子
@@ -17,9 +17,9 @@
 
 ## 检查GitHub证书
 
-这里我通过北京和香港两台阿里云主机，使用openssl提供的方法查看证书详细内容
+这里我通过北京和香港两台阿里云主机，使用OpenSSL提供的方法查看证书详细内容
 
-命令为: `openssl s_client -showcerts -connect github.com:443 < /dev/null`
+命令为: `OpenSSL s_client -showcerts -connect github.com:443 < /dev/null`
 
 ### 北京阿里云
 
@@ -27,7 +27,7 @@
   <summary>点击展开</summary>
 
 ```bash
-➜  ~ openssl s_client -showcerts -connect github.com:443 < /dev/null
+➜  ~ OpenSSL s_client -showcerts -connect github.com:443 < /dev/null
 CONNECTED(00000003)
 depth=1 C = CN, ST = GD, L = SZ, O = COM, OU = NSP, CN = CA, emailAddress = 346608453@qq.com
 verify error:num=19:self signed certificate in certificate chain
@@ -128,7 +128,7 @@ DONE
   <summary>点击展开</summary>
 
 ```bash
-➜  ~ openssl s_client -showcerts -connect github.com:443 < /dev/null
+➜  ~ OpenSSL s_client -showcerts -connect github.com:443 < /dev/null
 CONNECTED(00000005)
 depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert High Assurance EV Root CA
 verify return:1
