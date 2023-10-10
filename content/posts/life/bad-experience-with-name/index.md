@@ -4,8 +4,7 @@ date: 2019-11-27 21:32:13
 tags:
 - Domain
 categories:
-- life
-draft: false
+- experience
 ---
 
 这个事情发生在一个周以内，体验极其糟糕，特此记录一下。
