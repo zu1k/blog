@@ -46,3 +46,10 @@
   avatar = "/images/friends/sb.webp"
   description = "专注于服务器运维、专业域名投资分析"
   weight = 21
+
+[[blogroll]]
+  name = "Sarace"
+  url = "https://blog.huisa.win/"
+  avatar = "/images/friends/sarace.webp"
+  description = "Knowledge comes from books and from experience of the world"
+  weight = 22
