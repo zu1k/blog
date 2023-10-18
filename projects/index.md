@@ -13,7 +13,7 @@
 我的以下 7 个项目曾进入过 GitHub Trending 排行榜
 
 - [Nali](#nali): [archive](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fnali&type=code)
-- [Book Searcher](#book-searcher): [archive 1](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+book-searcher&type=code)、[archive 2](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+book-searcher-org%2Fbook-searcher&type=code)、[archive 3](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fzlib-searcher&type=code)
+- [Book Searcher](#book-searcher): [archive 1](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+book-searcher-org%2Fbook-searcher&type=code)、[archive 2](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fzlib-searcher&type=code)
 - [Copy Translator](#copy-translator): [archive](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fcopy-translator&type=code)
 - [Good MITM](#good-mitm): [archive](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fgood-mitm&type=code)
 - [ProxyPool](#proxypool): [archive](https://github.com/search?q=repo%3Alarsbijl%2Ftrending_archive+zu1k%2Fproxypool&type=code)
