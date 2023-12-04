@@ -299,3 +299,8 @@ LanguageCode = "zh-CN"
   isHTML = false
   noUgly = true
   permalinkable = false
+
+
+[services]
+  [services.googleAnalytics]
+    ID = 'G-J44P41XVM9'
