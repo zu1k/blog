@@ -86,7 +86,7 @@
 </span><span class=lnt>4
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=nt>&#34;ipv6&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=nt>&#34;fixed-cidr-v6&#34;</span><span class=p>:</span> <span class=s2>&#34;2001🔢5001🔢:/64&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;fixed-cidr-v6&#34;</span><span class=p>:</span> <span class=s2>&#34;2001:1234:5001:1234::/64&#34;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span></code></pre></td></tr></table></div></div></div><p>执行 <code>systemctl reload docker</code> 重载Docker Engine的配置文件</p><p>这样docker默认的bridge网络就会给容器分配随机的ipv6地址了。</p><p>但是我们通常需要固定的ipv6地址，所以需要添加自定义网桥网络</p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
@@ -96,8 +96,8 @@
 </span><span class=lnt>6
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>docker network create <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    -d bridge --ipv6 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --subnet <span class=s2>&#34;2001🔢5001🔢6666::/80&#34;</span> <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --gateway<span class=o>=</span><span class=s2>&#34;2001🔢5001🔢6666::1&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --subnet <span class=s2>&#34;2001:1234:5001:1234:6666::/80&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --gateway<span class=o>=</span><span class=s2>&#34;2001:1234:5001:1234:6666::1&#34;</span> <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    --subnet<span class=o>=</span>172.28.0.0/16 <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    --gateway<span class=o>=</span>172.28.0.1 ipv6
 </span></span></code></pre></td></tr></table></div></div></div><p>然后启动docker容器时候指定ipv6网桥和ipv6地址</p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
@@ -106,7 +106,7 @@
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>docker run -itd -P --ip<span class=o>=</span>172.28.0.101 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --ip6<span class=o>=</span><span class=s2>&#34;2001🔢5001🔢6666::101&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --ip6<span class=o>=</span><span class=s2>&#34;2001:1234:5001:1234:6666::101&#34;</span> <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    --network<span class=o>=</span>ipv6 <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    --name<span class=o>=</span>ipv6test <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    ubuntu:18.04 /bin/bash
@@ -114,5 +114,5 @@
 这是因为ipv6使用NDP协议，我们需要在容器的宿主机上设置 ndp代理</p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sysctl net.ipv6.conf.ens3.proxy_ndp<span class=o>=</span><span class=m>1</span>
 </span></span></code></pre></td></tr></table></div></div></div><blockquote><p>ens3是我的宿主机外网网卡，这里需要替换成你自己的</p></blockquote><p>这里每一个docker分配的ipv6地址都需要添加这样一条规则</p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ip -6 neigh add proxy 2001🔢5001🔢6666::101 dev ens3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ip -6 neigh add proxy 2001:1234:5001:1234:6666::101 dev ens3
 </span></span></code></pre></td></tr></table></div></div></div>]]></description></item></channel></rss>
