@@ -37,7 +37,9 @@ toc: false
 
 ## 支持我
 
-以下是我的加密货币地址：
+如果我的公开内容对你有益，欢迎通过赞助来支持我的工作。
+
+以下是我的加密货币钱包地址，你也可以通过邮件向我索要其他收款方式
 
 - ETH: `0xbce82cd633c1dbd090297a286574be76af4deff6`
 - BTC: `bc1pkraanym8wck6zuc37nr3at9hxdvq29nx3spzuq7l20jc42qgpsqqgtvmlq`
