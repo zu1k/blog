@@ -34,3 +34,11 @@ toc: false
 (`6A26 6AE0 18B6 DD21 C813 150E 4B9D 0993 3F48 F82D`)
 
 看看我最近读了什么文章？ [https://read.zu1k.com](https://read.zu1k.com)
+
+## 支持我
+
+以下是我的加密货币地址：
+
+- ETH: `0xbce82cd633c1dbd090297a286574be76af4deff6`
+- BTC: `bc1pkraanym8wck6zuc37nr3at9hxdvq29nx3spzuq7l20jc42qgpsqqgtvmlq`
+- USDT(TRON): `TWQAP6CdEq6uVK5EAzZFya1dEUzt86qqmA`
