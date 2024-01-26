@@ -44,3 +44,33 @@ toc: false
 - ETH: `0xbce82cd633c1dbd090297a286574be76af4deff6`
 - BTC: `bc1pkraanym8wck6zuc37nr3at9hxdvq29nx3spzuq7l20jc42qgpsqqgtvmlq`
 - USDT(TRON): `TWQAP6CdEq6uVK5EAzZFya1dEUzt86qqmA`
+
+{{< admonition type=warning title="转账前请验证签名并确定钱包地址" open=false >}}
+我的公钥：https://keyserver.ubuntu.com/pks/lookup?search=6a266ae018b6dd21c813150e4b9d09933f48f82d&fingerprint=on&op=index
+
+```
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+- - ETH:        0xbce82cd633c1dbd090297a286574be76af4deff6
+- - BTC:        bc1pkraanym8wck6zuc37nr3at9hxdvq29nx3spzuq7l20jc42qgpsqqgtvmlq
+- - USDT(TRON): TWQAP6CdEq6uVK5EAzZFya1dEUzt86qqmA
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEHPv9TzHyeAso+utCbN3BUKv5xG0FAmWzFa8ACgkQbN3BUKv5
+xG2AHg/9GbIL2IvwutGvLFxSiIBSlxYRKvC0jbhjNcCfw1ypVstunyWgpIqDe/fb
+8iP+LkZM5+U5ASn+KG/yD1+/0F1FUyC/MYrqU8sXWevHc1e50Px3um1Pl6ZrHJAF
+qUzlMKIqtQoTwez6pnZb2KPVVAVmWVwKGfpd8w7SqxYuGM1AAdOjq1s8FFa5l5Kh
+Q4kSEHj3IP0/xd8nq82G0HSnL0iI+3YpAZpgo0A2LkdKTIifwCNEVtLM5gVLrZ2J
+rroRqMWFPvMeXpboHKCk84HnB1Xjc5qdFXhikINRpNSOf9mBlWvDoC8ckM07IxVt
+eWRgrL2sjxkWQPS02mFosGGnMrJtHW+P/nUl2XWE+ajJglbRwHCDEZ8opu8cg0ph
+g7VdNwtCNW6rrynIu82omzl/03V3OcA0cTTDZrPu0b/hU5qkQq1Q/GJTwXA3ArDp
+6gy3MUfkEJ1v84F+gGqMWzuWjJ+TqFhdLm92mIsBuW5Rzyj5mzQN9nOsJajezZqQ
+VVhh8tDgOgKvxwEwTt78PtwJUlhNri8PrlKimaL4RyTxZM9mUXRSxLGUAhWxpvSP
+HXvySWMDhuEk5YxqNytSWICySwWYE2GQjTJ6OCpV1snyuzzRy+pVnjQthT4bIxwI
+pl11ejgGnuwJZxAqNeIyJSzByM4BotWfxxiKvOUFo4U+E+HNrWI=
+=swp8
+-----END PGP SIGNATURE-----
+```
+{{< /admonition >}}
