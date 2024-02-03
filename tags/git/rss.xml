@@ -21,5 +21,17 @@
 </span><span class=lnt>2
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>Host github.com
 </span></span><span class=line><span class=cl>ProxyCommand connect -S 127.0.0.1:1080 %h %p
+</span></span></code></pre></td></tr></table></div></div></div><h2 id=其他方法><a href=#其他方法 class="header-mark headerLink">其他方法</a></h2><h3 id=将-ssh-协议转为-https-协议><a href=#将-ssh-协议转为-https-协议 class="header-mark headerLink">将 ssh 协议转为 https 协议</a></h3><p>修改 <code>~/.gitconfig</code>，将 ssh 协议转为 https 协议:</p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[url &#34;git@github.com:&#34;]                                                                                                                         
+</span></span><span class=line><span class=cl>        insteadOf = https://github.com/
+</span></span></code></pre></td></tr></table></div></div></div><h3 id=使用-443-端口绕过防火墙><a href=#使用-443-端口绕过防火墙 class="header-mark headerLink">使用 443 端口绕过防火墙</a></h3><p>GitHub 在 ssh.github.com:443 提供了 SSH 协议，主要用于绕过企业防火墙</p><p>修改 <code>~/.ssh/config</code></p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Host github.com
+</span></span><span class=line><span class=cl>  Hostname ssh.github.com
+</span></span><span class=line><span class=cl>  Port 443
+</span></span><span class=line><span class=cl>  User git
 </span></span></code></pre></td></tr></table></div></div></div>]]></description></item><item><title>一些我刚学到的GIT技巧</title><link>https://zu1k.com/posts/learn/some-git-skills/</link><pubDate>Sun, 01 Dec 2019 20:32:44 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/learn/some-git-skills/</guid><description><![CDATA[
         <h3 id=git-reflog><a href=#git-reflog class="header-mark headerLink">git reflog</a></h3><p>git reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录，而且跟进结果可以回退道某一个修改</p><p>有时候想要删除reflog记录，可以使用下面的命令</p><p>首先确保所有分支都没有引用该提交，包括HEAD也不指向这个提交。</p><p>然后 git reflog expire &ndash;expire=now &ndash;all (这会清除分支变更历史)</p><p>然后 git gc &ndash;prune=now (不用调整时间，加上&ndash;prune=now命令即可)</p><h3 id=git-rebase><a href=#git-rebase class="header-mark headerLink">git rebase</a></h3><p>参考文章：http://jartto.wang/2018/12/11/git-rebase/</p><p>可以合并多次提交记录: git rebase -i HEAD~4</p><p>可以合并分支而不产生merge记录</p>]]></description></item></channel></rss>

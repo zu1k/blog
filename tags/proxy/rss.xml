@@ -116,4 +116,16 @@
 </span><span class=lnt>2
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>Host github.com
 </span></span><span class=line><span class=cl>ProxyCommand connect -S 127.0.0.1:1080 %h %p
+</span></span></code></pre></td></tr></table></div></div></div><h2 id=其他方法><a href=#其他方法 class="header-mark headerLink">其他方法</a></h2><h3 id=将-ssh-协议转为-https-协议><a href=#将-ssh-协议转为-https-协议 class="header-mark headerLink">将 ssh 协议转为 https 协议</a></h3><p>修改 <code>~/.gitconfig</code>，将 ssh 协议转为 https 协议:</p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[url &#34;git@github.com:&#34;]                                                                                                                         
+</span></span><span class=line><span class=cl>        insteadOf = https://github.com/
+</span></span></code></pre></td></tr></table></div></div></div><h3 id=使用-443-端口绕过防火墙><a href=#使用-443-端口绕过防火墙 class="header-mark headerLink">使用 443 端口绕过防火墙</a></h3><p>GitHub 在 ssh.github.com:443 提供了 SSH 协议，主要用于绕过企业防火墙</p><p>修改 <code>~/.ssh/config</code></p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Host github.com
+</span></span><span class=line><span class=cl>  Hostname ssh.github.com
+</span></span><span class=line><span class=cl>  Port 443
+</span></span><span class=line><span class=cl>  User git
 </span></span></code></pre></td></tr></table></div></div></div>]]></description></item></channel></rss>

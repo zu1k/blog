@@ -45,3 +45,27 @@ Host github.com
 ProxyCommand connect -S 127.0.0.1:1080 %h %p
 ```
 
+## 其他方法
+
+### 将 ssh 协议转为 https 协议 
+
+修改 `~/.gitconfig`，将 ssh 协议转为 https 协议:
+
+```
+[url "git@github.com:"]                                                                                                                         
+        insteadOf = https://github.com/
+
+```
+
+### 使用 443 端口绕过防火墙
+
+GitHub 在 ssh.github.com:443 提供了 SSH 协议，主要用于绕过企业防火墙
+
+修改 `~/.ssh/config`
+
+```
+Host github.com
+  Hostname ssh.github.com
+  Port 443
+  User git
+```

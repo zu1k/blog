@@ -1042,6 +1042,18 @@
 </span><span class=lnt>2
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>Host github.com
 </span></span><span class=line><span class=cl>ProxyCommand connect -S 127.0.0.1:1080 %h %p
+</span></span></code></pre></td></tr></table></div></div></div><h2 id=其他方法><a href=#其他方法 class="header-mark headerLink">其他方法</a></h2><h3 id=将-ssh-协议转为-https-协议><a href=#将-ssh-协议转为-https-协议 class="header-mark headerLink">将 ssh 协议转为 https 协议</a></h3><p>修改 <code>~/.gitconfig</code>，将 ssh 协议转为 https 协议:</p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[url &#34;git@github.com:&#34;]                                                                                                                         
+</span></span><span class=line><span class=cl>        insteadOf = https://github.com/
+</span></span></code></pre></td></tr></table></div></div></div><h3 id=使用-443-端口绕过防火墙><a href=#使用-443-端口绕过防火墙 class="header-mark headerLink">使用 443 端口绕过防火墙</a></h3><p>GitHub 在 ssh.github.com:443 提供了 SSH 协议，主要用于绕过企业防火墙</p><p>修改 <code>~/.ssh/config</code></p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Host github.com
+</span></span><span class=line><span class=cl>  Hostname ssh.github.com
+</span></span><span class=line><span class=cl>  Port 443
+</span></span><span class=line><span class=cl>  User git
 </span></span></code></pre></td></tr></table></div></div></div>]]></description></item><item><title>Linux Shell中的重定向</title><link>https://zu1k.com/posts/linux/redirect-in-shell/</link><pubDate>Tue, 24 Mar 2020 15:50:07 +0800</pubDate><author>zu1k</author><guid>https://zu1k.com/posts/linux/redirect-in-shell/</guid><description><![CDATA[
         <p>经常会看到别人的shell脚本后面有一个 <code>2>&amp;1</code> ，一直没去深究，今天这个话题就以这个为出发点进行展开，学习一下Linux shell中重定向的话题。</p><h2 id=特殊的东西><a href=#特殊的东西 class="header-mark headerLink">特殊的东西</a></h2><p>先来看一点Linux中特殊的东西，为后面的内容打下基础</p><h3 id=特殊的文件><a href=#特殊的文件 class="header-mark headerLink">特殊的文件</a></h3><ul><li><code>/dev/null</code> 空，可以将垃圾内容导入其中，就会消失</li><li><code>/dev/zero</code> 零，可以从中读出无穷无尽的0</li><li><code>/dev/urandom</code> 随机数，可以从中读出无穷无尽的随机数</li><li><code>/dev/stdin</code> 标准输入流</li><li><code>/dev/stdout</code> 标准输出流</li><li><code>/dev/stderr</code> 标准错误输出流</li></ul><p>我们可以看到后三个文件其实是个链接，指向内核的文件描述符 0\1\2</p><div class=highlight><div class=chroma><div class=table-wrapper><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
