@@ -5,16 +5,12 @@
   "private": true,
   "devDependencies": {
     "@swc/cli": "^0.3.10",
-    "@swc/core": "^1.4.6",
-    "browserify": "^17.0.0",
-    "core-js": "^3.26.0"
+    "@swc/core": "^1.4.6"
   },
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
     "swc": "npx swc src/js --out-file assets/js/theme.min.js --source-maps",
     "build": "npm run swc && hugo -v --source ../.. --gc",
     "start": "npm run swc && hugo server --source ../.. -D --disableFastRender",
-    "start-production": "npm run swc && hugo server --source ../.. -D --disableFastRender -e production",
-    "check": "htmlproofer exampleSite/public --check-html --allow-hash-href --empty-alt-ignore --disable-external"
+    "start-production": "npm run swc && hugo server --source ../.. -D --disableFastRender -e production"
   }
 }
