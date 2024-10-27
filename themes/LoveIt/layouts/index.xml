@@ -6,7 +6,7 @@
             {{- .Site.Title -}}
         </title>
         <link>
-            {{- .Permalink -}}
+            {{- (.Permalink | absURL) -}}
         </link>
         <description>
             {{- .Site.Params.description | default .Site.Title -}}
@@ -35,7 +35,7 @@
             </lastBuildDate>
         {{- end -}}
         {{ with .OutputFormats.Get "RSS" }}
-            {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
+            {{ printf "<atom:link href=%q rel=\"self\" type=%q />" (.Permalink | absURL) .MediaType | safeHTML }}
         {{ end }}
         {{- range where .Site.RegularPages "Type" "posts" | first (.Site.Params.home.rss | default 10) -}}
             {{- dict "Page" . "Site" .Site | partial "rss/item.html" -}}

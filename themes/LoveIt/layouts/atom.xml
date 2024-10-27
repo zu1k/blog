@@ -18,7 +18,7 @@
     {{ range $output_formats -}}
         {{- $rel := (or (and (eq "atom" (.Name | lower)) "self") "alternate") -}}
         {{ with $output_formats.Get .Name }}
-            {{ printf `<link href=%q rel=%q type=%q title=%q />` .Permalink $rel .MediaType.Type .Name | safeHTML }}
+            {{ printf `<link href=%q rel=%q type=%q title=%q />` (.Permalink | absURL) $rel .MediaType.Type .Name | safeHTML }}
         {{- end -}}
     {{- end }}
     {{- range .Translations }}
@@ -27,7 +27,7 @@
         {{- $langstr := index site.Data.i18n.languages .Lang }}
         {{ range $output_formats -}}
             {{ with $output_formats.Get .Name }}
-                {{ printf `<link href=%q rel="alternate" type=%q hreflang=%q title="[%s] %s" />` .Permalink .MediaType.Type $lang $langstr .Name | safeHTML }}
+                {{ printf `<link href=%q rel="alternate" type=%q hreflang=%q title="[%s] %s" />` (.Permalink | absURL) .MediaType.Type $lang $langstr .Name | safeHTML }}
             {{- end -}}
         {{- end }}
     {{- end }}
@@ -41,13 +41,13 @@
         {{/* For this to work, the $icon file should be present in the assets/ directory */}}
         {{- $icon := .icon | default "icon.svg" -}}
         {{- with resources.Get $icon -}}
-            <icon>{{ (. | fingerprint).Permalink }}</icon>
+            <icon>{{ (. | fingerprint).Permalink | absURL }}</icon>
         {{- end }}
 
         {{/* For this to work, the $logo file should be present in the assets/ directory */}}
         {{- $logo := .logo | default "logo.svg" -}}
         {{- with resources.Get $logo -}}
-            <logo>{{ (. | fingerprint).Permalink }}</logo>
+            <logo>{{ (. | fingerprint).Permalink | absURL }}</logo>
         {{- end }}
     {{ end }}
     {{ with site.Author.name -}}
@@ -61,7 +61,7 @@
     {{ with site.Params.id }}
         <id>{{ . | plainify }}</id>
     {{ else }}
-        <id>{{ .Permalink }}</id>
+        <id>{{ .Permalink | absURL }}</id>
     {{ end }}
     {{- $limit := (cond (le site.Config.Services.RSS.Limit 0) 65536 site.Config.Services.RSS.Limit) }}
     {{- $feed_sections := site.Params.feedSections | default site.Params.mainSections -}}
@@ -80,13 +80,13 @@
             {{ printf `<title type="html"><![CDATA[%s]]></title>` .Title | safeHTML }}
             <link href="{{ .Permalink }}?utm_source=atom_feed" rel="alternate" type="text/html" />
             {{- range .Translations }}
-                {{- $link := printf "%s?utm_source=atom_feed" .Permalink | safeHTML }}
+                {{- $link := printf "%s?utm_source=atom_feed" (.Permalink | absURL) | safeHTML }}
                 {{- printf `<link href=%q rel="alternate" type="text/html" hreflang=%q />` $link .Lang | safeHTML }}
             {{- end }}
             {{ with .Params.id }}
                 <id>{{ . | plainify }}</id>
             {{ else }}
-                <id>{{ .Permalink }}</id>
+                <id>{{ (.Permalink | absURL)}}</id>
             {{ end }}
             {{ with .Params.author -}}
                 {{- range . -}} <!-- Assuming the author front-matter to be a list -->
@@ -107,7 +107,7 @@
                         {{ with site.GetPage (printf "/%s" $taxo) }}
                             {{ $taxonomy_page := . }}
                             {{ range $taxo_list }} <!-- Below, assuming pretty URLs -->
-                                <category scheme="{{ printf "%s%s" $taxonomy_page.Permalink (. | urlize) }}" term="{{ (. | urlize) }}" label="{{ . }}" />
+                                <category scheme="{{ printf "%s%s" ($taxonomy_page.Permalink | absURL) (. | urlize) }}" term="{{ (. | urlize) }}" label="{{ . }}" />
                             {{ end }}
                         {{ end }}
                     {{ end }}

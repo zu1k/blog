@@ -4,7 +4,7 @@
         {{- .Page.Title -}}
     </title>
     <link>
-        {{- .Page.Permalink -}}
+        {{- (.Permalink | absURL) -}}
     </link>
     <pubDate>
         {{- .Page.Date.Format "Mon, 02 Jan 2006 15:04:05 -0700"  -}}
@@ -13,13 +13,13 @@
         {{- .Site.Author.name -}}
     </author>
     <guid>
-        {{- .Page.Permalink -}}
+        {{- (.Permalink | absURL) -}}
     </guid>
     <description>
         {{- "<![CDATA[" | safeHTML -}}
         {{- with $params.featuredimage -}}
             <div class="featured-image">
-                <img src="{{ . | relURL }}" referrerpolicy="no-referrer">
+                <img src="{{ . | absURL }}" referrerpolicy="no-referrer">
             </div>
         {{- end -}}
         {{- $content := .Page.Description -}}
