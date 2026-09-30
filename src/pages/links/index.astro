@@ -79,25 +79,32 @@ const siteExchangeInfo = `NAME: ${siteIdentity.name}\nBIO: ${siteIdentity.descri
 </script>
 
 <style>
+  .links-page :global(.page-hero__panel) {
+    justify-content: flex-end;
+  }
+
   .site-card {
     display: grid;
-    grid-template-columns: 2.7rem minmax(0, 1fr);
+    grid-template-columns: 2.4rem minmax(0, 1fr);
     align-items: center;
     gap: 0.45rem 0.7rem;
   }
 
   .site-card > span {
     grid-column: 1 / -1;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--line);
     color: var(--accent);
     font-family: var(--font-code);
-    font-size: 0.56rem;
-    letter-spacing: 0.08em;
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
   }
 
   .site-card img {
-    width: 2.7rem;
-    height: 2.7rem;
+    width: 2.4rem;
+    height: 2.4rem;
     margin: 0;
+    border: 1px solid var(--line-strong);
     border-radius: 50%;
     object-fit: cover;
   }
@@ -105,178 +112,292 @@ const siteExchangeInfo = `NAME: ${siteIdentity.name}\nBIO: ${siteIdentity.descri
   .site-card > div { min-width: 0; display: flex; flex-direction: column; gap: 0.05rem; }
 
   .site-card strong {
-    color: var(--text);
-    font-size: 1.08rem;
+    color: var(--ink);
+    font-family: var(--font-display) !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
   }
 
   .site-card code {
     overflow: hidden;
-    color: var(--secondary);
+    color: var(--ink-2);
     font-family: var(--font-code);
-    font-size: 0.56rem;
+    font-size: 0.52rem;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .site-card p {
     grid-column: 1 / -1;
-    margin: 0.1rem 0 0;
-    color: var(--secondary);
-    font-family: var(--font-serif);
-    font-size: 0.67rem;
-    font-style: italic;
-    line-height: 1.5;
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 0.6rem;
+    line-height: 1.6;
   }
 
   .site-card button {
     grid-column: 1 / -1;
-    width: max-content;
-    margin-top: 0.45rem;
-    padding: 0;
-    border: 0;
-    color: var(--accent);
+    height: 1.7rem;
+    justify-self: start;
+    padding: 0 0.6rem;
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    color: var(--ink);
     background: transparent;
-    cursor: pointer;
     font-family: var(--font-code);
-    font-size: 0.58rem;
+    font-size: 0.52rem;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .site-card button:hover {
+    color: var(--bg);
+    background: var(--ink);
   }
 
   .friend-directory {
-    padding: clamp(3.5rem, 7vw, 5.5rem) clamp(0rem, 3vw, 2rem) 0;
+    padding: 2rem var(--pad) 2.4rem;
   }
 
-  .friend-directory > header {
-    margin-bottom: 1.3rem;
+  .friend-directory > header,
+  .exchange-note {
     display: flex;
     align-items: end;
     justify-content: space-between;
     gap: 1rem;
   }
 
+  .friend-directory > header {
+    margin-bottom: 1.1rem;
+  }
+
   .friend-directory > header p,
   .exchange-note > p {
-    margin: 0 0 0.6rem;
+    margin: 0 0 0.5rem;
     color: var(--accent);
     font-family: var(--font-code);
-    font-size: 0.58rem;
-    letter-spacing: 0.1em;
+    font-size: 0.54rem;
+    letter-spacing: 0.12em;
   }
 
   .friend-directory h2,
   .exchange-note h2 {
     margin: 0;
-    font-size: clamp(2rem, 4vw, 3.4rem);
-    letter-spacing: -0.04em;
-    line-height: 1;
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
 
   .friend-directory > header > span {
-    color: var(--muted);
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.58rem;
-    letter-spacing: 0.06em;
+    font-size: 0.54rem;
+    letter-spacing: 0.1em;
+  }
+
+  .links-page {
+    padding-bottom: 0;
   }
 
   .friend-grid {
+    padding: 1px 0 0 1px;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--border-strong);
-    border-left: 1px solid var(--border-strong);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .friend-grid > a {
+  .friend-grid a {
+    position: relative;
     min-width: 0;
-    min-height: 9rem;
-    padding: 1rem;
+    min-height: 6.4rem;
+    margin: -1px 0 0 -1px;
+    padding: 0.85rem 0.9rem;
+    border: 1px solid var(--line);
     display: grid;
-    grid-template-columns: auto 4.25rem minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 0.8rem;
-    border-right: 1px solid var(--border-strong);
-    border-bottom: 1px solid var(--border-strong);
-    color: var(--text);
-    transition: background-color 0.2s ease;
+    grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 0.75rem;
+    color: var(--ink);
+    background: var(--panel);
+    transition: background-color 0.15s ease;
   }
 
-  .friend-grid > a:hover { background: var(--surface-soft); }
+  .friend-grid a:hover {
+    z-index: 1;
+    border-color: var(--ink-3);
+    background: var(--bg);
+  }
 
   .friend-index {
-    align-self: start;
-    color: var(--accent);
+    position: absolute;
+    right: 0.7rem;
+    bottom: 0.55rem;
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.52rem;
+    font-size: 0.46rem;
+    letter-spacing: 0.08em;
   }
 
   .friend-grid img {
-    width: 4.25rem;
-    height: 4.25rem;
-    margin: 0;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 1px solid var(--line-strong);
     border-radius: 50%;
     object-fit: cover;
-    filter: saturate(0.75);
-    transition: filter 0.25s ease, transform 0.3s ease;
+    filter: grayscale(0.4);
+    transition: filter 0.3s ease;
   }
 
-  .friend-grid > a:hover img {
-    filter: saturate(1);
-    transform: rotate(-2deg) scale(1.04);
+  .friend-grid a:hover img {
+    filter: none;
   }
 
   .friend-copy {
     min-width: 0;
     display: flex;
     flex-direction: column;
+    gap: 0.12rem;
   }
 
-  .friend-copy strong { font-size: 1.05rem; }
-
-  .friend-copy small {
-    margin-top: 0.2rem;
+  .friend-copy strong {
     overflow: hidden;
-    color: var(--secondary);
-    font-size: 0.68rem;
-    line-height: 1.45;
+    font-family: var(--font-display);
+    font-size: 0.86rem;
+    font-weight: 500;
+    line-height: 1.3;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .friend-copy code {
-    margin-top: 0.55rem;
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.5rem;
-  }
-
-  .friend-grid :global(.icon) {
+  .friend-grid a:hover strong {
     color: var(--accent);
-    opacity: 0;
-    transform: translateX(-0.25rem);
-    transition: opacity 0.18s ease, transform 0.18s ease;
   }
 
-  .friend-grid > a:hover :global(.icon) {
-    opacity: 1;
-    transform: translateX(0);
+  .friend-copy small {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--ink-2);
+    font-size: 0.58rem;
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .friend-copy code {
+    margin-top: 0.2rem;
+    overflow: hidden;
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.48rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .friend-grid a > :global(.icon) {
+    color: var(--ink-3);
+    transform: rotate(-45deg);
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+
+  .friend-grid a:hover > :global(.icon) {
+    color: var(--accent);
+    transform: rotate(-45deg) translateX(0.12rem);
   }
 
   .exchange-note {
-    margin: clamp(4rem, 8vw, 7rem) clamp(0rem, 3vw, 2rem) 0;
-    padding: 1.5rem 0;
+    position: relative;
+    padding: 2rem var(--pad) 2.6rem;
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(16rem, 1.1fr);
-    gap: 2rem 4rem;
-    border-block: 1px solid var(--border-strong);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: end;
+    border-top: 1px solid var(--line);
+    background:
+      linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 1.2rem 1.2rem,
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 1.2rem 1.2rem,
+      var(--panel);
   }
 
-  .exchange-note > p { grid-column: 1 / -1; margin-bottom: -1rem; }
-  .exchange-note > div p { margin: 0; color: var(--secondary); font-size: 0.82rem; line-height: 1.7; }
-  .exchange-note > div a { margin-top: 0.8rem; display: inline-block; color: var(--accent); font-family: var(--font-code); font-size: 0.68rem; }
+  .exchange-note > p,
+  .exchange-note h2 {
+    grid-column: 1;
+  }
 
-  @media (max-width: 46rem) {
-    .friend-directory { padding-top: 3.2rem; }
-    .friend-grid { grid-template-columns: 1fr; }
-    .friend-grid > a { min-height: 8rem; grid-template-columns: auto 3.6rem minmax(0, 1fr) auto; }
-    .friend-grid img { width: 3.6rem; height: 3.6rem; }
-    .exchange-note { grid-template-columns: 1fr; }
+  .exchange-note > div {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: end;
+  }
+
+  .exchange-note > div p {
+    margin: 0 0 0.9rem;
+    color: var(--ink-2);
+    font-size: 0.7rem;
+    line-height: 1.8;
+  }
+
+  .exchange-note > div a {
+    min-height: 2.1rem;
+    padding: 0 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    color: var(--bg);
+    background: var(--ink);
+    font-family: var(--font-code);
+    font-size: 0.6rem;
+  }
+
+  .exchange-note > div a:hover {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+
+  :global(:root[data-theme="dark"]) .exchange-note > div a:hover {
+    color: #0d1330;
+  }
+
+  @media (max-width: 60rem) {
+    .site-card > span,
+    .friend-directory > header p,
+    .exchange-note > p,
+    .friend-directory > header > span { font-size: 0.64rem; }
+    .site-card code,
+    .site-card button,
+    .friend-index,
+    .friend-copy code { font-size: 0.6rem; }
+    .site-card p,
+    .friend-copy small { font-size: 0.76rem; }
+    .friend-copy strong { font-size: 1rem; }
+    .exchange-note > div p { font-size: 0.9rem; }
+    .exchange-note > div a { font-size: 0.72rem; }
+    .friend-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 48rem) {
+    .links-page :global(.page-hero__aside) {
+      max-width: none;
+      margin-top: 3.2rem;
+    }
+
+    .friend-directory {
+      padding-top: 1.4rem;
+    }
+
+    .friend-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .exchange-note {
+      grid-template-columns: 1fr;
+    }
+
+    .exchange-note > div {
+      grid-column: 1;
+      grid-row: auto;
+      margin-top: 1rem;
+    }
   }
 </style>

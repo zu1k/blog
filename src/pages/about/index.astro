@@ -1,8 +1,8 @@
 ---
 import Icon from '../../components/Icon.astro';
-import PageHero from '../../components/PageHero.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { signedWalletMessage, siteIdentity, wallets } from '../../data/identity';
+import { SITE } from '../../consts';
 
 const contacts = [
   { label: 'Email', value: 'i@zu1k.com', href: 'mailto:i@zu1k.com', icon: 'mail' },
@@ -12,7 +12,8 @@ const contacts = [
 ] as const;
 
 const fingerprintGroups = siteIdentity.pgp.primaryFingerprintDisplay.split(' ');
-const fingerprintRows = [fingerprintGroups.slice(0, 5).join(' '), fingerprintGroups.slice(5).join(' ')];
+const languages = ['Java', 'Python', 'C', 'Golang', 'Rust', 'JavaScript'];
+const currentYear = new Date().getFullYear();
 const localVerificationCommands = [
   `gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys ${siteIdentity.pgp.primaryFingerprint}`,
   `gpg --fingerprint ${siteIdentity.pgp.primaryFingerprint}`,
@@ -20,145 +21,255 @@ const localVerificationCommands = [
   'gpg --verify zu1k-wallets.asc',
 ].join('\n');
 ---
-
 <BaseLayout title="关于" description="关于 zu1k、联系方式与公开身份信息。" type="profile">
-  <div class="wide-page about-page">
-    <PageHero
-      eyebrow="PROFILE / ABOUT"
-      title="你好，我是 zu1k。"
-      description="出生并生活在一个三面环海的小渔村。热爱开源，喜欢做一些玩具，也一直对外面的世界保持好奇。"
-      mark="Z"
-    >
-      <div slot="aside" class="about-portrait">
-        <img src="/images/logo.jpg" alt="zu1k" width="144" height="144" />
-        <div><strong>zu1k</strong><span>Developer · Maker · Traveler</span></div>
-      </div>
-    </PageHero>
-
-    <section class="about-story" aria-labelledby="about-story-title">
-      <header>
-        <p>THE SHORT VERSION</p>
-        <h2 id="about-story-title">关于我</h2>
-      </header>
-      <div class="about-story__copy">
-        <p>欢迎访问我的博客。这里主要分享一些经验、想法和作品：可能是一场持续两天的系统排查，也可能是一件刚好让生活变得更顺手的小工具。</p>
-        <p>我从大学开始接触编程，先后使用 Java、Python、C、Golang、Rust 和 JavaScript。现在的新个人项目通常首选 Rust，但比语言本身更重要的，是把真实问题转化成可以使用、可以分享的东西。</p>
+  <div class="frame about-page">
+    <header class="about-hero">
+      <div class="about-hero__copy">
+        <p class="about-eyebrow" data-no-select><b>PROFILE</b> / ABOUT</p>
+        <h1 data-no-select>你好，<br />我是 <em>zu1k</em>。</h1>
+        <p class="about-hero__lede">出生并生活在一个三面环海的小渔村。热爱开源，喜欢做一些玩具，也一直对外面的世界保持好奇。</p>
         <div class="about-paths">
-          <a href="/rss.xml"><Icon name="rss" size={17} /> 订阅博客</a>
-          <a href="/projects/"><Icon name="arrow" size={17} /> 查看项目</a>
-          <a href="https://read.zu1k.com" rel="noopener" target="_blank">最近在读 <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--primary" href="/projects/"><Icon name="arrow" size={15} /> 查看项目</a>
+          <a class="btn" href="/rss.xml"><Icon name="rss" size={15} /> 订阅博客</a>
+          <a class="btn btn--ghost" href="https://read.zu1k.com" rel="noopener" target="_blank">最近在读 <span aria-hidden="true">↗</span></a>
         </div>
       </div>
-      <dl class="about-values">
-        <div><dt>OPEN SOURCE</dt><dd>让想法能够被检查、复用和继续生长。</dd></div>
-        <div><dt>CURIOSITY</dt><dd>对系统为什么这样运作，始终多问一个问题。</dd></div>
-        <div><dt>LONG WEB</dt><dd>认真维护一块属于自己的互联网空间。</dd></div>
-      </dl>
-    </section>
 
-    <section class="contact-section" aria-labelledby="contact-title">
-      <header>
-        <p>CONTACT / SAY HELLO</p>
-        <h2 id="contact-title">保持联系</h2>
-        <span>博文相关问题优先留在评论区，这样答案也能帮助后来的人。</span>
-      </header>
-      <div class="contact-grid">
-        {contacts.map((contact, index) => (
-          <a href={contact.href} rel="me noopener" target={contact.href.startsWith('http') ? '_blank' : undefined}>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <Icon name={contact.icon} size={24} />
-            <div><strong>{contact.label}</strong><small>{contact.value}</small></div>
-            <b aria-hidden="true">↗</b>
-          </a>
-        ))}
-      </div>
-    </section>
+      <figure class="about-map">
+        <svg viewBox="0 0 480 420" role="img" aria-label="示意地图：一座三面环海的半岛渔村，尖端有灯塔，海上有渔船">
+          <defs>
+            <pattern id="about-map-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" class="map-grid" /></pattern>
+            <pattern id="about-map-waves" width="30" height="16" patternUnits="userSpaceOnUse"><path d="M3 9q4-4 8 0t8 0" fill="none" class="map-wave" /></pattern>
+            <path id="about-coast" d="M120 420C128 360 96 318 132 262C162 214 150 160 200 128C238 104 250 70 292 78C336 86 350 128 334 170C318 212 344 236 362 272C382 312 360 352 392 420Z" />
+          </defs>
+          <rect width="480" height="420" class="map-sea" />
+          <rect width="480" height="420" fill="url(#about-map-grid)" />
+          <rect width="480" height="420" fill="url(#about-map-waves)" />
 
-    <section class="identity-section" aria-labelledby="identity-title">
-      <div>
-        <p>PUBLIC IDENTITY</p>
-        <h2 id="identity-title">PGP 公钥</h2>
-        <span>需要验证我的身份或发送加密邮件时，可以使用这枚指纹。</span>
-      </div>
-      <div class="fingerprint">
-        <code>{fingerprintRows[0]}<br />{fingerprintRows[1]}</code>
-        <button type="button" data-copy-value={siteIdentity.pgp.primaryFingerprintDisplay}>复制指纹</button>
-        <nav aria-label="PGP 公钥地址">
-          <a href={siteIdentity.pgp.publicKeyUrl} target="_blank" rel="noopener">pgp.zu1k.com ↗</a>
-          <a href={`https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x${siteIdentity.pgp.primaryFingerprint}`} target="_blank" rel="noopener">Ubuntu Keyserver ↗</a>
-        </nav>
-      </div>
-    </section>
+          <g class="map-depth">
+            <use href="#about-coast" transform="translate(256 420) scale(1.16) translate(-256 -420)" />
+            <use href="#about-coast" transform="translate(256 420) scale(1.34) translate(-256 -420)" />
+          </g>
 
-    <section class="support-section" aria-labelledby="support-title">
-      <header>
-        <p>SUPPORT THE WORK</p>
-        <h2 id="support-title">支持公开创作</h2>
-        <span>如果这些内容或工具对你有帮助，可以通过赞助支持后续维护。</span>
-      </header>
-      <div class="wallet-list">
-        {wallets.map((wallet) => (
+          <use href="#about-coast" class="map-land" />
+          <g class="map-contour">
+            <use href="#about-coast" transform="translate(262 360) scale(.8) translate(-262 -360)" />
+            <use href="#about-coast" transform="translate(262 360) scale(.6) translate(-262 -360)" />
+            <use href="#about-coast" transform="translate(262 360) scale(.4) translate(-262 -360)" />
+          </g>
+
+          <path d="M336 214H378M378 208V220" class="map-ink" fill="none" />
+
+          <g class="map-house">
+            <path transform="translate(284 190)" d="M0 7V1L4-3L8 1V7Z" />
+            <path transform="translate(297 184)" d="M0 7V1L4-3L8 1V7Z" />
+            <path transform="translate(310 196)" d="M0 7V1L4-3L8 1V7Z" />
+            <path transform="translate(276 208)" d="M0 7V1L4-3L8 1V7Z" />
+            <path transform="translate(302 214)" d="M0 7V1L4-3L8 1V7Z" />
+            <path transform="translate(288 226)" d="M0 7V1L4-3L8 1V7Z" />
+            <path transform="translate(316 230)" d="M0 7V1L4-3L8 1V7Z" />
+          </g>
+
+          <circle cx="296" cy="205" r="10" fill="none" class="map-accent-line" />
+          <circle cx="296" cy="205" r="3" class="map-accent-fill" />
+          <path d="M304 198L372 140H452" fill="none" class="map-accent-line" />
+          <text x="376" y="133" class="map-label map-label--accent">HOME</text>
+          <text x="376" y="156" class="map-label">小渔村 · 示意</text>
+
+          <g transform="translate(272 100)">
+            <path d="M-7-26L-22-38M7-26L22-38" class="map-accent-line" stroke-dasharray="2 3" />
+            <path d="M-4 0L-2.5-18H2.5L4 0Z" class="map-house" />
+            <rect x="-3.5" y="-24" width="7" height="6" class="map-accent-fill" />
+            <path d="M-3.5-24L0-28L3.5-24" class="map-ink-fill" />
+          </g>
+
+          <path d="M415 250C400 236 392 226 380 216" fill="none" class="map-track" />
+          <g transform="translate(424 258)">
+            <path d="M-11 0H11L7 5H-7Z" class="map-ink-fill" />
+            <path d="M0 0V-16" class="map-ink" />
+            <path d="M1-15L9-2H1Z" class="map-sail-accent" />
+          </g>
+          <g transform="translate(70 196)">
+            <path d="M-9 0H9L6 4H-6Z" class="map-ink-fill" />
+            <path d="M0 0V-13" class="map-ink" />
+            <path d="M-1-12L-8-2H-1Z" class="map-house" />
+          </g>
+          <path d="M78 202C96 214 108 228 116 246" fill="none" class="map-track" />
+
+          <text x="30" y="300" class="map-label">W · 海</text>
+          <text x="190" y="36" class="map-label">N · 海</text>
+          <text x="410" y="340" class="map-label">E · 海</text>
+
+          <g transform="translate(440 44)">
+            <circle r="15" class="map-compass" />
+            <path d="M0-10L5 6L0 2L-5 6Z" class="map-ink-fill" />
+            <text y="-20" text-anchor="middle" class="map-label">N</text>
+          </g>
+
+          <g transform="translate(24 396)">
+            <rect width="30" height="5" class="map-ink-fill" />
+            <rect x="30" width="30" height="5" class="map-compass" />
+            <rect x="60" width="30" height="5" class="map-ink-fill" />
+            <text y="-6" class="map-label">0</text>
+            <text x="90" y="-6" text-anchor="end" class="map-label">NOT TO SCALE</text>
+          </g>
+        </svg>
+        <figcaption><span>FIG. 01 — 出生地</span><span>三面环海</span></figcaption>
+      </figure>
+    </header>
+
+    <dl class="about-spec">
+      <div class="about-spec__who">
+        <img src="/images/logo.jpg" alt="zu1k" width="144" height="144" />
+        <div><dt>Handle</dt><dd>zu1k</dd></div>
+      </div>
+      <div><dt>Role</dt><dd>Developer · Maker · Traveler</dd></div>
+      <div><dt>Default lang</dt><dd class="mono">Rust</dd></div>
+      <div><dt>Online since</dt><dd class="mono">{SITE.since} — {currentYear}</dd></div>
+    </dl>
+
+    <section class="section x-rule about-story" aria-labelledby="about-story-title">
+      <div class="section__rail"><p class="rail-label eyebrow"><span class="index-no">01</span><span>The short version</span></p></div>
+      <div class="section__body">
+        <h2 id="about-story-title">关于我</h2>
+        <div class="about-story__copy">
+          <p>欢迎访问我的博客。这里主要分享一些经验、想法和作品：可能是一场持续两天的系统排查，也可能是一件刚好让生活变得更顺手的小工具。</p>
+          <p>我从大学开始接触编程，先后使用 Java、Python、C、Golang、Rust 和 JavaScript。现在的新个人项目通常首选 Rust，但比语言本身更重要的，是把真实问题转化成可以使用、可以分享的东西。</p>
+        </div>
+        <ol class="language-trail" aria-label="使用过的编程语言，按接触先后排列">
+          {languages.map((language, index) => (
+            <li class:list={{ 'is-current': language === 'Rust' }}>
+              <span>{String(index + 1).padStart(2, '0')}</span>{language}
+            </li>
+          ))}
+        </ol>
+        <p class="language-trail__note">// 按接触先后排列 · 高亮为当前首选</p>
+
+        <dl class="about-values">
           <div>
-            <strong>{wallet.label}</strong>
-            <code>{wallet.value}</code>
-            <button type="button" data-copy-value={wallet.value}>复制</button>
+            <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="6" r="2.5" /><circle cx="7" cy="22" r="2.5" /><circle cx="21" cy="10" r="2.5" /><path d="M7 8.5v11M21 12.5c0 5-6 4-12.5 8" /></svg>
+            <dt>OPEN SOURCE</dt><dd>让想法能够被检查、复用和继续生长。</dd>
           </div>
-        ))}
+          <div>
+            <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="7.5" /><path d="M17.5 17.5L24 24" /><path d="M9.5 10a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5" /><circle cx="12" cy="16.5" r=".6" fill="currentColor" /></svg>
+            <dt>CURIOSITY</dt><dd>对系统为什么这样运作，始终多问一个问题。</dd>
+          </div>
+          <div>
+            <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3.5" y="5.5" width="21" height="17" /><path d="M3.5 10.5h21M8 5.5v5M12 15h8M12 18.5h5M7 15h1.5M7 18.5h1.5" /></svg>
+            <dt>LONG WEB</dt><dd>认真维护一块属于自己的互联网空间。</dd>
+          </div>
+        </dl>
       </div>
-      <p class="support-warning"><strong>VERIFY BEFORE TRANSFER</strong> 转账前请验证 PGP 签名；不要信任来自其他渠道的临时替换地址。</p>
+    </section>
 
-      <details class="signature-proof">
-        <summary>
-          <span>
-            <small>PGP / SHA-256</small>
-            <strong>检查钱包地址签名</strong>
-          </span>
-          <span class="signature-proof__summary-action"><b>完整证明</b><i aria-hidden="true"></i></span>
-        </summary>
+    <section class="section x-rule contact-section" aria-labelledby="contact-title">
+      <div class="section__rail"><p class="rail-label eyebrow"><span class="index-no">02</span><span>Contact / Say hello</span></p></div>
+      <div class="section__body">
+        <h2 id="contact-title">保持联系</h2>
+        <p class="section-sub">博文相关问题优先留在评论区，这样答案也能帮助后来的人。</p>
+        <div class="contact-grid">
+          {contacts.map((contact, index) => (
+            <a href={contact.href} rel="me noopener" target={contact.href.startsWith('http') ? '_blank' : undefined}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <Icon name={contact.icon} size={18} />
+              <div><strong>{contact.label}</strong><small>{contact.value}</small></div>
+              <b aria-hidden="true">↗</b>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
 
-        <div class="signature-proof__body">
-          <div class="signature-proof__guide">
-            <div>
-              <p>下面保留了完整的 PGP 签名原文。浏览器验签会确认内容没有被改动，但你仍应从可信渠道独立核对主密钥指纹。</p>
-              <div class="signature-proof__actions">
-                <button type="button" data-verify-signature>在浏览器中验签</button>
-                <a href="/identity/zu1k-wallets.asc" download>下载签名文件</a>
-                <a href="/identity/zu1k-public-key.asc" download>下载公钥</a>
-              </div>
-              <p class="verification-result" data-verification-result data-state="idle" aria-live="polite">
-                <span aria-hidden="true"></span>尚未在本次浏览器会话中验签
-              </p>
-            </div>
-            <dl>
-              <div>
-                <dt>主密钥指纹</dt>
-                <dd>{siteIdentity.pgp.primaryFingerprintDisplay}</dd>
-              </div>
-              <div>
-                <dt>签名子密钥</dt>
-                <dd>{siteIdentity.pgp.signingSubkeyFingerprintDisplay}</dd>
-              </div>
-            </dl>
-          </div>
-
-          <div class="signed-record">
-            <header>
-              <span>SIGNED CONTENT</span>
-              <button type="button" data-copy-target="#signed-wallet-message">复制原文</button>
-            </header>
-            <pre id="signed-wallet-message"><code>{signedWalletMessage}</code></pre>
-          </div>
-
-          <div class="local-verification">
-            <span>LOCAL VERIFICATION</span>
-            <pre><code>{localVerificationCommands}</code></pre>
-            <button
-              type="button"
-              data-copy-value={localVerificationCommands}
-            >复制命令</button>
+    <section class="section x-rule identity-section" aria-labelledby="identity-title">
+      <div class="section__rail"><p class="rail-label eyebrow"><span class="index-no">03</span><span>Public identity</span></p></div>
+      <div class="section__body">
+        <h2 id="identity-title">PGP 公钥</h2>
+        <p class="section-sub">需要验证我的身份或发送加密邮件时，可以使用这枚指纹。</p>
+        <div class="fingerprint">
+          <code aria-label={`主密钥指纹 ${siteIdentity.pgp.primaryFingerprintDisplay}`}>
+            {fingerprintGroups.map((group) => <span>{group}</span>)}
+          </code>
+          <div class="fingerprint__bar">
+            <span class="eyebrow">Primary key fingerprint</span>
+            <button type="button" class="btn" data-copy-value={siteIdentity.pgp.primaryFingerprintDisplay}>复制指纹</button>
+            <nav aria-label="PGP 公钥地址">
+              <a class="btn btn--ghost" href={siteIdentity.pgp.publicKeyUrl} target="_blank" rel="noopener">pgp.zu1k.com ↗</a>
+              <a class="btn btn--ghost" href={`https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x${siteIdentity.pgp.primaryFingerprint}`} target="_blank" rel="noopener">Ubuntu Keyserver ↗</a>
+            </nav>
           </div>
         </div>
-      </details>
+      </div>
+    </section>
+
+    <section class="section x-rule support-section" aria-labelledby="support-title">
+      <div class="section__rail"><p class="rail-label eyebrow"><span class="index-no">04</span><span>Support the work</span></p></div>
+      <div class="section__body">
+        <h2 id="support-title">支持公开创作</h2>
+        <p class="section-sub">如果这些内容或工具对你有帮助，可以通过赞助支持后续维护。</p>
+        <div class="wallet-list">
+          {wallets.map((wallet) => (
+            <div>
+              <strong>{wallet.label}</strong>
+              <code>{wallet.value}</code>
+              <button type="button" class="btn btn--ghost" data-copy-value={wallet.value}>复制</button>
+            </div>
+          ))}
+        </div>
+        <p class="support-warning"><strong>VERIFY BEFORE TRANSFER</strong> 转账前请验证 PGP 签名；不要信任来自其他渠道的临时替换地址。</p>
+
+        <details class="signature-proof">
+          <summary>
+            <span>
+              <small>PGP / SHA-256</small>
+              <strong>检查钱包地址签名</strong>
+            </span>
+            <span class="signature-proof__summary-action"><b>完整证明</b><i aria-hidden="true"></i></span>
+          </summary>
+
+          <div class="signature-proof__body">
+            <div class="signature-proof__guide">
+              <div>
+                <p>下面保留了完整的 PGP 签名原文。浏览器验签会确认内容没有被改动，但你仍应从可信渠道独立核对主密钥指纹。</p>
+                <div class="signature-proof__actions">
+                  <button type="button" class="btn btn--primary" data-verify-signature>在浏览器中验签</button>
+                  <a class="btn" href="/identity/zu1k-wallets.asc" download>下载签名文件</a>
+                  <a class="btn btn--ghost" href="/identity/zu1k-public-key.asc" download>下载公钥</a>
+                </div>
+                <p class="verification-result" data-verification-result data-state="idle" aria-live="polite">
+                  <span aria-hidden="true"></span>尚未在本次浏览器会话中验签
+                </p>
+              </div>
+              <dl>
+                <div>
+                  <dt>主密钥指纹</dt>
+                  <dd>{siteIdentity.pgp.primaryFingerprintDisplay}</dd>
+                </div>
+                <div>
+                  <dt>签名子密钥</dt>
+                  <dd>{siteIdentity.pgp.signingSubkeyFingerprintDisplay}</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="signed-record">
+              <header>
+                <span>SIGNED CONTENT</span>
+                <button type="button" class="btn btn--ghost" data-copy-target="#signed-wallet-message">复制原文</button>
+              </header>
+              <pre id="signed-wallet-message"><code>{signedWalletMessage}</code></pre>
+            </div>
+          </div>
+        </details>
+
+        <div class="local-verification">
+          <header>
+            <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
+            <span>LOCAL VERIFICATION — zsh</span>
+            <button type="button" data-copy-value={localVerificationCommands}>复制命令</button>
+          </header>
+          <pre><code>{localVerificationCommands.split('\n').map((command) => <span class="cmd">{command}</span>)}<span class="cursor" aria-hidden="true">▍</span></code></pre>
+        </div>
+      </div>
     </section>
   </div>
 </BaseLayout>
@@ -230,166 +341,488 @@ const localVerificationCommands = [
     }
   });
 </script>
-
 <style>
-  .about-portrait {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
+  .about-page {
+    --map-sea: color-mix(in srgb, var(--accent) 5%, var(--panel));
+    --map-wave: color-mix(in srgb, var(--accent) 16%, var(--line));
+    --map-land: color-mix(in srgb, #c8a668 16%, var(--bg));
+    --map-contour: color-mix(in srgb, #a88b55 30%, var(--line));
   }
 
-  .about-portrait img {
-    width: 4.5rem;
-    height: 4.5rem;
+  /* Hero ------------------------------------------------------------------ */
+
+  .about-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+
+  .about-hero__copy {
+    min-width: 0;
+    padding: clamp(2.6rem, 6vw, 4.2rem) var(--pad) 2.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .about-eyebrow {
+    margin: 0 0 1.1rem;
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.56rem;
+    letter-spacing: 0.12em;
+  }
+
+  .about-eyebrow b {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .about-hero h1 {
     margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 6vw, 4.4rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  .about-hero h1 em {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .about-hero__lede {
+    max-width: 28rem;
+    margin: 1.3rem 0 0;
+    color: var(--ink-2);
+    font-size: 0.82rem;
+    line-height: 1.85;
+  }
+
+  .about-paths {
+    margin-top: 1.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .about-map {
+    min-width: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--line);
+    background: var(--map-sea);
+  }
+
+  .about-map svg {
+    width: 100%;
+    height: auto;
+    flex: 1;
+    display: block;
+  }
+
+  .about-map figcaption {
+    padding: 0.5rem 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+    background: var(--bg);
+    font-family: var(--font-code);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  .map-sea { fill: var(--map-sea); }
+  .map-grid { stroke: var(--grid); stroke-width: 1; }
+  .map-wave { stroke: var(--map-wave); stroke-width: 1; }
+  .map-depth { fill: none; stroke: var(--map-wave); stroke-width: 1; stroke-dasharray: 3 5; }
+  .map-land { fill: var(--map-land); stroke: var(--ink); stroke-width: 1.4; }
+  .map-contour { fill: none; stroke: var(--map-contour); stroke-width: 1; }
+  .map-ink { stroke: var(--ink); stroke-width: 1.4; }
+  .map-ink-fill { fill: var(--ink); }
+  .map-house { fill: var(--paper); stroke: var(--ink); stroke-width: 1; }
+  .map-accent-line { stroke: var(--accent); stroke-width: 1; }
+  .map-accent-fill { fill: var(--accent); }
+  .map-sail-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; }
+  .map-track { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 2 4; }
+  .map-compass { fill: var(--bg); stroke: var(--ink-3); stroke-width: 1; }
+
+  .map-label {
+    fill: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .map-label--accent { fill: var(--accent); }
+
+  /* Spec strip ------------------------------------------------------------ */
+
+  .about-spec {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1.15fr 1.2fr 0.9fr 1fr;
+    border-top: 1px solid var(--line);
+  }
+
+  .about-spec > div {
+    min-width: 0;
+    padding: 0.85rem var(--pad);
+    border-right: 1px solid var(--line);
+  }
+
+  .about-spec > div:last-child { border-right: 0; }
+
+  .about-spec__who {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .about-spec__who img {
+    width: 2.2rem;
+    height: 2.2rem;
+    flex: none;
+    border: 1px solid var(--line-strong);
     border-radius: 50%;
     object-fit: cover;
   }
 
-  .about-portrait div { display: flex; flex-direction: column; }
-  .about-portrait strong { color: var(--text); font-size: 1.1rem; }
-  .about-portrait span { color: var(--muted); font-family: var(--font-code); font-size: 0.52rem; }
-
-  .about-story,
-  .identity-section {
-    margin: clamp(3.5rem, 7vw, 5.5rem) clamp(0rem, 3vw, 2rem) 0;
-    display: grid;
-    grid-template-columns: minmax(10rem, 0.55fr) minmax(0, 1.15fr) minmax(12rem, 0.6fr);
-    gap: clamp(1.5rem, 5vw, 4rem);
-  }
-
-  .about-story header p,
-  .contact-section header p,
-  .identity-section > div:first-child p,
-  .support-section header p {
-    margin: 0 0 0.6rem;
-    color: var(--accent);
+  .about-spec dt {
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.58rem;
+    font-size: 0.5rem;
     letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
-  .about-story h2,
-  .contact-section h2,
-  .identity-section h2,
-  .support-section h2 {
-    margin: 0;
-    font-size: clamp(2rem, 4vw, 3.3rem);
-    letter-spacing: -0.04em;
-    line-height: 1;
+  .about-spec dd {
+    margin: 0.2rem 0 0;
+    color: var(--ink);
+    font-size: 0.72rem;
+    font-weight: 500;
   }
 
-  .about-story__copy > p {
-    margin: 0 0 1rem;
-    color: var(--secondary);
-    font-size: 0.86rem;
+  .about-spec dd.mono {
+    font-family: var(--font-code);
+    font-weight: 400;
+  }
+
+  /* Sections -------------------------------------------------------------- */
+
+  .section__body > h2 {
+    margin: 0 0 0.9rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+  }
+
+  .section-sub {
+    max-width: 34rem;
+    margin: 0 0 1.4rem;
+    color: var(--ink-2);
+    font-size: 0.74rem;
     line-height: 1.8;
   }
 
-  .about-paths {
-    margin-top: 1.4rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem;
+  .about-story__copy {
+    max-width: 36rem;
+    font-size: 0.8rem;
+    line-height: 1.95;
   }
 
-  .about-paths a {
-    padding: 0.4rem 0.65rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 0.25rem;
-    color: var(--text);
-    font-size: 0.66rem;
+  .about-story__copy p {
+    margin: 0 0 0.9rem;
   }
 
-  .about-paths a:hover { border-color: var(--accent); color: var(--accent); }
-
-  .about-values { margin: 0; border-top: 1px solid var(--border-strong); }
-  .about-values div { padding: 0.65rem 0; border-bottom: 1px solid var(--border); }
-  .about-values dt { color: var(--accent); font-family: var(--font-code); font-size: 0.5rem; letter-spacing: 0.07em; }
-  .about-values dd { margin: 0.3rem 0 0; color: var(--secondary); font-size: 0.68rem; line-height: 1.5; }
-
-  .contact-section,
-  .support-section {
-    margin: clamp(4rem, 8vw, 7rem) clamp(0rem, 3vw, 2rem) 0;
-  }
-
-  .contact-section > header,
-  .support-section > header {
-    margin-bottom: 1.4rem;
+  .language-trail {
+    margin: 2.2rem 0 0.5rem;
+    padding: 0;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.7fr);
-    align-items: end;
-    gap: 0.5rem 2rem;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    border: 1px solid var(--line);
+    background: var(--panel);
+    list-style: none;
   }
 
-  .contact-section header p,
-  .support-section header p { grid-column: 1 / -1; }
-  .contact-section header span,
-  .support-section header span { color: var(--secondary); font-size: 0.74rem; line-height: 1.6; }
+  .language-trail li {
+    position: relative;
+    min-width: 0;
+    padding: 0.65rem 0.7rem 0.6rem;
+    border-right: 1px solid var(--line);
+    font-family: var(--font-code);
+    font-size: 0.62rem;
+  }
 
+  .language-trail li:last-child { border-right: 0; }
+
+  .language-trail li span {
+    display: block;
+    margin-bottom: 0.15rem;
+    color: var(--ink-3);
+    font-size: 0.46rem;
+    letter-spacing: 0.1em;
+  }
+
+  .language-trail li.is-current {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .language-trail li.is-current span { color: var(--accent); }
+
+  .language-trail li.is-current::after {
+    position: absolute;
+    bottom: 100%;
+    left: -1px;
+    padding: 0.1rem 0.35rem;
+    color: var(--bg);
+    background: var(--accent);
+    content: "CURRENT DEFAULT";
+    font-size: 0.42rem;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .language-trail__note {
+    margin: 0 0 2rem;
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.52rem;
+  }
+
+  .about-values {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--line);
+    background: var(--line);
+  }
+
+  .about-values > div {
+    min-width: 0;
+    padding: 1rem 1rem 1.15rem;
+    background: var(--panel);
+  }
+
+  .about-values svg {
+    width: 1.35rem;
+    height: 1.35rem;
+    margin-bottom: 1rem;
+    display: block;
+    color: var(--accent);
+  }
+
+  .about-values dt {
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+  }
+
+  .about-values dd {
+    margin: 0.35rem 0 0;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+
+  /* Contact rows */
   .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--border-strong);
-    border-left: 1px solid var(--border-strong);
+    border-top: 1px solid var(--ink);
   }
 
   .contact-grid a {
-    min-width: 0;
-    min-height: 7rem;
-    padding: 0.9rem;
+    min-height: 3rem;
+    padding: 0.7rem 0.4rem;
     display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    grid-template-columns: 2rem 1.5rem 1fr 1.2rem;
     align-items: center;
-    gap: 0.8rem;
-    border-right: 1px solid var(--border-strong);
-    border-bottom: 1px solid var(--border-strong);
-    color: var(--text);
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    transition: background-color 0.15s ease;
   }
 
-  .contact-grid a:hover { background: var(--surface-soft); }
-  .contact-grid > a > span { align-self: start; color: var(--accent); font-family: var(--font-code); font-size: 0.5rem; }
-  .contact-grid :global(.icon) { color: var(--secondary); }
-  .contact-grid a > div { min-width: 0; display: flex; flex-direction: column; }
-  .contact-grid strong { font-size: 0.95rem; }
-  .contact-grid small { overflow: hidden; color: var(--muted); font-family: var(--font-code); font-size: 0.53rem; text-overflow: ellipsis; white-space: nowrap; }
-  .contact-grid b { color: var(--accent); font-family: var(--font-code); font-weight: 400; }
-
-  .identity-section {
-    grid-template-columns: minmax(12rem, 0.7fr) minmax(0, 1.3fr);
-    padding-block: 1.5rem;
-    border-block: 1px solid var(--border-strong);
+  .contact-grid a:hover {
+    background: var(--panel);
   }
 
-  .identity-section > div:first-child > span { display: block; margin-top: 0.8rem; color: var(--secondary); font-size: 0.72rem; line-height: 1.6; }
-  .fingerprint { min-width: 0; }
-  .fingerprint code { display: block; color: var(--text); font-family: var(--font-code); font-size: clamp(0.75rem, 1.8vw, 1.05rem); line-height: 1.7; overflow-wrap: anywhere; }
-  .fingerprint button,
-  .wallet-list button { margin-top: 0.7rem; padding: 0; border: 0; color: var(--accent); background: transparent; cursor: pointer; font-family: var(--font-code); font-size: 0.56rem; }
-  .fingerprint nav { margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.8rem; }
-  .fingerprint nav a { color: var(--secondary); font-size: 0.62rem; }
-  .fingerprint nav a:hover { color: var(--accent); }
+  .contact-grid a > span {
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.52rem;
+  }
 
-  .wallet-list { border-top: 1px solid var(--border-strong); }
-  .wallet-list > div { min-width: 0; min-height: 4rem; padding: 0.75rem 0.25rem; display: grid; grid-template-columns: 6rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; border-bottom: 1px solid var(--border); }
-  .wallet-list strong { font-family: var(--font-code); font-size: 0.62rem; }
-  .wallet-list code { min-width: 0; overflow: hidden; color: var(--secondary); font-family: var(--font-code); font-size: 0.6rem; text-overflow: ellipsis; white-space: nowrap; }
-  .wallet-list button { margin: 0; }
-  .support-warning { margin: 0.8rem 0 0; color: var(--secondary); font-size: 0.65rem; line-height: 1.6; }
-  .support-warning strong { margin-right: 0.45rem; color: var(--accent-warm); font-family: var(--font-code); font-size: 0.52rem; letter-spacing: 0.06em; }
+  .contact-grid a > :global(.icon) {
+    color: var(--ink-2);
+  }
 
+  .contact-grid a > div {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .contact-grid strong {
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .contact-grid small {
+    overflow: hidden;
+    color: var(--ink-2);
+    font-family: var(--font-code);
+    font-size: 0.62rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .contact-grid b {
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-weight: 400;
+    text-align: right;
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+
+  .contact-grid a:hover b,
+  .contact-grid a:hover > :global(.icon) {
+    color: var(--accent);
+  }
+
+  .contact-grid a:hover b {
+    transform: translate(0.12rem, -0.12rem);
+  }
+
+  /* Fingerprint */
+  .fingerprint code {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--line);
+    background: var(--line);
+  }
+
+  .fingerprint code span {
+    padding: 0.85rem 0.3rem;
+    color: var(--ink);
+    background: var(--panel);
+    font-family: var(--font-code);
+    font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+    letter-spacing: 0.06em;
+    text-align: center;
+  }
+
+  .fingerprint code span:nth-child(n + 6) {
+    color: var(--ink-2);
+  }
+
+  .fingerprint__bar {
+    margin-top: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .fingerprint__bar .eyebrow {
+    margin-right: auto;
+  }
+
+  .fingerprint__bar nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .fingerprint__bar .btn {
+    min-height: 1.75rem;
+    font-size: 0.62rem;
+  }
+
+  /* Wallets */
+  .wallet-list > div {
+    padding: 0.75rem 0;
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .wallet-list > div:first-child {
+    border-top: 1px solid var(--ink);
+  }
+
+  .wallet-list strong {
+    font-family: var(--font-code);
+    font-size: 0.56rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+
+  .wallet-list code {
+    color: var(--ink-2);
+    font-family: var(--font-code);
+    font-size: 0.6rem;
+    line-height: 1.5;
+    word-break: break-all;
+  }
+
+  .wallet-list .btn {
+    min-height: 1.6rem;
+    font-size: 0.58rem;
+  }
+
+  .support-warning {
+    position: relative;
+    margin: 1.2rem 0;
+    padding: 0.75rem 0.9rem 0.75rem 1.5rem;
+    border: 1px solid var(--warn);
+    color: var(--ink);
+    background: var(--warn-soft);
+    font-size: 0.66rem;
+    line-height: 1.7;
+  }
+
+  .support-warning::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0.5rem;
+    border-right: 1px solid var(--warn);
+    content: "";
+    background: repeating-linear-gradient(-45deg, var(--warn) 0 2px, transparent 2px 6px);
+  }
+
+  .support-warning strong {
+    display: block;
+    color: var(--warn);
+    font-family: var(--font-code);
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+
+  /* Signature proof */
   .signature-proof {
-    margin-top: 1.35rem;
-    border: 1px solid var(--border-strong);
-    background: color-mix(in srgb, var(--surface-soft) 48%, transparent);
+    border: 1px solid var(--line);
+    background: var(--panel);
   }
 
-  .signature-proof > summary {
-    min-height: 4.25rem;
-    padding: 0.8rem 1rem;
+  .signature-proof summary {
+    padding: 0.8rem 0.95rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -398,139 +831,385 @@ const localVerificationCommands = [
     list-style: none;
   }
 
-  .signature-proof > summary::-webkit-details-marker { display: none; }
-  .signature-proof > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .signature-proof > summary > span:first-child { display: flex; flex-direction: column; gap: 0.12rem; }
-  .signature-proof > summary small { color: var(--accent); font-family: var(--font-code); font-size: 0.49rem; letter-spacing: 0.08em; }
-  .signature-proof > summary strong { color: var(--text); font-size: 0.82rem; }
+  .signature-proof summary::-webkit-details-marker { display: none; }
+
+  .signature-proof summary > span:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .signature-proof summary small {
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+  }
+
+  .signature-proof summary strong {
+    font-size: 0.76rem;
+    font-weight: 500;
+  }
 
   .signature-proof__summary-action {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    color: var(--muted);
+    gap: 0.55rem;
+    color: var(--ink-2);
     font-family: var(--font-code);
     font-size: 0.54rem;
   }
 
   .signature-proof__summary-action b { font-weight: 400; }
-  .signature-proof__summary-action i { position: relative; width: 0.7rem; height: 0.7rem; }
-  .signature-proof__summary-action i::before,
-  .signature-proof__summary-action i::after {
-    content: '';
-    position: absolute;
-    inset: 50% 0 auto;
-    height: 1px;
-    background: currentColor;
+
+  .signature-proof__summary-action i {
+    position: relative;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
     transition: transform 0.2s ease;
   }
-  .signature-proof__summary-action i::after { transform: rotate(90deg); }
-  .signature-proof[open] .signature-proof__summary-action i::after { transform: rotate(0deg); }
+
+  .signature-proof__summary-action i::before,
+  .signature-proof__summary-action i::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.5rem;
+    height: 1px;
+    content: "";
+    background: currentColor;
+    transform: translate(-50%, -50%);
+  }
+
+  .signature-proof__summary-action i::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .signature-proof[open] .signature-proof__summary-action i {
+    transform: rotate(45deg);
+  }
+
+  .signature-proof[open] summary {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .signature-proof summary:hover strong {
+    color: var(--accent);
+  }
 
   .signature-proof__body {
-    padding: 1rem;
-    border-top: 1px solid var(--border);
+    padding: 1rem 0.95rem 1.1rem;
   }
 
   .signature-proof__guide {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(16rem, 0.95fr);
-    gap: clamp(1.2rem, 4vw, 3rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+    gap: 1.25rem;
   }
 
-  .signature-proof__guide p { margin: 0; color: var(--secondary); font-size: 0.69rem; line-height: 1.65; }
-  .signature-proof__guide dl { margin: 0; }
-  .signature-proof__guide dl > div + div { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
-  .signature-proof__guide dt { color: var(--muted); font-family: var(--font-code); font-size: 0.48rem; letter-spacing: 0.06em; }
-  .signature-proof__guide dd { margin: 0.25rem 0 0; color: var(--text); font-family: var(--font-code); font-size: 0.53rem; line-height: 1.55; overflow-wrap: anywhere; }
+  .signature-proof__guide p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 0.64rem;
+    line-height: 1.75;
+  }
 
   .signature-proof__actions {
-    margin-top: 0.8rem;
+    margin: 0.9rem 0 0.7rem;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 0.45rem 0.8rem;
+    gap: 0.45rem;
   }
 
-  .signature-proof__actions button,
-  .signature-proof__actions a {
-    padding: 0;
-    border: 0;
-    color: var(--accent);
-    background: transparent;
-    cursor: pointer;
-    font-family: var(--font-code);
-    font-size: 0.55rem;
+  .signature-proof__actions .btn {
+    min-height: 1.8rem;
+    font-size: 0.6rem;
   }
 
-  .signature-proof__actions button:disabled { cursor: wait; opacity: 0.65; }
-  .signature-proof__actions button:hover:not(:disabled),
-  .signature-proof__actions a:hover { color: var(--text); }
+  .signature-proof__actions .btn:disabled {
+    cursor: progress;
+    opacity: 0.65;
+  }
 
   .verification-result {
-    margin-top: 0.75rem !important;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    color: var(--muted) !important;
+    gap: 0.5rem;
+    color: var(--ink-3) !important;
     font-family: var(--font-code);
-    font-size: 0.52rem !important;
+    font-size: 0.56rem !important;
   }
 
   .verification-result > span {
-    width: 0.42rem;
-    height: 0.42rem;
-    flex: 0 0 auto;
+    width: 0.45rem;
+    height: 0.45rem;
+    flex: none;
     border-radius: 50%;
-    background: var(--muted);
+    background: var(--warn);
   }
 
   .verification-result[data-state='loading'] > span { background: var(--accent); animation: verification-pulse 0.9s ease-in-out infinite alternate; }
-  .verification-result[data-state='valid'] { color: var(--text) !important; }
-  .verification-result[data-state='valid'] > span { background: #2f9e65; }
-  .verification-result[data-state='invalid'] { color: var(--accent-warm) !important; }
-  .verification-result[data-state='invalid'] > span { background: var(--accent-warm); }
+  .verification-result[data-state='valid'] { color: var(--ink) !important; }
+  .verification-result[data-state='valid'] > span { background: var(--ok); }
+  .verification-result[data-state='invalid'] { color: var(--warn) !important; }
+  .verification-result[data-state='invalid'] > span { background: var(--warn); }
 
-  @keyframes verification-pulse { to { opacity: 0.3; } }
+  @keyframes verification-pulse {
+    from { opacity: 0.35; }
+    to { opacity: 1; }
+  }
 
-  .signed-record { margin-top: 1rem; border: 1px solid var(--border); background: var(--surface); }
-  .signed-record > header { min-height: 2.2rem; padding: 0.45rem 0.7rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--border); }
-  .signed-record > header span { color: var(--muted); font-family: var(--font-code); font-size: 0.48rem; letter-spacing: 0.07em; }
-  .signed-record > header button,
-  .local-verification button { padding: 0; border: 0; color: var(--accent); background: transparent; cursor: pointer; font-family: var(--font-code); font-size: 0.53rem; }
-  .signed-record pre { max-height: 21rem; margin: 0; padding: 0.85rem; overflow: auto; background: transparent; scrollbar-width: thin; }
-  .signed-record pre code { color: var(--secondary); font-family: var(--font-code); font-size: 0.52rem; line-height: 1.65; }
+  .signature-proof__guide dl {
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
 
-  .local-verification {
-    margin-top: 0.8rem;
-    padding: 0.7rem 0.75rem;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+  .signature-proof__guide dl > div {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .signature-proof__guide dt {
+    color: var(--ink-3);
+    font-size: 0.56rem;
+  }
+
+  .signature-proof__guide dd {
+    margin: 0.15rem 0 0;
+    font-family: var(--font-code);
+    font-size: 0.6rem;
+    overflow-wrap: anywhere;
+  }
+
+  .signed-record {
+    margin-top: 1rem;
+    border: 1px solid var(--line);
+    background: var(--bg);
+  }
+
+  .signed-record header {
+    padding: 0.35rem 0.4rem 0.35rem 0.75rem;
+    display: flex;
     align-items: center;
-    gap: 0.75rem;
-    border-top: 1px solid var(--border);
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
   }
 
-  .local-verification > span { color: var(--muted); font-family: var(--font-code); font-size: 0.47rem; letter-spacing: 0.06em; }
-  .local-verification > pre { min-width: 0; margin: 0; overflow-x: auto; background: transparent; scrollbar-width: thin; }
-  .local-verification > pre code { color: var(--secondary); font-family: var(--font-code); font-size: 0.51rem; line-height: 1.65; }
-
-  @media (max-width: 54rem) {
-    .about-story { grid-template-columns: minmax(9rem, 0.5fr) minmax(0, 1.5fr); }
-    .about-values { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); }
-    .about-values div { padding-inline: 0.6rem; border-right: 1px solid var(--border); }
+  .signed-record .btn {
+    min-height: 1.5rem;
+    font-size: 0.56rem;
   }
 
-  @media (max-width: 44rem) {
-    .about-story,
-    .identity-section { grid-template-columns: 1fr; }
-    .about-values { display: block; }
-    .contact-section > header,
-    .support-section > header { grid-template-columns: 1fr; }
-    .contact-grid { grid-template-columns: 1fr; }
-    .wallet-list > div { grid-template-columns: 4rem minmax(0, 1fr) auto; gap: 0.55rem; }
-    .signature-proof__guide { grid-template-columns: 1fr; }
-    .local-verification { grid-template-columns: 1fr auto; }
-    .local-verification > span { grid-column: 1 / -1; }
+  .signed-record pre {
+    max-height: 18rem;
+    margin: 0;
+    padding: 0.85rem 0.9rem;
+    overflow: auto;
+    color: var(--ink-2);
+    font-family: var(--font-code);
+    font-size: 0.56rem;
+    line-height: 1.6;
+  }
+
+  /* Terminal block */
+  .local-verification {
+    margin-top: 1.4rem;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    color: #d8d6cf;
+    background: #0f0f0e;
+  }
+
+  .local-verification header {
+    padding: 0.45rem 0.5rem 0.45rem 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-bottom: 1px solid #262624;
+    background: #171716;
+  }
+
+  .local-verification header i {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: #3a3936;
+  }
+
+  .local-verification header span {
+    flex: 1;
+    color: #8a877e;
+    font-family: var(--font-code);
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+
+  .local-verification header button {
+    padding: 0.2rem 0.45rem;
+    border: 1px solid #3a3936;
+    border-radius: 2px;
+    color: #b4b1a7;
+    background: transparent;
+    font-family: var(--font-code);
+    font-size: 0.52rem;
+    cursor: pointer;
+  }
+
+  .local-verification header button:hover {
+    border-color: #8a877e;
+    color: #fff;
+  }
+
+  .local-verification pre {
+    margin: 0;
+    padding: 0.9rem 1rem 1rem;
+    overflow-x: auto;
+    font-family: var(--font-code);
+    font-size: 0.58rem;
+    line-height: 1.75;
+  }
+
+  .local-verification .cmd {
+    display: block;
+    white-space: pre;
+  }
+
+  .local-verification .cmd::before {
+    margin-right: 0.6em;
+    color: #f0a066;
+    content: "$";
+  }
+
+  .local-verification .cursor {
+    color: #9ed49b;
+    animation: verification-pulse 0.8s steps(2) infinite;
+  }
+
+  @media (max-width: 60rem) {
+    .about-eyebrow,
+    .about-spec dt,
+    .about-values dt,
+    .language-trail__note,
+    .contact-grid a > span,
+    .wallet-list strong,
+    .support-warning strong,
+    .signature-proof summary small,
+    .signed-record header,
+    .local-verification header span,
+    .local-verification header button,
+    .about-map figcaption { font-size: 0.62rem; }
+    .about-hero__lede,
+    .about-story__copy { font-size: 1rem; }
+    .section-sub,
+    .signature-proof__guide p { font-size: 0.9rem; }
+    .about-spec dd,
+    .contact-grid strong,
+    .signature-proof summary strong { font-size: 0.9rem; }
+    .language-trail li { font-size: 0.76rem; }
+    .language-trail li span { font-size: 0.56rem; }
+    .contact-grid small,
+    .wallet-list code,
+    .signature-proof__guide dd,
+    .signature-proof__guide dt,
+    .signed-record pre,
+    .local-verification pre,
+    .verification-result,
+    .signature-proof__summary-action { font-size: 0.74rem !important; }
+    .support-warning { font-size: 0.84rem; }
+    .about-values dd { font-size: 1rem; }
+    .fingerprint__bar .btn,
+    .wallet-list .btn,
+    .signature-proof__actions .btn,
+    .signed-record .btn { font-size: 0.74rem; }
+  }
+
+  @media (max-width: 48rem) {
+    .about-hero {
+      grid-template-columns: 1fr;
+    }
+
+    .about-hero__copy {
+      padding: 2.4rem var(--pad) 1.8rem;
+    }
+
+    .about-map {
+      border-top: 1px solid var(--line);
+      border-left: 0;
+    }
+
+    .about-spec {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about-spec > div:nth-child(2) { border-right: 0; }
+    .about-spec > div:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+
+    .language-trail {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .language-trail li:nth-child(3) { border-right: 0; }
+    .language-trail li:nth-child(-n + 3) { border-bottom: 1px solid var(--line); }
+
+    .language-trail li.is-current::after {
+      top: -1px;
+      right: -1px;
+      bottom: auto;
+      left: auto;
+      content: "NOW";
+    }
+
+    .about-values {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-grid a {
+      grid-template-columns: 1.6rem 1.4rem minmax(0, 1fr) 1rem;
+    }
+
+    .contact-grid a > div {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .fingerprint code {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .fingerprint__bar .eyebrow {
+      width: 100%;
+    }
+
+    .wallet-list > div {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.35rem 0.75rem;
+    }
+
+    .wallet-list code {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .signature-proof__guide {
+      grid-template-columns: 1fr;
+    }
+
+    .local-verification {
+      margin-inline: calc(var(--pad) * -1);
+      border-inline: 0;
+      border-radius: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .local-verification .cursor { animation: none; }
   }
 </style>

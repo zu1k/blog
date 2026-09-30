@@ -2,60 +2,105 @@
 import Icon from '../components/Icon.astro';
 import PostCard from '../components/PostCard.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCategories, getPublishedPosts } from '../lib/content';
+import { SITE } from '../consts';
+import { formatDate, getCategories, getPublishedPosts } from '../lib/content';
 
 const posts = await getPublishedPosts();
 const latestPosts = posts.slice(0, 3);
-const categoryCount = getCategories(posts).length;
+const categories = getCategories(posts, 'count');
+const categoryCount = categories.length;
+const topCategories = categories.slice(0, 7);
+const writingYears = new Date().getFullYear() - SITE.since;
+const lastEntry = posts[0] ? formatDate(posts[0].data.date, 'short') : undefined;
 ---
 
 <BaseLayout title="zu1k">
   <Fragment slot="head">
     <link rel="preload" href="/images/logo.jpg" as="image" fetchpriority="high" />
   </Fragment>
-  <div class="modern-home">
+  <div class="frame modern-home">
     <section class="home-hero" aria-labelledby="home-title">
       <div class="home-hero__copy">
-        <p class="home-kicker" data-no-select>PERSONAL LOG · SINCE 2017</p>
+        <p class="home-kicker" data-no-select><b>PERSONAL LOG</b> / SINCE {SITE.since}</p>
         <h1 id="home-title" data-no-select><span>zu1k</span><em>A boy dreaming of traveling around the world.</em></h1>
         <p class="home-intro">写代码，做工具，也记录那些无法被代码解释的生活。这里是关于安全、系统、开源与世界的个人索引。</p>
         <div class="home-actions" data-no-select>
-          <a class="home-action home-action--primary" href="/posts/" data-astro-prefetch="viewport">开始阅读 <Icon name="arrow" size={17} /></a>
-          <a class="home-action" href="/projects/" data-astro-prefetch="viewport">查看项目</a>
+          <a class="btn btn--primary" href="/posts/" data-astro-prefetch="viewport">开始阅读 <Icon name="arrow" size={15} /></a>
+          <a class="btn" href="/projects/" data-astro-prefetch="viewport">查看项目</a>
         </div>
         <nav class="social-links" aria-label="社交链接" data-no-select>
-          <a href="https://github.com/zu1k" rel="me noopener" aria-label="GitHub" title="GitHub"><Icon name="github" size={21} /></a>
-          <a href="https://twitter.com/zu1k_" rel="me noopener" aria-label="Twitter" title="Twitter"><Icon name="twitter" size={20} /></a>
-          <a href="https://t.me/peekfun" rel="me noopener" aria-label="Telegram" title="Telegram"><Icon name="telegram" size={20} /></a>
-          <a href="https://fosstodon.org/@zu1k" rel="me noopener" aria-label="Mastodon" title="Mastodon"><Icon name="mastodon" size={20} /></a>
-          <a href="mailto:i@zu1k.com" aria-label="Email" title="Email"><Icon name="mail" size={21} /></a>
+          <a href="https://github.com/zu1k" rel="me noopener" aria-label="GitHub" title="GitHub"><Icon name="github" size={17} /></a>
+          <a href="https://twitter.com/zu1k_" rel="me noopener" aria-label="Twitter" title="Twitter"><Icon name="twitter" size={16} /></a>
+          <a href="https://t.me/peekfun" rel="me noopener" aria-label="Telegram" title="Telegram"><Icon name="telegram" size={16} /></a>
+          <a href="https://fosstodon.org/@zu1k" rel="me noopener" aria-label="Mastodon" title="Mastodon"><Icon name="mastodon" size={16} /></a>
+          <a href="mailto:i@zu1k.com" aria-label="Email" title="Email"><Icon name="mail" size={17} /></a>
         </nav>
       </div>
 
-      <div class="home-portrait" data-no-select>
+      <figure class="home-portrait" data-no-select>
         <a href="/about/" aria-label="了解 zu1k" data-astro-prefetch="hover">
-          <img src="/images/logo.jpg" alt="zu1k" width="320" height="320" loading="eager" decoding="async" fetchpriority="high" />
-          <span>ABOUT ↗</span>
+          <span class="home-portrait__stage">
+            <img src="/images/logo.jpg" alt="zu1k" width="320" height="320" loading="eager" decoding="async" fetchpriority="high" />
+          </span>
+          <span class="home-portrait__tick home-portrait__tick--n" aria-hidden="true">N</span>
+          <span class="home-portrait__tick home-portrait__tick--e" aria-hidden="true">E</span>
+          <figcaption>
+            <span>FIG. 01 — ZU1K</span>
+            <span class="home-portrait__cta">ABOUT ↗</span>
+          </figcaption>
         </a>
-      </div>
-
-      <dl class="home-stats" aria-label="博客概览" data-no-select>
-        <div><dt>文章</dt><dd>{posts.length}</dd></div>
-        <div><dt>主题</dt><dd>{categoryCount}</dd></div>
-        <div><dt>写作</dt><dd>9<small>年</small></dd></div>
-      </dl>
+      </figure>
     </section>
 
-    <section class="latest-writing" aria-labelledby="latest-title">
-      <header>
-        <div>
-          <p class="home-kicker" data-no-select>LATEST WRITING</p>
+    <dl class="home-stats" aria-label="博客概览" data-no-select>
+      <div><dt>Posts / 文章</dt><dd>{posts.length}</dd></div>
+      <div><dt>Topics / 主题</dt><dd>{categoryCount}</dd></div>
+      <div><dt>Writing / 写作</dt><dd>{writingYears}<small>年</small></dd></div>
+      {lastEntry && <div><dt>Last entry / 最近更新</dt><dd class="home-stats__date">{lastEntry}</dd></div>}
+    </dl>
+
+    <section class="section x-rule latest-writing" aria-labelledby="latest-title">
+      <div class="section__rail">
+        <p class="rail-label eyebrow"><span class="index-no">01</span><span>Latest writing</span></p>
+      </div>
+      <div class="section__body">
+        <header class="section-head">
           <h2 id="latest-title">最近写下的</h2>
+          <a class="section-head__link" href="/posts/" data-no-select data-astro-prefetch="hover">全部 {posts.length} 篇 <Icon name="arrow" size={14} /></a>
+        </header>
+        <div class="latest-writing__list">
+          {latestPosts.map((post, index) => <PostCard post={post} variant="summary" index={index + 1} />)}
         </div>
-        <a href="/posts/" data-no-select data-astro-prefetch="hover">全部 {posts.length} 篇 <Icon name="arrow" size={16} /></a>
-      </header>
-      <div class="latest-writing__list">
-        {latestPosts.map((post, index) => <PostCard post={post} variant="summary" index={index + 1} />)}
+      </div>
+    </section>
+
+    <section class="section x-rule home-topics" aria-labelledby="topics-title">
+      <div class="section__rail">
+        <p class="rail-label eyebrow"><span class="index-no">02</span><span>Topics</span></p>
+      </div>
+      <div class="section__body">
+        <header class="section-head">
+          <h2 id="topics-title">按主题阅读</h2>
+          <a class="section-head__link" href="/categories/" data-no-select data-astro-prefetch="hover">全部 {categoryCount} 个分类 <Icon name="arrow" size={14} /></a>
+        </header>
+        <ul class="topic-grid">
+          {topCategories.map((category, index) => (
+            <li>
+              <a href={category.url} data-astro-prefetch="hover">
+                <span class="topic-grid__no">{String(index + 1).padStart(2, '0')}</span>
+                <strong>{category.name}</strong>
+                <span class="topic-grid__count">{category.count} 篇</span>
+              </a>
+            </li>
+          ))}
+          <li>
+            <a class="topic-grid__all" href="/tags/" data-astro-prefetch="hover">
+              <span class="topic-grid__no">##</span>
+              <strong>按标签浏览</strong>
+              <span class="topic-grid__count">↗</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </section>
   </div>
@@ -63,307 +108,446 @@ const categoryCount = getCategories(posts).length;
 
 <style>
   .modern-home {
-    width: min(calc(100% - 2rem), 72rem);
-    margin: 0 auto;
-    padding: 3rem 0 5rem;
+    padding-bottom: 0;
   }
 
+  /* Hero ------------------------------------------------------------------ */
+
   .home-hero {
-    position: relative;
-    min-height: min(43rem, calc(100svh - 3rem));
-    padding: clamp(4.5rem, 9vw, 8rem) clamp(0.5rem, 4vw, 3rem) 2.5rem;
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(15rem, 0.75fr);
-    grid-template-rows: 1fr auto;
-    align-items: center;
-    gap: 2.5rem clamp(2rem, 8vw, 7rem);
+    grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+    min-height: min(33rem, calc(100svh - var(--header-h) - 4.5rem));
+  }
+
+  .home-hero__copy {
+    min-width: 0;
+    padding: clamp(2.8rem, 6vw, 4.5rem) var(--pad) 2.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .home-kicker {
-    margin: 0 0 1rem;
-    color: var(--accent);
+    margin: 0 0 1.2rem;
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.62rem;
-    font-weight: 600;
+    font-size: 0.56rem;
+    font-weight: 500;
     letter-spacing: 0.12em;
+  }
+
+  .home-kicker b {
+    color: var(--accent);
+    font-weight: 500;
   }
 
   .home-hero h1 {
     margin: 0;
-    line-height: 0.98;
+    line-height: 1;
   }
 
   .home-hero h1 span {
     display: block;
-    font-size: clamp(4.5rem, 10vw, 8.5rem);
-    font-weight: 700;
-    letter-spacing: -0.07em;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(4.2rem, 10vw, 7.4rem);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
   }
 
   .home-hero h1 em {
-    max-width: 18ch;
-    margin-top: 0.3rem;
+    max-width: 17ch;
+    margin-top: 0.7rem;
     display: block;
-    color: var(--secondary);
-    font-size: clamp(1.75rem, 4vw, 3.65rem);
+    color: var(--ink-2);
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 3vw, 2.3rem);
+    font-style: italic;
     font-weight: 400;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
   }
 
   .home-intro {
-    max-width: 38rem;
-    margin: 1.5rem 0 0;
-    color: var(--secondary);
-    font-size: 0.94rem;
-    line-height: 1.75;
+    max-width: 30rem;
+    margin: 1.4rem 0 0;
+    color: var(--ink-2);
+    font-size: 0.8rem;
+    line-height: 1.85;
   }
 
   .home-actions {
-    margin-top: 1.5rem;
+    margin-top: 1.6rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.65rem;
-  }
-
-  .home-action {
-    min-height: 2.55rem;
-    padding: 0.5rem 0.9rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 0.35rem;
-    color: var(--text);
-    font-size: 0.76rem;
-    font-weight: 700;
-  }
-
-  .home-action:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .home-action--primary {
-    border-color: var(--text);
-    color: var(--page-bg);
-    background: var(--text);
-  }
-
-  .home-action--primary:hover {
-    color: #fff;
-    background: var(--accent);
+    gap: 0.5rem;
   }
 
   .social-links {
-    margin-top: 1.35rem;
+    margin-top: 1.4rem;
     display: flex;
-    gap: 0.45rem;
+    gap: 0.4rem;
   }
 
   .social-links a {
-    width: 2.15rem;
-    height: 2.15rem;
+    width: 1.9rem;
+    height: 1.9rem;
     display: grid;
     place-items: center;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    color: var(--secondary);
-    transition: border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    color: var(--ink-2);
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
   }
 
   .social-links a:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateY(-0.12rem);
+    border-color: var(--ink);
+    color: var(--bg);
+    background: var(--ink);
   }
 
+  .social-links a:hover :global(.icon-telegram path) {
+    fill: var(--ink);
+  }
+
+  /* Portrait figure: the logo on drafting paper. */
   .home-portrait {
-    position: relative;
-    justify-self: center;
-  }
-
-  .home-portrait::before {
-    position: absolute;
-    inset: -18%;
-    border-radius: 50%;
-    content: "";
-    background:
-      radial-gradient(circle at 32% 35%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 52%),
-      radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--accent-warm) 13%, transparent), transparent 50%);
-    filter: blur(0.2rem);
+    min-width: 0;
+    margin: 0;
+    border-left: 1px solid var(--line);
   }
 
   .home-portrait a {
     position: relative;
-    width: clamp(11rem, 22vw, 17rem);
+    height: 100%;
+    min-height: 20rem;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    color: var(--ink);
+    background:
+      linear-gradient(var(--grid) 1px, transparent 1px) center / 1.2rem 1.2rem,
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px) center / 1.2rem 1.2rem,
+      var(--panel);
+    overflow: hidden;
+  }
+
+  /* Centre lines through the figure. */
+  .home-portrait a::before,
+  .home-portrait a::after {
+    position: absolute;
+    content: "";
+    background: color-mix(in srgb, var(--accent) 45%, transparent);
+    pointer-events: none;
+  }
+
+  .home-portrait a::before {
+    top: 0;
+    bottom: 2.1rem;
+    left: 50%;
+    width: 1px;
+  }
+
+  .home-portrait a::after {
+    top: calc((100% - 2.1rem) / 2);
+    right: 0;
+    left: 0;
+    height: 1px;
+  }
+
+  .home-portrait__stage {
+    position: relative;
+    z-index: 1;
+    align-self: center;
+    justify-self: center;
+    width: clamp(10rem, 19vw, 14.5rem);
+    aspect-ratio: 1;
     display: block;
+  }
+
+  .home-portrait__stage::before {
+    position: absolute;
+    inset: -1.15rem;
+    border: 1px dashed color-mix(in srgb, var(--accent) 60%, transparent);
+    border-radius: 50%;
+    content: "";
+    transition: transform 0.8s ease;
   }
 
   .home-portrait img {
+    position: relative;
     width: 100%;
-    aspect-ratio: 1;
+    height: 100%;
     display: block;
-    border: 0.45rem solid color-mix(in srgb, var(--page-bg) 82%, transparent);
+    border: 1px solid var(--ink);
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 12%);
-    transition: filter 0.3s ease, transform 0.4s ease;
+    background: var(--bg);
+    transition: transform 0.4s ease;
   }
 
   .home-portrait a:hover img {
-    filter: contrast(1.04);
-    transform: rotate(-2deg) scale(1.02);
+    transform: rotate(-3deg);
   }
 
-  .home-portrait span {
-    position: absolute;
-    right: -0.8rem;
-    bottom: 1.2rem;
-    padding: 0.35rem 0.55rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 0.25rem;
-    color: var(--text);
-    background: color-mix(in srgb, var(--page-bg) 85%, transparent);
-    font-family: var(--font-code);
-    font-size: 0.55rem;
-    letter-spacing: 0.06em;
-    backdrop-filter: blur(12px);
+  .home-portrait a:hover .home-portrait__stage::before {
+    transform: rotate(40deg);
   }
+
+  .home-portrait__tick {
+    position: absolute;
+    z-index: 1;
+    padding: 0 0.25rem;
+    color: var(--accent);
+    background: var(--panel);
+    font-family: var(--font-code);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  .home-portrait__tick--n {
+    top: 0.7rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .home-portrait__tick--e {
+    top: calc((100% - 2.1rem) / 2);
+    right: 0.7rem;
+    transform: translateY(-50%);
+  }
+
+  .home-portrait figcaption {
+    position: relative;
+    z-index: 1;
+    height: 2.1rem;
+    padding: 0 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+    background: var(--bg);
+    font-family: var(--font-code);
+    font-size: 0.52rem;
+    letter-spacing: 0.1em;
+  }
+
+  .home-portrait__cta {
+    color: var(--ink);
+    transition: color 0.15s ease;
+  }
+
+  .home-portrait a:hover .home-portrait__cta {
+    color: var(--accent);
+  }
+
+  /* Spec strip ------------------------------------------------------------ */
 
   .home-stats {
-    grid-column: 1 / -1;
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-block: 1px solid var(--border-strong);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
   }
 
   .home-stats div {
-    padding: 0.8rem 1rem;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    border-right: 1px solid var(--border);
+    min-width: 0;
+    padding: 0.85rem var(--pad) 0.95rem;
+    border-right: 1px solid var(--line);
   }
 
   .home-stats div:last-child { border-right: 0; }
-  .home-stats dt { color: var(--muted); font-size: 0.7rem; }
-  .home-stats dd { margin: 0; font-family: var(--font-code); font-size: 1.6rem; font-weight: 600; }
-  .home-stats small { margin-left: 0.15rem; color: var(--muted); font-size: 0.55rem; }
 
-  .latest-writing {
-    padding: clamp(4rem, 8vw, 7rem) clamp(0.25rem, 3vw, 2rem) 0;
+  .home-stats dt {
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
-  .latest-writing > header {
-    margin-bottom: 1.5rem;
+  .home-stats dd {
+    margin: 0.3rem 0 0;
+    color: var(--ink);
+    font-family: var(--font-code);
+    font-size: 1.35rem;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .home-stats small {
+    margin-left: 0.2rem;
+    color: var(--ink-3);
+    font-family: var(--font-sans);
+    font-size: 0.55rem;
+    letter-spacing: 0;
+  }
+
+  .home-stats .home-stats__date {
+    padding-top: 0.35rem;
+    font-size: 0.85rem;
+    letter-spacing: 0;
+  }
+
+  /* Sections -------------------------------------------------------------- */
+
+  .section-head {
+    margin-bottom: 1.2rem;
     display: flex;
     align-items: end;
     justify-content: space-between;
     gap: 1rem;
   }
 
-  .latest-writing h2 {
+  .section-head h2 {
     margin: 0;
-    font-size: clamp(2.2rem, 4.5vw, 4rem);
-    letter-spacing: -0.045em;
-    line-height: 1;
+    font-size: clamp(1.8rem, 3.4vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
   }
 
-  .latest-writing > header > a {
+  .section-head__link {
+    flex: none;
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    color: var(--secondary);
-    font-size: 0.72rem;
+    gap: 0.35rem;
+    color: var(--ink-2);
+    font-family: var(--font-code);
+    font-size: 0.56rem;
+    letter-spacing: 0.04em;
   }
 
-  .latest-writing > header > a:hover { color: var(--accent); }
+  .section-head__link:hover {
+    color: var(--accent);
+  }
 
-  /* Keep the complete introduction visible on wide, shallow laptop viewports. */
-  @media (min-width: 48.01rem) and (max-height: 56rem) {
-    .home-hero {
-      min-height: calc(100svh - 3rem);
-      padding-top: clamp(2.75rem, 8svh, 4.25rem);
-      padding-bottom: 1.5rem;
-      gap: clamp(1rem, 2.5svh, 1.5rem) clamp(2rem, 8vw, 7rem);
-    }
+  .latest-writing__list {
+    border-bottom: 1px solid var(--line);
+  }
 
-    .home-hero h1 span {
-      font-size: clamp(4.5rem, 16svh, 7.25rem);
-    }
+  .topic-grid {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--line);
+    background: var(--line);
+    list-style: none;
+  }
 
-    .home-hero h1 em {
-      font-size: clamp(1.75rem, 6svh, 3rem);
-    }
+  .topic-grid a {
+    min-height: 5.6rem;
+    height: 100%;
+    padding: 0.75rem 0.85rem;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    color: var(--ink);
+    background: var(--panel);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
 
-    .home-intro {
-      margin-top: 1rem;
-      line-height: 1.65;
-    }
+  .topic-grid a:hover {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
 
-    .home-actions { margin-top: 1rem; }
-    .social-links { margin-top: 0.9rem; }
+  .topic-grid__no {
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+  }
 
-    .home-portrait a {
-      width: clamp(11rem, 34svh, 15rem);
-    }
+  .topic-grid strong {
+    align-self: end;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
 
-    .home-stats div { padding-block: 0.55rem; }
-    .home-stats dd { font-size: 1.4rem; }
+  .topic-grid__count {
+    margin-top: 0.15rem;
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.52rem;
+  }
+
+  .topic-grid__all {
+    background: var(--bg) !important;
+  }
+
+  .topic-grid__all:hover {
+    color: var(--bg) !important;
+    background: var(--ink) !important;
+  }
+
+  .topic-grid__all:hover .topic-grid__no,
+  .topic-grid__all:hover .topic-grid__count {
+    color: inherit;
+  }
+
+  @media (max-width: 60rem) {
+    .home-kicker,
+    .section-head__link { font-size: 0.68rem; }
+    .home-intro { font-size: 0.98rem; }
+    .home-stats dt { font-size: 0.6rem; }
+    .home-portrait figcaption,
+    .home-portrait__tick { font-size: 0.6rem; }
+    .topic-grid__no,
+    .topic-grid__count { font-size: 0.62rem; }
+    .topic-grid strong { font-size: 1.05rem; }
   }
 
   @media (max-width: 48rem) {
-    .modern-home {
-      width: min(calc(100% - 1.25rem), 72rem);
-      padding-top: 0;
-    }
-
     .home-hero {
-      min-height: auto;
-      padding: 3.75rem 0.65rem 2.4rem;
       grid-template-columns: 1fr;
-      grid-template-rows: auto;
-      gap: 2.5rem;
+      min-height: 0;
     }
 
-    .home-kicker {
-      max-width: 100%;
-      margin-bottom: 0.85rem;
-      white-space: nowrap;
+    .home-hero__copy {
+      padding: 2.6rem var(--pad) 2rem;
     }
 
-    .home-hero h1 span { font-size: clamp(4rem, 21vw, 5.5rem); }
+    .home-hero h1 span { font-size: clamp(4rem, 22vw, 5.4rem); }
+
     .home-hero h1 em {
-      max-width: 16ch;
-      font-size: clamp(1.6rem, 7.8vw, 2.25rem);
+      font-size: clamp(1.45rem, 7vw, 1.9rem);
     }
 
-    .home-hero::after {
-      position: absolute;
-      z-index: 0;
-      top: 4.85rem;
-      left: 50%;
-      width: clamp(10.5rem, 52vw, 13.5rem);
-      aspect-ratio: 1;
-      border: 0.35rem solid color-mix(in srgb, var(--page-bg) 82%, transparent);
-      border-radius: 50%;
-      content: "";
-      background: url('/images/logo.jpg') center / cover no-repeat;
-      box-shadow:
-        -1.25rem -1.25rem 3.5rem color-mix(in srgb, var(--accent) 14%, transparent),
-        1.25rem 1.25rem 3.5rem color-mix(in srgb, var(--accent-warm) 10%, transparent);
-      opacity: 0.16;
-      pointer-events: none;
-      transform: translateX(-20%);
+    .home-portrait {
+      border-top: 1px solid var(--line);
+      border-left: 0;
     }
 
-    .home-portrait { display: none; }
-    .home-hero__copy { position: relative; z-index: 1; }
-    .home-stats { position: relative; z-index: 1; grid-column: auto; }
-    .home-stats div { padding-inline: 0.55rem; display: block; }
-    .home-stats dd { margin-top: 0.25rem; font-size: 1.35rem; }
-    .latest-writing { padding-top: 3.5rem; }
-    .latest-writing > header { align-items: flex-start; flex-direction: column; }
+    .home-portrait a {
+      min-height: 17rem;
+    }
+
+    .home-portrait__stage {
+      width: 10rem;
+    }
+
+    .home-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .home-stats div:nth-child(2) { border-right: 0; }
+    .home-stats div:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+
+    .section-head {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .topic-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 </style>

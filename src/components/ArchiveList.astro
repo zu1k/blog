@@ -71,122 +71,151 @@ const pageUrl = (value: number) => value === 1 ? paginationBase : `${paginationB
 
 <style>
   .archive-page {
-    width: min(calc(100% - 2rem), 68rem);
+    width: var(--frame);
     margin: 0 auto;
-    padding: 3rem 0 5rem;
+    padding: 0;
   }
 
   .archive-page :global(.page-hero__aside strong) {
-    color: var(--text);
+    color: var(--ink);
     font-family: var(--font-code);
-    font-size: 1.45rem;
+    font-size: 1.1rem;
+    font-weight: 400;
   }
 
   .archive-ledger {
-    padding: clamp(3.2rem, 7vw, 5.5rem) clamp(0.25rem, 3vw, 2rem) 0;
+    padding: 0;
   }
 
   .archive-year {
+    position: relative;
     display: grid;
-    grid-template-columns: 8rem minmax(0, 1fr);
-    gap: clamp(1.5rem, 5vw, 4rem);
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    border-top: 1px solid var(--line);
   }
 
-  .archive-year + .archive-year {
-    margin-top: 3rem;
+  .archive-year:first-child {
+    border-top: 0;
   }
 
   .archive-year > header {
+    min-width: 0;
+    padding: 1.4rem 1.1rem;
+    border-right: 1px solid var(--line);
+  }
+
+  .archive-year > header > * {
     position: sticky;
-    top: 5rem;
-    height: max-content;
-    padding-top: 0.55rem;
+    top: calc(var(--header-h) + 1.4rem);
   }
 
   .archive-year h2 {
     margin: 0;
+    color: var(--ink);
     font-family: var(--font-code);
-    font-size: 1.65rem;
-    font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: 400;
     letter-spacing: -0.04em;
+    line-height: 1;
   }
 
   .archive-year header span {
     display: block;
-    margin-top: 0.25rem;
-    color: var(--muted);
+    margin-top: 0.4rem;
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.55rem;
-    letter-spacing: 0.08em;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  .archive-year header span {
+    top: calc(var(--header-h) + 3.2rem);
   }
 
   .archive-year__entries {
-    border-top: 1px solid var(--border-strong);
+    min-width: 0;
+    padding: 0.9rem var(--pad) 1.6rem;
+  }
+
+  .archive-year__entries :global(.archive-entry:first-child) {
+    border-top: 1px solid var(--ink);
   }
 
   .pagination {
-    margin-top: 4rem;
-    padding-top: 1rem;
+    padding: 0.8rem var(--pad);
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 0.35rem;
-    border-top: 1px solid var(--border);
+    gap: 0.3rem;
+    border-top: 1px solid var(--line);
   }
 
   .pagination > span {
-    margin-right: 0.5rem;
-    color: var(--muted);
+    margin-right: 0.6rem;
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.55rem;
-    letter-spacing: 0.08em;
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
   }
 
   .pagination a {
-    min-width: 2rem;
-    height: 2rem;
+    min-width: 1.8rem;
+    height: 1.8rem;
     display: grid;
     place-items: center;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-    color: var(--secondary);
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    color: var(--ink-2);
     font-family: var(--font-code);
-    font-size: 0.65rem;
+    font-size: 0.6rem;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
   }
 
   .pagination a:hover {
-    border-color: var(--border-strong);
-    color: var(--accent);
+    border-color: var(--ink);
+    color: var(--ink);
   }
 
   .pagination a[aria-current="page"] {
-    color: var(--page-bg);
-    background: var(--text);
+    border-color: var(--ink);
+    color: var(--bg);
+    background: var(--ink);
+  }
+
+  @media (max-width: 60rem) {
+    .archive-year header span,
+    .pagination > span { font-size: 0.62rem; }
+    .pagination a { font-size: 0.72rem; }
   }
 
   @media (max-width: 48rem) {
-    .archive-page {
-      width: min(calc(100% - 1.25rem), 68rem);
-    }
-
-    .archive-ledger {
-      padding-top: 3.2rem;
-    }
-
     .archive-year {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
     }
 
     .archive-year > header {
-      position: static;
+      padding: 1.2rem var(--pad) 0;
       display: flex;
       align-items: baseline;
       justify-content: space-between;
+      border-right: 0;
+    }
+
+    .archive-year > header > * {
+      position: static;
     }
 
     .archive-year h2 {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
+    }
+
+    .archive-year header span {
+      margin-top: 0;
+    }
+
+    .archive-year__entries {
+      padding-top: 0.7rem;
     }
   }
 </style>

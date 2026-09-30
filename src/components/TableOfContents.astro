@@ -103,40 +103,49 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
 </script>
 
 <style>
+  .article-toc {
+    grid-column: 1;
+    grid-row: 2 / span 2;
+    align-self: stretch;
+    min-width: 0;
+  }
+
   .article-toc__rail {
-    position: fixed;
-    z-index: 35;
-    top: 6.3rem;
-    left: max(1.25rem, calc((100vw - min(60vw, var(--page-width))) / 2 - 12rem));
-    width: 10.5rem;
-    max-height: calc(100vh - 8rem);
-    overflow: hidden;
+    position: sticky;
+    top: calc(var(--header-h) + 1.4rem);
+    padding: 2.2rem 1.1rem 1.5rem;
+    max-height: calc(100vh - var(--header-h) - 1.4rem);
+    display: flex;
+    flex-direction: column;
   }
 
   .article-toc__rail header {
     margin-bottom: 0.7rem;
+    padding-bottom: 0.45rem;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 0.5rem;
-    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.55rem;
-    letter-spacing: 0.09em;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
   }
 
   .article-toc__rail output {
     letter-spacing: 0.03em;
     white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
 
   .article-toc__rail output b {
-    color: var(--text);
-    font-weight: 600;
+    color: var(--accent);
+    font-weight: 500;
   }
 
   nav {
-    max-height: calc(100vh - 10rem);
+    min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: none;
@@ -148,8 +157,7 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
 
   ol {
     margin: 0;
-    padding: 0 0 0 0.75rem;
-    border-left: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+    padding: 0;
     list-style: none;
   }
 
@@ -159,77 +167,71 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
   }
 
   li.is-subsection a {
-    padding-left: 0.65rem;
-    font-size: 0.68rem;
-    opacity: 0.82;
+    padding-left: 0.75rem;
+    font-size: 0.58rem;
   }
 
   a {
     position: relative;
-    padding: 0.3rem 0.2rem;
+    padding: 0.28rem 0 0.28rem 0.5rem;
     display: block;
-    color: var(--muted);
-    font-size: 0.72rem;
-    line-height: 1.4;
+    border-left: 1px solid var(--line);
+    color: var(--ink-3);
+    font-size: 0.6rem;
+    line-height: 1.45;
     text-decoration: none;
-    transition: color 0.18s ease, transform 0.18s ease;
-  }
-
-  a::before {
-    position: absolute;
-    top: 0.35rem;
-    bottom: 0.35rem;
-    left: -0.8rem;
-    width: 2px;
-    border-radius: 999px;
-    content: "";
-    background: var(--link-hover);
-    opacity: 0;
-    transform: scaleY(0.35);
-    transition: opacity 0.18s ease, transform 0.18s ease;
+    transition: color 0.15s ease, border-color 0.15s ease;
   }
 
   a:hover {
-    color: var(--text);
+    color: var(--ink);
+    border-left-color: var(--ink-3);
   }
 
   a[data-active] {
-    color: var(--text);
-    font-weight: 600;
-    transform: translateX(0.2rem);
-  }
-
-  a[data-active]::before {
-    opacity: 1;
-    transform: scaleY(1);
+    color: var(--ink);
+    border-left-color: var(--accent);
+    box-shadow: inset 1px 0 0 var(--accent);
   }
 
   .article-toc__inline {
     display: none;
   }
 
-  @media (max-width: 75rem) {
+  @media (max-width: 60rem) {
+    .article-toc__rail header { font-size: 0.6rem; }
+    a { font-size: 0.74rem; }
+    li.is-subsection a { font-size: 0.7rem; }
+  }
+
+  @media (max-width: 48rem) {
+    .article-toc {
+      grid-row: auto;
+      padding: 0 var(--pad);
+    }
+
     .article-toc__rail {
       display: none;
     }
 
     .article-toc__inline {
-      margin: 1.2rem 0 1.5rem;
+      margin: 1.2rem 0 0;
       display: block;
-      border-block: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+      border: 1px solid var(--line);
+      background: var(--panel);
     }
 
     .article-toc__inline summary {
       min-height: 2.8rem;
-      padding: 0 0.15rem;
+      padding: 0 0.85rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      color: var(--text);
+      color: var(--ink);
       cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 0.9rem;
+      font-weight: 500;
       list-style: none;
     }
 
@@ -238,47 +240,53 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
     }
 
     .article-toc__inline summary::after {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1.3rem;
+      height: 1.3rem;
       display: grid;
       place-items: center;
-      border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
-      border-radius: 50%;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
       content: "+";
       font-family: var(--font-code);
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 400;
+      transition: transform 0.2s ease;
+    }
+
+    .article-toc__inline[open] summary {
+      border-bottom: 1px solid var(--line);
     }
 
     .article-toc__inline[open] summary::after {
-      content: "−";
+      transform: rotate(45deg);
     }
 
     .article-toc__inline-status {
       margin-left: auto;
-      color: var(--muted);
+      color: var(--ink-3);
       font-family: var(--font-code);
-      font-size: 0.62rem;
+      font-size: 0.68rem;
       font-weight: 400;
       letter-spacing: 0.04em;
     }
 
-    .article-toc__inline nav {
-      max-height: min(22rem, 55vh);
-      padding: 0.2rem 0 0.75rem;
+    .article-toc__inline-status b {
+      color: var(--accent);
+      font-weight: 500;
     }
 
-    .article-toc__inline ol {
-      margin-left: 0.2rem;
+    .article-toc__inline nav {
+      max-height: min(22rem, 55vh);
+      padding: 0.6rem 0.85rem 0.8rem;
     }
 
     .article-toc__inline a {
-      padding-block: 0.38rem;
-      font-size: 0.82rem;
+      padding-block: 0.4rem;
+      font-size: 0.86rem;
     }
 
     .article-toc__inline li.is-subsection a {
-      font-size: 0.76rem;
+      font-size: 0.8rem;
     }
   }
 </style>

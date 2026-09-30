@@ -64,34 +64,70 @@ const { title } = Astro.props;
 
 <style>
   .comments {
-    width: 60%;
-    max-width: var(--page-width);
-    margin: 4rem auto 0;
-    padding-top: 1rem;
-    border-top: 1px dashed var(--border);
+    position: relative;
+    width: var(--frame);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    border-top: 1px solid var(--line);
   }
 
   .comments__heading {
-    margin-bottom: 2rem;
+    min-width: 0;
+    padding: 2rem 1.1rem;
+    border-right: 1px solid var(--line);
   }
 
   .comments__heading h2 {
     margin: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+
+  .comments__heading h2::before {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: var(--accent);
+    content: "COMMENTS";
+    font-family: var(--font-code);
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
   }
 
   .comments__heading > p:last-child {
     margin: 0.55rem 0 0;
-    color: var(--secondary);
-    font-size: 0.85rem;
+    color: var(--ink-3);
+    font-size: 0.58rem;
+    line-height: 1.7;
   }
 
-  @media (max-width: 68rem) {
-    .comments { width: 80%; }
+  .comments__mount {
+    min-width: 0;
+    min-height: 12rem;
+    max-width: calc(40rem + 2 * var(--pad));
+    padding: 2rem var(--pad) 3rem;
   }
 
-  @media (max-width: 42rem) {
-    .comments { width: calc(100% - 2rem); }
+  @media (max-width: 60rem) {
+    .comments__heading h2::before { font-size: 0.6rem; }
+    .comments__heading > p:last-child { font-size: 0.8rem; }
+  }
+
+  @media (max-width: 48rem) {
+    .comments {
+      grid-template-columns: 1fr;
+    }
+
+    .comments__heading {
+      padding: 1.6rem var(--pad) 0;
+      border-right: 0;
+    }
+
+    .comments__mount {
+      padding: 1.2rem var(--pad) 2.5rem;
+    }
   }
 </style>

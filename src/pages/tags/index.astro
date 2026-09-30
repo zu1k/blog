@@ -82,17 +82,18 @@ const tags = getTags(posts, 'count');
 
 <style>
   .tags-page :global(.page-hero__aside strong) {
-    color: var(--text);
+    color: var(--ink);
     font-family: var(--font-code);
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    font-weight: 400;
   }
 
   .tag-explorer {
-    padding: clamp(3.5rem, 7vw, 5.5rem) clamp(0rem, 3vw, 2rem) 0;
+    padding: 2rem var(--pad) 0;
   }
 
   .tag-explorer > header {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: end;
     justify-content: space-between;
@@ -100,118 +101,185 @@ const tags = getTags(posts, 'count');
   }
 
   .tag-explorer > header p {
-    margin: 0 0 0.6rem;
+    margin: 0 0 0.5rem;
     color: var(--accent);
     font-family: var(--font-code);
-    font-size: 0.58rem;
-    letter-spacing: 0.1em;
+    font-size: 0.54rem;
+    letter-spacing: 0.12em;
   }
 
   .tag-explorer h2 {
     margin: 0;
-    font-size: clamp(2rem, 4vw, 3.4rem);
-    letter-spacing: -0.04em;
-    line-height: 1;
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
 
   .tag-explorer output {
-    color: var(--muted);
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.6rem;
+    font-size: 0.54rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
   }
 
   .tag-search {
-    min-height: 3.25rem;
-    padding: 0 0.9rem;
+    height: 2.4rem;
+    margin-bottom: 1.2rem;
+    padding: 0 0.35rem 0 0.8rem;
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    border-block: 1px solid var(--border-strong);
-    color: var(--muted);
+    gap: 0.6rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    color: var(--ink-3);
+    background: var(--panel);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .tag-search:focus-within { color: var(--accent); }
+  .tag-search:focus-within {
+    border-color: var(--ink);
+    color: var(--ink);
+    box-shadow: inset 2px 0 0 var(--accent);
+  }
 
   .tag-search input {
     min-width: 0;
+    height: 100%;
     flex: 1;
     border: 0;
     outline: 0;
-    color: var(--text);
+    color: var(--ink);
     background: transparent;
-    font-size: 0.86rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+  }
+
+  .tag-search input::-webkit-search-cancel-button {
+    display: none;
   }
 
   .tag-search button {
-    padding: 0;
-    border: 0;
-    color: var(--accent);
-    background: transparent;
-    cursor: pointer;
+    height: 1.6rem;
+    padding: 0 0.55rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    color: var(--ink-2);
+    background: var(--bg);
     font-family: var(--font-code);
-    font-size: 0.58rem;
+    font-size: 0.54rem;
+    cursor: pointer;
+  }
+
+  .tag-search button:hover {
+    border-color: var(--ink);
+    color: var(--bg);
+    background: var(--ink);
+  }
+
+  .tag-search button[hidden] {
+    display: none;
   }
 
   .tag-cloud {
+    padding: 1px 0 0 1px;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    border-left: 1px solid var(--border);
+    grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
   }
 
   .tag-cloud a {
+    position: relative;
     min-width: 0;
-    min-height: 5.2rem;
-    padding: 0.75rem;
+    min-height: 3.6rem;
+    margin: -1px 0 0 -1px;
+    padding: 0.5rem 0.65rem;
     display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: start;
-    gap: 0.4rem;
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-    transition: color 0.18s ease, background-color 0.18s ease;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto 1fr;
+    column-gap: 0.4rem;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    background: var(--panel);
+    transition: background-color 0.15s ease, color 0.15s ease;
   }
 
   .tag-cloud a:hover {
+    z-index: 1;
+    border-color: var(--accent);
     color: var(--accent);
-    background: var(--surface-soft);
+    background: var(--accent-soft);
   }
 
   .tag-cloud a[hidden] { display: none; }
 
   .tag-cloud span {
-    color: var(--muted);
+    grid-column: 1;
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.5rem;
+    font-size: 0.48rem;
+    letter-spacing: 0.06em;
   }
 
   .tag-cloud strong {
-    min-width: 0;
+    grid-column: 1 / -1;
     align-self: end;
+    min-width: 0;
     overflow: hidden;
-    font-size: 0.86rem;
-    font-weight: 600;
+    font-size: 0.72rem;
+    font-weight: 500;
+    line-height: 1.3;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .tag-cloud sup {
-    color: var(--accent);
+    grid-column: 2;
+    grid-row: 1;
+    color: var(--ink-2);
     font-family: var(--font-code);
-    font-size: 0.55rem;
+    font-size: 0.5rem;
+    line-height: 1.6;
+    vertical-align: baseline;
   }
 
   .tag-empty {
-    padding: 4rem 1rem;
-    border-bottom: 1px solid var(--border-strong);
-    color: var(--muted);
+    padding: 1.5rem 0;
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.6rem;
     text-align: center;
   }
 
-  @media (max-width: 58rem) { .tag-cloud { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 40rem) {
-    .tag-explorer { padding-top: 3.2rem; }
-    .tag-cloud { grid-template-columns: repeat(2, 1fr); }
-    .tag-cloud a { min-height: 4.7rem; }
+  .tag-empty[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 60rem) {
+    .tag-explorer > header p,
+    .tag-explorer output,
+    .tag-search button { font-size: 0.66rem; }
+    .tag-search input { font-size: 0.95rem; }
+    .tag-cloud span,
+    .tag-cloud sup { font-size: 0.6rem; }
+    .tag-cloud strong { font-size: 0.9rem; }
+    .tag-empty { font-size: 0.75rem; }
+  }
+
+  @media (max-width: 48rem) {
+    .tag-explorer {
+      padding-top: 1.4rem;
+    }
+
+    .tag-explorer > header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .tag-cloud {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 </style>

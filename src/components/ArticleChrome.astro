@@ -37,26 +37,28 @@ const readText = typeof readingTime === 'number' ? `阅读 ${Math.max(1, Math.ro
 const showToc = toc && headings.some((heading) => heading.depth === 2 || heading.depth === 3);
 ---
 
-<article class="article">
+<article class:list={['article', { 'article--has-toc': showToc }]}>
   <header class="article-header">
-    <p class="article-kicker" data-no-select>WRITING / {categories[0] ? getTaxonomyLabel('categories', categories[0]).toLocaleUpperCase('zh-CN') : 'NOTE'}</p>
-    <h1>{title}</h1>
-    {description && <p class="article-dek">{description}</p>}
-    <div class="article-info">
+    <div class="article-header__rail">
+      <p class="article-kicker" data-no-select><b>WRITING</b> / {categories[0] ? getTaxonomyLabel('categories', categories[0]).toLocaleUpperCase('zh-CN') : 'NOTE'}</p>
+      {(dateText || wordCount || readText || updatedText) && (
+        <dl class="article-meta">
+          {dateText && <div><dt><Icon name="calendar" size={12} /> 发布</dt><dd><time datetime={validDate?.toISOString()}>{dateText}</time></dd></div>}
+          {updatedText && <div><dt>更新于</dt><dd>{updatedText}</dd></div>}
+          {typeof wordCount === 'number' && <div><dt>✎ 字数</dt><dd>约 {wordCount} 字</dd></div>}
+          {readText && <div><dt><Icon name="clock" size={12} /> 阅读</dt><dd>{readText.replace(/^阅读\s*/, '')}</dd></div>}
+        </dl>
+      )}
+    </div>
+    <div class="article-header__main">
+      <h1>{title}</h1>
+      {description && <p class="article-dek">{description}</p>}
       {categories.length > 0 && (
         <div class="article-categories">
           <span>收录于</span>
           {categories.map((category) => (
-            <a href={getTaxonomyUrl('categories', category)}><Icon name="folder" size={14} /> {getTaxonomyLabel('categories', category)}</a>
+            <a href={getTaxonomyUrl('categories', category)}><Icon name="folder" size={13} /> {getTaxonomyLabel('categories', category)}</a>
           ))}
-        </div>
-      )}
-      {(dateText || wordCount || readText || updatedText) && (
-        <div class="article-meta">
-          {dateText && <span><Icon name="calendar" size={15} /><time datetime={validDate?.toISOString()}>{dateText}</time></span>}
-          {typeof wordCount === 'number' && <span>✎ 约 {wordCount} 字</span>}
-          {readText && <span><Icon name="clock" size={15} /> {readText}</span>}
-          {updatedText && <span>更新于 {updatedText}</span>}
         </div>
       )}
     </div>
@@ -77,118 +79,213 @@ const showToc = toc && headings.some((heading) => heading.depth === 2 || heading
 
 <style>
   .article {
-    padding-top: 0;
+    position: relative;
+    width: var(--frame);
+    max-width: none;
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    align-items: start;
   }
 
-  .article-header h1 {
-    max-width: 18ch;
-    margin: 0;
-    color: var(--text);
-    font-size: clamp(2.25rem, 5.5vw, 4.8rem);
-    font-weight: 700;
-    letter-spacing: -0.05em;
-    line-height: 1.02;
+  /* Rail divider runs the full length of the article. */
+  .article::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--rail);
+    width: 1px;
+    content: "";
+    background: var(--line);
+    pointer-events: none;
   }
 
   .article-header {
-    padding: clamp(4.5rem, 8vw, 6.8rem) 0 0.8rem;
-    border-bottom: 1px solid var(--border-strong);
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .article-header__rail {
+    min-width: 0;
+    padding: clamp(2.6rem, 5vw, 3.8rem) 1.1rem 1.6rem;
   }
 
   .article-kicker {
-    margin: 0 0 0.85rem;
-    color: var(--accent);
+    margin: 0 0 1.1rem;
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.58rem;
-    font-weight: 600;
-    letter-spacing: 0.11em;
+    font-size: 0.54rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+  }
+
+  .article-kicker b {
+    display: block;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .article-meta {
+    margin: 0;
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+
+  .article-meta > div {
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .article-meta dt {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+  }
+
+  .article-meta dd {
+    margin: 0.1rem 0 0;
+    color: var(--ink);
+    font-family: var(--font-code);
+    font-size: 0.62rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .article-header__main {
+    min-width: 0;
+    padding: clamp(2.6rem, 5vw, 3.8rem) var(--pad) 1.9rem;
+  }
+
+  .article-header h1 {
+    max-width: 22ch;
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 4.4vw, 3.5rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
   }
 
   .article-dek {
-    max-width: 46rem;
-    margin: 1.2rem 0 0;
-    color: var(--secondary);
-    font-size: 0.88rem;
-    line-height: 1.7;
-  }
-
-  .article-info {
-    margin-top: 1.35rem;
-    padding-top: 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem 1.5rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .article-categories,
-  .article-meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.25rem 0.5rem;
-    color: var(--secondary);
-    font-family: var(--font-code);
-    font-size: 0.58rem;
-    letter-spacing: 0.03em;
+    max-width: 36rem;
+    margin: 1.15rem 0 0;
+    color: var(--ink-2);
+    font-size: 0.8rem;
+    line-height: 1.85;
   }
 
   .article-categories {
-    flex: none;
-  }
-
-  .article-categories a,
-  .article-meta span {
-    display: inline-flex;
+    margin-top: 1.3rem;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.2rem;
+    gap: 0.35rem 0.5rem;
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.54rem;
+    letter-spacing: 0.04em;
   }
 
   .article-categories a {
-    color: inherit;
+    padding: 0.12rem 0.45rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    color: var(--ink-2);
+    background: var(--panel);
   }
 
   .article-categories a:hover {
-    color: var(--link-hover);
-  }
-
-  .article-meta > * + *::before {
-    margin-right: 0.2rem;
-    content: "·";
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   .article-body {
-    margin-top: 2rem;
+    grid-column: 2;
+    min-width: 0;
+    max-width: calc(40rem + 2 * var(--pad));
+    padding: 2.2rem var(--pad) 1rem;
   }
 
   .article-footer {
-    margin-top: 2rem;
-    padding: 1rem 0;
-    border-block: 1px solid var(--border);
-    color: var(--secondary);
+    grid-column: 2;
+    max-width: 40rem;
+    margin: 1.5rem var(--pad) 0;
+    padding: 0.8rem 0;
+    border-block: 1px solid var(--line);
+    color: var(--ink-3);
     font-family: var(--font-code);
-    font-size: 0.62rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.03em;
   }
 
   .article-footer a {
-    color: var(--text);
+    color: var(--ink);
   }
 
   .article-footer a:hover { color: var(--accent); }
 
-  @media (max-width: 42rem) {
-    .article-header h1 {
-      font-size: clamp(2rem, 10vw, 2.85rem);
+  @media (max-width: 60rem) {
+    .article-kicker,
+    .article-categories,
+    .article-footer { font-size: 0.66rem; }
+    .article-meta dt { font-size: 0.6rem; }
+    .article-meta dd { font-size: 0.74rem; }
+    .article-dek { font-size: 0.98rem; }
+  }
+
+  @media (max-width: 48rem) {
+    .article {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .article::before {
+      display: none;
     }
 
     .article-header {
-      padding-top: 4.5rem;
+      grid-template-columns: minmax(0, 1fr);
     }
 
-    .article-info {
-      align-items: flex-start;
-      flex-direction: column;
+    .article-header__rail {
+      order: 2;
+      padding: 0 var(--pad) 1.2rem;
+    }
+
+    .article-header__main {
+      padding: 2.4rem var(--pad) 1.2rem;
+    }
+
+    .article-kicker {
+      display: none;
+    }
+
+    .article-meta {
+      grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+      gap: 0 1rem;
+    }
+
+    .article-header h1 {
+      font-size: clamp(1.9rem, 8.5vw, 2.5rem);
+    }
+
+    .article-body,
+    .article-footer {
+      grid-column: 1;
+    }
+
+    .article-body {
+      padding-top: 1.4rem;
     }
   }
 </style>
