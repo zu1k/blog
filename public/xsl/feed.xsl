@@ -30,33 +30,34 @@
         <style type="text/css">
           :root {
             color-scheme: light;
-            --page: #fff;
-            --raised: #fff;
-            --text: #161209;
-            --soft: #444;
-            --muted: #777;
-            --rule: #ededeb;
-            --header: rgba(248, 248, 248, 0.88);
-            --surface: #f7f7f5;
-            --accent: #178caf;
-            --accent-warm: #d64d72;
-            --shadow: rgba(22, 18, 9, 0.07);
-            --serif: "Times New Roman", "Noto Serif CJK SC", "Songti SC", SimSun, "Microsoft YaHei", serif;
-            --code: "Source Code Pro", Menlo, Consolas, Monaco, monospace;
+            --page: #f5f3ee;
+            --raised: #fbfaf6;
+            --text: #1b1a17;
+            --soft: #55524a;
+            --muted: #8b877d;
+            --rule: #dcd7cb;
+            --header: rgba(245, 243, 238, 0.9);
+            --surface: #efece5;
+            --accent: #2447c4;
+            --accent-warm: #b4541a;
+            --shadow: rgba(27, 26, 23, 0.06);
+            --serif: "Newsreader", "Noto Serif CJK SC", "Songti SC", SimSun, serif;
+            --sans: "Inter", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+            --code: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
           }
 
           html[data-theme="dark"] {
             color-scheme: dark;
-            --page: #292a2d;
-            --raised: #27282b;
-            --text: #c9c9d1;
-            --soft: #a3a3a3;
-            --muted: #8c8c93;
-            --rule: #3a3b3e;
-            --header: rgba(37, 38, 39, 0.9);
-            --surface: #252629;
-            --accent: #75c7df;
-            --accent-warm: #f18aab;
+            --page: #131312;
+            --raised: #191918;
+            --text: #ecebe5;
+            --soft: #b4b1a7;
+            --muted: #7f7c73;
+            --rule: #2b2a27;
+            --header: rgba(19, 19, 18, 0.9);
+            --surface: #1f1e1c;
+            --accent: #86a6ff;
+            --accent-warm: #f0a066;
             --shadow: rgba(0, 0, 0, 0.24);
           }
 
@@ -66,7 +67,7 @@
             min-width: 18rem;
             overflow-x: hidden;
             background: var(--page);
-            font-family: var(--serif);
+            font-family: var(--sans);
             font-size: 120%;
             line-height: 1.7;
             scrollbar-color: rgba(100, 100, 100, 0.45) transparent;
@@ -119,9 +120,10 @@
           }
 
           .brand {
-            font-size: 1.4rem;
-            font-weight: 700;
-            letter-spacing: 0.03em;
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
           }
 
           .header-nav { display: flex; align-items: center; gap: 1rem; }
@@ -151,8 +153,10 @@
 
           main {
             width: min(calc(100% - 2rem), 900px);
+            min-height: 100vh;
             margin: 0 auto;
-            padding: clamp(3.7rem, 9vw, 6.8rem) 0 4rem;
+            padding: clamp(3.7rem, 9vw, 6.8rem) clamp(1rem, 3vw, 2.2rem) 4rem;
+            border-inline: 1px solid var(--rule);
           }
 
           .eyebrow {
@@ -165,13 +169,17 @@
             text-transform: uppercase;
           }
 
+          h1, h2, .item-title {
+            font-family: var(--serif);
+          }
+
           h1 {
             max-width: 13ch;
             margin: 0;
-            font-size: clamp(2.6rem, 8vw, 5rem);
-            font-weight: 600;
-            letter-spacing: -0.045em;
-            line-height: 0.98;
+            font-size: clamp(2.6rem, 7vw, 4.2rem);
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            line-height: 1.02;
           }
 
           .lead {
@@ -185,7 +193,7 @@
             margin-top: 2.4rem;
             border: 1px solid var(--rule);
             background: var(--raised);
-            box-shadow: 0 1rem 3rem var(--shadow);
+            border-radius: 2px;
           }
 
           .subscribe-row {
@@ -237,7 +245,7 @@
             border-bottom: 1px solid var(--rule);
           }
 
-          .feed-heading h2 { margin: 0; font-size: 1.65rem; font-weight: 600; }
+          .feed-heading h2 { margin: 0; font-size: 1.65rem; font-weight: 500; }
           .feed-count { color: var(--muted); font-family: var(--code); font-size: 0.62rem; }
 
           .feed-list { margin: 0; padding: 0; list-style: none; }
@@ -265,7 +273,7 @@
             letter-spacing: 0.035em;
           }
 
-          .item-title { margin: 0; font-size: clamp(1.15rem, 3vw, 1.45rem); font-weight: 600; line-height: 1.3; }
+          .item-title { margin: 0; font-size: clamp(1.15rem, 3vw, 1.45rem); font-weight: 500; line-height: 1.3; }
           .item-title a:hover, .item-title a:focus-visible { color: var(--accent); outline: 0; }
 
           .item-summary {
