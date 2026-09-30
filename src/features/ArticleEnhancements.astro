@@ -314,94 +314,139 @@ const { mermaid = false } = Astro.props;
 )}
 
 <style>
+  /* Code blocks become a framed "editor pane": a label strip on top, code below. */
   :global(.code-frame) {
     position: relative;
-    margin-block: 1.45em;
+    margin-block: 1.6em;
+    border: 1px solid var(--line-strong);
+    background: var(--code-bg);
+  }
+
+  :global(.code-frame)::before {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 2.25rem;
+    content: "";
+    border-bottom: 1px solid var(--line);
+    background: var(--panel-2);
+    pointer-events: none;
   }
 
   :global(.article-body .code-frame pre) {
     margin-block: 0;
-    padding-top: 1.55rem;
+    padding-top: calc(2.25rem + 0.9rem);
+    border: 0;
+    background: transparent !important;
   }
 
   :global(.code-language) {
     position: absolute;
     z-index: 2;
-    top: 0.48rem;
-    left: 1rem;
+    top: 0;
+    left: 0;
+    height: 2.25rem;
+    padding: 0 0.9rem;
     display: inline-flex;
     align-items: center;
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.58rem;
-    letter-spacing: 0.07em;
+    gap: 0.5rem;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
     line-height: 1;
     text-transform: uppercase;
   }
 
+  :global(.code-language)::before {
+    width: 6px;
+    height: 6px;
+    content: "";
+    background: var(--accent);
+  }
+
   :global(.code-language strong) {
-    color: var(--muted);
+    color: var(--ink-2);
     font: inherit;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   :global(.code-copy) {
     position: absolute;
     z-index: 2;
-    top: 0.55rem;
-    right: 0.55rem;
-    padding: 0.25rem 0.48rem;
-    border: 1px solid var(--rule);
-    color: var(--ink-soft);
-    background: color-mix(in srgb, var(--code-bg) 88%, transparent);
+    top: 0.35rem;
+    right: 0.4rem;
+    min-height: 1.55rem;
+    padding: 0.15rem 0.55rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    color: var(--ink-2);
+    background: var(--bg);
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: 0.6875rem;
+    line-height: 1.2;
     cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
   }
 
   :global(.code-copy:hover),
   :global(.code-copy:focus-visible) {
-    color: var(--signal);
-    border-color: var(--signal);
+    border-color: var(--ink);
+    color: var(--bg);
     outline: 0;
+    background: var(--ink);
   }
 
   :global(.code-copy[data-state="success"]) {
+    border-color: var(--accent);
     color: var(--accent);
+    background: var(--accent-soft);
   }
 
   :global(.code-copy[data-state="error"]) {
-    color: var(--project-warm, #d64d72);
+    border-color: var(--warn);
+    color: var(--warn);
+    background: var(--bg);
   }
 
   .image-viewer {
     width: min(94vw, 90rem);
     max-width: none;
     max-height: 92vh;
-    padding: 2.75rem 1rem 1rem;
-    border: 1px solid var(--rule);
+    padding: 3rem 1rem 1rem;
+    border: 1px solid var(--line-strong);
     color: var(--ink);
-    background: var(--paper-raised);
-    box-shadow: 0 2rem 7rem rgb(0 0 0 / 42%);
+    background: var(--bg);
   }
 
   .image-viewer::backdrop {
-    background: rgb(12 13 10 / 78%);
-    backdrop-filter: blur(5px);
+    background: rgb(12 12 11 / 78%);
   }
 
   .image-viewer > button {
     position: absolute;
-    top: 0.45rem;
-    right: 0.6rem;
-    width: 2rem;
-    height: 2rem;
-    border: 0;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
     color: var(--ink);
-    background: transparent;
+    background: var(--bg);
     font-family: var(--font-mono);
-    font-size: 1.45rem;
+    font-size: 1.2rem;
+    line-height: 1;
     cursor: pointer;
+  }
+
+  .image-viewer > button:hover,
+  .image-viewer > button:focus-visible {
+    border-color: var(--ink);
+    color: var(--bg);
+    outline: 0;
+    background: var(--ink);
   }
 
   .image-viewer figure {
@@ -410,16 +455,16 @@ const { mermaid = false } = Astro.props;
 
   .image-viewer img {
     width: auto;
-    max-height: calc(92vh - 5rem);
+    max-height: calc(92vh - 5.5rem);
     margin: auto;
     display: block;
   }
 
   .image-viewer figcaption {
-    margin-top: 0.7rem;
-    color: var(--ink-soft);
+    margin-top: 0.75rem;
+    color: var(--ink-3);
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     text-align: center;
   }
 
@@ -429,22 +474,25 @@ const { mermaid = false } = Astro.props;
 
   :global(.mermaid-frame) {
     position: relative;
-    margin: 1.45em 0;
+    margin: 1.6em 0;
     overflow: hidden;
-    border: 1px solid var(--border-strong);
-    border-radius: 0.55rem;
-    background: var(--page-raised);
-    box-shadow: 0 0.45rem 1.5rem rgb(0 0 0 / 4%);
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
     text-align: left;
   }
 
   :global(.mermaid-canvas) {
     min-height: 9rem;
-    padding: clamp(0.9rem, 3vw, 1.5rem);
+    padding: clamp(2.75rem, 5vw, 3.25rem) clamp(0.9rem, 3vw, 1.5rem) clamp(0.9rem, 3vw, 1.5rem);
     overflow-x: auto;
     display: grid;
     place-items: center;
-    background: var(--page-raised);
+    background-color: var(--panel);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-position: -1px -1px;
+    background-size: 24px 24px;
     scrollbar-width: thin;
   }
 
@@ -461,41 +509,42 @@ const { mermaid = false } = Astro.props;
 
   :global(.mermaid-error) {
     margin: 0;
-    padding: 0.55rem 0.75rem;
-    border-top: 1px solid var(--border);
-    color: var(--accent-warm);
-    font-family: var(--font-code);
-    font-size: 0.58rem;
+    padding: 0.6rem 0.9rem;
+    border-top: 1px solid var(--line);
+    color: var(--warn);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     text-align: left;
   }
 
   :global(.mermaid-toggle) {
     position: absolute;
     z-index: 2;
-    top: 0.55rem;
-    right: 0.65rem;
-    padding: 0.25rem 0.45rem;
-    border: 1px solid var(--border);
-    border-radius: 0.22rem;
-    color: var(--muted);
-    background: color-mix(in srgb, var(--page-raised) 88%, transparent);
-    font-family: var(--font-code);
-    font-size: 0.52rem;
+    top: 0.5rem;
+    right: 0.5rem;
+    min-height: 1.6rem;
+    padding: 0.15rem 0.55rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    color: var(--ink-2);
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
     font-weight: 400;
     cursor: pointer;
-    backdrop-filter: blur(8px);
   }
 
   :global(.mermaid-toggle:hover),
   :global(.mermaid-toggle:focus-visible) {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--ink);
+    color: var(--bg);
     outline: 0;
+    background: var(--ink);
   }
 
   :global(.mermaid-frame > .mermaid-source) {
     margin: 0;
-    padding-top: 2.35rem;
+    padding-top: 2.75rem;
     border: 0;
     border-radius: 0;
     box-shadow: none;
@@ -513,13 +562,13 @@ const { mermaid = false } = Astro.props;
   }
 
   :global(.mermaid-source .token.comment) {
-    color: var(--muted);
+    color: var(--ink-3);
     font-style: italic;
   }
 
   :global(.mermaid-source .token.keyword),
   :global(.mermaid-source .token.important) {
-    color: var(--accent-warm);
+    color: var(--warn);
     font-weight: 600;
   }
 
@@ -530,13 +579,13 @@ const { mermaid = false } = Astro.props;
 
   :global(.mermaid-source .token.string),
   :global(.mermaid-source .token.property) {
-    color: color-mix(in srgb, #31824f 76%, var(--text));
+    color: color-mix(in srgb, #31824f 76%, var(--ink));
   }
 
   :global(.mermaid-source .token.entity),
   :global(.mermaid-source .token.function),
   :global(.mermaid-source .token.variable) {
-    color: color-mix(in srgb, #7857b5 72%, var(--text));
+    color: color-mix(in srgb, #7857b5 72%, var(--ink));
   }
 
   :global(:root[data-theme="dark"] .mermaid-source .token.string),

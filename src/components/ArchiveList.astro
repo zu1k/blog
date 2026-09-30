@@ -47,12 +47,12 @@ const pageUrl = (value: number) => value === 1 ? paginationBase : `${paginationB
 
   <div class="archive-ledger">
     {[...grouped.entries()].map(([year, yearPosts]) => (
-      <section class="archive-year" aria-labelledby={`year-${year}`}>
-        <header>
+      <section class="archive-year band split" aria-labelledby={`year-${year}`}>
+        <header class="split__rail">
+          <span class="eyebrow" data-no-select><b>{String(yearPosts.length).padStart(2, '0')}</b> / POSTS</span>
           <h2 id={`year-${year}`}>{year}</h2>
-          <span>{String(yearPosts.length).padStart(2, '0')} POSTS</span>
         </header>
-        <div class="archive-year__entries">
+        <div class="archive-year__entries split__body">
           {yearPosts.map((post) => <PostCard post={post} index={postIndexes.get(post.id)} />)}
         </div>
       </section>
@@ -60,7 +60,7 @@ const pageUrl = (value: number) => value === 1 ? paginationBase : `${paginationB
   </div>
 
   {totalPages > 1 && (
-    <nav class="pagination" aria-label="分页" data-no-select>
+    <nav class="pagination band" aria-label="分页" data-no-select>
       <span>PAGE</span>
       {Array.from({ length: totalPages }, (_, index) => index + 1).map((value) => (
         <a href={pageUrl(value)} aria-current={value === page ? 'page' : undefined} data-astro-prefetch="hover">{String(value).padStart(2, '0')}</a>
@@ -71,122 +71,97 @@ const pageUrl = (value: number) => value === 1 ? paginationBase : `${paginationB
 
 <style>
   .archive-page {
-    width: min(calc(100% - 2rem), 68rem);
-    margin: 0 auto;
-    padding: 3rem 0 5rem;
+    width: 100%;
   }
 
   .archive-page :global(.page-hero__aside strong) {
-    color: var(--text);
-    font-family: var(--font-code);
-    font-size: 1.45rem;
-  }
-
-  .archive-ledger {
-    padding: clamp(3.2rem, 7vw, 5.5rem) clamp(0.25rem, 3vw, 2rem) 0;
+    font-size: 1.75rem;
+    line-height: 1.2;
   }
 
   .archive-year {
-    display: grid;
-    grid-template-columns: 8rem minmax(0, 1fr);
-    gap: clamp(1.5rem, 5vw, 4rem);
-  }
-
-  .archive-year + .archive-year {
-    margin-top: 3rem;
+    grid-template-columns: 11rem minmax(0, 1fr);
   }
 
   .archive-year > header {
-    position: sticky;
-    top: 5rem;
-    height: max-content;
-    padding-top: 0.55rem;
+    padding: 1.35rem var(--pad-x);
   }
 
   .archive-year h2 {
-    margin: 0;
-    font-family: var(--font-code);
-    font-size: 1.65rem;
+    margin: 0.35rem 0 0;
+    color: var(--ink);
+    font-size: 2.25rem;
     font-weight: 500;
-    letter-spacing: -0.04em;
-  }
-
-  .archive-year header span {
-    display: block;
-    margin-top: 0.25rem;
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.55rem;
-    letter-spacing: 0.08em;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-variant-numeric: lining-nums;
   }
 
   .archive-year__entries {
-    border-top: 1px solid var(--border-strong);
+    padding: 0;
   }
 
   .pagination {
-    margin-top: 4rem;
-    padding-top: 1rem;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.35rem;
-    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    align-items: stretch;
   }
 
   .pagination > span {
-    margin-right: 0.5rem;
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.55rem;
-    letter-spacing: 0.08em;
+    min-height: 3.5rem;
+    padding: 0 var(--pad-x);
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--line);
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
   }
 
   .pagination a {
-    min-width: 2rem;
-    height: 2rem;
+    min-width: 3.5rem;
+    min-height: 3.5rem;
     display: grid;
     place-items: center;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-    color: var(--secondary);
-    font-family: var(--font-code);
-    font-size: 0.65rem;
+    border-right: 1px solid var(--line);
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    transition: color 0.15s ease, background-color 0.15s ease;
   }
 
   .pagination a:hover {
-    border-color: var(--border-strong);
     color: var(--accent);
+    background: var(--panel);
   }
 
   .pagination a[aria-current="page"] {
-    color: var(--page-bg);
-    background: var(--text);
+    color: var(--bg);
+    background: var(--ink);
   }
 
-  @media (max-width: 48rem) {
-    .archive-page {
-      width: min(calc(100% - 1.25rem), 68rem);
-    }
-
-    .archive-ledger {
-      padding-top: 3.2rem;
-    }
-
+  @media (max-width: 52rem) {
     .archive-year {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
     }
 
     .archive-year > header {
-      position: static;
+      padding: 1rem var(--pad-x);
       display: flex;
+      flex-direction: row-reverse;
       align-items: baseline;
       justify-content: space-between;
+      border-bottom: 1px solid var(--line);
     }
 
     .archive-year h2 {
-      font-size: 1.4rem;
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    .archive-year__entries.split__body {
+      padding: 0;
     }
   }
 </style>

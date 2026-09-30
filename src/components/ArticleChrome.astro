@@ -39,156 +39,259 @@ const showToc = toc && headings.some((heading) => heading.depth === 2 || heading
 
 <article class="article">
   <header class="article-header">
-    <p class="article-kicker" data-no-select>WRITING / {categories[0] ? getTaxonomyLabel('categories', categories[0]).toLocaleUpperCase('zh-CN') : 'NOTE'}</p>
+    <p class="article-kicker eyebrow" data-no-select>WRITING / {categories[0] ? getTaxonomyLabel('categories', categories[0]).toLocaleUpperCase('zh-CN') : 'NOTE'}</p>
     <h1>{title}</h1>
     {description && <p class="article-dek">{description}</p>}
-    <div class="article-info">
-      {categories.length > 0 && (
-        <div class="article-categories">
-          <span>收录于</span>
-          {categories.map((category) => (
-            <a href={getTaxonomyUrl('categories', category)}><Icon name="folder" size={14} /> {getTaxonomyLabel('categories', category)}</a>
-          ))}
-        </div>
-      )}
-      {(dateText || wordCount || readText || updatedText) && (
-        <div class="article-meta">
-          {dateText && <span><Icon name="calendar" size={15} /><time datetime={validDate?.toISOString()}>{dateText}</time></span>}
-          {typeof wordCount === 'number' && <span>✎ 约 {wordCount} 字</span>}
-          {readText && <span><Icon name="clock" size={15} /> {readText}</span>}
-          {updatedText && <span>更新于 {updatedText}</span>}
-        </div>
-      )}
-    </div>
   </header>
 
-  {showToc && <TableOfContents headings={headings} />}
-  <div class="article-body prose"><slot /></div>
-
-  {tags.length > 0 && (
-    <footer class="article-footer">
-      <span>标签：</span>
-      {tags.map((tag, index) => (
-        <><a href={getTaxonomyUrl('tags', tag)}>{getTaxonomyLabel('tags', tag)}</a>{index < tags.length - 1 && <span>, </span>}</>
-      ))}
-    </footer>
+  {(dateText || wordCount || readText || updatedText || categories.length > 0) && (
+    <dl class="article-info cells cells--open">
+      {dateText && (
+        <div>
+          <dt>PUBLISHED</dt>
+          <dd><Icon name="calendar" size={14} /><time datetime={validDate?.toISOString()}>{dateText}</time></dd>
+        </div>
+      )}
+      {typeof wordCount === 'number' && (
+        <div>
+          <dt>LENGTH</dt>
+          <dd>✎ 约 {wordCount} 字</dd>
+        </div>
+      )}
+      {readText && (
+        <div>
+          <dt>READING</dt>
+          <dd><Icon name="clock" size={14} /> {readText}</dd>
+        </div>
+      )}
+      {updatedText && (
+        <div>
+          <dt>UPDATED</dt>
+          <dd>更新于 {updatedText}</dd>
+        </div>
+      )}
+      {categories.length > 0 && (
+        <div class="article-categories">
+          <dt>FILED UNDER</dt>
+          <dd>
+            {categories.map((category) => (
+              <a href={getTaxonomyUrl('categories', category)}><Icon name="folder" size={14} /> {getTaxonomyLabel('categories', category)}</a>
+            ))}
+          </dd>
+        </div>
+      )}
+    </dl>
   )}
+
+  <div class:list={['article-layout', 'band', { 'article-layout--toc': showToc }]}>
+    <div class="article-side">
+      {showToc && <TableOfContents headings={headings} />}
+    </div>
+    <div class="article-main">
+      <div class="article-body prose"><slot /></div>
+
+      {tags.length > 0 && (
+        <footer class="article-footer">
+          <span class="eyebrow" data-no-select>标签 / TAGS</span>
+          <div>
+            {tags.map((tag) => (
+              <a href={getTaxonomyUrl('tags', tag)}><span aria-hidden="true">#</span>{getTaxonomyLabel('tags', tag)}</a>
+            ))}
+          </div>
+        </footer>
+      )}
+    </div>
+  </div>
 </article>
 
 <style>
   .article {
-    padding-top: 0;
-  }
-
-  .article-header h1 {
-    max-width: 18ch;
-    margin: 0;
-    color: var(--text);
-    font-size: clamp(2.25rem, 5.5vw, 4.8rem);
-    font-weight: 700;
-    letter-spacing: -0.05em;
-    line-height: 1.02;
+    position: relative;
   }
 
   .article-header {
-    padding: clamp(4.5rem, 8vw, 6.8rem) 0 0.8rem;
-    border-bottom: 1px solid var(--border-strong);
+    padding: clamp(3.25rem, 7vw, 5.5rem) var(--pad-x) clamp(2.25rem, 4vw, 3rem);
   }
 
   .article-kicker {
-    margin: 0 0 0.85rem;
-    color: var(--accent);
-    font-family: var(--font-code);
-    font-size: 0.58rem;
-    font-weight: 600;
-    letter-spacing: 0.11em;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--ink-2);
+  }
+
+  .article-kicker::before {
+    width: 7px;
+    height: 7px;
+    flex: none;
+    content: "";
+    background: var(--accent);
+  }
+
+  .article-header h1 {
+    max-width: 16em;
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(2.1rem, 4.6vw, 3.75rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
   }
 
   .article-dek {
-    max-width: 46rem;
-    margin: 1.2rem 0 0;
-    color: var(--secondary);
-    font-size: 0.88rem;
-    line-height: 1.7;
+    max-width: 44rem;
+    margin: 1.25rem 0 0;
+    color: var(--ink-2);
+    font-size: 1.0625rem;
+    line-height: 1.75;
   }
 
   .article-info {
-    margin-top: 1.35rem;
-    padding-top: 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem 1.5rem;
-    border-top: 1px solid var(--border);
+    position: relative;
+    margin: 0;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
   }
 
-  .article-categories,
-  .article-meta {
+  .article-info::before,
+  .article-info::after,
+  .article-main::before {
+    position: absolute;
+    z-index: 3;
+    top: -5px;
+    width: 9px;
+    height: 9px;
+    content: "";
+    background:
+      linear-gradient(var(--mark), var(--mark)) center / 1px 100% no-repeat,
+      linear-gradient(var(--mark), var(--mark)) center / 100% 1px no-repeat;
+    pointer-events: none;
+  }
+
+  .article-info::before,
+  .article-main::before { left: -5px; }
+  .article-info::after { right: -5px; }
+
+  .article-info > div {
+    min-width: 0;
+    padding: 0.85rem var(--pad-x) 0.95rem;
+  }
+
+  .article-info dt {
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+
+  .article-info dd {
+    margin: 0.35rem 0 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.25rem 0.5rem;
-    color: var(--secondary);
-    font-family: var(--font-code);
-    font-size: 0.58rem;
-    letter-spacing: 0.03em;
+    gap: 0.35rem 0.75rem;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
   }
 
-  .article-categories {
-    flex: none;
-  }
-
-  .article-categories a,
-  .article-meta span {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
+  .article-info dd :global(.icon) {
+    color: var(--ink-3);
   }
 
   .article-categories a {
-    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--ink);
+  }
+
+  .article-categories a :global(.icon) {
+    color: var(--accent);
   }
 
   .article-categories a:hover {
-    color: var(--link-hover);
+    color: var(--accent);
   }
 
-  .article-meta > * + *::before {
-    margin-right: 0.2rem;
-    content: "·";
+  .article-layout {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--rail-w) minmax(0, 1fr);
   }
 
-  .article-body {
-    margin-top: 2rem;
+  .article-side {
+    min-width: 0;
+    padding: 2.5rem var(--pad-x) 3rem;
+  }
+
+  .article-main {
+    position: relative;
+    min-width: 0;
+    padding: clamp(2.25rem, 5vw, 3.5rem) clamp(1.25rem, 5vw, 4.5rem) clamp(3rem, 6vw, 4.5rem);
+    border-left: 1px solid var(--line);
   }
 
   .article-footer {
-    margin-top: 2rem;
-    padding: 1rem 0;
-    border-block: 1px solid var(--border);
-    color: var(--secondary);
-    font-family: var(--font-code);
-    font-size: 0.62rem;
+    max-width: var(--measure);
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    display: grid;
+    gap: 0.8rem;
+    border-top: 1px solid var(--line);
+    font-size: 1.0625rem;
+  }
+
+  .article-footer > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
   }
 
   .article-footer a {
-    color: var(--text);
+    min-height: 1.85rem;
+    padding: 0.2rem 0.55rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
   }
 
-  .article-footer a:hover { color: var(--accent); }
+  .article-footer a span {
+    color: var(--accent);
+  }
 
-  @media (max-width: 42rem) {
-    .article-header h1 {
-      font-size: clamp(2rem, 10vw, 2.85rem);
+  .article-footer a:hover {
+    border-color: var(--accent);
+    color: var(--ink);
+    background: var(--panel);
+  }
+
+  @media (max-width: 64rem) {
+    .article-layout {
+      grid-template-columns: 1fr;
     }
 
-    .article-header {
-      padding-top: 4.5rem;
+    .article-layout:not(.article-layout--toc) .article-side {
+      display: none;
     }
 
-    .article-info {
-      align-items: flex-start;
-      flex-direction: column;
+    .article-side {
+      padding: 1.5rem var(--pad-x) 0;
+    }
+
+    .article-main {
+      padding: 1.75rem var(--pad-x) 3rem;
+      border-left: 0;
+    }
+
+    .article-main::before {
+      display: none;
     }
   }
 </style>

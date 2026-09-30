@@ -103,40 +103,45 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
 </script>
 
 <style>
+  .article-toc {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+  }
+
   .article-toc__rail {
-    position: fixed;
-    z-index: 35;
-    top: 6.3rem;
-    left: max(1.25rem, calc((100vw - min(60vw, var(--page-width))) / 2 - 12rem));
-    width: 10.5rem;
-    max-height: calc(100vh - 8rem);
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - var(--header-h) - 4rem);
   }
 
   .article-toc__rail header {
-    margin-bottom: 0.7rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 0.5rem;
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.55rem;
-    letter-spacing: 0.09em;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
   }
 
   .article-toc__rail output {
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
     white-space: nowrap;
   }
 
-  .article-toc__rail output b {
-    color: var(--text);
-    font-weight: 600;
+  .article-toc__rail output b,
+  .article-toc__inline-status b {
+    color: var(--accent);
+    font-weight: 500;
   }
 
   nav {
-    max-height: calc(100vh - 10rem);
+    min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: none;
@@ -148,8 +153,8 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
 
   ol {
     margin: 0;
-    padding: 0 0 0 0.75rem;
-    border-left: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+    padding: 0;
+    border-left: 1px solid var(--line);
     list-style: none;
   }
 
@@ -158,45 +163,42 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
     margin: 0;
   }
 
-  li.is-subsection a {
-    padding-left: 0.65rem;
-    font-size: 0.68rem;
-    opacity: 0.82;
-  }
-
   a {
     position: relative;
-    padding: 0.3rem 0.2rem;
+    padding: 0.32rem 0 0.32rem 0.85rem;
     display: block;
-    color: var(--muted);
-    font-size: 0.72rem;
-    line-height: 1.4;
+    color: var(--ink-3);
+    font-size: 0.8125rem;
+    line-height: 1.45;
     text-decoration: none;
-    transition: color 0.18s ease, transform 0.18s ease;
+    transition: color 0.15s ease;
+  }
+
+  li.is-subsection a {
+    padding-left: 1.6rem;
+    font-size: 0.75rem;
   }
 
   a::before {
     position: absolute;
-    top: 0.35rem;
-    bottom: 0.35rem;
-    left: -0.8rem;
+    top: 0.3rem;
+    bottom: 0.3rem;
+    left: -1px;
     width: 2px;
-    border-radius: 999px;
     content: "";
-    background: var(--link-hover);
+    background: var(--accent);
     opacity: 0;
-    transform: scaleY(0.35);
-    transition: opacity 0.18s ease, transform 0.18s ease;
+    transform: scaleY(0.4);
+    transition: opacity 0.15s ease, transform 0.15s ease;
   }
 
   a:hover {
-    color: var(--text);
+    color: var(--ink);
   }
 
   a[data-active] {
-    color: var(--text);
-    font-weight: 600;
-    transform: translateX(0.2rem);
+    color: var(--ink);
+    font-weight: 500;
   }
 
   a[data-active]::before {
@@ -208,28 +210,32 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
     display: none;
   }
 
-  @media (max-width: 75rem) {
+  @media (max-width: 64rem) {
+    .article-toc {
+      position: static;
+    }
+
     .article-toc__rail {
       display: none;
     }
 
     .article-toc__inline {
-      margin: 1.2rem 0 1.5rem;
       display: block;
-      border-block: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+      border: 1px solid var(--line-strong);
+      background: var(--panel);
     }
 
     .article-toc__inline summary {
-      min-height: 2.8rem;
-      padding: 0 0.15rem;
+      min-height: 3rem;
+      padding: 0 0.9rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      color: var(--text);
+      color: var(--ink);
       cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 0.875rem;
+      font-weight: 600;
       list-style: none;
     }
 
@@ -238,16 +244,22 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
     }
 
     .article-toc__inline summary::after {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1.5rem;
+      height: 1.5rem;
       display: grid;
       place-items: center;
-      border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
-      border-radius: 50%;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
       content: "+";
-      font-family: var(--font-code);
-      font-size: 0.75rem;
+      color: var(--ink-2);
+      background: var(--bg);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
       font-weight: 400;
+    }
+
+    .article-toc__inline[open] summary {
+      border-bottom: 1px solid var(--line);
     }
 
     .article-toc__inline[open] summary::after {
@@ -256,29 +268,25 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
 
     .article-toc__inline-status {
       margin-left: auto;
-      color: var(--muted);
-      font-family: var(--font-code);
-      font-size: 0.62rem;
+      color: var(--ink-3);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
       font-weight: 400;
       letter-spacing: 0.04em;
     }
 
     .article-toc__inline nav {
       max-height: min(22rem, 55vh);
-      padding: 0.2rem 0 0.75rem;
-    }
-
-    .article-toc__inline ol {
-      margin-left: 0.2rem;
+      padding: 0.75rem 0.9rem 0.9rem;
     }
 
     .article-toc__inline a {
-      padding-block: 0.38rem;
-      font-size: 0.82rem;
+      padding-block: 0.4rem;
+      font-size: 0.875rem;
     }
 
     .article-toc__inline li.is-subsection a {
-      font-size: 0.76rem;
+      font-size: 0.8125rem;
     }
   }
 </style>

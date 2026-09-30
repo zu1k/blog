@@ -12,149 +12,172 @@ const { eyebrow, title, description, mark = '/', compact = false } = Astro.props
 
 <header class:list={['page-hero', { 'page-hero--compact': compact }]}>
   <div class="page-hero__copy">
-    <p class="page-hero__eyebrow" data-no-select>{eyebrow}</p>
+    <p class="page-hero__eyebrow eyebrow" data-no-select>{eyebrow}</p>
     <h1 data-no-select>{title}</h1>
     {description && <p class="page-hero__description">{description}</p>}
     <div class="page-hero__actions"><slot name="actions" /></div>
   </div>
-  <div class="page-hero__aside"><slot name="aside" /></div>
+  <div class="page-hero__aside blueprint"><slot name="aside" /></div>
   <span class="page-hero__mark" aria-hidden="true">{mark}</span>
 </header>
 
 <style>
   .page-hero {
     position: relative;
-    min-height: 22rem;
-    padding: clamp(3.8rem, 8vw, 6.5rem) clamp(0.5rem, 4vw, 3rem) 2.5rem;
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(12rem, 0.65fr);
-    align-items: end;
-    gap: clamp(2rem, 7vw, 6rem);
-    overflow: hidden;
-    border-bottom: 1px solid var(--border-strong);
-    isolation: isolate;
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 21rem);
   }
 
-  .page-hero::before {
-    position: absolute;
-    z-index: -1;
-    top: -35%;
-    right: -4%;
-    width: min(31rem, 52vw);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    content: "";
-    background:
-      radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 52%),
-      radial-gradient(circle at 68% 68%, color-mix(in srgb, var(--accent-warm) 10%, transparent), transparent 48%);
-  }
-
-  .page-hero__copy,
-  .page-hero__aside {
-    position: relative;
-    z-index: 1;
+  .page-hero__copy {
+    min-width: 0;
+    padding: clamp(3.25rem, 7vw, 5.5rem) var(--pad-x) clamp(2.5rem, 5vw, 3.75rem);
   }
 
   .page-hero__eyebrow {
-    margin: 0 0 0.9rem;
-    color: var(--accent);
-    font-family: var(--font-code);
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
+    margin-bottom: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--ink-2);
+  }
+
+  .page-hero__eyebrow::before {
+    width: 7px;
+    height: 7px;
+    flex: none;
+    content: "";
+    background: var(--accent);
   }
 
   h1 {
-    max-width: 14ch;
+    max-width: 14em;
     margin: 0;
-    font-size: clamp(2.7rem, 6vw, 5.4rem);
-    font-weight: 700;
-    letter-spacing: -0.055em;
-    line-height: 0.98;
+    color: var(--ink);
+    font-size: clamp(2.6rem, 5.4vw, 4.6rem);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
   }
 
   .page-hero__description {
-    max-width: 40rem;
-    margin: 1.35rem 0 0;
-    color: var(--secondary);
-    font-size: clamp(0.9rem, 1.5vw, 1.02rem);
+    max-width: 36rem;
+    margin: 1.4rem 0 0;
+    color: var(--ink-2);
+    font-size: clamp(1rem, 1.4vw, 1.0625rem);
     line-height: 1.75;
   }
 
-  .page-hero__actions:empty,
-  .page-hero__aside:empty {
+  .page-hero__actions:empty {
     display: none;
   }
 
   .page-hero__actions {
-    margin-top: 1.4rem;
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
   }
 
   .page-hero__aside {
-    padding: 0.85rem 0;
-    border-block: 1px solid var(--border-strong);
-    color: var(--secondary);
-    font-size: 0.78rem;
+    position: relative;
+    min-width: 0;
+    padding: 3.25rem var(--pad-x) var(--pad-x);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-left: 1px solid var(--line);
+    color: var(--ink-2);
+    font-size: 0.875rem;
     line-height: 1.7;
+  }
+
+  .page-hero__aside:empty {
+    display: none;
+  }
+
+  /* "+" where the aside rule meets the header rule and the next band. */
+  .page-hero__aside::before,
+  .page-hero__aside::after {
+    position: absolute;
+    z-index: 3;
+    left: -5px;
+    width: 9px;
+    height: 9px;
+    content: "";
+    background:
+      linear-gradient(var(--mark), var(--mark)) center / 1px 100% no-repeat,
+      linear-gradient(var(--mark), var(--mark)) center / 100% 1px no-repeat;
+    pointer-events: none;
+  }
+
+  .page-hero__aside::before { top: -5px; }
+  .page-hero__aside::after { bottom: -5px; }
+
+  .page-hero__aside :global(strong) {
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-weight: 500;
   }
 
   .page-hero__mark {
     position: absolute;
-    z-index: -1;
-    right: clamp(0.5rem, 4vw, 3rem);
-    bottom: -0.12em;
-    color: color-mix(in srgb, var(--text) 4%, transparent);
-    font-family: var(--font-code);
-    font-size: clamp(9rem, 22vw, 18rem);
-    font-weight: 700;
-    letter-spacing: -0.1em;
-    line-height: 0.75;
+    z-index: 2;
+    top: 1.15rem;
+    right: 1.15rem;
+    padding: 0.2rem 0.45rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    color: var(--ink-2);
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
     pointer-events: none;
   }
 
-  .page-hero--compact {
-    min-height: 18rem;
-    padding-top: clamp(3.8rem, 7vw, 5.5rem);
+  .page-hero__mark::before {
+    color: var(--ink-3);
+    content: "N° ";
+  }
+
+  .page-hero--compact .page-hero__copy {
+    padding-top: clamp(3rem, 6vw, 4.75rem);
   }
 
   .page-hero--compact h1 {
-    font-size: clamp(2.5rem, 5vw, 4.6rem);
-  }
-
-  @media (min-width: 48.01rem) and (max-height: 56rem) {
-    .page-hero {
-      min-height: 20rem;
-      padding-top: clamp(3.25rem, 8svh, 4.25rem);
-      padding-bottom: 2rem;
-    }
-
-    .page-hero--compact {
-      min-height: 16rem;
-      padding-top: clamp(3.25rem, 8svh, 4.25rem);
-    }
+    font-size: clamp(2.5rem, 5vw, 4.25rem);
   }
 
   @media (max-width: 48rem) {
     .page-hero {
-      min-height: auto;
-      padding: 4.5rem 0.65rem 2.35rem;
       grid-template-columns: 1fr;
-      gap: 1.7rem;
+    }
+
+    .page-hero__copy {
+      padding-top: 3.5rem;
     }
 
     h1,
     .page-hero--compact h1 {
-      max-width: none;
-      font-size: clamp(2.35rem, 10.5vw, 3.4rem);
+      font-size: clamp(2.3rem, 10vw, 3.2rem);
     }
 
     .page-hero__aside {
-      max-width: 28rem;
+      padding-top: var(--pad-x);
+      border-top: 1px solid var(--line);
+      border-left: 0;
     }
 
-    .page-hero__mark {
-      right: 0;
-      font-size: 11rem;
+    .page-hero__aside::before,
+    .page-hero__aside::after {
+      top: -5px;
+      bottom: auto;
+    }
+
+    .page-hero__aside::after {
+      right: -5px;
+      left: auto;
     }
   }
 </style>
