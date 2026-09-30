@@ -1,39 +1,187 @@
 ---
-import { SITE } from '../consts';
+import { NAV, SITE, SOCIALS } from '../consts';
 
 const year = new Date().getFullYear();
+const feeds = [
+  { label: 'RSS', href: '/rss.xml' },
+  { label: 'Atom', href: '/atom.xml' },
+  { label: 'Sitemap', href: '/sitemap-index.xml' },
+  { label: '全文搜索', href: '/search/' },
+];
 ---
 
 <footer class="site-footer">
-  <div class="footer-line">
-    <span aria-hidden="true">©</span>{' '}{SITE.since} - {year}{' '}
-    <a href={SITE.url}>{SITE.author}</a>{' '}
-    <span aria-hidden="true">|</span>{' '}
-    <a rel="license external nofollow noopener" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+  <div class="footer-frame">
+    <div class="footer-grid cells">
+      <section class="footer-brand" aria-label="关于本站">
+        <a class="footer-logo" href="/" aria-label={`${SITE.title} 首页`}>{SITE.title}</a>
+        <p>{SITE.description}</p>
+      </section>
+
+      <nav class="footer-col" aria-label="站点索引">
+        <p class="eyebrow" data-no-select><b>01</b> / INDEX</p>
+        <ul>
+          {NAV.map((item) => <li><a href={item.href} data-astro-prefetch="hover">{item.label}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="订阅">
+        <p class="eyebrow" data-no-select><b>02</b> / FEEDS</p>
+        <ul>
+          {feeds.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav class="footer-col footer-col--social" aria-label="其他地方">
+        <p class="eyebrow" data-no-select><b>03</b> / ELSEWHERE</p>
+        <ul>
+          {SOCIALS.map((item) => (
+            <li>
+              <a href={item.href} rel={item.href.startsWith('http') ? 'me noopener' : undefined}>
+                {item.label}<span aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-line band">
+      <span>
+        <span aria-hidden="true">©</span>{' '}{SITE.since} - {year}{' '}
+        <a href={SITE.url}>{SITE.author}</a>
+      </span>
+      <a rel="license external nofollow noopener" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+    </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
     width: 100%;
-    min-height: 1.25rem;
-    padding: 1rem 0;
-    color: var(--text);
-    line-height: 1.25rem;
-    text-align: center;
+    color: var(--ink-2);
   }
 
-  .footer-line {
-    width: 100%;
+  .footer-frame {
+    width: var(--frame);
+    margin: 0 auto;
+    border-inline: 1px solid var(--line);
+  }
+
+  .footer-grid {
+    position: relative;
+    grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-grid::before,
+  .footer-grid::after {
+    position: absolute;
+    z-index: 3;
+    top: -5px;
+    width: 9px;
+    height: 9px;
+    content: "";
+    background:
+      linear-gradient(var(--mark), var(--mark)) center / 1px 100% no-repeat,
+      linear-gradient(var(--mark), var(--mark)) center / 100% 1px no-repeat;
+    pointer-events: none;
+  }
+
+  .footer-grid::before { left: -5px; }
+  .footer-grid::after { right: -5px; }
+
+  .footer-grid > * {
+    padding: 2rem var(--pad-x) 2.25rem;
+  }
+
+  .footer-logo {
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .footer-logo:hover {
+    color: var(--accent);
+  }
+
+  .footer-brand p {
+    max-width: 22rem;
+    margin: 1rem 0 0;
+    color: var(--ink-2);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .footer-col ul {
+    margin: 1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+    list-style: none;
+  }
+
+  .footer-col a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    color: var(--ink-2);
     font-size: 0.875rem;
-  }
-
-  a {
-    color: inherit;
     text-decoration: none;
   }
 
-  a:hover {
-    color: var(--link-hover);
+  .footer-col a span {
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+  }
+
+  .footer-col a:hover,
+  .footer-col a:hover span {
+    color: var(--accent);
+  }
+
+  .footer-line {
+    min-height: 3rem;
+    padding: 0.9rem var(--pad-x);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem 1.5rem;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .footer-line a {
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+
+  .footer-line a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 52rem) {
+    .footer-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .footer-brand,
+    .footer-col--social {
+      grid-column: 1 / -1;
+    }
+
+    .footer-col--social ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 </style>
