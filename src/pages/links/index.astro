@@ -25,20 +25,20 @@ const siteExchangeInfo = `NAME: ${siteIdentity.name}\nBIO: ${siteIdentity.descri
           <code>{siteIdentity.url}</code>
         </div>
         <p>{siteIdentity.description}</p>
-        <button type="button" data-copy-site-info={siteExchangeInfo}>复制站点信息</button>
+        <button type="button" class="btn btn--sm" data-copy-site-info={siteExchangeInfo}>复制站点信息</button>
       </div>
     </PageHero>
 
-    <section class="friend-directory" aria-labelledby="friend-directory-title">
+    <section class="friend-directory band" aria-labelledby="friend-directory-title">
       <header>
         <div>
-          <p>PEOPLE BEHIND THE LINKS</p>
+          <p class="eyebrow" data-no-select><b>01</b> / PEOPLE BEHIND THE LINKS</p>
           <h2 id="friend-directory-title">网络同行者</h2>
         </div>
         <span>{String(friends.length).padStart(2, '0')} FRIENDS</span>
       </header>
 
-      <div class="friend-grid">
+      <div class="friend-grid cells cells--open">
         {friends.map((friend, index) => (
           <a href={friend.url} rel="friend noopener" target="_blank">
             <span class="friend-index" data-no-select>{String(index + 1).padStart(2, '0')}</span>
@@ -54,12 +54,14 @@ const siteExchangeInfo = `NAME: ${siteIdentity.name}\nBIO: ${siteIdentity.descri
       </div>
     </section>
 
-    <section class="exchange-note" aria-labelledby="exchange-title">
-      <p>EXCHANGE / 交换友链</p>
-      <h2 id="exchange-title">也欢迎你来敲门。</h2>
-      <div>
+    <section class="exchange-note band split" aria-labelledby="exchange-title">
+      <header class="split__rail">
+        <p class="eyebrow" data-no-select><b>02</b> / EXCHANGE</p>
+        <h2 id="exchange-title" class="rail-title">也欢迎你来敲门。</h2>
+      </header>
+      <div class="split__body">
         <p>如果你也在认真维护自己的独立网站，可以通过邮件发送网站名称、简介、地址与头像。</p>
-        <a href="mailto:i@zu1k.com">i@zu1k.com <span aria-hidden="true">↗</span></a>
+        <a class="btn btn--primary" href="mailto:i@zu1k.com">i@zu1k.com <span aria-hidden="true">↗</span></a>
       </div>
     </section>
   </div>
@@ -81,49 +83,55 @@ const siteExchangeInfo = `NAME: ${siteIdentity.name}\nBIO: ${siteIdentity.descri
 <style>
   .site-card {
     display: grid;
-    grid-template-columns: 2.7rem minmax(0, 1fr);
+    grid-template-columns: 3rem minmax(0, 1fr);
     align-items: center;
-    gap: 0.45rem 0.7rem;
+    gap: 0.5rem 0.8rem;
   }
 
   .site-card > span {
     grid-column: 1 / -1;
-    color: var(--accent);
-    font-family: var(--font-code);
-    font-size: 0.56rem;
-    letter-spacing: 0.08em;
+    margin-bottom: 0.2rem;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
   }
 
   .site-card img {
-    width: 2.7rem;
-    height: 2.7rem;
+    width: 3rem;
+    height: 3rem;
     margin: 0;
-    border-radius: 50%;
+    padding: 2px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg);
     object-fit: cover;
   }
 
-  .site-card > div { min-width: 0; display: flex; flex-direction: column; gap: 0.05rem; }
+  .site-card > div { min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
 
   .site-card strong {
-    color: var(--text);
-    font-size: 1.08rem;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.1;
   }
 
   .site-card code {
     overflow: hidden;
-    color: var(--secondary);
-    font-family: var(--font-code);
-    font-size: 0.56rem;
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .site-card p {
     grid-column: 1 / -1;
-    margin: 0.1rem 0 0;
-    color: var(--secondary);
+    margin: 0.3rem 0 0;
+    color: var(--ink-2);
     font-family: var(--font-serif);
-    font-size: 0.67rem;
+    font-size: 0.9375rem;
     font-style: italic;
     line-height: 1.5;
   }
@@ -131,95 +139,71 @@ const siteExchangeInfo = `NAME: ${siteIdentity.name}\nBIO: ${siteIdentity.descri
   .site-card button {
     grid-column: 1 / -1;
     width: max-content;
-    margin-top: 0.45rem;
-    padding: 0;
-    border: 0;
-    color: var(--accent);
-    background: transparent;
-    cursor: pointer;
-    font-family: var(--font-code);
-    font-size: 0.58rem;
-  }
-
-  .friend-directory {
-    padding: clamp(3.5rem, 7vw, 5.5rem) clamp(0rem, 3vw, 2rem) 0;
+    margin-top: 0.5rem;
   }
 
   .friend-directory > header {
-    margin-bottom: 1.3rem;
+    padding: clamp(2.5rem, 5vw, 3.5rem) var(--pad-x) 2rem;
     display: flex;
     align-items: end;
     justify-content: space-between;
     gap: 1rem;
   }
 
-  .friend-directory > header p,
-  .exchange-note > p {
-    margin: 0 0 0.6rem;
-    color: var(--accent);
-    font-family: var(--font-code);
-    font-size: 0.58rem;
-    letter-spacing: 0.1em;
-  }
-
-  .friend-directory h2,
-  .exchange-note h2 {
-    margin: 0;
-    font-size: clamp(2rem, 4vw, 3.4rem);
-    letter-spacing: -0.04em;
-    line-height: 1;
+  .friend-directory h2 {
+    margin: 0.9rem 0 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
   }
 
   .friend-directory > header > span {
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.58rem;
-    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
   }
 
   .friend-grid {
-    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--border-strong);
-    border-left: 1px solid var(--border-strong);
   }
 
   .friend-grid > a {
+    position: relative;
     min-width: 0;
-    min-height: 9rem;
-    padding: 1rem;
+    min-height: 8.5rem;
+    padding: 1.25rem var(--pad-x);
     display: grid;
-    grid-template-columns: auto 4.25rem minmax(0, 1fr) auto;
+    grid-template-columns: auto 4rem minmax(0, 1fr) auto;
     align-items: center;
-    gap: 0.8rem;
-    border-right: 1px solid var(--border-strong);
-    border-bottom: 1px solid var(--border-strong);
-    color: var(--text);
-    transition: background-color 0.2s ease;
+    gap: 1rem;
+    color: var(--ink);
+    transition: background-color 0.15s ease;
   }
 
-  .friend-grid > a:hover { background: var(--surface-soft); }
+  .friend-grid > a:hover { background: var(--panel); }
 
   .friend-index {
     align-self: start;
     color: var(--accent);
-    font-family: var(--font-code);
-    font-size: 0.52rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
   }
 
   .friend-grid img {
-    width: 4.25rem;
-    height: 4.25rem;
+    width: 4rem;
+    height: 4rem;
     margin: 0;
-    border-radius: 50%;
+    padding: 2px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg);
     object-fit: cover;
-    filter: saturate(0.75);
-    transition: filter 0.25s ease, transform 0.3s ease;
+    filter: saturate(0.8);
+    transition: filter 0.25s ease;
   }
 
   .friend-grid > a:hover img {
     filter: saturate(1);
-    transform: rotate(-2deg) scale(1.04);
   }
 
   .friend-copy {
@@ -228,13 +212,18 @@ const siteExchangeInfo = `NAME: ${siteIdentity.name}\nBIO: ${siteIdentity.descri
     flex-direction: column;
   }
 
-  .friend-copy strong { font-size: 1.05rem; }
+  .friend-copy strong {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
 
   .friend-copy small {
-    margin-top: 0.2rem;
+    margin-top: 0.3rem;
     overflow: hidden;
-    color: var(--secondary);
-    font-size: 0.68rem;
+    color: var(--ink-2);
+    font-size: 0.8125rem;
     line-height: 1.45;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -242,16 +231,20 @@ const siteExchangeInfo = `NAME: ${siteIdentity.name}\nBIO: ${siteIdentity.descri
 
   .friend-copy code {
     margin-top: 0.55rem;
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.5rem;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+  }
+
+  .friend-grid > a:hover .friend-copy strong {
+    color: var(--accent);
   }
 
   .friend-grid :global(.icon) {
     color: var(--accent);
     opacity: 0;
     transform: translateX(-0.25rem);
-    transition: opacity 0.18s ease, transform 0.18s ease;
+    transition: opacity 0.15s ease, transform 0.15s ease;
   }
 
   .friend-grid > a:hover :global(.icon) {
@@ -259,24 +252,22 @@ const siteExchangeInfo = `NAME: ${siteIdentity.name}\nBIO: ${siteIdentity.descri
     transform: translateX(0);
   }
 
-  .exchange-note {
-    margin: clamp(4rem, 8vw, 7rem) clamp(0rem, 3vw, 2rem) 0;
-    padding: 1.5rem 0;
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(16rem, 1.1fr);
-    gap: 2rem 4rem;
-    border-block: 1px solid var(--border-strong);
+  .exchange-note .split__body p {
+    max-width: 36rem;
+    margin: 0 0 1.25rem;
+    color: var(--ink-2);
+    font-size: 1rem;
+    line-height: 1.75;
   }
 
-  .exchange-note > p { grid-column: 1 / -1; margin-bottom: -1rem; }
-  .exchange-note > div p { margin: 0; color: var(--secondary); font-size: 0.82rem; line-height: 1.7; }
-  .exchange-note > div a { margin-top: 0.8rem; display: inline-block; color: var(--accent); font-family: var(--font-code); font-size: 0.68rem; }
+  .exchange-note .split__body a {
+    font-family: var(--font-mono);
+  }
 
   @media (max-width: 46rem) {
-    .friend-directory { padding-top: 3.2rem; }
+    .friend-directory > header { align-items: flex-start; flex-direction: column; }
     .friend-grid { grid-template-columns: 1fr; }
-    .friend-grid > a { min-height: 8rem; grid-template-columns: auto 3.6rem minmax(0, 1fr) auto; }
-    .friend-grid img { width: 3.6rem; height: 3.6rem; }
-    .exchange-note { grid-template-columns: 1fr; }
+    .friend-grid > a { min-height: 7.5rem; grid-template-columns: auto 3.4rem minmax(0, 1fr) auto; gap: 0.8rem; }
+    .friend-grid img { width: 3.4rem; height: 3.4rem; }
   }
 </style>

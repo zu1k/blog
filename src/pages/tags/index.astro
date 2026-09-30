@@ -20,10 +20,10 @@ const tags = getTags(posts, 'count');
       <div slot="aside"><strong>{tags.length}</strong> 个关键词<br />覆盖 <strong>{posts.length}</strong> 篇文章</div>
     </PageHero>
 
-    <section class="tag-explorer" aria-labelledby="tag-explorer-title">
+    <section class="tag-explorer band" aria-labelledby="tag-explorer-title">
       <header>
         <div>
-          <p>EXPLORE THE VOCABULARY</p>
+          <p class="eyebrow" data-no-select><b>01</b> / EXPLORE THE VOCABULARY</p>
           <h2 id="tag-explorer-title">关键词词典</h2>
         </div>
         <output data-tag-status aria-live="polite">{tags.length} 个标签</output>
@@ -33,10 +33,10 @@ const tags = getTags(posts, 'count');
         <Icon name="search" size={18} />
         <span class="visually-hidden">搜索标签</span>
         <input id="tag-search-input" type="search" placeholder="输入标签名称…" autocomplete="off" data-tag-search />
-        <button type="button" data-tag-clear hidden>清除</button>
+        <button type="button" class="btn btn--sm" data-tag-clear hidden>清除</button>
       </label>
 
-      <div class="tag-cloud" aria-label="全部标签" data-tag-cloud>
+      <div class="tag-cloud cells cells--open" aria-label="全部标签" data-tag-cloud>
         {tags.map((term, index) => (
           <a href={term.url} data-tag-item data-search={term.name.normalize('NFKC').toLocaleLowerCase('zh-CN')}>
             <span>{String(index + 1).padStart(2, '0')}</span>
@@ -82,136 +82,132 @@ const tags = getTags(posts, 'count');
 
 <style>
   .tags-page :global(.page-hero__aside strong) {
-    color: var(--text);
-    font-family: var(--font-code);
-    font-size: 1.25rem;
-  }
-
-  .tag-explorer {
-    padding: clamp(3.5rem, 7vw, 5.5rem) clamp(0rem, 3vw, 2rem) 0;
+    font-size: 1.5rem;
+    line-height: 1.3;
   }
 
   .tag-explorer > header {
-    margin-bottom: 1.2rem;
+    padding: clamp(2.5rem, 5vw, 3.5rem) var(--pad-x) 2rem;
     display: flex;
     align-items: end;
     justify-content: space-between;
     gap: 1rem;
   }
 
-  .tag-explorer > header p {
-    margin: 0 0 0.6rem;
-    color: var(--accent);
-    font-family: var(--font-code);
-    font-size: 0.58rem;
-    letter-spacing: 0.1em;
-  }
-
   .tag-explorer h2 {
-    margin: 0;
-    font-size: clamp(2rem, 4vw, 3.4rem);
-    letter-spacing: -0.04em;
-    line-height: 1;
+    margin: 0.9rem 0 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
   }
 
   .tag-explorer output {
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.6rem;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    white-space: nowrap;
   }
 
   .tag-search {
-    min-height: 3.25rem;
-    padding: 0 0.9rem;
+    min-height: 3.5rem;
+    padding: 0 0.6rem 0 var(--pad-x);
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    border-block: 1px solid var(--border-strong);
-    color: var(--muted);
+    gap: 0.75rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+    background: var(--panel);
+    cursor: text;
   }
 
-  .tag-search:focus-within { color: var(--accent); }
+  .tag-search:focus-within {
+    color: var(--accent);
+    box-shadow: inset 2px 0 0 var(--accent);
+  }
 
   .tag-search input {
     min-width: 0;
     flex: 1;
     border: 0;
     outline: 0;
-    color: var(--text);
+    color: var(--ink);
     background: transparent;
-    font-size: 0.86rem;
+    font-size: 1rem;
   }
 
-  .tag-search button {
-    padding: 0;
-    border: 0;
-    color: var(--accent);
-    background: transparent;
-    cursor: pointer;
-    font-family: var(--font-code);
-    font-size: 0.58rem;
+  .tag-search input::placeholder {
+    color: var(--ink-3);
+  }
+
+  .tag-search button[hidden] {
+    display: none;
   }
 
   .tag-cloud {
-    display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    border-left: 1px solid var(--border);
   }
 
   .tag-cloud a {
     min-width: 0;
-    min-height: 5.2rem;
-    padding: 0.75rem;
+    min-height: 5.5rem;
+    padding: 0.85rem 1rem;
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: start;
     gap: 0.4rem;
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-    transition: color 0.18s ease, background-color 0.18s ease;
+    color: var(--ink);
+    transition: color 0.15s ease, background-color 0.15s ease;
   }
 
   .tag-cloud a:hover {
     color: var(--accent);
-    background: var(--surface-soft);
+    background: var(--panel);
   }
 
   .tag-cloud a[hidden] { display: none; }
 
   .tag-cloud span {
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.5rem;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
   }
 
   .tag-cloud strong {
     min-width: 0;
     align-self: end;
+    grid-column: 1 / -1;
     overflow: hidden;
-    font-size: 0.86rem;
-    font-weight: 600;
+    font-size: 0.9375rem;
+    font-weight: 500;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .tag-cloud sup {
+    grid-column: 3;
+    grid-row: 1;
     color: var(--accent);
-    font-family: var(--font-code);
-    font-size: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.4;
   }
 
   .tag-empty {
     padding: 4rem 1rem;
-    border-bottom: 1px solid var(--border-strong);
-    color: var(--muted);
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
     text-align: center;
   }
 
-  @media (max-width: 58rem) { .tag-cloud { grid-template-columns: repeat(3, 1fr); } }
+  .tag-empty[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 58rem) { .tag-cloud { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 40rem) {
-    .tag-explorer { padding-top: 3.2rem; }
-    .tag-cloud { grid-template-columns: repeat(2, 1fr); }
-    .tag-cloud a { min-height: 4.7rem; }
+    .tag-explorer > header { align-items: flex-start; flex-direction: column; }
+    .tag-cloud { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tag-cloud a { min-height: 4.75rem; }
   }
 </style>
