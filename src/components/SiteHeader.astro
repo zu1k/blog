@@ -747,8 +747,12 @@ const isCurrent = (href: string) => href === '/' ? normalizedPath === '/' : norm
       inset: var(--header-h) 0 0;
       display: block;
       pointer-events: none;
-      background: color-mix(in srgb, var(--ink) 22%, transparent);
+      background: rgb(12 12 11 / 28%);
       animation: mobile-menu-scrim 0.2s ease both;
+    }
+
+    :global(:root[data-theme="dark"]) .mobile-menu__scrim {
+      background: rgb(0 0 0 / 55%);
     }
 
     .mobile-menu__panel {

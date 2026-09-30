@@ -47,16 +47,13 @@ const categories = getCategories(posts, 'count');
 </BaseLayout>
 
 <style>
-  .categories-page :global(.page-hero__aside) {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-content: end;
-    gap: 0.8rem;
+  .categories-page :global(.page-hero__aside > div) {
+    line-height: 2.6;
   }
 
   .categories-page :global(.page-hero__aside strong) {
     font-size: 1.75rem;
-    line-height: 1.2;
+    line-height: 1;
   }
 
   .category-library {
