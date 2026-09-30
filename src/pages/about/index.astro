@@ -35,38 +35,40 @@ const localVerificationCommands = [
       </div>
     </PageHero>
 
-    <section class="about-story" aria-labelledby="about-story-title">
-      <header>
-        <p>THE SHORT VERSION</p>
-        <h2 id="about-story-title">关于我</h2>
+    <section class="about-story band split" aria-labelledby="about-story-title">
+      <header class="split__rail">
+        <p class="eyebrow" data-no-select><b>01</b> / THE SHORT VERSION</p>
+        <h2 id="about-story-title" class="rail-title">关于我</h2>
       </header>
-      <div class="about-story__copy">
-        <p>欢迎访问我的博客。这里主要分享一些经验、想法和作品：可能是一场持续两天的系统排查，也可能是一件刚好让生活变得更顺手的小工具。</p>
-        <p>我从大学开始接触编程，先后使用 Java、Python、C、Golang、Rust 和 JavaScript。现在的新个人项目通常首选 Rust，但比语言本身更重要的，是把真实问题转化成可以使用、可以分享的东西。</p>
-        <div class="about-paths">
-          <a href="/rss.xml"><Icon name="rss" size={17} /> 订阅博客</a>
-          <a href="/projects/"><Icon name="arrow" size={17} /> 查看项目</a>
-          <a href="https://read.zu1k.com" rel="noopener" target="_blank">最近在读 <span aria-hidden="true">↗</span></a>
+      <div class="about-story__body split__body">
+        <div class="about-story__copy">
+          <p>欢迎访问我的博客。这里主要分享一些经验、想法和作品：可能是一场持续两天的系统排查，也可能是一件刚好让生活变得更顺手的小工具。</p>
+          <p>我从大学开始接触编程，先后使用 Java、Python、C、Golang、Rust 和 JavaScript。现在的新个人项目通常首选 Rust，但比语言本身更重要的，是把真实问题转化成可以使用、可以分享的东西。</p>
+          <div class="about-paths">
+            <a class="btn btn--primary" href="/rss.xml"><Icon name="rss" size={16} /> 订阅博客</a>
+            <a class="btn" href="/projects/"><Icon name="arrow" size={16} /> 查看项目</a>
+            <a class="btn" href="https://read.zu1k.com" rel="noopener" target="_blank">最近在读 <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
+        <dl class="about-values cells">
+          <div><dt>OPEN SOURCE</dt><dd>让想法能够被检查、复用和继续生长。</dd></div>
+          <div><dt>CURIOSITY</dt><dd>对系统为什么这样运作，始终多问一个问题。</dd></div>
+          <div><dt>LONG WEB</dt><dd>认真维护一块属于自己的互联网空间。</dd></div>
+        </dl>
       </div>
-      <dl class="about-values">
-        <div><dt>OPEN SOURCE</dt><dd>让想法能够被检查、复用和继续生长。</dd></div>
-        <div><dt>CURIOSITY</dt><dd>对系统为什么这样运作，始终多问一个问题。</dd></div>
-        <div><dt>LONG WEB</dt><dd>认真维护一块属于自己的互联网空间。</dd></div>
-      </dl>
     </section>
 
-    <section class="contact-section" aria-labelledby="contact-title">
-      <header>
-        <p>CONTACT / SAY HELLO</p>
-        <h2 id="contact-title">保持联系</h2>
-        <span>博文相关问题优先留在评论区，这样答案也能帮助后来的人。</span>
+    <section class="contact-section band split" aria-labelledby="contact-title">
+      <header class="split__rail">
+        <p class="eyebrow" data-no-select><b>02</b> / CONTACT</p>
+        <h2 id="contact-title" class="rail-title">保持联系</h2>
+        <span class="rail-note">博文相关问题优先留在评论区，这样答案也能帮助后来的人。</span>
       </header>
-      <div class="contact-grid">
+      <div class="contact-grid cells split__body">
         {contacts.map((contact, index) => (
           <a href={contact.href} rel="me noopener" target={contact.href.startsWith('http') ? '_blank' : undefined}>
             <span>{String(index + 1).padStart(2, '0')}</span>
-            <Icon name={contact.icon} size={24} />
+            <Icon name={contact.icon} size={22} />
             <div><strong>{contact.label}</strong><small>{contact.value}</small></div>
             <b aria-hidden="true">↗</b>
           </a>
@@ -74,91 +76,97 @@ const localVerificationCommands = [
       </div>
     </section>
 
-    <section class="identity-section" aria-labelledby="identity-title">
-      <div>
-        <p>PUBLIC IDENTITY</p>
-        <h2 id="identity-title">PGP 公钥</h2>
-        <span>需要验证我的身份或发送加密邮件时，可以使用这枚指纹。</span>
+    <section class="identity-section band split" aria-labelledby="identity-title">
+      <div class="split__rail">
+        <p class="eyebrow" data-no-select><b>03</b> / PUBLIC IDENTITY</p>
+        <h2 id="identity-title" class="rail-title">PGP 公钥</h2>
+        <span class="rail-note">需要验证我的身份或发送加密邮件时，可以使用这枚指纹。</span>
       </div>
-      <div class="fingerprint">
+      <div class="fingerprint split__body">
+        <span class="fingerprint__label" data-no-select>PRIMARY KEY FINGERPRINT</span>
         <code>{fingerprintRows[0]}<br />{fingerprintRows[1]}</code>
-        <button type="button" data-copy-value={siteIdentity.pgp.primaryFingerprintDisplay}>复制指纹</button>
-        <nav aria-label="PGP 公钥地址">
-          <a href={siteIdentity.pgp.publicKeyUrl} target="_blank" rel="noopener">pgp.zu1k.com ↗</a>
-          <a href={`https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x${siteIdentity.pgp.primaryFingerprint}`} target="_blank" rel="noopener">Ubuntu Keyserver ↗</a>
-        </nav>
+        <div class="fingerprint__actions">
+          <button type="button" class="btn btn--sm" data-copy-value={siteIdentity.pgp.primaryFingerprintDisplay}>复制指纹</button>
+          <nav aria-label="PGP 公钥地址">
+            <a href={siteIdentity.pgp.publicKeyUrl} target="_blank" rel="noopener">pgp.zu1k.com ↗</a>
+            <a href={`https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x${siteIdentity.pgp.primaryFingerprint}`} target="_blank" rel="noopener">Ubuntu Keyserver ↗</a>
+          </nav>
+        </div>
       </div>
     </section>
 
-    <section class="support-section" aria-labelledby="support-title">
-      <header>
-        <p>SUPPORT THE WORK</p>
-        <h2 id="support-title">支持公开创作</h2>
-        <span>如果这些内容或工具对你有帮助，可以通过赞助支持后续维护。</span>
+    <section class="support-section band split" aria-labelledby="support-title">
+      <header class="split__rail">
+        <p class="eyebrow" data-no-select><b>04</b> / SUPPORT THE WORK</p>
+        <h2 id="support-title" class="rail-title">支持公开创作</h2>
+        <span class="rail-note">如果这些内容或工具对你有帮助，可以通过赞助支持后续维护。</span>
       </header>
-      <div class="wallet-list">
-        {wallets.map((wallet) => (
-          <div>
-            <strong>{wallet.label}</strong>
-            <code>{wallet.value}</code>
-            <button type="button" data-copy-value={wallet.value}>复制</button>
-          </div>
-        ))}
-      </div>
-      <p class="support-warning"><strong>VERIFY BEFORE TRANSFER</strong> 转账前请验证 PGP 签名；不要信任来自其他渠道的临时替换地址。</p>
-
-      <details class="signature-proof">
-        <summary>
-          <span>
-            <small>PGP / SHA-256</small>
-            <strong>检查钱包地址签名</strong>
-          </span>
-          <span class="signature-proof__summary-action"><b>完整证明</b><i aria-hidden="true"></i></span>
-        </summary>
-
-        <div class="signature-proof__body">
-          <div class="signature-proof__guide">
+      <div class="support-section__body split__body">
+        <div class="wallet-list">
+          {wallets.map((wallet) => (
             <div>
-              <p>下面保留了完整的 PGP 签名原文。浏览器验签会确认内容没有被改动，但你仍应从可信渠道独立核对主密钥指纹。</p>
-              <div class="signature-proof__actions">
-                <button type="button" data-verify-signature>在浏览器中验签</button>
-                <a href="/identity/zu1k-wallets.asc" download>下载签名文件</a>
-                <a href="/identity/zu1k-public-key.asc" download>下载公钥</a>
-              </div>
-              <p class="verification-result" data-verification-result data-state="idle" aria-live="polite">
-                <span aria-hidden="true"></span>尚未在本次浏览器会话中验签
-              </p>
+              <strong>{wallet.label}</strong>
+              <code>{wallet.value}</code>
+              <button type="button" class="btn btn--sm" data-copy-value={wallet.value}>复制</button>
             </div>
-            <dl>
-              <div>
-                <dt>主密钥指纹</dt>
-                <dd>{siteIdentity.pgp.primaryFingerprintDisplay}</dd>
-              </div>
-              <div>
-                <dt>签名子密钥</dt>
-                <dd>{siteIdentity.pgp.signingSubkeyFingerprintDisplay}</dd>
-              </div>
-            </dl>
-          </div>
-
-          <div class="signed-record">
-            <header>
-              <span>SIGNED CONTENT</span>
-              <button type="button" data-copy-target="#signed-wallet-message">复制原文</button>
-            </header>
-            <pre id="signed-wallet-message"><code>{signedWalletMessage}</code></pre>
-          </div>
-
-          <div class="local-verification">
-            <span>LOCAL VERIFICATION</span>
-            <pre><code>{localVerificationCommands}</code></pre>
-            <button
-              type="button"
-              data-copy-value={localVerificationCommands}
-            >复制命令</button>
-          </div>
+          ))}
         </div>
-      </details>
+        <p class="support-warning"><strong>VERIFY BEFORE TRANSFER</strong> 转账前请验证 PGP 签名；不要信任来自其他渠道的临时替换地址。</p>
+
+        <details class="signature-proof">
+          <summary>
+            <span>
+              <small>PGP / SHA-256</small>
+              <strong>检查钱包地址签名</strong>
+            </span>
+            <span class="signature-proof__summary-action"><b>完整证明</b><i aria-hidden="true"></i></span>
+          </summary>
+
+          <div class="signature-proof__body">
+            <div class="signature-proof__guide">
+              <div>
+                <p>下面保留了完整的 PGP 签名原文。浏览器验签会确认内容没有被改动，但你仍应从可信渠道独立核对主密钥指纹。</p>
+                <div class="signature-proof__actions">
+                  <button type="button" class="btn btn--sm btn--primary" data-verify-signature>在浏览器中验签</button>
+                  <a class="btn btn--sm" href="/identity/zu1k-wallets.asc" download>下载签名文件</a>
+                  <a class="btn btn--sm" href="/identity/zu1k-public-key.asc" download>下载公钥</a>
+                </div>
+                <p class="verification-result" data-verification-result data-state="idle" aria-live="polite">
+                  <span aria-hidden="true"></span>尚未在本次浏览器会话中验签
+                </p>
+              </div>
+              <dl>
+                <div>
+                  <dt>主密钥指纹</dt>
+                  <dd>{siteIdentity.pgp.primaryFingerprintDisplay}</dd>
+                </div>
+                <div>
+                  <dt>签名子密钥</dt>
+                  <dd>{siteIdentity.pgp.signingSubkeyFingerprintDisplay}</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="signed-record">
+              <header>
+                <span>SIGNED CONTENT</span>
+                <button type="button" class="btn btn--sm" data-copy-target="#signed-wallet-message">复制原文</button>
+              </header>
+              <pre id="signed-wallet-message"><code>{signedWalletMessage}</code></pre>
+            </div>
+
+            <div class="local-verification">
+              <span>LOCAL VERIFICATION</span>
+              <pre><code>{localVerificationCommands}</code></pre>
+              <button
+                type="button"
+                class="btn btn--sm"
+                data-copy-value={localVerificationCommands}
+              >复制命令</button>
+            </div>
+          </div>
+        </details>
+      </div>
     </section>
   </div>
 </BaseLayout>
@@ -235,161 +243,162 @@ const localVerificationCommands = [
   .about-portrait {
     display: flex;
     align-items: center;
-    gap: 0.9rem;
+    gap: 1rem;
   }
 
   .about-portrait img {
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 4.75rem;
+    height: 4.75rem;
     margin: 0;
-    border-radius: 50%;
+    padding: 3px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg);
     object-fit: cover;
   }
 
-  .about-portrait div { display: flex; flex-direction: column; }
-  .about-portrait strong { color: var(--text); font-size: 1.1rem; }
-  .about-portrait span { color: var(--muted); font-family: var(--font-code); font-size: 0.52rem; }
+  .about-portrait div { display: flex; flex-direction: column; gap: 0.3rem; }
+  .about-portrait strong { color: var(--ink); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 600; line-height: 1; }
+  .about-portrait span { color: var(--ink-3); font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.04em; }
 
-  .about-story,
-  .identity-section {
-    margin: clamp(3.5rem, 7vw, 5.5rem) clamp(0rem, 3vw, 2rem) 0;
-    display: grid;
-    grid-template-columns: minmax(10rem, 0.55fr) minmax(0, 1.15fr) minmax(12rem, 0.6fr);
-    gap: clamp(1.5rem, 5vw, 4rem);
-  }
-
-  .about-story header p,
-  .contact-section header p,
-  .identity-section > div:first-child p,
-  .support-section header p {
-    margin: 0 0 0.6rem;
-    color: var(--accent);
-    font-family: var(--font-code);
-    font-size: 0.58rem;
-    letter-spacing: 0.1em;
-  }
-
-  .about-story h2,
-  .contact-section h2,
-  .identity-section h2,
-  .support-section h2 {
-    margin: 0;
-    font-size: clamp(2rem, 4vw, 3.3rem);
-    letter-spacing: -0.04em;
-    line-height: 1;
-  }
-
+  /* 01 — story */
   .about-story__copy > p {
-    margin: 0 0 1rem;
-    color: var(--secondary);
-    font-size: 0.86rem;
+    max-width: 38rem;
+    margin: 0 0 1.1rem;
+    color: var(--ink);
+    font-size: 1.0625rem;
     line-height: 1.8;
   }
 
+  .about-story__copy > p:first-child {
+    font-family: var(--font-serif);
+    font-size: 1.375rem;
+    line-height: 1.55;
+  }
+
   .about-paths {
-    margin-top: 1.4rem;
+    margin-top: 1.6rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.55rem;
+    gap: 0.6rem;
   }
 
-  .about-paths a {
-    padding: 0.4rem 0.65rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 0.25rem;
-    color: var(--text);
-    font-size: 0.66rem;
+  .about-values {
+    margin: 2.5rem 0 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 1px solid var(--line);
   }
 
-  .about-paths a:hover { border-color: var(--accent); color: var(--accent); }
+  .about-values div { padding: 1rem 1.1rem 1.15rem; }
+  .about-values dt { color: var(--accent); font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.12em; }
+  .about-values dd { margin: 0.5rem 0 0; color: var(--ink-2); font-size: 0.875rem; line-height: 1.6; }
 
-  .about-values { margin: 0; border-top: 1px solid var(--border-strong); }
-  .about-values div { padding: 0.65rem 0; border-bottom: 1px solid var(--border); }
-  .about-values dt { color: var(--accent); font-family: var(--font-code); font-size: 0.5rem; letter-spacing: 0.07em; }
-  .about-values dd { margin: 0.3rem 0 0; color: var(--secondary); font-size: 0.68rem; line-height: 1.5; }
-
-  .contact-section,
-  .support-section {
-    margin: clamp(4rem, 8vw, 7rem) clamp(0rem, 3vw, 2rem) 0;
-  }
-
-  .contact-section > header,
-  .support-section > header {
-    margin-bottom: 1.4rem;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.7fr);
-    align-items: end;
-    gap: 0.5rem 2rem;
-  }
-
-  .contact-section header p,
-  .support-section header p { grid-column: 1 / -1; }
-  .contact-section header span,
-  .support-section header span { color: var(--secondary); font-size: 0.74rem; line-height: 1.6; }
-
+  /* 02 — contact */
   .contact-grid {
-    display: grid;
+    padding: 0;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--border-strong);
-    border-left: 1px solid var(--border-strong);
   }
 
   .contact-grid a {
     min-width: 0;
-    min-height: 7rem;
-    padding: 0.9rem;
+    min-height: 7.5rem;
+    padding: 1.25rem var(--pad-x);
     display: grid;
     grid-template-columns: auto auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 0.8rem;
-    border-right: 1px solid var(--border-strong);
-    border-bottom: 1px solid var(--border-strong);
-    color: var(--text);
+    gap: 0.9rem;
+    color: var(--ink);
+    transition: background-color 0.15s ease;
   }
 
-  .contact-grid a:hover { background: var(--surface-soft); }
-  .contact-grid > a > span { align-self: start; color: var(--accent); font-family: var(--font-code); font-size: 0.5rem; }
-  .contact-grid :global(.icon) { color: var(--secondary); }
-  .contact-grid a > div { min-width: 0; display: flex; flex-direction: column; }
-  .contact-grid strong { font-size: 0.95rem; }
-  .contact-grid small { overflow: hidden; color: var(--muted); font-family: var(--font-code); font-size: 0.53rem; text-overflow: ellipsis; white-space: nowrap; }
-  .contact-grid b { color: var(--accent); font-family: var(--font-code); font-weight: 400; }
+  .contact-grid a:hover { background: var(--panel); }
+  .contact-grid > a > span { align-self: start; color: var(--accent); font-family: var(--font-mono); font-size: 0.6875rem; }
+  .contact-grid :global(.icon) { color: var(--ink-2); }
+  .contact-grid a > div { min-width: 0; display: flex; flex-direction: column; gap: 0.2rem; }
+  .contact-grid strong { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 500; line-height: 1.2; }
+  .contact-grid small { overflow: hidden; color: var(--ink-3); font-family: var(--font-mono); font-size: 0.75rem; text-overflow: ellipsis; white-space: nowrap; }
+  .contact-grid b { color: var(--ink-3); font-family: var(--font-mono); font-weight: 400; transition: color 0.15s ease, transform 0.15s ease; }
+  .contact-grid a:hover strong,
+  .contact-grid a:hover b { color: var(--accent); }
+  .contact-grid a:hover b { transform: translate(0.1rem, -0.1rem); }
 
-  .identity-section {
-    grid-template-columns: minmax(12rem, 0.7fr) minmax(0, 1.3fr);
-    padding-block: 1.5rem;
-    border-block: 1px solid var(--border-strong);
+  /* 03 — identity */
+  .fingerprint__label {
+    display: block;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
   }
 
-  .identity-section > div:first-child > span { display: block; margin-top: 0.8rem; color: var(--secondary); font-size: 0.72rem; line-height: 1.6; }
-  .fingerprint { min-width: 0; }
-  .fingerprint code { display: block; color: var(--text); font-family: var(--font-code); font-size: clamp(0.75rem, 1.8vw, 1.05rem); line-height: 1.7; overflow-wrap: anywhere; }
-  .fingerprint button,
-  .wallet-list button { margin-top: 0.7rem; padding: 0; border: 0; color: var(--accent); background: transparent; cursor: pointer; font-family: var(--font-code); font-size: 0.56rem; }
-  .fingerprint nav { margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.8rem; }
-  .fingerprint nav a { color: var(--secondary); font-size: 0.62rem; }
+  .fingerprint code {
+    margin-top: 0.9rem;
+    padding: 1.1rem 1.25rem;
+    display: block;
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    background: var(--panel);
+    font-family: var(--font-mono);
+    font-size: clamp(0.875rem, 2vw, 1.3rem);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+
+  .fingerprint__actions {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .fingerprint nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.1rem; }
+  .fingerprint nav a { color: var(--ink-2); font-family: var(--font-mono); font-size: 0.75rem; }
   .fingerprint nav a:hover { color: var(--accent); }
 
-  .wallet-list { border-top: 1px solid var(--border-strong); }
-  .wallet-list > div { min-width: 0; min-height: 4rem; padding: 0.75rem 0.25rem; display: grid; grid-template-columns: 6rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; border-bottom: 1px solid var(--border); }
-  .wallet-list strong { font-family: var(--font-code); font-size: 0.62rem; }
-  .wallet-list code { min-width: 0; overflow: hidden; color: var(--secondary); font-family: var(--font-code); font-size: 0.6rem; text-overflow: ellipsis; white-space: nowrap; }
-  .wallet-list button { margin: 0; }
-  .support-warning { margin: 0.8rem 0 0; color: var(--secondary); font-size: 0.65rem; line-height: 1.6; }
-  .support-warning strong { margin-right: 0.45rem; color: var(--accent-warm); font-family: var(--font-code); font-size: 0.52rem; letter-spacing: 0.06em; }
+  /* 04 — support */
+  .wallet-list {
+    border: 1px solid var(--line);
+  }
+
+  .wallet-list > div {
+    min-width: 0;
+    min-height: 3.75rem;
+    padding: 0.7rem 0.75rem 0.7rem 1.1rem;
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .wallet-list > div + div { border-top: 1px solid var(--line); }
+  .wallet-list strong { color: var(--ink); font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
+  .wallet-list code { min-width: 0; overflow: hidden; color: var(--ink-2); font-family: var(--font-mono); font-size: 0.75rem; text-overflow: ellipsis; white-space: nowrap; }
+
+  .support-warning {
+    margin: 1rem 0 0;
+    padding: 0.75rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--warn) 40%, var(--line));
+    border-left: 3px solid var(--warn);
+    color: var(--ink-2);
+    background: var(--panel);
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  .support-warning strong { margin-right: 0.5rem; color: var(--warn); font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; }
 
   .signature-proof {
-    margin-top: 1.35rem;
-    border: 1px solid var(--border-strong);
-    background: color-mix(in srgb, var(--surface-soft) 48%, transparent);
+    margin-top: 1.5rem;
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
   }
 
   .signature-proof > summary {
-    min-height: 4.25rem;
-    padding: 0.8rem 1rem;
+    min-height: 4.5rem;
+    padding: 0.9rem 1rem 0.9rem 1.1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -399,138 +408,141 @@ const localVerificationCommands = [
   }
 
   .signature-proof > summary::-webkit-details-marker { display: none; }
-  .signature-proof > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .signature-proof > summary > span:first-child { display: flex; flex-direction: column; gap: 0.12rem; }
-  .signature-proof > summary small { color: var(--accent); font-family: var(--font-code); font-size: 0.49rem; letter-spacing: 0.08em; }
-  .signature-proof > summary strong { color: var(--text); font-size: 0.82rem; }
+  .signature-proof > summary:hover { background: var(--panel-2); }
+  .signature-proof > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .signature-proof > summary > span:first-child { display: flex; flex-direction: column; gap: 0.3rem; }
+  .signature-proof > summary small { color: var(--accent); font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.12em; }
+  .signature-proof > summary strong { color: var(--ink); font-family: var(--font-serif); font-size: 1.2rem; font-weight: 500; }
 
   .signature-proof__summary-action {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.54rem;
+    gap: 0.7rem;
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
   }
 
   .signature-proof__summary-action b { font-weight: 400; }
-  .signature-proof__summary-action i { position: relative; width: 0.7rem; height: 0.7rem; }
+
+  .signature-proof__summary-action i {
+    position: relative;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--bg);
+  }
+
   .signature-proof__summary-action i::before,
   .signature-proof__summary-action i::after {
     content: '';
     position: absolute;
-    inset: 50% 0 auto;
+    top: 50%;
+    left: 50%;
+    width: 0.7rem;
     height: 1px;
+    margin: -0.5px 0 0 -0.35rem;
     background: currentColor;
     transition: transform 0.2s ease;
   }
+
   .signature-proof__summary-action i::after { transform: rotate(90deg); }
   .signature-proof[open] .signature-proof__summary-action i::after { transform: rotate(0deg); }
 
   .signature-proof__body {
-    padding: 1rem;
-    border-top: 1px solid var(--border);
+    padding: 1.1rem;
+    border-top: 1px solid var(--line);
+    background: var(--bg);
   }
 
   .signature-proof__guide {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(16rem, 0.95fr);
-    gap: clamp(1.2rem, 4vw, 3rem);
+    grid-template-columns: minmax(0, 1.05fr) minmax(15rem, 0.95fr);
+    gap: clamp(1.2rem, 4vw, 2.5rem);
   }
 
-  .signature-proof__guide p { margin: 0; color: var(--secondary); font-size: 0.69rem; line-height: 1.65; }
-  .signature-proof__guide dl { margin: 0; }
-  .signature-proof__guide dl > div + div { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
-  .signature-proof__guide dt { color: var(--muted); font-family: var(--font-code); font-size: 0.48rem; letter-spacing: 0.06em; }
-  .signature-proof__guide dd { margin: 0.25rem 0 0; color: var(--text); font-family: var(--font-code); font-size: 0.53rem; line-height: 1.55; overflow-wrap: anywhere; }
+  .signature-proof__guide p { margin: 0; color: var(--ink-2); font-size: 0.875rem; line-height: 1.7; }
+  .signature-proof__guide dl { margin: 0; padding: 0.9rem 1rem; border: 1px solid var(--line); background: var(--panel); }
+  .signature-proof__guide dl > div + div { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
+  .signature-proof__guide dt { color: var(--ink-3); font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.08em; }
+  .signature-proof__guide dd { margin: 0.3rem 0 0; color: var(--ink); font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.6; overflow-wrap: anywhere; }
 
   .signature-proof__actions {
-    margin-top: 0.8rem;
+    margin-top: 1rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.45rem 0.8rem;
-  }
-
-  .signature-proof__actions button,
-  .signature-proof__actions a {
-    padding: 0;
-    border: 0;
-    color: var(--accent);
-    background: transparent;
-    cursor: pointer;
-    font-family: var(--font-code);
-    font-size: 0.55rem;
+    gap: 0.5rem;
   }
 
   .signature-proof__actions button:disabled { cursor: wait; opacity: 0.65; }
-  .signature-proof__actions button:hover:not(:disabled),
-  .signature-proof__actions a:hover { color: var(--text); }
 
   .verification-result {
-    margin-top: 0.75rem !important;
+    margin-top: 0.9rem !important;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    color: var(--muted) !important;
-    font-family: var(--font-code);
-    font-size: 0.52rem !important;
+    gap: 0.5rem;
+    color: var(--ink-3) !important;
+    font-family: var(--font-mono);
+    font-size: 0.75rem !important;
   }
 
   .verification-result > span {
-    width: 0.42rem;
-    height: 0.42rem;
+    width: 0.5rem;
+    height: 0.5rem;
     flex: 0 0 auto;
-    border-radius: 50%;
-    background: var(--muted);
+    background: var(--ink-3);
   }
 
   .verification-result[data-state='loading'] > span { background: var(--accent); animation: verification-pulse 0.9s ease-in-out infinite alternate; }
-  .verification-result[data-state='valid'] { color: var(--text) !important; }
+  .verification-result[data-state='valid'] { color: var(--ink) !important; }
   .verification-result[data-state='valid'] > span { background: #2f9e65; }
-  .verification-result[data-state='invalid'] { color: var(--accent-warm) !important; }
-  .verification-result[data-state='invalid'] > span { background: var(--accent-warm); }
+  .verification-result[data-state='invalid'] { color: var(--warn) !important; }
+  .verification-result[data-state='invalid'] > span { background: var(--warn); }
 
   @keyframes verification-pulse { to { opacity: 0.3; } }
 
-  .signed-record { margin-top: 1rem; border: 1px solid var(--border); background: var(--surface); }
-  .signed-record > header { min-height: 2.2rem; padding: 0.45rem 0.7rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--border); }
-  .signed-record > header span { color: var(--muted); font-family: var(--font-code); font-size: 0.48rem; letter-spacing: 0.07em; }
-  .signed-record > header button,
-  .local-verification button { padding: 0; border: 0; color: var(--accent); background: transparent; cursor: pointer; font-family: var(--font-code); font-size: 0.53rem; }
-  .signed-record pre { max-height: 21rem; margin: 0; padding: 0.85rem; overflow: auto; background: transparent; scrollbar-width: thin; }
-  .signed-record pre code { color: var(--secondary); font-family: var(--font-code); font-size: 0.52rem; line-height: 1.65; }
+  .signed-record { margin-top: 1.1rem; border: 1px solid var(--line-strong); background: var(--panel); }
+  .signed-record > header { min-height: 2.5rem; padding: 0.35rem 0.4rem 0.35rem 0.9rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); background: var(--panel-2); }
+  .signed-record > header span { color: var(--ink-3); font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.1em; }
+  .signed-record pre { max-height: 21rem; margin: 0; padding: 0.9rem; overflow: auto; background: transparent; scrollbar-width: thin; }
+  .signed-record pre code { color: var(--ink-2); font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.65; }
 
   .local-verification {
-    margin-top: 0.8rem;
-    padding: 0.7rem 0.75rem;
+    margin-top: 1.1rem;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: 0.75rem;
-    border-top: 1px solid var(--border);
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
   }
 
-  .local-verification > span { color: var(--muted); font-family: var(--font-code); font-size: 0.47rem; letter-spacing: 0.06em; }
-  .local-verification > pre { min-width: 0; margin: 0; overflow-x: auto; background: transparent; scrollbar-width: thin; }
-  .local-verification > pre code { color: var(--secondary); font-family: var(--font-code); font-size: 0.51rem; line-height: 1.65; }
+  .local-verification > span { align-self: stretch; padding: 0.8rem 0.9rem; display: flex; align-items: center; border-right: 1px solid var(--line); color: var(--ink-3); background: var(--panel-2); font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.1em; }
+  .local-verification > pre { min-width: 0; margin: 0; padding: 0.8rem 0; overflow-x: auto; background: transparent; scrollbar-width: thin; }
+  .local-verification > pre code { color: var(--ink-2); font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.65; }
+  .local-verification > button { margin-right: 0.5rem; }
 
-  @media (max-width: 54rem) {
-    .about-story { grid-template-columns: minmax(9rem, 0.5fr) minmax(0, 1.5fr); }
-    .about-values { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); }
-    .about-values div { padding-inline: 0.6rem; border-right: 1px solid var(--border); }
+  @media (max-width: 64rem) {
+    .about-values { grid-template-columns: 1fr; }
+    .signature-proof__guide { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 52rem) {
+    .contact-grid.split__body { padding: 0; margin-top: 1.75rem; border-top: 1px solid var(--line); }
   }
 
   @media (max-width: 44rem) {
-    .about-story,
-    .identity-section { grid-template-columns: 1fr; }
-    .about-values { display: block; }
-    .contact-section > header,
-    .support-section > header { grid-template-columns: 1fr; }
     .contact-grid { grid-template-columns: 1fr; }
-    .wallet-list > div { grid-template-columns: 4rem minmax(0, 1fr) auto; gap: 0.55rem; }
-    .signature-proof__guide { grid-template-columns: 1fr; }
-    .local-verification { grid-template-columns: 1fr auto; }
-    .local-verification > span { grid-column: 1 / -1; }
+    .contact-grid a { min-height: 5.5rem; }
+    .wallet-list > div { grid-template-columns: minmax(0, 1fr) auto; gap: 0.35rem 0.75rem; }
+    .wallet-list code { grid-column: 1; grid-row: 2; }
+    .wallet-list button { grid-column: 2; grid-row: 1 / span 2; }
+    .signature-proof > summary { align-items: flex-start; }
+    .signature-proof__summary-action b { display: none; }
+    .local-verification { grid-template-columns: minmax(0, 1fr) auto; gap: 0; }
+    .local-verification > span { grid-column: 1 / -1; border-right: 0; border-bottom: 1px solid var(--line); }
+    .local-verification > pre { padding-left: 0.9rem; }
   }
 </style>

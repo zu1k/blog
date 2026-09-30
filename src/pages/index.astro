@@ -16,45 +16,46 @@ const categoryCount = getCategories(posts).length;
   <div class="modern-home">
     <section class="home-hero" aria-labelledby="home-title">
       <div class="home-hero__copy">
-        <p class="home-kicker" data-no-select>PERSONAL LOG · SINCE 2017</p>
+        <p class="home-kicker eyebrow" data-no-select><b>00</b> / PERSONAL LOG · SINCE 2017</p>
         <h1 id="home-title" data-no-select><span>zu1k</span><em>A boy dreaming of traveling around the world.</em></h1>
         <p class="home-intro">写代码，做工具，也记录那些无法被代码解释的生活。这里是关于安全、系统、开源与世界的个人索引。</p>
         <div class="home-actions" data-no-select>
-          <a class="home-action home-action--primary" href="/posts/" data-astro-prefetch="viewport">开始阅读 <Icon name="arrow" size={17} /></a>
-          <a class="home-action" href="/projects/" data-astro-prefetch="viewport">查看项目</a>
+          <a class="home-action home-action--primary btn btn--primary" href="/posts/" data-astro-prefetch="viewport">开始阅读 <Icon name="arrow" size={17} /></a>
+          <a class="home-action btn" href="/projects/" data-astro-prefetch="viewport">查看项目</a>
         </div>
         <nav class="social-links" aria-label="社交链接" data-no-select>
-          <a href="https://github.com/zu1k" rel="me noopener" aria-label="GitHub" title="GitHub"><Icon name="github" size={21} /></a>
-          <a href="https://twitter.com/zu1k_" rel="me noopener" aria-label="Twitter" title="Twitter"><Icon name="twitter" size={20} /></a>
-          <a href="https://t.me/peekfun" rel="me noopener" aria-label="Telegram" title="Telegram"><Icon name="telegram" size={20} /></a>
-          <a href="https://fosstodon.org/@zu1k" rel="me noopener" aria-label="Mastodon" title="Mastodon"><Icon name="mastodon" size={20} /></a>
-          <a href="mailto:i@zu1k.com" aria-label="Email" title="Email"><Icon name="mail" size={21} /></a>
+          <a href="https://github.com/zu1k" rel="me noopener" aria-label="GitHub" title="GitHub"><Icon name="github" size={18} /></a>
+          <a href="https://twitter.com/zu1k_" rel="me noopener" aria-label="Twitter" title="Twitter"><Icon name="twitter" size={17} /></a>
+          <a href="https://t.me/peekfun" rel="me noopener" aria-label="Telegram" title="Telegram"><Icon name="telegram" size={17} /></a>
+          <a href="https://fosstodon.org/@zu1k" rel="me noopener" aria-label="Mastodon" title="Mastodon"><Icon name="mastodon" size={17} /></a>
+          <a href="mailto:i@zu1k.com" aria-label="Email" title="Email"><Icon name="mail" size={18} /></a>
         </nav>
       </div>
 
-      <div class="home-portrait" data-no-select>
+      <div class="home-portrait blueprint" data-no-select>
         <a href="/about/" aria-label="了解 zu1k" data-astro-prefetch="hover">
           <img src="/images/logo.jpg" alt="zu1k" width="320" height="320" loading="eager" decoding="async" fetchpriority="high" />
           <span>ABOUT ↗</span>
         </a>
+        <p class="home-portrait__caption" aria-hidden="true"><span>FIG. 01</span><span>ZU1K / 2017—NOW</span></p>
       </div>
 
-      <dl class="home-stats" aria-label="博客概览" data-no-select>
+      <dl class="home-stats cells band" aria-label="博客概览" data-no-select>
         <div><dt>文章</dt><dd>{posts.length}</dd></div>
         <div><dt>主题</dt><dd>{categoryCount}</dd></div>
         <div><dt>写作</dt><dd>9<small>年</small></dd></div>
       </dl>
     </section>
 
-    <section class="latest-writing" aria-labelledby="latest-title">
+    <section class="latest-writing band" aria-labelledby="latest-title">
       <header>
         <div>
-          <p class="home-kicker" data-no-select>LATEST WRITING</p>
+          <p class="home-kicker eyebrow" data-no-select><b>01</b> / LATEST POSTS</p>
           <h2 id="latest-title">最近写下的</h2>
         </div>
-        <a href="/posts/" data-no-select data-astro-prefetch="hover">全部 {posts.length} 篇 <Icon name="arrow" size={16} /></a>
+        <a class="btn" href="/posts/" data-no-select data-astro-prefetch="hover">全部 {posts.length} 篇 <Icon name="arrow" size={16} /></a>
       </header>
-      <div class="latest-writing__list">
+      <div class="latest-writing__list cells cells--open">
         {latestPosts.map((post, index) => <PostCard post={post} variant="summary" index={index + 1} />)}
       </div>
     </section>
@@ -63,307 +64,332 @@ const categoryCount = getCategories(posts).length;
 
 <style>
   .modern-home {
-    width: min(calc(100% - 2rem), 72rem);
-    margin: 0 auto;
-    padding: 3rem 0 5rem;
+    width: 100%;
   }
 
   .home-hero {
     position: relative;
-    min-height: min(43rem, calc(100svh - 3rem));
-    padding: clamp(4.5rem, 9vw, 8rem) clamp(0.5rem, 4vw, 3rem) 2.5rem;
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(15rem, 0.75fr);
-    grid-template-rows: 1fr auto;
-    align-items: center;
-    gap: 2.5rem clamp(2rem, 8vw, 7rem);
+    grid-template-columns: minmax(0, 1fr) minmax(17rem, 24rem);
+  }
+
+  .home-hero__copy {
+    min-width: 0;
+    padding: clamp(3.5rem, 8vw, 6.5rem) var(--pad-x) clamp(2.75rem, 5vw, 4rem);
   }
 
   .home-kicker {
-    margin: 0 0 1rem;
-    color: var(--accent);
-    font-family: var(--font-code);
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
+    margin-bottom: 1.6rem;
   }
 
   .home-hero h1 {
     margin: 0;
-    line-height: 0.98;
+    line-height: 1;
   }
 
   .home-hero h1 span {
     display: block;
-    font-size: clamp(4.5rem, 10vw, 8.5rem);
-    font-weight: 700;
-    letter-spacing: -0.07em;
+    font-size: clamp(4.5rem, 10vw, 8rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 0.9;
   }
 
   .home-hero h1 em {
-    max-width: 18ch;
-    margin-top: 0.3rem;
+    max-width: 17ch;
+    margin-top: 1rem;
     display: block;
-    color: var(--secondary);
-    font-size: clamp(1.75rem, 4vw, 3.65rem);
+    color: var(--ink-2);
+    font-size: clamp(1.7rem, 3.4vw, 2.75rem);
     font-weight: 400;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
   }
 
   .home-intro {
-    max-width: 38rem;
-    margin: 1.5rem 0 0;
-    color: var(--secondary);
-    font-size: 0.94rem;
+    max-width: 36rem;
+    margin: 1.6rem 0 0;
+    color: var(--ink-2);
+    font-size: 1.0625rem;
     line-height: 1.75;
   }
 
   .home-actions {
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.65rem;
-  }
-
-  .home-action {
-    min-height: 2.55rem;
-    padding: 0.5rem 0.9rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 0.35rem;
-    color: var(--text);
-    font-size: 0.76rem;
-    font-weight: 700;
-  }
-
-  .home-action:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .home-action--primary {
-    border-color: var(--text);
-    color: var(--page-bg);
-    background: var(--text);
-  }
-
-  .home-action--primary:hover {
-    color: #fff;
-    background: var(--accent);
+    gap: 0.6rem;
   }
 
   .social-links {
-    margin-top: 1.35rem;
+    width: max-content;
+    margin-top: 1.5rem;
     display: flex;
-    gap: 0.45rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
   }
 
   .social-links a {
-    width: 2.15rem;
-    height: 2.15rem;
+    width: 2.5rem;
+    height: 2.5rem;
     display: grid;
     place-items: center;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    color: var(--secondary);
-    transition: border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    color: var(--ink-2);
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .social-links a + a {
+    border-left: 1px solid var(--line-strong);
   }
 
   .social-links a:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateY(-0.12rem);
+    color: var(--bg);
+    background: var(--ink);
   }
 
   .home-portrait {
     position: relative;
-    justify-self: center;
+    min-width: 0;
+    padding: 3.5rem var(--pad-x) var(--pad-x);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border-left: 1px solid var(--line);
   }
 
-  .home-portrait::before {
+  .home-portrait::before,
+  .home-portrait::after {
     position: absolute;
-    inset: -18%;
-    border-radius: 50%;
+    z-index: 3;
+    left: -5px;
+    width: 9px;
+    height: 9px;
     content: "";
     background:
-      radial-gradient(circle at 32% 35%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 52%),
-      radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--accent-warm) 13%, transparent), transparent 50%);
-    filter: blur(0.2rem);
+      linear-gradient(var(--mark), var(--mark)) center / 1px 100% no-repeat,
+      linear-gradient(var(--mark), var(--mark)) center / 100% 1px no-repeat;
+    pointer-events: none;
   }
+
+  .home-portrait::before { top: -5px; }
+  .home-portrait::after { bottom: -5px; }
 
   .home-portrait a {
     position: relative;
-    width: clamp(11rem, 22vw, 17rem);
+    width: clamp(11rem, 19vw, 15rem);
     display: block;
+    padding: 0.5rem;
+    border: 1px solid var(--line-strong);
+    background: var(--bg);
   }
 
   .home-portrait img {
     width: 100%;
     aspect-ratio: 1;
     display: block;
-    border: 0.45rem solid color-mix(in srgb, var(--page-bg) 82%, transparent);
-    border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 12%);
-    transition: filter 0.3s ease, transform 0.4s ease;
+    transition: filter 0.3s ease;
   }
 
   .home-portrait a:hover img {
-    filter: contrast(1.04);
-    transform: rotate(-2deg) scale(1.02);
+    filter: contrast(1.06);
   }
 
-  .home-portrait span {
+  .home-portrait a span {
     position: absolute;
-    right: -0.8rem;
-    bottom: 1.2rem;
-    padding: 0.35rem 0.55rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 0.25rem;
-    color: var(--text);
-    background: color-mix(in srgb, var(--page-bg) 85%, transparent);
-    font-family: var(--font-code);
-    font-size: 0.55rem;
-    letter-spacing: 0.06em;
-    backdrop-filter: blur(12px);
+    right: -1px;
+    bottom: -1px;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .home-portrait a:hover span {
+    border-color: var(--ink);
+    color: var(--bg);
+    background: var(--ink);
+  }
+
+  .home-portrait__caption {
+    width: clamp(11rem, 19vw, 15rem);
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
   }
 
   .home-stats {
     grid-column: 1 / -1;
     margin: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-block: 1px solid var(--border-strong);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .home-stats div {
-    padding: 0.8rem 1rem;
+    padding: 1rem var(--pad-x) 1.1rem;
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
-    border-right: 1px solid var(--border);
-  }
-
-  .home-stats div:last-child { border-right: 0; }
-  .home-stats dt { color: var(--muted); font-size: 0.7rem; }
-  .home-stats dd { margin: 0; font-family: var(--font-code); font-size: 1.6rem; font-weight: 600; }
-  .home-stats small { margin-left: 0.15rem; color: var(--muted); font-size: 0.55rem; }
-
-  .latest-writing {
-    padding: clamp(4rem, 8vw, 7rem) clamp(0.25rem, 3vw, 2rem) 0;
-  }
-
-  .latest-writing > header {
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: end;
     justify-content: space-between;
     gap: 1rem;
   }
 
-  .latest-writing h2 {
+  .home-stats dt {
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .home-stats dd {
     margin: 0;
-    font-size: clamp(2.2rem, 4.5vw, 4rem);
-    letter-spacing: -0.045em;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 500;
     line-height: 1;
   }
 
-  .latest-writing > header > a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--secondary);
-    font-size: 0.72rem;
+  .home-stats small {
+    margin-left: 0.2rem;
+    color: var(--ink-3);
+    font-size: 0.75rem;
   }
 
-  .latest-writing > header > a:hover { color: var(--accent); }
+  .latest-writing > header {
+    padding: clamp(2.5rem, 5vw, 3.5rem) var(--pad-x) 2rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
 
-  /* Keep the complete introduction visible on wide, shallow laptop viewports. */
-  @media (min-width: 48.01rem) and (max-height: 56rem) {
-    .home-hero {
-      min-height: calc(100svh - 3rem);
-      padding-top: clamp(2.75rem, 8svh, 4.25rem);
-      padding-bottom: 1.5rem;
-      gap: clamp(1rem, 2.5svh, 1.5rem) clamp(2rem, 8vw, 7rem);
+  .latest-writing .home-kicker {
+    margin-bottom: 0.9rem;
+  }
+
+  .latest-writing h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+  }
+
+  .latest-writing__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 60rem) {
+    .latest-writing__list {
+      grid-template-columns: 1fr;
     }
 
-    .home-hero h1 span {
-      font-size: clamp(4.5rem, 16svh, 7.25rem);
+    .latest-writing__list > :global(.post-summary.has-image),
+    .latest-writing__list > :global(.post-summary) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.6fr);
     }
 
-    .home-hero h1 em {
-      font-size: clamp(1.75rem, 6svh, 3rem);
+    .latest-writing__list :global(.post-summary__image) {
+      order: 0;
+      height: 100%;
+      aspect-ratio: auto;
+      border-bottom: 0;
+      border-left: 1px solid var(--line);
     }
-
-    .home-intro {
-      margin-top: 1rem;
-      line-height: 1.65;
-    }
-
-    .home-actions { margin-top: 1rem; }
-    .social-links { margin-top: 0.9rem; }
-
-    .home-portrait a {
-      width: clamp(11rem, 34svh, 15rem);
-    }
-
-    .home-stats div { padding-block: 0.55rem; }
-    .home-stats dd { font-size: 1.4rem; }
   }
 
   @media (max-width: 48rem) {
-    .modern-home {
-      width: min(calc(100% - 1.25rem), 72rem);
-      padding-top: 0;
+    .home-hero {
+      grid-template-columns: 1fr;
     }
 
-    .home-hero {
-      min-height: auto;
-      padding: 3.75rem 0.65rem 2.4rem;
-      grid-template-columns: 1fr;
-      grid-template-rows: auto;
-      gap: 2.5rem;
+    .home-hero__copy {
+      padding-top: 3.25rem;
     }
 
     .home-kicker {
-      max-width: 100%;
-      margin-bottom: 0.85rem;
       white-space: nowrap;
     }
 
     .home-hero h1 span { font-size: clamp(4rem, 21vw, 5.5rem); }
     .home-hero h1 em {
-      max-width: 16ch;
-      font-size: clamp(1.6rem, 7.8vw, 2.25rem);
+      font-size: clamp(1.55rem, 7.4vw, 2.1rem);
     }
 
-    .home-hero::after {
-      position: absolute;
-      z-index: 0;
-      top: 4.85rem;
-      left: 50%;
-      width: clamp(10.5rem, 52vw, 13.5rem);
-      aspect-ratio: 1;
-      border: 0.35rem solid color-mix(in srgb, var(--page-bg) 82%, transparent);
-      border-radius: 50%;
-      content: "";
-      background: url('/images/logo.jpg') center / cover no-repeat;
-      box-shadow:
-        -1.25rem -1.25rem 3.5rem color-mix(in srgb, var(--accent) 14%, transparent),
-        1.25rem 1.25rem 3.5rem color-mix(in srgb, var(--accent-warm) 10%, transparent);
-      opacity: 0.16;
-      pointer-events: none;
-      transform: translateX(-20%);
+    .home-portrait {
+      padding: 1.25rem var(--pad-x);
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-end;
+      border-top: 1px solid var(--line);
+      border-left: 0;
     }
 
-    .home-portrait { display: none; }
-    .home-hero__copy { position: relative; z-index: 1; }
-    .home-stats { position: relative; z-index: 1; grid-column: auto; }
-    .home-stats div { padding-inline: 0.55rem; display: block; }
-    .home-stats dd { margin-top: 0.25rem; font-size: 1.35rem; }
-    .latest-writing { padding-top: 3.5rem; }
-    .latest-writing > header { align-items: flex-start; flex-direction: column; }
+    .home-portrait::before,
+    .home-portrait::after {
+      top: -5px;
+      bottom: auto;
+    }
+
+    .home-portrait::after {
+      right: -5px;
+      left: auto;
+    }
+
+    .home-portrait a {
+      width: 7.5rem;
+      padding: 0.35rem;
+    }
+
+    .home-portrait a span {
+      padding: 0.2rem 0.4rem;
+      font-size: 0.5625rem;
+    }
+
+    .home-portrait__caption {
+      width: auto;
+      flex-direction: column;
+    }
+
+    .home-stats div {
+      padding: 0.85rem 1rem;
+      display: block;
+    }
+
+    .home-stats dd {
+      margin-top: 0.4rem;
+      font-size: 1.5rem;
+    }
+
+    .latest-writing > header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .latest-writing__list > :global(.post-summary.has-image),
+    .latest-writing__list > :global(.post-summary) {
+      display: flex;
+    }
+
+    .latest-writing__list :global(.post-summary__image) {
+      order: -1;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      border-bottom: 1px solid var(--line);
+      border-left: 0;
+    }
+
+    .latest-writing__list :global(.post-summary__image--blank) {
+      display: none;
+    }
   }
 </style>

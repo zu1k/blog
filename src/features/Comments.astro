@@ -6,12 +6,13 @@ export interface Props {
 const { title } = Astro.props;
 ---
 
-<section class="comments" aria-labelledby="comments-title" data-giscus-host data-page-title={title}>
-  <div class="comments__heading">
+<section class="comments band split" aria-labelledby="comments-title" data-giscus-host data-page-title={title}>
+  <div class="comments__heading split__rail">
+    <p class="eyebrow" data-no-select><b>RE</b> / DISCUSSION</p>
     <h2 id="comments-title">评论</h2>
     <p>由 GitHub Discussions 驱动，发布前需要登录 GitHub。</p>
   </div>
-  <div class="comments__mount" aria-live="polite"></div>
+  <div class="comments__mount split__body" aria-live="polite"></div>
 </section>
 
 <script>
@@ -63,35 +64,31 @@ const { title } = Astro.props;
 </script>
 
 <style>
-  .comments {
-    width: 60%;
-    max-width: var(--page-width);
-    margin: 4rem auto 0;
-    padding-top: 1rem;
-    border-top: 1px dashed var(--border);
-  }
-
   .comments__heading {
-    margin-bottom: 2rem;
+    padding-block: 2rem;
   }
 
   .comments__heading h2 {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
+    margin: 0.85rem 0 0;
+    font-size: 1.75rem;
+    line-height: 1.1;
   }
 
   .comments__heading > p:last-child {
-    margin: 0.55rem 0 0;
-    color: var(--secondary);
-    font-size: 0.85rem;
+    margin: 0.8rem 0 0;
+    color: var(--ink-2);
+    font-size: 0.8125rem;
+    line-height: 1.6;
   }
 
-  @media (max-width: 68rem) {
-    .comments { width: 80%; }
+  .comments__mount {
+    min-height: 12rem;
+    padding-block: 2rem 3rem;
   }
 
-  @media (max-width: 42rem) {
-    .comments { width: calc(100% - 2rem); }
+  @media (max-width: 52rem) {
+    .comments__mount {
+      padding-top: 1.25rem;
+    }
   }
 </style>

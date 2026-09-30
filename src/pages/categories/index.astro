@@ -20,7 +20,7 @@ const categories = getCategories(posts, 'count');
       <div slot="aside"><strong>{posts.length}</strong> 篇文章<br /><strong>{categories.length}</strong> 个持续主题</div>
     </PageHero>
 
-    <section class="category-library" aria-label="全部分类">
+    <section class="category-library band cells cells--open" aria-label="全部分类">
       {categories.map((term, index) => {
         const categoryPosts = filterPostsByTaxonomy(posts, 'categories', term.value);
         return (
@@ -47,88 +47,80 @@ const categories = getCategories(posts, 'count');
 </BaseLayout>
 
 <style>
-  .categories-page :global(.page-hero__aside) {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
+  .categories-page :global(.page-hero__aside > div) {
+    line-height: 2.6;
   }
 
   .categories-page :global(.page-hero__aside strong) {
-    color: var(--text);
-    font-family: var(--font-code);
-    font-size: 1.35rem;
+    font-size: 1.75rem;
+    line-height: 1;
   }
 
   .category-library {
-    padding: clamp(3.5rem, 7vw, 5.5rem) clamp(0rem, 3vw, 2rem) 0;
-    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.8rem;
   }
 
   .category-card {
-    min-height: 19rem;
-    padding: 1.2rem;
+    min-height: 15rem;
+    padding: 1.5rem var(--pad-x) 1.35rem;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--border-strong);
-    border-radius: 0.5rem;
-    background: color-mix(in srgb, var(--page-raised) 95%, var(--surface-soft));
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.15s ease;
   }
 
   .category-card:hover {
-    border-color: color-mix(in srgb, var(--accent) 48%, var(--border-strong));
-    box-shadow: 0 0.8rem 2.2rem rgb(0 0 0 / 6%);
-    transform: translateY(-0.16rem);
+    background: var(--panel);
   }
 
   .category-card header {
     display: flex;
     justify-content: space-between;
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.56rem;
-    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
   }
 
   .category-card header span { color: var(--accent); }
   .category-card header b { font-weight: 400; }
 
   .category-card h2 {
-    margin: 1rem 0;
-    font-size: 1.45rem;
+    margin: 1rem 0 1.1rem;
+    font-size: 1.75rem;
+    line-height: 1.1;
   }
 
   .category-card h2 a {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    color: var(--text);
+    gap: 0.55rem;
+    color: var(--ink);
   }
 
+  .category-card h2 a:hover { color: var(--accent); }
   .category-card h2 :global(svg) { color: var(--accent); }
 
   .category-card ol {
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--line);
     list-style: none;
   }
 
   .category-card li {
     min-width: 0;
-    padding: 0.48rem 0;
+    padding: 0.55rem 0;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
     gap: 0.8rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--line);
   }
 
   .category-card li a {
     overflow: hidden;
-    color: var(--secondary);
-    font-size: 0.74rem;
+    color: var(--ink-2);
+    font-size: 0.875rem;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -136,25 +128,28 @@ const categories = getCategories(posts, 'count');
   .category-card li a:hover { color: var(--accent); }
 
   .category-card time {
-    color: var(--muted);
-    font-family: var(--font-code);
-    font-size: 0.54rem;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
   }
 
   .category-card__more {
     margin-top: auto;
-    padding-top: 1rem;
+    padding-top: 1.1rem;
     display: flex;
     justify-content: space-between;
-    color: var(--text);
-    font-size: 0.7rem;
-    font-weight: 700;
+    color: var(--ink);
+    font-size: 0.8125rem;
+    font-weight: 600;
   }
 
-  .category-card__more span { color: var(--accent); }
+  .category-card__more span {
+    color: var(--accent);
+    font-family: var(--font-mono);
+  }
 
   @media (max-width: 44rem) {
-    .category-library { grid-template-columns: 1fr; padding-top: 3.2rem; }
-    .category-card { min-height: 18rem; }
+    .category-library { grid-template-columns: 1fr; }
+    .category-card { min-height: 0; }
   }
 </style>
