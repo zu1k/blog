@@ -3,8 +3,8 @@ import Icon from './Icon.astro';
 ---
 
 <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换为深色主题" title="切换为深色主题">
-  <span class="theme-toggle__sun"><Icon name="sun" size={18} /></span>
-  <span class="theme-toggle__moon"><Icon name="moon" size={18} /></span>
+  <span class="theme-toggle__sun"><Icon name="sun" size={15} /></span>
+  <span class="theme-toggle__moon"><Icon name="moon" size={15} /></span>
 </button>
 
 <script>
@@ -67,7 +67,12 @@ import Icon from './Icon.astro';
     transform: rotate(0) scale(1);
   }
 
+  .theme-toggle {
+    color: var(--ink-2);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
   .theme-toggle:hover {
-    color: var(--link-hover);
+    color: var(--ink);
   }
 </style>

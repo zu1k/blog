@@ -1,39 +1,204 @@
 ---
-import { SITE } from '../consts';
+import { NAV, SITE, SOCIALS } from '../consts';
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="footer-line">
-    <span aria-hidden="true">©</span>{' '}{SITE.since} - {year}{' '}
-    <a href={SITE.url}>{SITE.author}</a>{' '}
-    <span aria-hidden="true">|</span>{' '}
-    <a rel="license external nofollow noopener" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+  <div class="footer-frame x-rule">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="footer-brand__mark" href="/" aria-label={`${SITE.title} 首页`}>
+          <img src="/images/logo.jpg" alt="" width="40" height="40" loading="lazy" decoding="async" />
+          <span>{SITE.title}</span>
+        </a>
+        <p>A boy dreaming of traveling around the world.<br />记录安全、系统、开源与生活。</p>
+      </div>
+
+      <nav class="footer-col" aria-label="站点导航">
+        <span class="footer-col__label">Site</span>
+        {NAV.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href="/search/">搜索</a>
+      </nav>
+
+      <nav class="footer-col" aria-label="订阅">
+        <span class="footer-col__label">Subscribe</span>
+        <a href="/rss.xml">RSS</a>
+        <a href="/atom.xml">Atom</a>
+        <a href="/sitemap-index.xml">Sitemap</a>
+      </nav>
+
+      <nav class="footer-col" aria-label="其他平台">
+        <span class="footer-col__label">Elsewhere</span>
+        {SOCIALS.map((item) => (
+          <a href={item.href} rel={item.href.startsWith('http') ? 'me noopener' : undefined}>
+            {item.label}{item.href.startsWith('http') && <span aria-hidden="true">↗</span>}
+          </a>
+        ))}
+      </nav>
+    </div>
+
+    <div class="footer-line">
+      <span>
+        <span aria-hidden="true">©</span>{' '}{SITE.since} – {year}{' '}
+        <a href={SITE.url}>{SITE.author}</a>
+        <span class="footer-line__sep" aria-hidden="true">·</span>
+        <a rel="license external nofollow noopener" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+      </span>
+      <span class="footer-line__meta">Built with Astro · Written in the open</span>
+    </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
     width: 100%;
-    min-height: 1.25rem;
-    padding: 1rem 0;
-    color: var(--text);
-    line-height: 1.25rem;
-    text-align: center;
+    margin-top: auto;
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-frame {
+    width: var(--frame);
+    margin: 0 auto;
+    border-top: 0;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+  }
+
+  .footer-grid > * {
+    min-width: 0;
+    padding: 1.75rem 1.1rem 2rem;
+    border-right: 1px solid var(--line);
+  }
+
+  .footer-grid > :last-child {
+    border-right: 0;
+  }
+
+  .footer-brand__mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .footer-brand__mark img {
+    width: 1.9rem;
+    height: 1.9rem;
+    display: block;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .footer-brand__mark:hover {
+    color: var(--ink);
+  }
+
+  .footer-brand p {
+    max-width: 22rem;
+    margin: 0.9rem 0 0;
+    color: var(--ink-2);
+    font-size: 0.66rem;
+    line-height: 1.75;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .footer-col__label {
+    margin-bottom: 0.45rem;
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.54rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .footer-col a {
+    display: inline-flex;
+    gap: 0.3rem;
+    color: var(--ink-2);
+    font-size: 0.66rem;
+    line-height: 1.5;
+  }
+
+  .footer-col a span {
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.85em;
+  }
+
+  .footer-col a:hover {
+    color: var(--accent);
   }
 
   .footer-line {
-    width: 100%;
-    font-size: 0.875rem;
+    padding: 0.7rem 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+    font-family: var(--font-code);
+    font-size: 0.54rem;
+    letter-spacing: 0.02em;
   }
 
-  a {
-    color: inherit;
-    text-decoration: none;
+  .footer-line a {
+    color: var(--ink-2);
   }
 
-  a:hover {
-    color: var(--link-hover);
+  .footer-line a:hover {
+    color: var(--accent);
+  }
+
+  .footer-line__sep {
+    margin: 0 0.45rem;
+  }
+
+  @media (max-width: 60rem) {
+    .footer-brand p,
+    .footer-col a {
+      font-size: 0.82rem;
+    }
+
+    .footer-col__label,
+    .footer-line {
+      font-size: 0.66rem;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .footer-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+      border-right: 0 !important;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .footer-grid > * {
+      padding: 1.25rem var(--pad) 1.4rem;
+    }
+
+    .footer-line {
+      padding-inline: var(--pad);
+    }
   }
 </style>
